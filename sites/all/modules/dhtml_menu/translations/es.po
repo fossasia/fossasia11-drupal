@@ -1,0 +1,71 @@
+# $Id: es.po,v 1.1.2.3 2008/12/30 02:40:17 arancaytar Exp $
+#
+# Spanish translation of Drupal (dhtml_menu)
+# Copyright arhak <arhaks@gmail.com>
+# Generated from files:
+#  dhtml_menu.admin.inc,v 1.5 2008/07/14 21:58:51 arancaytar
+#  dhtml_menu.module,v 1.29.2.1 2008/07/18 20:13:06 arancaytar
+#  dhtml_menu.info,v 1.6 2008/07/11 22:15:58 arancaytar
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: dhtml_menu\n"
+"POT-Creation-Date: 2008-11-04 14:56-0800\n"
+"PO-Revision-Date: 2008-12-19 16:07-0400\n"
+"Last-Translator: arhak <arhaks@gmail.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Report-Msgid-Bugs-To: arhak <arhaks@gmail.com>\n"
+
+#: dhtml_menu.admin.inc:15
+msgid "DHTML Menu effects"
+msgstr "Efectos de Menú-DHTML"
+
+#: dhtml_menu.admin.inc:17
+msgid "Animated sliding effect"
+msgstr "Efecto de animación deslizable"
+
+#: dhtml_menu.admin.inc:18
+msgid "Keep only one menu open at a time."
+msgstr "Mantiene un solo menú abierto a la vez."
+
+#: dhtml_menu.admin.inc:19
+msgid "For the above option, consider each menu tree separately."
+msgstr "Para la opción anterior, considerar cada árbol de menú separadamente."
+
+#: dhtml_menu.admin.inc:20
+msgid "Close menus when their parent menu is closed."
+msgstr "Cierra los menúes cuando su menú padre es cerrado."
+
+#: dhtml_menu.admin.inc:21
+msgid "Add an extra page link to each expanding menu item."
+msgstr "Agrega un vínculo de página extra a cada elemento de menú expandible."
+
+#: dhtml_menu.admin.inc:22
+msgid "Go to the page on double-click."
+msgstr "Ir a la página con doble-clic."
+
+#: dhtml_menu.module:170
+msgid "<em>DHTML Menu</em> adds dynamic functionality to the menus of your site. Ordinarily, reaching the child elements below an item requires you to visit its page. With DHTML Menu, clicking on an item with child elements will expand it without leaving the page, saving time. You can reach the actual page of such an item either by double-clicking on it or visiting the small extra link that will be shown right below it when expanded."
+msgstr "<em>Menú-DHTML</em> agrega funcionalidad dinámica a los menúes de su sitio. Normalmente, alcanzar los elementos hijos debajo de un elemento requiere que se visite su página. Con DHTML Menú, hacer clic sobre un elemento con elementos hijos lo expandirá sin abandonar la página, ahorrando tiempo. Usted puede alcanzar la página efectiva de semejante elemento haciendo doble-clic sobre el mismo o visitando el pequeño vínculo extra que se mostrará justo debajo cuando esté expandido."
+
+#: dhtml_menu.module:154 dhtml_menu.info:0
+msgid "DHTML Menu"
+msgstr "Menú-DHTML"
+
+#: dhtml_menu.module:155
+msgid "Configure the effects of DHTML Menu"
+msgstr "Configurar los efectos de Menú-DHTML"
+
+#: dhtml_menu.module:0
+msgid "dhtml_menu"
+msgstr "dhtml_menu"
+
+#: dhtml_menu.info:0
+msgid "Opens menus dynamically to reduce page refreshes."
+msgstr "Abre los menúes dinámicamente para reducir refrescamientos de página."
+

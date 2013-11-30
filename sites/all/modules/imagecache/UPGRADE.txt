@@ -1,0 +1,7 @@
+Upgrading From imagecache version 1.x to 2.0
+  -- Install ImageAPI before attempting to upgrade to imagecache 2.x. Your site will 'Blow UP' otherwise.
+  
+  -- The old ImageScale actions should be turned into Deprecated Scale actions. You
+     should update your presets to use the new scale or 'scale and crop' actions.
+
+

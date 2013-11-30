@@ -1,0 +1,13 @@
+; $Id: subpath_alias.info,v 1.2 2009/06/20 20:51:07 smk Exp $
+name = Sub-path URL Aliasing
+description = "Matches sub-paths at the beginning of URLs and replaces them with their respective alias."
+dependencies[] = path
+dependencies[] = url_alter
+core = 6.x
+
+; Information added by drupal.org packaging script on 2009-11-02
+version = "6.x-1.1"
+core = "6.x"
+project = "subpath_alias"
+datestamp = "1257171987"
+

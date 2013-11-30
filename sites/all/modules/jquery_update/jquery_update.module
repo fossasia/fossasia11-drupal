@@ -1,0 +1,169 @@
+<?php
+// $Id: jquery_update.module,v 1.5.2.2.2.8 2010/04/23 16:34:39 sun Exp $
+
+/**
+ * @file
+ * Updates Drupal to use the latest version of jQuery.
+ */
+
+/**
+ * The path to the jQuery files that need to be replaced.
+ */
+define('JQUERY_UPDATE_REPLACE_PATH', drupal_get_path('module', 'jquery_update') .'/replace');
+
+/**
+ * Array of jQuery files to replace if jQuery is loaded.
+ */
+function jquery_update_get_replacements() {
+  return array(
+    'module' => array(
+      'misc/farbtastic/farbtastic.js' => 'farbtastic.js',
+      'misc/teaser.js' => 'teaser.js',
+      'misc/jquery.form.js' => 'jquery.form.js',
+      'misc/ahah.js' => 'ahah.js',
+      // Certain versions of Views re-add tabledrag.js as $type 'module'.
+      'misc/tabledrag.js' => 'tabledrag.js',
+    ),
+    'core' => array(
+      'misc/tabledrag.js' => 'tabledrag.js',
+    ),
+  );
+}
+
+/**
+ * Implementation of hook_theme_registry_alter().
+ *
+ * Make jQuery Update's page preprocess function run *after* everything else's,
+ * so that a theme can't call drupal_get_js() and mess everything up.
+ */
+function jquery_update_theme_registry_alter(&$theme_registry) {
+  if (isset($theme_registry['page'])) {
+    if (count($theme_registry['page']['preprocess functions']) > 0) {
+      // If jquery_update's preprocess function is there already, remove it.
+      if ($key = array_search('jquery_update_preprocess_page', $theme_registry['page']['preprocess functions'])) {
+        unset($theme_registry['page']['preprocess functions'][$key]);
+      }
+    }
+    // Now tack it on at the end so it runs after everything else.
+    $theme_registry['page']['preprocess functions'][] = 'jquery_update_preprocess_page';
+  }
+}
+
+/**
+ * Implementation of moduleName_preprocess_hook().
+ *
+ * Replace Drupal core's jquery.js with the new one from jQuery Update module.
+ */
+function jquery_update_preprocess_page(&$variables) {
+  // Only do this for pages that have JavaScript on them.
+  if (!empty($variables['scripts'])) {
+
+    // Perform the logic if either jQuery Update's jquery.js is newer than core's.
+    if (variable_get('jquery_update_replace', TRUE)) {
+      // Get an array of all the JavaScript files loaded by Drupal on this page.
+      $scripts = drupal_add_js();
+
+      // Replace jquery.js first.
+      $new_jquery = array(jquery_update_jquery_path() => $scripts['core']['misc/jquery.js']);
+      $scripts['core'] = array_merge($new_jquery, $scripts['core']);
+      unset($scripts['core']['misc/jquery.js']);
+
+      // Loop through each of the required replacements.
+      foreach (jquery_update_get_replacements() as $type => $replacements) {
+        foreach ($replacements as $find => $replace) {
+          // If the file to replace is loaded on this page...
+          if (isset($scripts[$type][$find])) {
+            // Create a new entry for the replacement file, and unset the original one.
+            $replace = JQUERY_UPDATE_REPLACE_PATH .'/'. $replace;
+            $scripts[$type][$replace] = $scripts[$type][$find];
+            unset($scripts[$type][$find]);
+          }
+        }
+      }
+
+      $variables['scripts'] = drupal_get_js('header', $scripts);
+    }
+  }
+}
+
+/**
+ * Return the version of jQuery that is installed.
+ *
+ * This can be used by other modules' hook_requirements() to ensure that the
+ * proper version of jQuery is installed.
+ *
+ * @see version_compare
+ */
+function jquery_update_get_version($jquery_path = NULL) {
+  $version = 0;
+  $pattern = '# * jQuery JavaScript Library v([0-9\.a-z]+)#';
+
+  // No file is passed in so default to the file included with this module.
+  if (is_null($jquery_path)) {
+    $jquery_path = jquery_update_jquery_path();
+  }
+
+  // Return the version provided by jQuery Update.
+  $jquery = file_get_contents($jquery_path);
+  if (preg_match($pattern, $jquery, $matches)) {
+    $version = $matches[1];
+  }
+
+  return $version;
+}
+
+/**
+ * Implementation of hook_flush_caches().
+ */
+function jquery_update_flush_caches() {
+  // Find the versions of jQuery provided by core and this module.
+  $jquery_update_version = jquery_update_get_version();
+  $jquery_core_version = jquery_update_get_version('misc/jquery.js');
+
+  // Set a variable according to whether core's version needs to be replaced.
+  $replace = version_compare($jquery_core_version, $jquery_update_version, '<');
+  variable_set('jquery_update_replace', $replace);
+}
+
+/**
+ * Implementation of hook_menu().
+ */
+function jquery_update_menu() {
+  $items['admin/settings/jquery_update'] = array(
+    'title' => 'jQuery Update',
+    'description' => 'Configure settings for jQuery Update module.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('jquery_update_settings'),
+    'access arguments' => array('administer site configuration'),
+  );
+  return $items;
+}
+
+/**
+ * Admin settings form.
+ */
+function jquery_update_settings() {
+  // Clear the javascript cache when the setting is updated and check version of jquery file.
+  $form['#submit'][] = 'drupal_clear_js_cache';
+  $form['#submit'][] = 'jquery_update_flush_caches';
+
+  $form['jquery_update_compression_type'] = array(
+    '#type' => 'radios',
+    '#title' => t('Choose jQuery compression level'),
+    '#options' => array(
+      'min' => t('Production (Minified)'),
+      'none' => t('Development (Uncompressed Code)'),
+    ),
+    '#default_value' => variable_get('jquery_update_compression_type', 'min'),
+  );
+
+  return system_settings_form($form);
+}
+
+/**
+ * Return the path to the jQuery file.
+ */
+function jquery_update_jquery_path() {
+  $jquery_file = array('none' => 'jquery.js', 'min' => 'jquery.min.js');
+  return JQUERY_UPDATE_REPLACE_PATH .'/'. $jquery_file[variable_get('jquery_update_compression_type', 'min')];
+}

@@ -1,0 +1,33 @@
+// $Id$
+name = Sandium
+description = Table-less full XHML/CSS drupal theme.
+core = 6.x
+engine = phptemplate
+
+regions[nav] = Navigation
+regions[top_left] = Top Left
+regions[top_middle] = Top Middle
+regions[top_right] = Top Right
+regions[leftside] = Leftside
+regions[rightside] = Rightside
+regions[bottom_left] = Bottom Left
+regions[bottom_middle] = Bottom Middle
+regions[bottom_right] = Bottom Right
+regions[footer_left] = Footer Left
+regions[footer_right] = Footer Right
+regions[menu] = Menu
+regions[slash] = Slash
+
+; Information added by drupal.org packaging script on 2010-02-07
+version = "6.x-2.6"
+core = "6.x"
+project = "sandium"
+datestamp = "1265544310"
+
+
+; Information added by drupal.org packaging script on 2011-03-10
+version = "6.x-3.2"
+core = "6.x"
+project = "sandium"
+datestamp = "1299787868"
+

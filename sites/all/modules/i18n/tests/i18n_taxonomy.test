@@ -1,0 +1,58 @@
+<?php
+/**
+ * Class for testing messaging module.
+ *
+ * Tests basic API functions
+ */
+
+require_once 'i18n_strings.test';
+
+class i18n_Taxonomy_Test extends Drupali18nTestCase {
+
+  function getInfo() {
+    return array(
+      'name' => 'Taxonomy translation',
+      'group' => 'Internationalization',
+      'description' => 'Taxonomy translation functions'
+    );
+  }
+
+  function setUp() {
+    parent::setUp('i18nstrings', 'taxonomy', 'i18ntaxonomy');
+    $this->addLanguage('es');
+    $this->addLanguage('de');
+  }
+
+  function testTaxonomyTranslationAPI() {
+    // Create a vocabulary with some terms
+    $number = 4;
+    $vocab = $this->drupalCreateVocabulary(array('i18nmode' => I18N_TAXONOMY_LOCALIZE));
+    $this->assertEqual(i18ntaxonomy_vocabulary($vocab-vid), I18N_TAXONOMY_LOCALIZE, 'A vocabulary has been created and it is localizable.');
+    $terms = $this->drupalCreateTerms($number, array('vid' => $vocab->vid));
+    $this->assertEqual(count($terms), $number, "Four translatable terms have been created.");
+    // Create and Save Spanish translation for all of them
+    $count = 0;
+    $lang = 'es';
+    foreach ($terms as $term) {
+      $translations[$term->tid] = $this->randomName(10);
+      // Save Spanish translation
+      $translations[$term->tid] = $this->i18nstringsCreateTranslation("taxonomy:term:$term->tid:name", $lang);
+    }
+  }
+  // Create vocabulary with given fields
+  function drupalCreateVocabulary($vocab = array()) {
+    $vocab += array('name' => $this->randomName(10), 'description' => $this->randomName(20));
+    taxonomy_save_vocabulary($vocab);
+    return (object)$vocab;
+  }
+  // Create term with given fields
+  function drupalCreateTerms($number = 1, $data = array()) {
+    $list = array();
+    for ($i = 1; $i <= $number ; $i++ ) {
+      $term = $data + array('name' => $this->randomName(10), 'description' => $this->randomName(20));
+      taxonomy_save_term($term);
+      $list[] = (object)$term;
+    }
+    return $list;  
+  }
+}

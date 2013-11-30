@@ -1,0 +1,14 @@
+<?php
+
+/**
+ * @file
+ * Views slideshow ddblock examples
+ */
+/**
+ * Implementation of hook_views_default_views().
+ */
+function vsd_if_examples_views_default_views() {
+  require_once(dirname(__FILE__) . '/includes/vsd_if_examples.viewsdef.inc'); 
+  $args = func_get_args();
+  return call_user_func_array('_vsd_if_examples_views_default_views', $args);
+}

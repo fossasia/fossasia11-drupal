@@ -1,0 +1,243 @@
+<?php
+
+/**
+ * Signals that the registry lookup cache should be reset.
+ */
+define('AUTOLOAD_REGISTRY_RESET_LOOKUP_CACHE', 1);
+
+/**
+ * Signals that the registry lookup cache should be written to storage.
+ */
+define('AUTOLOAD_REGISTRY_WRITE_LOOKUP_CACHE', 2);
+
+/**
+ * Implements hook_menu().
+ */
+function autoload_menu() {
+  $items['autoload/flush-cache'] = array(
+    'page callback' => 'autoload_adminmenu_flush_cache',
+    'access arguments' => array('administer site configuration'),
+    'type' => MENU_CALLBACK,
+  );
+  return $items;
+}
+
+/**
+ * Implements hook_boot().
+ */
+function autoload_boot() {
+  spl_autoload_register('autoload_class');
+  spl_autoload_register('autoload_interface');
+}
+
+/**
+ * Implements hook_exit().
+ */
+function autoload_exit() {
+  // Check if this is a full bootstrap, and if so, the write the lookup cache.
+  if (function_exists('drupal_page_footer')) {
+    _autoload_registry_check_code(AUTOLOAD_REGISTRY_WRITE_LOOKUP_CACHE);
+  }
+}
+
+/**
+ * Implements hook_flush_caches().
+ */
+function autoload_flush_caches() {
+  autoload_registry_rebuild();
+}
+
+/**
+ * Implements hook_admin_menu_output_alter().
+ */
+function autoload_admin_menu_output_alter(&$content) {
+  $content['icon']['icon']['flush-cache']['automodal'] = array(
+    '#title' => t('Class registry'),
+    '#href' => 'autoload/flush-cache',
+    '#options' => array(
+      'query' => drupal_get_destination(),
+    ),
+  );
+}
+
+/**
+ * Administration menu callback; flush the class registry cache.
+ */
+function autoload_adminmenu_flush_cache() {
+  autoload_registry_rebuild();
+  drupal_goto();
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function autoload_form_alter(&$form, $form_state, $form_id) {
+  switch ($form_id) {
+    case 'system_modules':
+      $form['#submit'][] = 'autoload_form_submit_registry_rebuild';
+      break;
+  }
+}
+
+/**
+ * Form submit handler; rebuild the autoload registry.
+ */
+function autoload_form_submit_registry_rebuild() {
+  autoload_registry_rebuild();
+}
+
+/**
+ * Backwards-compatible function to clear the autoload registry.
+ */
+function autoload_get_lookup($reset = FALSE) {
+  if ($reset) {
+    autoload_registry_rebuild();
+  }
+}
+
+/**
+ * @ingroup registry
+ * @{
+ */
+
+/**
+ * Confirm that an interface is available.
+ *
+ * This function is rarely called directly. Instead, it is registered as an
+ * spl_autoload() handler, and PHP calls it for us when necessary.
+ *
+ * @param $interface
+ *   The name of the interface to check or load.
+ * @return
+ *   TRUE if the interface is currently available, FALSE otherwise.
+ */
+function autoload_interface($interface) {
+  return _autoload_registry_check_code('interface', $interface);
+}
+
+/**
+ * Confirm that a class is available.
+ *
+ * This function is rarely called directly. Instead, it is registered as an
+ * spl_autoload() handler, and PHP calls it for us when necessary.
+ *
+ * @param $class
+ *   The name of the class to check or load.
+ * @return
+ *   TRUE if the class is currently available, FALSE otherwise.
+ */
+function autoload_class($class) {
+  return _autoload_registry_check_code('class', $class);
+}
+
+/**
+ * Helper to check for a resource in the registry.
+ *
+ * @param $type
+ *   The type of resource we are looking up, or one of the constants
+ *   REGISTRY_RESET_LOOKUP_CACHE or REGISTRY_WRITE_LOOKUP_CACHE, which
+ *   signal that we should reset or write the cache, respectively.
+ * @param $name
+ *   The name of the resource, or NULL if either of the REGISTRY_* constants
+ *   is passed in.
+ * @return
+ *   TRUE if the resource was found, FALSE if not.
+ *   NULL if either of the REGISTRY_* constants is passed in as $type.
+ */
+function _autoload_registry_check_code($type, $name = NULL) {
+  static $lookup_cache, $cache_update_needed;
+
+  if (($type == 'class' && class_exists($name)) || ($type == 'interface' && interface_exists($name))) {
+    return TRUE;
+  }
+
+  if (!isset($lookup_cache)) {
+    $lookup_cache = array();
+    if ($cache = cache_get('autoload')) {
+      $lookup_cache = $cache->data;
+    }
+  }
+
+  // When we rebuild the registry, we need to reset this cache so
+  // we don't keep lookups for resources that changed during the rebuild.
+  if ($type == AUTOLOAD_REGISTRY_RESET_LOOKUP_CACHE) {
+    $cache_update_needed = TRUE;
+    $lookup_cache = NULL;
+    return;
+  }
+
+  // Called from drupal_page_footer, we write to permanent storage if there
+  // changes to the lookup cache for this request.
+  if ($type == AUTOLOAD_REGISTRY_WRITE_LOOKUP_CACHE) {
+    if ($cache_update_needed) {
+      cache_set('autoload', $lookup_cache);
+    }
+    return;
+  }
+
+  // $type is either 'interface' or 'class', so we only need the first letter to
+  // keep the cache key unique.
+  $cache_key = $type[0] . $name;
+  if (isset($lookup_cache[$cache_key])) {
+    if ($lookup_cache[$cache_key]) {
+      require_once './' . $lookup_cache[$cache_key];
+    }
+    return (bool) $lookup_cache[$cache_key];
+  }
+
+  // This function may get called when the default database is not active, but
+  // there is no reason we'd ever want to not use the default database for
+  // this query.
+  $file = db_result(db_query("SELECT filename FROM {autoload_registry} WHERE name = '%s' AND type = '%s'", $name, $type));
+
+  // Flag that we've run a lookup query and need to update the cache.
+  $cache_update_needed = TRUE;
+
+  // Misses are valuable information worth caching, so cache even if
+  // $file is FALSE.
+  $lookup_cache[$cache_key] = $file;
+
+  if ($file) {
+    require_once './' . $file;
+    return TRUE;
+  }
+  else {
+    if (variable_get('autoload_registry_watchdog_misses', FALSE)) {
+      $variables = array(
+        '%type' => $type,
+        '%name' => $name,
+      );
+      watchdog('autoload', "Registry had no entry for %type %name", $variables, WATCHDOG_NOTICE);
+    }
+    return FALSE;
+  }
+}
+
+/**
+ * Rescan all enabled modules and rebuild the registry.
+ *
+ * Rescans all code in modules or includes directories, storing the location of
+ * each interface or class in the database.
+ */
+function autoload_registry_rebuild() {
+  module_rebuild_cache();
+  autoload_registry_update();
+}
+
+/**
+ * Update the registry based on the latest files listed in the database.
+ *
+ * This function should be used when system_rebuild_module_data() does not need
+ * to be called, because it is already known that the list of files in the
+ * {system} table matches those in the file system.
+ *
+ * @see autoload_registry_rebuild()
+ */
+function autoload_registry_update() {
+  module_load_include('inc', 'autoload', 'autoload.registry');
+  _autoload_registry_update();
+}
+
+/**
+ * @} End of "ingroup registry".
+ */

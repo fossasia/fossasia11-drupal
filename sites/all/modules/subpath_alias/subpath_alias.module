@@ -1,0 +1,168 @@
+<?php
+// $Id: subpath_alias.module,v 1.3 2009/10/24 15:46:02 smk Exp $
+
+/**
+ * @file
+ * Provides sub-path URL aliasing.
+ *
+ * @todo Add support for whitelist (if available).
+ */
+
+/**
+ * Implementation of hook_boot().
+ */
+function subpath_alias_boot() {
+  // This function is blank so the module will be included with bootstrap
+  // modules in module_list().
+}
+
+/**
+ * Implementation of hook_url_alter_inbound().
+ */
+function subpath_alias_url_inbound_alter(&$path, $original_path, $path_language) {
+  static $file_directory;
+
+  if (!isset($file_directory)) {
+    $file_directory = variable_get('file_directory_path', 'files') .'/';
+  }
+
+  // Never rewrite URLs pointing into the files directory.
+  if ($path != '' && strncmp($path, $file_directory, strlen($file_directory))) {
+    static $no_src = array();
+    $path_language = $path_language ? $path_language : $GLOBALS['language']->language;
+
+    // Check $no_src for this $path in case we have already determined earlier
+    // that there is no path with this alias.
+    if (isset($no_src[$path_language][$path])) {
+      return;
+    }
+
+    $map = &subpath_alias_map();
+
+    // Special case where the full path was already matched by
+    // drupal_lookup_path(). Add to $map to avoid unnecessary future lookups.
+    if ($path != $original_path) {
+      $map[$path_language][$path] = $original_path;
+      return;
+    }
+
+    // Build a list of sub-paths to look up, excluding known not-existing
+    // sub-paths and the full path, which has already been checked by
+    // drupal_lookup_path().
+    $args = array();
+    $subpath = $path;
+    while ($subpath != '' && ($slash = strrpos($subpath, '/'))) {
+      $subpath = substr($subpath, 0, $slash);
+      // Add sub-path, except we already know there is no source.
+      if (!isset($no_src[$path_language][$subpath])) {
+        $args[] = $subpath;
+      }
+    }
+    if ($args) {
+      // Query the database for any of the sub-paths.
+      $query = "SELECT dst AS pfrom, src AS pto FROM {url_alias} WHERE dst IN(". db_placeholders($args, 'varchar') .") AND language IN('%s', '') ORDER BY language DESC, CHAR_LENGTH(dst) DESC";
+      // Limit to one row, since we only want the best fitting result.
+      if ($alias = db_fetch_array(db_query_range($query, array_merge($args, array($path_language)), 0, 1))) {
+        $result = $alias['pto'] . substr($path, strlen($alias['pfrom']));
+        // Add to static mapping cache.
+        $map[$path_language][$result] = $path;
+        $path = $result;
+      }
+      else {
+        // We now know that there is no replacement for any sub-path fragment.
+        // Add this information to the static lookup caches.
+        foreach ($args as $arg) {
+          $no_src[$path_language][$arg] = TRUE;
+          $map[$path_language][$arg] = FALSE;
+        }
+        $map[$path_language][$path] = FALSE;
+      }
+    }
+  }
+}
+
+/**
+ * Implementation of hook_url_alter_outbound().
+ */
+function subpath_alias_url_outbound_alter(&$path, &$options, $original_path) {
+  static $file_directory, $whitelist;
+
+  if (!isset($file_directory)) {
+    $file_directory = variable_get('file_directory_path', 'files') .'/';
+  }
+  // Retrieve the path alias whitelist, or FALSE if the Drupal version doesn't
+  // support it.
+  if (!isset($whitelist)) {
+    $whitelist = variable_get('path_alias_whitelist', FALSE);
+  }
+
+  // Never rewrite URLs pointing into the files directory.
+  if ($path != '' && strncmp($path, $file_directory, strlen($file_directory))) {
+    $map = &subpath_alias_map();
+    $path_language = isset($options['language']) ? $options['language']->language : $GLOBALS['language']->language;
+
+    // Try to lookup $path in the list of known aliases.
+    if (isset($map[$path_language][$path])) {
+      if ($map[$path_language][$path] !== FALSE) {
+        $path = $map[$path_language][$path];
+      }
+      return;
+    }
+
+    // Special case where the full path was already matched by
+    // drupal_lookup_path(). Add to $map to avoid unnecessary future lookups.
+    if ($path != $original_path) {
+      $map[$path_language][$original_path] = $path;
+      return;
+    }
+
+    // Check the path whitelist, if the top_level part before the first /
+    // is not in the list, then there is no need to do anything further,
+    // it is not in the database.
+    if (is_array($whitelist) && !isset($whitelist[strtok($path, '/')])) {
+      $map[$path_language][$path] = FALSE;
+      return;
+    }
+
+    // Build a list of sub-paths to look up, excluding known non-existing
+    // sub-paths and the full path, which has already been checked by
+    // drupal_lookup_path().
+    $args = array();
+    $subpath = $path;
+    while ($subpath != '' && ($slash = strrpos($subpath, '/'))) {
+      $subpath = substr($subpath, 0, $slash);
+      // Add subpath, except we already know there is no mapping.
+      if (!isset($map[$path_language][$subpath]) || $map[$path_language][$subpath] !== FALSE) {
+        $args[] = $subpath;
+      }
+    }
+    if ($args) {
+      // Query the database for any of the sub-paths.
+      $query = "SELECT src AS pfrom, dst AS pto FROM {url_alias} WHERE src IN(". db_placeholders($args, 'varchar') .") AND language IN('%s', '') ORDER BY language DESC, CHAR_LENGTH(src) DESC";
+      // Limit to one row, since we only want the best fitting result.
+      if ($alias = db_fetch_array(db_query_range($query, array_merge($args, array($path_language)), 0, 1))) {
+        $result = $alias['pto'] . substr($path, strlen($alias['pfrom']));
+        // Add to static mapping cache.
+        $map[$path_language][$path] = $result;
+        $path = $result;
+      }
+      else {
+        // We now know that there is no replacement for any sub-path fragment.
+        // Add this information to the static lookup cache.
+        foreach ($args as $arg) {
+          $map[$path_language][$arg] = FALSE;
+        }
+        $map[$path_language][$path] = FALSE;
+      }
+    }
+  }
+}
+
+/**
+ * Static mapping bin.
+ */
+function &subpath_alias_map() {
+  static $map = array();
+  return $map;
+}
+

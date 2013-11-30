@@ -1,0 +1,82 @@
+May 29, 2009
+- Drupal 6 updates
+
+July 30, 2008
+- Use smaller data types in MySQL schema
+
+July 1, 2008
+- Show login "never" instead of 1969 for new users
+
+June 9, 2008
+- Fix error message during cron jobs
+
+May 19, 2008
+- Strip HTML tags from email subjects
+- Support PostgreSQL
+
+July 16, 2007
+- Add Romanian translation
+
+May 9, 2007
+- Add missing .info file for Drupal 5
+
+May 6, 2007
+- Drupal 5 port
+- Included inactive_user.info
+- Updated README.txt
+
+May 10, 2006
+ - ported to 4.7
+ - included inactive_user.install
+ - removed inactive_user.mysql
+ - updated README.txt
+
+September 14, 2004
+ - inactive_user.module:
+    o send proper texts
+    o handle account deletion w/o warning, if so configured
+    o implement _user hook for account deletion
+    o remove debug that used to display when _cron hook was executed
+    o PORTED to 4.5 (refer to earlier changelog entries if running with
+      older version of database)
+ - README:
+    o update text to highlight purpose of module
+
+September 13, 2004
+ - inactive_user.module:
+    o actually use the customized email text if so configured
+
+August 31, 2004
+ - inactive_user.mysql:
+    o new field for protected users
+    o added indexes
+ - inactive_user.module:
+    o option to not delete users that have created content
+      (deletion of these users would result in any nodes and/or comments that
+       they created to be inaccesible, even though they would remain in the
+       database)
+    o reorganize increasingly busy configuration screen
+
+ To upgrade from earlier version, execute the following in your MySQL database:
+ALTER TABLE inactive_users ADD protected int(1) unsigned NOT NULL default '0';
+
+August 30, 2004
+ - inactive_user.mysql:
+    o new fields for warning timestamps
+ - inactive_user.module:
+    o use of new timestamp fields to allow proper grace period after sending
+      a warning.
+    o general cleanup
+
+ To upgrade from earlier version, execute the following in your MySQL database:
+ALTER TABLE inactive_users ADD warned_user_block_timestamp int(11) unsigned NOT NULL default '0';
+ALTER TABLE inactive_users ADD warned_user_delete_timestamp int(11) unsigned NOT NULL default '0';
+UPDATE inactive_users SET warned_user_block_timestamp = UNIX_TIMESTAMP() WHERE warned_user_block = 1;
+UPDATE inactive_users SET warned_user_delete_timestamp = UNIX_TIMESTAMP() WHERE warned_user_delete = 1;
+ALTER TABLE inactive_users DROP warned_user_block;
+ALTER TABLE inactive_users DROP warned_user_delete;
+
+August 29, 2004
+ - inactive_user.module:
+    o initial release for Drupal 4.4, under GPL license
+    o PORTED to 4.5

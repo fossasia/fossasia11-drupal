@@ -1,0 +1,134 @@
+<?php
+// $Id: url_alter.module,v 1.9 2009/10/31 01:42:15 davereid Exp $
+
+/**
+ * Implementation of hook_help().
+ */
+function url_alter_help($path, $arg) {
+  switch ($path) {
+    //case 'admin/help#url-alter':
+    case 'admin/settings/url-alter':
+      module_load_install('url_alter');
+      if (drupal_requirements_severity(url_alter_requirements('runtime')) && user_access('administer site configuration')) {
+        drupal_set_message(t('One or more problems were detected with the Url alter module configuration. Check the <a href="@status">status report</a> for more information.', array('@status' => url('admin/reports/status'))), 'warning');
+      }
+      return '<p>'. t('Do not use %php tags around your PHP code. Note that executing incorrect PHP-code can severely break your Drupal site.', array('%php' => '<?php ?>')) .'</p>';
+  }
+}
+
+/**
+ * Implementation of hook_boot().
+ */
+function url_alter_boot() {
+  // This function is blank so the module will be included with bootstrap
+  // modules in module_list().
+  // @todo Remove in Drupal 7.
+}
+
+/**
+ * Implementation of hook_perm().
+ */
+function url_alter_perm() {
+  return array(
+    'administer custom_url_rewrite functions',
+  );
+}
+
+/**
+ * Implementation of hook_menu().
+ */
+function url_alter_menu() {
+  $items['admin/settings/url-alter'] = array(
+    'title' => 'Url alter',
+    'description' => 'Administer custom_url_rewrite function code',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('url_alter_settings'),
+    'access arguments' => array('administer custom_url_rewrite functions'),
+    'file' => 'url_alter.admin.inc',
+  );
+
+  return $items;
+}
+
+/**
+ * Define custom_url_rewrite_inbound() if it is not already defined.
+ */
+if (!function_exists('custom_url_rewrite_inbound')) {
+  // Setting this constant lets url_alter_requirements() know this is working.
+  define('URL_ALTER_CUSTOM_URL_REWRITE_INBOUND', TRUE);
+
+  function custom_url_rewrite_inbound(&$result, $path, $path_language) {
+    // Run all hook implementations of hook_url_inbound_alter().
+    foreach (array_reverse(module_implements('url_inbound_alter')) as $module) {
+      $function = $module .'_url_inbound_alter';
+      $function($result, $path, $path_language);
+    }
+  }
+}
+
+/**
+ * Implementation of hook_url_inbound_alter().
+ */
+function url_alter_url_inbound_alter(&$result, $path, $path_language) {
+  if (!isset($_GET['url-alter-kill']) && ($code = url_alter_var('inbound'))) {
+    // We can not use drupal_eval() here since we need to be able to modify
+    // the $result parameter.
+    eval($code);
+  }
+}
+
+/**
+ * Define custom_url_rewrite_outbound() if it is not already defined.
+ */
+if (!function_exists('custom_url_rewrite_outbound')) {
+  // Setting this constant lets url_alter_requirements() know this is working.
+  define('URL_ALTER_CUSTOM_URL_REWRITE_OUTBOUND', TRUE);
+
+  function custom_url_rewrite_outbound(&$path, &$options, $original_path) {
+    // Run all hook implementations of hook_url_outbound_alter().
+    foreach (module_implements('url_outbound_alter') as $module) {
+      $function = $module .'_url_outbound_alter';
+      $function($path, $options, $original_path);
+    }
+  }
+}
+
+/**
+ * Implementation of hook_url_outbound_alter().
+ */
+function url_alter_url_outbound_alter(&$path, &$options, $original_path) {
+  if (!isset($_GET['url-alter-kill']) && ($code = url_alter_var('outbound'))) {
+    // We can not use drupal_eval() here since we need to be able to modify
+    // the $path and $options parameters.
+    eval($code);
+  }
+}
+
+/**
+ * Internal default variables for url_alter_var().
+ */
+function url_alter_variables() {
+  return array(
+    'url_alter_inbound' => '',
+    'url_alter_outbound' => '',
+  );
+}
+
+/**
+ * Internal implementation of variable_get().
+ */
+function url_alter_var($name, $default = NULL) {
+  static $defaults = NULL;
+
+  if (!isset($defaults)) {
+    $defaults = url_alter_variables();
+  }
+
+  $name = 'url_alter_'. $name;
+
+  if (!isset($defaults[$name])) {
+    trigger_error(t('Default variable for %variable not found.', array('%variable' => $name)));
+  }
+
+  return variable_get($name, isset($default) || !isset($defaults[$name]) ? $default : $defaults[$name]);
+}

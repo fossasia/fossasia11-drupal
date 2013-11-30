@@ -1,0 +1,335 @@
+# $Id: de.po,v 1.1.2.1 2009/01/11 18:44:12 davereid Exp $
+#
+# German translation for drupal-gravatar
+# Copyright (c) 2009 Rosetta Contributors and Canonical Ltd 2009
+# This file is distributed under the same license as the drupal-gravatar package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2009.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: drupal-gravatar\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2009-01-03 17:37-0600\n"
+"PO-Revision-Date: 2009-01-06 21:34+0000\n"
+"Last-Translator: Jan Dittberner <jan@dittberner.info>\n"
+"Language-Team: German <de@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2009-01-11 18:40+0000\n"
+"X-Generator: Launchpad (build Unknown)\n"
+
+#: gravatar.admin.inc:20
+msgid "Display"
+msgstr "Darstellung"
+
+#: gravatar.admin.inc:24
+msgid "Image size"
+msgstr "Bildgröße"
+
+#: gravatar.admin.inc:25
+msgid ""
+"The preferred image size (maximum 512 pixels). This setting can be adjusted "
+"in the <a href=\"@user-picture-link\">user pictures settings</a>."
+msgstr ""
+"Die bevorzugte Bildgröße (maximal 512 Pixel). Diese Einstellung kann in den "
+"<a href=\"@user-picture-link\">Benutzerbildeinstellungen</a> angepasst "
+"werden."
+
+#: gravatar.admin.inc:26
+msgid "@sizex@size pixels"
+msgstr "@sizex@size Pixel"
+
+#: gravatar.admin.inc:32
+msgid "Image maturity filter"
+msgstr "Altersfreigabefilter für Bilder"
+
+#: gravatar.admin.inc:34
+msgid "G: Suitable for display on all websites with any audience type."
+msgstr ""
+"G: Geeignet für die Darstellung auf allen Webseiten mit jeder Art von "
+"Publikum."
+
+#: gravatar.admin.inc:35
+msgid ""
+"PG: May contain rude gestures, provocatively dressed individuals, the lesser "
+"swear words, or mild violence."
+msgstr ""
+"PG: Als PG eingestufte Gravatare können obszöne Gesten, aufreizend "
+"gekleidete Personen, allgemeine Schimpfwörter oder unbedenkliche "
+"Gewaltdarstellung beinhalten."
+
+#: gravatar.admin.inc:36
+msgid ""
+"R: May contain such things as harsh profanity, intense violence, nudity, or "
+"hard drug use."
+msgstr ""
+"R: Als R eingestufte Gravatare können vulgäre Ausdrucksweise, übertriebene "
+"Gewaltdarstellung, nackte Personen oder Drogenmißbrauch beinhalten."
+
+#: gravatar.admin.inc:37
+msgid ""
+"X: May contain hardcore sexual imagery or extremely disturbing violence."
+msgstr ""
+"X: Als X eingestufte Gravatare können Pornografie oder extreme "
+"Gewaltdarstellung beinhalten."
+
+#: gravatar.admin.inc:42
+msgid "Default image"
+msgstr "Standardbild"
+
+#: gravatar.admin.inc:43
+msgid ""
+"Specifies an image that should be returned if either the requested e-mail "
+"address has no associated gravatar, or that gravatar has a rating higher "
+"than is allowed by the maturity filter."
+msgstr ""
+"Legt ein Bild fest, das zurückgegeben werden soll, wenn die E-Mailadresse "
+"nicht mit einem Gravatar verknüpft ist, oder dieser Gravatar eine höhere "
+"Alterseinstufung hat, als vom Altersfreigabe-Filter erlaubt ist."
+
+#: gravatar.admin.inc:45
+msgid "Global default user image"
+msgstr "Globales Standardbenutzerbild"
+
+#: gravatar.admin.inc:46
+msgid "Module default image (white background)"
+msgstr "Modul-Standardbild (weißer Hintergrund)"
+
+#: gravatar.admin.inc:47
+msgid "Module default image (transparent background)"
+msgstr "Modul-Standardbild (transparenter Hintergrund)"
+
+#: gravatar.admin.inc:48
+msgid "Gravatar.com identicon (generated)"
+msgstr "Gravatar.com Identicon (generiert)"
+
+#: gravatar.admin.inc:49
+msgid "Gravatar.com wavatar (generated)"
+msgstr "Gravatar.com Wavatar (generiert)"
+
+#: gravatar.admin.inc:50
+msgid "Gravatar.com monsterid (generated)"
+msgstr "Gravatar.com Monsterid (generiert)"
+
+#: gravatar.admin.inc:51
+msgid "Gravatar.com logo"
+msgstr "Gravatar.com Logo"
+
+#: gravatar.admin.inc:53;53
+msgid "Default picture example"
+msgstr "Standard Bildbeispiel"
+
+#: gravatar.admin.inc:74
+msgid ""
+"This setting can be adjusted in the <a href=\"@user-picture-link\">user "
+"pictures settings</a>."
+msgstr ""
+"Diese Einstellung kann in den <a href=\"@user-picture-"
+"link\">Benutzerbildeinstellungen</a> angepasst werden."
+
+#: gravatar.admin.inc:78
+msgid "There currently is not a global default user picture specified."
+msgstr "Zur Zeit ist kein globales Standard-Benutzerbild definiert."
+
+#: gravatar.admin.inc:95
+msgid "Advanced"
+msgstr "Erweitert"
+
+#: gravatar.admin.inc:96
+msgid "Do not modify these options unless you know what you are doing!"
+msgstr ""
+"Ändern Sie diese Einstellungsmöglichkeiten nicht, wenn Sie nicht wissen, was "
+"Sie tun!"
+
+#: gravatar.admin.inc:102
+msgid "Gravatar URL"
+msgstr "Gravatar URL"
+
+#: gravatar.module:63
+msgid "Global settings"
+msgstr "Globale Einstellungen"
+
+#: gravatar.module:64
+msgid ""
+"Go to the !gravatar_integration_settings and enable gravatar integration. If "
+"enabled, all user images will be replaced with gravatars. If disabled, the "
+"site's default user picture settings are used. The site administrator may "
+"set a default image width, the maximum allowed maturity level, and select "
+"the site's default user image, the default user image provided by this "
+"module, or the image provided by gravatar.com, for the case no avatar could "
+"be retrieved."
+msgstr ""
+"Gehen Sie zu den !gravatar_integration_settings und aktivieren Sie die "
+"Gravatar-Integration. Wenn diese aktiviert ist, werden alle Benutzerbilder "
+"mit Gravatars ersetzt. Wenn die Integration deaktiviert ist, werden die "
+"Standard-Benutzerbildeinstellung der Site genutzt. Der Site-Administrator "
+"kann eine Standardbildgröße, die maximal erlaubte Alterseinstufung und das "
+"Standardbenutzerbild der Site, das Standardbenutzerbild dieses Moduls oder "
+"das von Gravatar.com bereitgestellte Bild für den Fall, dass kein Gravatar "
+"ermittelt werden konnte, bestimmen."
+
+#: gravatar.module:64
+msgid "gravatar integration settings"
+msgstr "Einstellungen für die Gravatar-Integration"
+
+#: gravatar.module:65
+msgid "Per user settings"
+msgstr "Benutzerspezifische Einstellungen"
+
+#: gravatar.module:66
+msgid ""
+"In the user profile page, each authenticated user can choose to use his or "
+"her gravatar, or the uploaded user image. There the user may also enter an "
+"alternative email address for which to retrieve the registered gravatar."
+msgstr ""
+"Jeder authentifizierte Benutzer kann auf seiner Profilseite auswählen, "
+"seinen oder ihren Gravatar oder das hochgeladene Benutzerbild zu verwendet. "
+"Dort kann der Benutzer außerdem eine alternative E-Mailadresse hinterlegen, "
+"für die ein registrierter Gravatar ermittelt werden soll."
+
+#: gravatar.module:74
+msgid "Please check the following potential issues: !issues"
+msgstr "Bitte prüfen Sie die folgenden möglichen Probleme: !issues"
+
+#: gravatar.module:151
+msgid "@user's picture"
+msgstr "Bild von @user"
+
+#: gravatar.module:151
+msgid "Anonymous"
+msgstr "Gast"
+
+#: gravatar.module:155
+msgid "View user profile."
+msgstr "Benutzerprofil anzeigen."
+
+#: gravatar.module:160
+msgid "View user website."
+msgstr "Benutzerwebseite anzeigen"
+
+#: gravatar.module:172
+msgid "Please enter a valid email address."
+msgstr "Bitte geben Sie eine gültige E-Mailadresse an."
+
+#: gravatar.module:183
+msgid ""
+"If you have a <a href=\"@gravatar-website\">Gravatar</a> account, used to "
+"display your avatar."
+msgstr ""
+"Wenn Sie ein <a href=\"@gravatar-website\">Gravatar</a>-Konto haben, wird "
+"dieses verwendet, um Ihr Benutzerbild darzustellen."
+
+#: gravatar.module:202
+msgid ""
+"If you have a <a href=\"@gravatar-check\">valid gravatar</a> for your e-mail "
+"address, it will replace your current user picture."
+msgstr ""
+"Wenn Sei einen <a href=\"@gravatar-check\">gültigen Gravatar</a> für Ihre E-"
+"Mailadresse haben, wird er Ihr aktuelles Benutzerbild ersetzen."
+
+#: gravatar.module:207
+msgid "Replace my user picture with the gravatar for my e-mail address."
+msgstr "Mein Benutzerbild mit dem Gravatar für meine E-Mailadresse ersetzen."
+
+#: gravatar.module:335;390;0
+msgid "gravatar"
+msgstr "Gravatar"
+
+#: gravatar.module:335
+msgid "Hit unwanted condition in _gravatar_get_default_image."
+msgstr ""
+"Eine unerwünschte Bedingung in _gravatar_get_default_image angetroffen."
+
+#: gravatar.module:390
+msgid "Default variable for %variable not found."
+msgstr "Vorgabevariable für %variable wurde nicht gefunden."
+
+#: gravatar.module:53
+msgid "administer gravatar"
+msgstr "Gravatar verwalten"
+
+#: gravatar.module:53 gravatar.install:54
+msgid "use gravatar"
+msgstr "Gravatar nutzen"
+
+#: gravatar.module:53
+msgid "disable own gravatar"
+msgstr "Eigenen Gravatar deaktivieren"
+
+#: gravatar.module:85 gravatar.install:85
+msgid "Gravatar"
+msgstr "Gravatar"
+
+#: gravatar.module:86
+msgid "Administer gravatar integration."
+msgstr "Gravatar-Integration verwalten"
+
+#: gravatar.install:14
+msgid ""
+"Cache table for the Gravatar module to store already processed and cached "
+"images."
+msgstr ""
+"Die Cache-Tabelle des Gravatar-Moduls zum speichern von bereits "
+"verarbeiteten und gecachten Bildern."
+
+#: gravatar.install:48
+msgid ""
+"Make sure <a href=\"@user-settings-link\">user picture support</a> is "
+"enabled to allow gravatar integration."
+msgstr ""
+"Stellen Sie sicher, dass die <a href=\"@user-settings-link\">Unterstützung "
+"für Benutzerbilder</a> aktiviert ist, um die Gravatar-Integration zu "
+"ermöglichen."
+
+#: gravatar.install:54
+msgid ""
+"There are no user roles that have the <a href=\"@permissions-"
+"link\">%permission permission</a>."
+msgstr ""
+"Es gibt keine Benutzerrollen, denen das <a href=\"@permissions-link\">Recht "
+"%permission</a> zugewiesen wurde."
+
+#: gravatar.install:62
+msgid ""
+"Make sure user pictures are enabled in your <a href=\"@theme-"
+"settings\">theme</a> settings."
+msgstr ""
+"Stellen Sie sicher, dass Benutzerbilder in Ihren <a href=\"@theme-"
+"settings\">Theme</a>-Einstellung aktiviert sind."
+
+#: gravatar.install:69
+msgid ""
+"You have selected the global default user picture for the default gravatar "
+"picture, but you have not specified a <a href=\"@user-picture-link\">global "
+"default user picture</a>."
+msgstr ""
+"Sie haben das globale Standard-Benutzerbild als Standard-Gravatar-Bild "
+"ausgewählt, aber sie haben kein <a href=\"@user-picture-link\">globales "
+"Standard-Benutzerbild</a> festgelegt."
+
+#: gravatar.install:78
+msgid ""
+"Your <a href=\"@user-picture-link\">global default user picture</a> is too "
+"large (@widthx@height pixels) and may not display properly. Please resize it "
+"to fit the <a href=\"@user-picture-settings-link\">preferred user picture "
+"size</a> (@size pixels)."
+msgstr ""
+"Ihr <a href=\"@user-picture-link\">globales Standard-Benutzerbild</a> ist zu "
+"groß (@widthx@height Pixel) und wird vielleicht nicht richtig dargestellt. "
+"Bitte die Größe auf die <a href=\"@user-picture-settings-link\">bevorzugte "
+"Benutzerbildgröße</a> (@size Pixel) ändern."
+
+#: gravatar.install:86
+msgid "Potential issues"
+msgstr "Mögliche Probleme"
+
+#: gravatar.info:0
+msgid "Gravatar integration"
+msgstr "Gravatar-Integration"
+
+#: gravatar.info:0
+msgid ""
+"Integrate Gravatar pictures registered at Gravatar.com in Drupal sites"
+msgstr ""
+"Integriert bei Gravatar.com registrierte Gravatar Bilder in Drupal Sites."

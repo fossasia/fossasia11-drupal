@@ -1,0 +1,30 @@
+<?php
+// $Id: customcssjs.install,v 1.1.2.1 2009/07/31 17:10:03 davebv Exp $
+
+function customcssjs_enable() {
+  $customcssjspath = file_directory_path() .'/customcssjs' ;
+  file_check_directory($customcssjspath, 1);
+  $css_full_path = file_directory_path() .'/customcssjs/css';
+  file_check_directory($css_full_path, 1);
+  $js_full_path = file_directory_path() .'/customcssjs/js';
+  file_check_directory($js_full_path, 1);
+  $css_path = 'customcssjs/css' ;
+  $js_path = 'customcssjs/js' ;
+  variable_set('customcssjs_css', $css_path);
+  variable_set('customcssjs_js', $js_path);
+}
+function customcssjs_disable() {
+  variable_del('customcssjs_css');
+  variable_del('customcssjs_js');
+}
+
+
+function customcssjs_install(){
+}
+
+function customcssjs_uninstall() {
+  variable_del('customcssjs_css');
+  variable_del('customcssjs_js');
+}
+
+

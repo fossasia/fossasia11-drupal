@@ -1,0 +1,88 @@
+/* $Id: modalframe.parent.css,v 1.1.2.4 2010/01/02 06:07:14 markuspetrux Exp $ */
+
+/**
+ * jQuery UI Dialog classes.
+ */
+.modalframe {
+  color: #000000;
+  background-color: #ffffff;
+  border: 2px solid #1b5084;
+}
+.modalframe .ui-dialog-titlebar {
+  position: relative;
+  cursor: move;
+  height: 26px;
+  background-color: #336699;
+  border: 1px solid #6694c6;
+  white-space: nowrap;
+}
+.modalframe .ui-dialog-title {
+  display: block;
+  position: absolute;
+  top: 0; left: 0;
+  margin: 0.2em 0.5em;
+  padding: 0;
+  color: #d9d9d9;
+}
+.modalframe .ui-dialog-titlebar-close {
+  display: block;
+  position: absolute;
+  top: 0; right: 0;
+  margin: 2px 2px 2px 0.5em;
+  padding: 0;
+  width: 23px;
+  height: 20px;
+  background: url(../images/close.gif) no-repeat 0 0;
+}
+.modalframe .ui-dialog-titlebar a.ui-state-hover,
+.modalframe .ui-dialog-titlebar a.ui-state-focus {
+  background-position: 0 -20px;
+}
+.modalframe .ui-dialog-titlebar-close span {
+  display: none;
+}
+.modalframe .ui-dialog-content {
+  color: #292929;
+  background-color: #f8f8f8;
+}
+
+/**
+ * ui-dialog overlay.
+ */
+.ui-widget-overlay {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background-color: #aaaaaa;
+  opacity: 0.4;
+  filter: alpha(opacity=40);
+}
+
+/**
+ * Dialog content.
+ */
+#modalframe-container {
+  margin: 0;
+  padding: 0;
+  background: url(../images/loading.gif) no-repeat 50% 50%;
+  overflow: visible;
+}
+#modalframe-container.modalframe-loaded {
+  background: none;
+}
+#modalframe-element {
+  margin: 0;
+  padding: 0;
+  border: none;
+  border-bottom: 1px solid #1b5084;
+}
+
+/**
+ * Helpers to enhance the Modal Frame API.
+ */
+.modalframe-throbber {
+  display: inline-block;
+  width: 13px;
+  height: 13px;
+  background: transparent url(../images/throbber.gif) no-repeat 0 0;
+}

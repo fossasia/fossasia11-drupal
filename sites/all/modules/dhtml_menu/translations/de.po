@@ -1,0 +1,87 @@
+# $Id: de.po,v 1.1.2.2 2008/12/30 02:39:04 arancaytar Exp $
+#
+# German translation of Drupal (dhtml_menu)
+# Copyright 2008 Christoph Burschka <christoph@burschka.de>
+# Copyright 2008 Frank Tartler <frank.tartler@googlemail.com>
+# Generated from files:
+#  dhtml_menu.admin.inc,v 1.5.2.3 2008/11/08 17:35:12 arancaytar
+#  dhtml_menu.module,v 1.29.2.9 2008/11/09 23:03:35 arancaytar
+#  dhtml_menu.info,v 1.6 2008/07/11 22:15:58 arancaytar
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Drupal DHTML Menu V6.x-3.2\n"
+"POT-Creation-Date: 2008-11-22 10:21+0100\n"
+"PO-Revision-Date: 2008-11-22 10:22+0100\n"
+"Last-Translator: Christoph Burschka <christoph@burschka.de>\n"
+"Language-Team: DHTML Menu German Translation <dhtml_menu.de@ermarian.net>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+"Report-Msgid-Bugs-To: Christoph Burschka <christoph@burschka.de>\n"
+"X-Poedit-Language: German\n"
+"X-Poedit-Country: GERMANY\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+#: dhtml_menu.admin.inc:15
+msgid "DHTML Menu effects"
+msgstr "Effekte von DHTML-Menü"
+
+#: dhtml_menu.admin.inc:17
+msgid "Animated sliding effect"
+msgstr "Animierter Schiebeeffekt"
+
+#: dhtml_menu.admin.inc:18
+msgid "Keep only one menu open at a time."
+msgstr "Immer nur ein Menü geöffnet lassen"
+
+#: dhtml_menu.admin.inc:19
+msgid "For the above option, consider each menu tree separately."
+msgstr "Für die obige Option jeden Menübaum gesondert betrachten."
+
+#: dhtml_menu.admin.inc:20
+msgid "Close menus when their parent menu is closed."
+msgstr "Menüs schließen, wenn das übergeordnete Menü geschlossen wird."
+
+#: dhtml_menu.admin.inc:21
+msgid "Add an extra page link to each expanding menu item."
+msgstr "Unter jedem ausklappbaren Menüpunkt einen Extralink einblenden, der die Seite öffnet."
+
+#: dhtml_menu.admin.inc:22
+msgid "Go to the page on double-click."
+msgstr "Die Seite bei Doppelklick auf den Menüpunkt öffnen."
+
+#: dhtml_menu.admin.inc:29
+msgid "Menus without DHTML"
+msgstr "Menüs ohne DHTML"
+
+#: dhtml_menu.admin.inc:32
+msgid "DHTML will be used for all menus by default, but can be switched off for specific menus."
+msgstr "DHTML wird standardmäßig für alle Menüs verwendet, kann aber für bestimmte Menüs ausgeschaltet werden."
+
+#: dhtml_menu.admin.inc:54
+msgid "Book: %title"
+msgstr "Buch: %title"
+
+#: dhtml_menu.module:211
+msgid "<em>DHTML Menu</em> adds dynamic functionality to the menus of your site. Ordinarily, reaching the child elements below an item requires you to visit its page. With DHTML Menu, clicking on an item with child elements will expand it without leaving the page, saving time. You can reach the actual page of such an item either by double-clicking on it or visiting the small extra link that will be shown right below it when expanded."
+msgstr "<em>DHTML-Menü</em> macht die Menüs Ihrer Webseite dynamisch. Um die untergeordneten Elemente eines Menüpunktes zu erreichen, müssen Sie normalerweise dessen Seite öffnen. Mit DHTML-Menü klappt das Menü dynamisch auf, ohne die aktuelle Seite zu verlassen. Die Seite des offenen Menüpunktes kann dennoch weiterhin besucht werden: Sie öffnet durch Doppelklick auf den Menüpunkt oder über den kleinen Extra-Link, der unter jedem Punkt eingeblendet wird."
+
+#: dhtml_menu.module:195
+#: dhtml_menu.info:0
+msgid "DHTML Menu"
+msgstr "DHTML-Menü"
+
+#: dhtml_menu.module:196
+msgid "Configure the effects of DHTML Menu"
+msgstr "Konfigurieren Sie die Effekte von DHTML-Menü"
+
+#: dhtml_menu.module:0
+msgid "dhtml_menu"
+msgstr "dhtml_menu"
+
+#: dhtml_menu.info:0
+msgid "Opens menus dynamically to reduce page refreshes."
+msgstr "Öffnet Menüs dynamisch, um Seitenaufrufe zu reduzieren."
+

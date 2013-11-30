@@ -1,0 +1,201 @@
+<?php
+/**
+ * @file
+ * Allows restricting access to menu items per role
+ */
+
+/*
+ * Permission for who can access the menu per role forms.
+ */
+function menu_per_role_perm() {
+  return array('administer menu_per_role');
+}
+
+/**
+ * Implementation of hook_menu().
+ */
+function menu_per_role_menu() {
+  module_load_include('admin.inc', 'menu_per_role');
+  return _menu_per_role_menu();
+}
+
+/*
+ * Determines access for a give menu item id
+ *
+ * \warning
+ * This function is NOT called automatically up to version 6.10.
+ * You need to apply the patch provided in this module so it
+ * actually works in older versions. See file:
+ *
+ * drupal-6.6-menu_per_role.patch
+ *
+ * \param[in] $item The complete menu item
+ *
+ * \return NULL if this module does not forbid the viewing of this menu item,
+ * FALSE otherwise
+ */
+function _menu_per_role_access($item) {
+  global $user;
+
+  if (empty($item['mlid'])) {
+    // no menu indicated, there's nothing to block
+    return NULL;
+  }
+  if ($user->uid == 1) {
+    // UID=1 is the all almighty administrator who usually sees everything
+    // (a better way would be to mark the menu item with a special class
+    // so it could be shown in a different color.)
+    if (variable_get('menu_per_role_uid1_see_all', 1)) {
+      return NULL;
+    }
+  }
+  elseif (user_access('administer menu_per_role') && variable_get('menu_per_role_admin_see_all', 0)) {
+    // The top administrator can also give the menu_per_role administrators
+    // access to all the menu items.
+    return NULL;
+  }
+
+  // if this menu is being edited, make sure the administrator sees all of its items
+  if (arg(0) == 'admin' && arg(1) == 'build' && arg(2) == 'menu-customize' && arg(3) == $item['menu_name']) {
+    return NULL;
+  }
+
+  // check whether this role has visibility access (must be present)
+  $rids = _menu_per_role_get_roles($item['mlid'], 0);
+  if (!empty($rids) && count(array_intersect($rids, array_keys($user->roles))) == 0) {
+    // not permitted by the rids...
+    return FALSE;
+  }
+
+  // check whether this role has visibility access (must not be present)
+  $hrids = _menu_per_role_get_roles($item['mlid'], 1);
+  if (!empty($hrids) && count(array_intersect($hrids, array_keys($user->roles))) > 0) {
+    // not permitted by the hrids...
+    return FALSE;
+  }
+
+  // this module is not preventing user from seeing this menu entry
+  return NULL;
+}
+
+
+/*
+ * Implementation of hook_form_alter().
+ */
+function menu_per_role_form_alter(&$form, $form_state, $form_id) {
+  if (user_access('administer menu_per_role')) {
+    module_load_include('admin.inc', 'menu_per_role');
+    _menu_per_role_form_alter($form, $form_state, $form_id);
+  }
+}
+
+
+/**
+ * Implementation of hook_nodeapi().
+ *
+ * When inserting the menu in a node, the form is "not really there" at
+ * the time of the Save. To make it work properly, we need to add this
+ * entry. Note also that the submit function does not have access to
+ * the 'mlid' yet since it was not yet created.
+ *
+ * IMPORTANT NOTE: We get executed right after the menu module, which
+ * is important since the menu module is the one that generates the
+ * 'mlid'. The module would otherwise need to be moved using a weight
+ * of 1 or more in the system table.
+ */
+function menu_per_role_nodeapi(&$node, $op, $teaser, $page) {
+  switch ($op) {
+  case 'insert':
+  case 'update':
+    if (!empty($node->menu['mlid']) && user_access('administer menu_per_role')) {
+      $form_state = array(
+        'submitted' => 1,
+        'values' => array(
+          'menu' => $node->menu,
+          'menu_per_role_roles' => $node->menu['menu_per_role']['menu_per_role_roles'],
+          'menu_per_role_hide_from_roles' => $node->menu['menu_per_role']['menu_per_role_hide_from_roles'],
+        ),
+      );
+      module_load_include('admin.inc', 'menu_per_role');
+      _menu_per_role_form_submit(NULL, $form_state);
+    }
+    break;
+
+  }
+}
+
+
+/*
+ * When the menu item is being submitted, the core also calls the
+ * hook_menu_link_alter(&$item, $menu);
+ *
+ * By catching that function, we can set the special alter option
+ * that will let our module receive a call whenever the menu is
+ * ready for display but was not yet displayed. At that time we
+ * can mark the access as FALSE.
+ */
+function menu_per_role_menu_link_alter(&$item, $menu) {
+  // TODO: The following marks ALL menu items as alterable.
+  //       Any time a menu item is saved, it is marked as
+  //       such. I have no clue, at this time, of a way to
+  //       avoid such nonsense. Hints welcome!
+  $item['options']['alter'] = TRUE;
+}
+
+
+/*
+ * Before a menu item gets displayed, the core calls the hook:
+ * hook_translated_menu_link_alter(&$item, $map);
+ * (but only if $item['options']['alter'] is TRUE)
+ *
+ * This function is used to alter the access right based on
+ * the role definition of the item.
+ */
+function menu_per_role_translated_menu_link_alter(&$item, $map) {
+  // avoid checking the role if the item access is already false
+  if ($item['access'] && _menu_per_role_access($item) === FALSE) {
+    $item['access'] = FALSE;
+  }
+}
+
+
+/**
+ * Gets all roles with access to the specified menu item
+ * No roles mean that access is granted by this module.
+ *
+ * $show set to 0 for show to roles, 1 for hide from roles
+ */
+function _menu_per_role_get_roles($mlid, $show) {
+  static $menu_per_role;
+
+  if (!isset($menu_per_role)) {
+    // read all the data ONCE, it is likely very small
+    $menu_per_role = array();
+    $result = db_query("SELECT * FROM {menu_per_role}");
+    while ($row = db_fetch_object($result)) {
+      if ($row->rids || $row->hrids) {
+        if ($row->rids) {
+          $menu_per_role[$row->mlid][0] = explode(',', $row->rids);
+        }
+        else {
+          $menu_per_role[$row->mlid][0] = array();
+        }
+        if ($row->hrids) {
+          $menu_per_role[$row->mlid][1] = explode(',', $row->hrids);
+        }
+        else {
+          $menu_per_role[$row->mlid][1] = array();
+        }
+      }
+    }
+  }
+
+  if (isset($menu_per_role[$mlid])) {
+    return $menu_per_role[$mlid][$show];
+  }
+
+  // not defined, everyone has the right to use it
+  return array();
+}
+
+// vim: ts=2 sw=2 et syntax=php

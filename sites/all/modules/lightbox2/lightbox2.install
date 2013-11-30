@@ -1,0 +1,202 @@
+<?php
+// $Id: lightbox2.install,v 1.1.4.4.2.49 2010/09/22 17:26:19 snpower Exp $
+
+/**
+ * @file
+ * Installation functions for Lightbox2.
+ */
+
+/**
+ * Implementation of hook_install().
+ */
+function lightbox2_install() {
+  module_invoke('content', 'clear_type_cache');
+}
+
+/**
+ * Implementation of hook_uninstall().
+ */
+function lightbox2_uninstall() {
+  // Delete the variables we created.
+  variable_del('lightbox2_plus');
+  variable_del('lightbox2G2_filter');
+
+  // Remove the general settings.
+  variable_del('lightbox2_lite');
+  variable_del('lightbox2_use_alt_layout');
+  variable_del('lightbox2_force_show_nav');
+  variable_del('lightbox2_loop_items');
+  variable_del('lightbox2_image_count_str');
+  variable_del('lightbox2_page_count_str');
+  variable_del('lightbox2_video_count_str');
+  variable_del('lightbox2_disable_resize');
+  variable_del('lightbox2_disable_zoom');
+  variable_del('lightbox2_enable_login');
+  variable_del('lightbox2_enable_contact');
+  variable_del('lightbox2_enable_video');
+  variable_del('lightbox2_flv_player_path');
+  variable_del('lightbox2_flv_player_flashvars');
+  variable_del('lightbox2_page_init_action');
+  variable_del('lightbox2_page_list');
+  variable_del('lightbox2_disable_these_urls');
+  variable_del('lightbox2_imagefield_group_node_id');
+  variable_del('lightbox2_imagefield_use_node_title');
+  variable_del('lightbox2_view_image_text');
+  variable_del('lightbox2_image_ncck_group_node_id');
+  variable_del('lightbox2_show_caption');
+  // Advanced settings.
+  variable_del('lightbox2_js_location');
+  variable_del('lightbox2_keys_close');
+  variable_del('lightbox2_keys_previous');
+  variable_del('lightbox2_keys_next');
+  variable_del('lightbox2_keys_zoom');
+  variable_del('lightbox2_keys_play_pause');
+  variable_del('lightbox2_top_position');
+  variable_del('lightbox2_border_size');
+  variable_del('lightbox2_box_color');
+  variable_del('lightbox2_font_color');
+  variable_del('lightbox2_overlay_opacity');
+  variable_del('lightbox2_overlay_color');
+  variable_del('lightbox2_disable_close_click');
+  variable_del('lightbox2_resize_sequence');
+  variable_del('lightbox2_resize_speed');
+  variable_del('lightbox2_fadein_speed');
+  variable_del('lightbox2_slidedown_speed');
+
+  // Remove iframe settings.
+  variable_del('lightbox2_default_frame_width');
+  variable_del('lightbox2_default_frame_height');
+  variable_del('lightbox2_frame_border');
+
+  // Remove slideshow settings.
+  variable_del('lightbox2_slideshow_interval');
+  variable_del('lightbox2_slideshow_automatic_start');
+  variable_del('lightbox2_slideshow_automatic_exit');
+  variable_del('lightbox2_slideshow_show_play_pause');
+  variable_del('lightbox2_slideshow_pause_on_next_click');
+  variable_del('lightbox2_slideshow_pause_on_previous_click');
+  variable_del('lightbox2_loop_slides');
+
+  // Remove the automatic image handling settings.
+  variable_del('lightbox2_image_node');
+  variable_del('lightbox2_display_image_size');
+  variable_del('lightbox2_trigger_image_size');
+  variable_del('lightbox2_disable_nested_galleries');
+  variable_del('lightbox2_flickr');
+  variable_del('lightbox2_gallery2_blocks');
+  variable_del('lightbox2_inline');
+  variable_del('lightbox2_image_assist_custom');
+  variable_del('lightbox2_custom_class_handler');
+  variable_del('lightbox2_custom_trigger_classes');
+  variable_del('lightbox2_node_link_text');
+  variable_del('lightbox2_download_link_text');
+  variable_del('lightbox2_node_link_target');
+  variable_del('lightbox2_show_caption');
+  variable_del('lightbox2_image_group');
+  variable_del('lightbox2_disable_nested_acidfree_galleries');
+  variable_del('lightbox2_acidfree_video');
+}
+
+/**
+ * One of the variables was renamed from 'lightbox2_plus' to 'lightbox2_lite'.
+ *
+ * Should have been created with lightbox2_update_600x() naming convention, but
+ * too late now.
+ */
+function lightbox2_update_1() {
+  $ret = array();
+  $ret[] = update_sql('UPDATE {variable} SET name="lightbox2_lite"
+    WHERE name="lightbox2_plus";');
+
+  return $ret;
+}
+
+/**
+ * 'lightbox2_image_group' variable has been removed and others need to be
+ * updated accordingly.
+ *
+ * Should have been created with lightbox2_update_600x() naming convention, but
+ * too late now.
+ */
+function lightbox2_update_2() {
+  $image_group = variable_get('lightbox2_image_group', TRUE);
+  $image_node = variable_get('lightbox2_image_node', TRUE);
+  $flickr = variable_get('lightbox2_flickr', TRUE);
+  $gallery2 = variable_get('lightbox2_gallery2_blocks', TRUE);
+  $inline = variable_get('lightbox2_inline', TRUE);
+  $image_assist = variable_get('lightbox2_image_assist_custom', TRUE);
+
+  if ($image_group) {
+    if ($image_node) {
+      variable_set('lightbox2_image_node', 2);
+    }
+    if ($flickr) {
+      variable_set('lightbox2_flickr', 2);
+    }
+    if ($gallery2) {
+      variable_set('lightbox2_gallery2_blocks', 2);
+    }
+    if ($inline) {
+      variable_set('lightbox2_inline', 2);
+    }
+    if ($image_assist) {
+      variable_set('lightbox2_image_assist_custom', 2);
+    }
+  }
+  variable_del('lightbox2_image_group');
+
+  return array();
+}
+
+/**
+ * 'lightbox2_disable_these_urls' was renamed to 'lightbox2_page_list'.
+ * 'lightbox2_page_init_action' was also added which determines whether the
+ * lightbox functionality should be enabled or disabled for the page list.
+ * 'lightbox2_disable_zoom' has been replaced by 'lightbox2_disable_resize'.
+ * 'lightbox2_disable_zoom' still exists but has a different meaning.
+ *
+ * Should have been created with lightbox2_update_600x() naming convention, but
+ * too late now.
+ */
+function lightbox2_update_3() {
+  $disabled_urls = variable_get('lightbox2_disable_these_urls', '');
+  variable_set('lightbox2_page_init_action', 'page_disable');
+  variable_set('lightbox2_page_list', $disabled_urls);
+  variable_del('lightbox2_disable_these_urls');
+
+  $disable_zoom = variable_get('lightbox2_disable_zoom', FALSE);
+  variable_set('lightbox2_disable_resize', $disable_zoom);
+  variable_set('lightbox2_disable_zoom', FALSE);
+
+  return array();
+}
+
+function lightbox2_update_6001() {
+  $size = variable_get('lightbox2_display_image_size', 'original');
+  if ($size == '') {
+    variable_set('lightbox2_display_image_size', 'original');
+  }
+  return array();
+}
+
+/**
+ * 'lightbox2_slideshow_pause_on_previous_click' was mis-named as
+ * 'lightbox2_slideshow_pause_on_prev_click'.
+ */
+function lightbox2_update_6002() {
+  $vars = variable_init();
+  if (array_key_exists('lightbox2_slideshow_pause_on_prev_click', $vars)) {
+    $value = $vars['lightbox2_slideshow_pause_on_prev_click'];
+    variable_set('lightbox2_slideshow_pause_on_previous_click', $value);
+    variable_del('lightbox2_slideshow_pause_on_prev_click');
+  }
+  return array();
+}
+
+/**
+ * Menu paths changed.
+ */
+function lightbox2_update_6003() {
+  return array();
+}
+

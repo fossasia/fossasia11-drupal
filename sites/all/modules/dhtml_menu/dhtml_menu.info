@@ -1,0 +1,12 @@
+; $Id: dhtml_menu.info,v 1.6 2008/07/11 22:15:58 arancaytar Exp $
+name = DHTML Menu
+description = Opens menus dynamically to reduce page refreshes.
+core = 6.x
+
+
+; Information added by drupal.org packaging script on 2009-06-05
+version = "6.x-3.5"
+core = "6.x"
+project = "dhtml_menu"
+datestamp = "1244161838"
+

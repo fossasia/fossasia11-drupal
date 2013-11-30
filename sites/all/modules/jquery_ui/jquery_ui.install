@@ -1,0 +1,51 @@
+<?php
+
+/**
+ * @file
+ * Installation file for jQuery UI module.
+ */
+
+/**
+ * Implementation of hook_requirements().
+ */
+function jquery_ui_requirements($phase) {
+  $requirements = array();
+  $t = get_t();
+  $jquery_ui_version = 0;
+
+  if ($phase == 'install') {
+    // The jquery_ui_get_version() function is in the .module file, which isn't
+    // loaded yet.
+    include_once dirname(__FILE__) . '/jquery_ui.module';
+  }
+
+  $requirements['jquery_ui']['title'] = $t('jQuery UI');
+  if ($jquery_ui_version = jquery_ui_get_version()) {
+    // Everything looks good; display the current jQuery UI version.
+    $requirements['jquery_ui']['value'] = $jquery_ui_version;
+    $requirements['jquery_ui']['severity'] = REQUIREMENT_OK;
+  }
+  else {
+    // Required library wasn't found. Abort installation.
+    $requirements['jquery_ui']['value'] = $t('Not found');
+    // Provide a download link to the jQuery UI development bundle. The provided
+    // link will list the latest 1.6.x build.
+    $requirements['jquery_ui']['description'] = $t('The <a href="@jqueryui">jQuery UI</a> plugin is missing. <a href="@download">Download</a> and extract it into the <code>@directory</code> directory. Rename the extracted folder to <code>@library-folder</code>.', array(
+      '@jqueryui' => 'http://jqueryui.com',
+      '@download' => 'http://code.google.com/p/jquery-ui/downloads/list?q=1.6',
+      '@directory' => 'sites/all/libraries',
+      '@library-folder' => 'jquery.ui',
+    ));
+    $requirements['jquery_ui']['severity'] = REQUIREMENT_ERROR;
+  }
+
+  return $requirements;
+}
+
+/**
+ * Implementation of hook_uninstall().
+ */
+function jquery_ui_uninstall() {
+  variable_del('jquery_ui_compression_type');
+}
+

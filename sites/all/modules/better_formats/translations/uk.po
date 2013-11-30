@@ -1,0 +1,177 @@
+# $Id: uk.po,v 1.1.2.2 2009/05/18 21:52:00 podarok Exp $
+#
+# Ukrainian translation of Drupal (general)
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# Generated from files:
+#  better-formats-defaults-admin-form.tpl.php,v 1.3.2.2 2009/03/17 08:16:52 dragonwize
+#  better_formats_defaults.admin.inc,v 1.3.2.5 2009/03/17 08:16:52 dragonwize
+#  better_formats_settings.admin.inc,v 1.6.2.3 2009/02/25 06:44:17 dragonwize
+#  better_formats.module,v 1.23.2.9 2009/03/18 15:24:30 dragonwize
+#  better_formats.info,v 1.1.2.2 2009/02/25 06:44:17 dragonwize
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: better_formats uk Ukrainian Translation\n"
+"POT-Creation-Date: 2009-05-19 00:12+0300\n"
+"PO-Revision-Date: 2009-05-19 00:40+0200\n"
+"Last-Translator: podarok <podarok@ua.fm>\n"
+"Language-Team: uk <podarok@ua.fm>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Ukrainian\n"
+"X-Poedit-Country: UKRAINE\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+#: better-formats-defaults-admin-form.tpl.php:24
+msgid "Only formats that a role has permission to use are shown."
+msgstr "Відображаються лише доступні для ролі формати"
+
+#: better-formats-defaults-admin-form.tpl.php:26
+msgid "Node Defaults"
+msgstr "Базове для Нод"
+
+#: better-formats-defaults-admin-form.tpl.php:30;54
+msgid "Role"
+msgstr "Роль"
+
+#: better-formats-defaults-admin-form.tpl.php:31;55
+msgid "Default Format"
+msgstr "Базовий формат"
+
+#: better-formats-defaults-admin-form.tpl.php:32;56
+msgid "Weight"
+msgstr "Вага"
+
+#: better-formats-defaults-admin-form.tpl.php:50
+msgid "Comment Defaults"
+msgstr "Базове для коментарів"
+
+#: better_formats_defaults.admin.inc:30
+msgid "Save defaults"
+msgstr "Зберегти базово"
+
+#: better_formats_defaults.admin.inc:59
+msgid "Role does not have access to selected format."
+msgstr "Роль немає доступу до обраного формату"
+
+#: better_formats_defaults.admin.inc:84
+msgid "Defaults have been saved."
+msgstr "Базові параметри збережено"
+
+#: better_formats_defaults.admin.inc:171
+msgid "Site default"
+msgstr "Базове для сайту"
+
+#: better_formats_settings.admin.inc:19
+msgid "Display"
+msgstr "Відображення"
+
+#: better_formats_settings.admin.inc:24
+msgid "Selection title"
+msgstr "Вибір назви"
+
+#: better_formats_settings.admin.inc:25
+msgid "Change the format selection title. Defaults to \"Input format\""
+msgstr "Змінити заголовок вибору формату. Базово \"Формат вводу\""
+
+#: better_formats_settings.admin.inc:30
+msgid "More format tips link text"
+msgstr "Текст посилання \"Більше форматів\""
+
+#: better_formats_settings.admin.inc:31
+msgid "Change the format full tips link text. Defaults to \"More information about formatting options\""
+msgstr "Змінити текст посилання \"інформація про формати\". Базово \"Більше інформації про можливості форматування\""
+
+#: better_formats_settings.admin.inc:37
+msgid "Control"
+msgstr "Керування"
+
+#: better_formats_settings.admin.inc:41
+msgid "Control formats per node type"
+msgstr "Керування форматами в залежності вид типу матеріалу"
+
+#: better_formats_settings.admin.inc:42
+msgid "Control formats allowed and default formats per node type. Global settings will be used until a content type admin page is saved."
+msgstr "Керування форматами дозволено і базово формати залежать від типу матеріалу. Глобальні параметри будуть використані до моменту збереження адміністратором типу матеріалу."
+
+#: better_formats.module:18
+msgid "See the module README.txt file in the better_formats module directory for help."
+msgstr "Читайте README.txt модуля better_formats для додаткової допомоги"
+
+#: better_formats.module:22
+msgid "Set the global default formats per role for NEW nodes and comments. These settings will be applied to all nodes and comments in the site unless overriden by specific content type defaults."
+msgstr "Встановлення глобально базових форматів в залежності від ролі для нових матеріалів та коментарів. Ці параметрі будуть використані до всіх матеріалів та коментарів до моменту переназначення базово для специфічних типів матеріалів."
+
+#: better_formats.module:23
+msgid "Arrange the roles to provide weight that will determine what format is selected when a user has more than one role. Remember, that all logged in users are automatically given the authenticated user role in addition to their other assigned roles. For example, if you have an admin role place it at the top and generally you would want your anonymous user role at the bottom."
+msgstr "Розміщення ролей для надання ваги, що буде визначати який формат обрано, якщо в користувача є кілька ролей. Пам'ятайте, що всі залоговані користувачі автоматично є \"зареєстрованими ролями\" на додаток до їхніх назначених ролей. Для прикладу, якщо Ви помістите роль адміна на верх списка, то роль анонімного користувача потрібно розташовувати в самому низу."
+
+#: better_formats.module:153
+msgid "Input format settings"
+msgstr "Параметри формату вводу"
+
+#: better_formats.module:164
+msgid "Allowed formats"
+msgstr "Дозволені формати"
+
+#: better_formats.module:167
+msgid "Limit the formats users have to choose from even if they have permission to use that format. This will NOT allow a user to use a format they do not have access rights to use. It will only hide additional formats they do have access rights to. If no boxes are checked, all formats that the user has permission to use will be allowed."
+msgstr "Обмеження форматів, дозволених користувачам, навіть якщо вони мають доступ використання. Це не дозволить користувачу використовувати формат, заборонений правами! Це лише приховає додаткові формати, які дозволено! Якщо не відмічено жодне - всі формати, що дозволені користувачу будуть увімкнені."
+
+#: better_formats.module:503
+msgid "Input format"
+msgstr "Формат вводу"
+
+#: better_formats.module:561;569
+msgid "Formatting guidelines"
+msgstr "Рекомендації щодо форматування"
+
+#: better_formats.module:603
+msgid "More information about formatting options"
+msgstr "Детальніше про опції форматування"
+
+#: better_formats.module:37
+msgid "show format selection"
+msgstr "показувати вібир формату"
+
+#: better_formats.module:38
+msgid "show format tips"
+msgstr "показувати підказки для формату"
+
+#: better_formats.module:39
+msgid "show more format tips link"
+msgstr "показувати посилання \"більше форматів\""
+
+#: better_formats.module:40
+msgid "collapse format fieldset by default"
+msgstr "базово - звернути поле форматів"
+
+#: better_formats.module:41
+msgid "collapsible format selection"
+msgstr "вибір форматів - з можливістю звертання"
+
+#: better_formats.module:52
+msgid "Settings"
+msgstr "Налаштування"
+
+#: better_formats.module:53;63
+msgid "Manage input formats"
+msgstr "Керування форматами вводу"
+
+#: better_formats.module:62
+msgid "Defaults"
+msgstr "Базове"
+
+#: better_formats.module:0
+msgid "better_formats"
+msgstr "better_formats"
+
+#: better_formats.info:0
+msgid "Better Formats"
+msgstr "Вдосконалені Формати"
+
+#: better_formats.info:0
+msgid "Enhances the core input format system by managing input format defaults and settings."
+msgstr "Розширює базову систему форматів можливістю керування вхідними форматами і параметрами"
+

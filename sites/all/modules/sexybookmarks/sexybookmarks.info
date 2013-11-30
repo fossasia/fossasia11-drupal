@@ -1,0 +1,13 @@
+name = SexyBookmarks
+description = SexyBookmarks for Drupal
+dependencies[] = ctools
+dependencies[] = jquery_ui
+dependencies[] = jquery_update
+core = 6.x
+
+; Information added by drupal.org packaging script on 2011-05-30
+version = "6.x-2.0"
+core = "6.x"
+project = "sexybookmarks"
+datestamp = "1306745218"
+

@@ -1,0 +1,54 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the views slideshow module.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function views_slideshow_install() {
+}
+
+/**
+ * We had to change the names of the plugins
+ */
+function views_slideshow_update_1() {
+  return _views_slideshow_update_reset_cache();
+}
+
+function _views_slideshow_update_reset_cache() {
+  cache_clear_all();
+  return TRUE;
+}
+
+function views_slideshow_update_2() {
+  $ret = array();
+  $ret[] = update_sql("UPDATE {views_view} SET block_type='slideshow_list' WHERE block_type='views_slideshow_list'");
+  $ret[] = update_sql("UPDATE {views_view} SET block_type='slideshow_teaser' WHERE block_type='views_slideshow_teaser'");
+  $ret[] = update_sql("UPDATE {views_view} SET block_type='slideshow_node' WHERE block_type='views_slideshow_node'");
+  $ret[] = update_sql("UPDATE {views_view} SET page_type='slideshow_list' WHERE page_type='views_slideshow_list'");
+  $ret[] = update_sql("UPDATE {views_view} SET page_type='slideshow_teaser' WHERE page_type='views_slideshow_teaser'");
+  $ret[] = update_sql("UPDATE {views_view} SET page_type='slideshow_node' WHERE page_type='views_slideshow_node'");
+  _views_slideshow_update_reset_cache();
+  return $ret;
+}
+
+function views_slideshow_update_6000() {
+  $ret = array();
+
+  // We have two new theme functions.
+  drupal_rebuild_theme_registry();
+  return $ret;
+}
+
+/**
+ * We changed our views handler to group slideshow modes.
+ * We also moved everything out to new modules, so have to change our views.
+ */
+function views_slideshow_update_6001() {
+  $ret = array();
+
+  return $ret;
+}

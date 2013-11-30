@@ -1,0 +1,82 @@
+# $Id: nl.po,v 1.1.2.1 2009/05/29 23:29:31 arancaytar Exp $
+#
+# Dutch translation of Drupal (dhtml_menu)
+# Copyright 2009 L.B. Cohn <lichai@999games.nl>
+# Generated from files:
+#  dhtml_menu.admin.inc,v 1.5.2.3 2008/11/08 17:35:12 arancaytar
+#  dhtml_menu.module,v 1.29.2.17 2009/01/17 02:50:53 arancaytar
+#  dhtml_menu.info,v 1.6 2008/07/11 22:15:58 arancaytar
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: DHTML Menu 6.x-3.4\n"
+"POT-Creation-Date: 2009-05-26 17:17+0200\n"
+"PO-Revision-Date: 2009-05-28 16:37+0100\n"
+"Last-Translator: L.B. Cohn <lichai@999games.nl>\n"
+"Language-Team: Dutch <lichai@999games.nl>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+
+#: dhtml_menu.admin.inc:15
+msgid "DHTML Menu effects"
+msgstr "DHTML Menu effecten"
+
+#: dhtml_menu.admin.inc:17
+msgid "Animated sliding effect"
+msgstr "Een geanimeerd schuifeffect"
+
+#: dhtml_menu.admin.inc:18
+msgid "Keep only one menu open at a time."
+msgstr "Houd slechts één menu tegelijk open."
+
+#: dhtml_menu.admin.inc:19
+msgid "For the above option, consider each menu tree separately."
+msgstr "Beschouw voor bovenstaande optie ieder menuboom apart."
+
+#: dhtml_menu.admin.inc:20
+msgid "Close menus when their parent menu is closed."
+msgstr "Sluit menu's als het bovenliggende menu is gesloten."
+
+#: dhtml_menu.admin.inc:21
+msgid "Add an extra page link to each expanding menu item."
+msgstr "Voeg een extra paginalink toe aan ieder uitgeklapt menu-item."
+
+#: dhtml_menu.admin.inc:22
+msgid "Go to the page on double-click."
+msgstr "Ga naar de pagina na een dubbele klik."
+
+#: dhtml_menu.admin.inc:29
+msgid "Menus without DHTML"
+msgstr "Menu's zonder DHTML"
+
+#: dhtml_menu.admin.inc:32
+msgid "DHTML will be used for all menus by default, but can be switched off for specific menus."
+msgstr "DHTML zal standaard voor ieder menu gebruikt worden, maar kan worden uitgeschakeld voor specifieke menus."
+
+#: dhtml_menu.admin.inc:54
+msgid "Book: %title"
+msgstr "Boek: %title"
+
+#: dhtml_menu.module:238
+msgid "<em>DHTML Menu</em> adds dynamic functionality to the menus of your site. Ordinarily, reaching the child elements below an item requires you to visit its page. With DHTML Menu, clicking on an item with child elements will expand it without leaving the page, saving time. You can reach the actual page of such an item either by double-clicking on it or visiting the small extra link that will be shown right below it when expanded."
+msgstr "<em>DHTML Menu</em> voegt dynamische functionaliteit toe aan de menus op je site. Normaal gesproken kunnen onderliggende menu-items pas worden geopend nadat is geklikt op het bovenliggende menu en de hele pagina is herladen. Met DHTML Menu kan een menu worden uitgeklapt als het onderliggende items bevat. Je kunt de desbetreffende pagina bereiken door te dubbelklikken of door op de link te klikken die te zien is als het menu is uitgeklapt."
+
+#: dhtml_menu.module:222
+#: dhtml_menu.info:0
+msgid "DHTML Menu"
+msgstr "DHTML Menu"
+
+#: dhtml_menu.module:223
+msgid "Configure the effects of DHTML Menu"
+msgstr "Configureer de effecten van DHTML Menu"
+
+#: dhtml_menu.module:0
+msgid "dhtml_menu"
+msgstr "dhtml_menu"
+
+#: dhtml_menu.info:0
+msgid "Opens menus dynamically to reduce page refreshes."
+msgstr "Opent menus dynamisch om het continue herladen van pagina's tegen te gaan."
+

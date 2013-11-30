@@ -1,0 +1,197 @@
+/* $Id: ie6-fixes-rtl.css 8056 2010-10-22 18:01:42Z jeremy $ */
+
+/* Header site info */
+#header-site-info.block {
+  float: right;
+  position: static;
+}
+
+#header-site-info.block .inner {
+  position: static;
+}
+
+#site-name-wrapper {
+  float: right;
+}
+
+/* Search */
+#search-box-inner {
+  float: left;
+  position: relative;
+}
+
+.search-box-inner input.search-submit {
+  margin: 0 4 0 0;
+  padding: 2px;
+}
+
+#search-box .corner-bottom-left {
+  background: url(../images/rounded-corners-search.png) no-repeat 100% 100%;
+  float: none;
+  margin-right: -22px;
+}
+
+#search-box .corner-bottom-right {
+  background: url(../images/rounded-corners-search.png) no-repeat 0 100%;
+  bottom: 23px;
+  float: left;
+  position: absolute;
+  right: 271px;
+}
+
+/* Comments */
+#comments {
+  position: relative;
+}
+
+#comments .marina-rounded-corners .corner-bottom {
+  margin-left: 20px;
+  margin-top: -8px;
+}
+
+#comments .marina-rounded-corners .corner-top {
+  margin-left: 20px;
+}
+
+#comments .marina-rounded-corners .inner-wrapper .inner-inner {
+  padding-left: 8px; 
+  padding-top: 2px; 
+}
+
+#comments .inner {
+  background-color: transparent;
+}
+
+#comments .marina-rounded-corners .inner-wrapper {
+  margin-left: 20px;
+}
+
+#comments .even {
+  background: none;
+}
+
+/* Block content */
+.marina-rounded-corners .inner-wrapper .inner-inner {
+  padding-left: 0; 
+  padding-top: 0; 
+}
+
+/* Marina - Title - Rounded Blue/Green */
+.marina-title-rounded-blue h2.block-title,
+.marina-title-rounded-green h2.block-title {
+  margin: 0 -8px 8px 0;
+}
+
+
+/* Primary Menu
+/-------------------------------------------------------------- */
+#primary-menu ul.menu {
+  float: left;
+}
+
+#primary-menu ul.menu li {
+  float: left;
+}
+
+#primary-menu ul.menu li a:link,
+#primary-menu ul.menu li a:visited {
+  display: block;
+  float: left;
+}
+
+/* Second level */
+#primary-menu ul.menu li:hover ul.menu,
+#primary-menu ul.menu li.hover ul.menu,
+#primary-menu ul.menu li.sfHover ul.menu {
+  margin-top: -3px;
+}
+
+#primary-menu ul.menu li ul.menu li {
+  margin-right: -10px;
+}
+
+#primary-menu ul.menu li ul.menu li a:link,
+#primary-menu ul.menu li ul.menu li a:visited {
+  display: static;
+  float: none;
+}
+
+
+/* Secondary Menu
+/-------------------------------------------------------------- */
+#secondary-menu.block ul.links {
+  float: left;
+}
+
+.secondary-menu-inner ul.links li {
+  border-right: 1px solid #ccc;
+  float: left;
+}
+
+.secondary-menu-inner ul.links li.last {
+  border-right: none;
+}
+
+.secondary-menu-inner ul.links li a:link,
+.secondary-menu-inner ul.links li a:visited {
+  border: none;
+}
+
+
+/* Rounded Corners
+/-------------------------------------------------------------- */
+.marina-rounded-corners .corner-top-left {
+  right: -9px;
+}
+
+.marina-rounded-corners .corner-bottom-left {
+  right: -9px;
+}
+
+
+/* Main content
+/-------------------------------------------------------------- */
+.main-content {
+  position: relative;
+}
+
+#content-group .block .inner {
+  position: static;
+}
+
+
+/* Nodes
+/-------------------------------------------------------------- */
+/* Links for nodes (taxonomy, commenting, read more, etc) */
+.content-region .content-inner .content-inner-inner .content ul.terms,
+.content-region .content-inner .content-inner-inner .content ul.links {
+  margin: 0 0 0 -15px;
+}
+
+.node ul.links li,
+.node ul.inline li,
+.node .links a {
+  margin: 0;
+  padding: 0 14px 0 0;
+}
+
+
+/* Skinr
+/-------------------------------------------------------------- */
+/* Marina - List - Green arrow */
+.marina-list-arrow-green ul li {
+  position: relative;
+}
+
+/* Marina - List - Raquo */
+.marina-list-raquo ul li {
+  position: relative;
+}
+
+
+/* Clearfixes
+/-------------------------------------------------------------- */
+.block .inner {
+  display: block;
+  height: 1%;
+}

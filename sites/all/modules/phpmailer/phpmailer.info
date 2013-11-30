@@ -1,0 +1,12 @@
+name = PHPMailer
+description = Integrates the PHPMailer library for SMTP e-mail delivery.
+package = Mail
+core = 6.x
+dependencies[] = libraries
+
+; Information added by drupal.org packaging script on 2011-06-05
+version = "6.x-3.1"
+core = "6.x"
+project = "phpmailer"
+datestamp = "1307286419"
+

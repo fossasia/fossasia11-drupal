@@ -1,0 +1,7 @@
+
+.views_slideshow_jcarouselthumbs_no_display,
+.views_slideshow_jcarouselthumbs_hidden,
+.views_slideshow_jcarouselthumbs_controls,
+.views_slideshow_jcarouselthumbs_image_count {
+  display: none;
+}

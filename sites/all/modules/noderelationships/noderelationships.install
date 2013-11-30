@@ -1,0 +1,158 @@
+<?php
+// $Id: noderelationships.install,v 1.1.2.9 2010/05/16 16:27:54 markuspetrux Exp $
+
+/**
+ * @file
+ * Implementation of installation/uninstallation hooks.
+ */
+
+/**
+ * Implementation of hook_install().
+ */
+function noderelationships_install() {
+  // Install module database schema.
+  drupal_install_schema('noderelationships');
+
+  // Notify the content module.
+  drupal_load('module', 'content');
+  content_notify('install', 'noderelationships');
+}
+
+/**
+ * Implementation of hook_uninstall().
+ */
+function noderelationships_uninstall() {
+  // Notify the content module.
+  // Here we want to delete all automatically created back reference fields.
+  // However, our module has been disabled, and content_field_instance_delete()
+  // cannot process disabled fields, so we first need to tell CCK to enable all
+  // back reference fields temporarily, and then content_module_delete() will
+  // be able to find and delete them.
+  drupal_load('module', 'content');
+  content_notify('enable', 'noderelationships');
+  content_notify('uninstall', 'noderelationships');
+
+  // Uninstall module database schema.
+  drupal_uninstall_schema('noderelationships');
+}
+
+/**
+ * Implementation of hook_enable().
+ */
+function noderelationships_enable() {
+  // Alter the module weight so that our hook_nodeapi('prepare translation') is
+  // executed just after the content module.
+  // This is needed because we want to undo the changes made by nodereference
+  // module during hook_field('prepare translation').
+  $weight = (int)db_result(db_query("SELECT weight FROM {system} WHERE type = 'module' AND name = 'content'"));
+  db_query("UPDATE {system} SET weight = %d WHERE type = 'module' AND name = 'noderelationships'", ($weight + 1));
+
+  // Notify the content module.
+  drupal_load('module', 'content');
+  content_notify('enable', 'noderelationships');
+}
+
+/**
+ * Implementation of hook_disable().
+ */
+function noderelationships_disable() {
+  // Make sure cached data is discarded if the module is re-enabled again.
+  module_load_include('inc', 'noderelationships');
+  noderelationships_cache_clear();
+
+  // Notify the content module.
+  drupal_load('module', 'content');
+  content_notify('disable', 'noderelationships');
+}
+
+/**
+ * Implementation of hook_schema().
+ */
+function noderelationships_schema() {
+  $schema = array();
+  $schema['noderelationships_settings'] = array(
+    'description' => 'Stores relationship settings.',
+    'fields' => array(
+      'type_name' => array(
+        'type' => 'varchar',
+        'length' => 32,
+        'not null' => TRUE,
+        'default' => '',
+        'description' => 'Name of the base content type.',
+      ),
+      'relation_type' => array(
+        'type' => 'varchar',
+        'length' => 10,
+        'not null' => TRUE,
+        'default' => '',
+        'description' => 'Relation type: noderef or backref.',
+      ),
+      'related_type' => array(
+        'type' => 'varchar',
+        'length' => 32,
+        'not null' => TRUE,
+        'default' => '',
+        'description' => 'Name of the related content type.',
+      ),
+      'field_name' => array(
+        'type' => 'varchar',
+        'length' => 32,
+        'not null' => TRUE,
+        'default' => '',
+        'description' => 'Name of the related nodereference field.',
+      ),
+      'settings' => array(
+        'type' => 'text',
+        'size' => 'medium',
+        'not null' => TRUE,
+        'description' => 'Relation settings (serialized).',
+      ),
+    ),
+    'primary key' => array('type_name', 'relation_type', 'related_type', 'field_name'),
+    'indexes' => array(
+      'type_field_relation' => array('type_name', 'field_name', 'relation_type'),
+      'related_field_relation' => array('related_type', 'field_name', 'relation_type'),
+      'field_name' => array('field_name'),
+    ),
+  );
+  return $schema;
+}
+
+/**
+ * Change module weight to load after content module.
+ *
+ * @see noderelationships_enable()
+ */
+function noderelationships_update_6001() {
+  $ret = array();
+  $weight = (int)db_result(db_query("SELECT weight FROM {system} WHERE type = 'module' AND name = 'content'"));
+  $ret[] = update_sql("UPDATE {system} SET weight = %d WHERE type = 'module' AND name = 'noderelationships'", ($weight + 1));
+  return $ret;
+}
+
+/**
+ * Force a theme registry rebuild.
+ */
+function noderelationships_update_6002() {
+  $ret = array();
+  return $ret;
+}
+
+/**
+ * Enable the new 'View in new window' option in Node reference extras settings
+ * for compatibility with existing installations.
+ */
+function noderelationships_update_6003() {
+  $ret = array();
+  $result = db_query("SELECT type_name, field_name, settings FROM {noderelationships_settings} WHERE relation_type = 'noderef'");
+  while ($row = db_fetch_object($result)) {
+    $settings = unserialize($row->settings);
+    $settings['view_in_new_window'] = $row->field_name;
+    $success = db_query("UPDATE {noderelationships_settings} SET settings = '%s' WHERE relation_type = 'noderef' AND type_name = '%s' AND field_name = '%s'", serialize($settings), $row->type_name, $row->field_name);
+    $ret[] = array(
+      'success' => $success !== FALSE,
+      'query' => strtr("Attempt to enable the new 'View in new window' option for %field-name in %type-name.", array('%type-name' => $row->type_name, '%field-name' => $row->field_name)),
+    );
+  }
+  return $ret;
+}

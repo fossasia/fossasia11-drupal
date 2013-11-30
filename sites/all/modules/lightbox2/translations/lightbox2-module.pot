@@ -1,0 +1,1014 @@
+# $Id: lightbox2-module.pot,v 1.1.2.7 2009/01/08 12:42:19 snpower Exp $
+#
+# LANGUAGE translation of Drupal (general)
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# Generated from files:
+#  lightbox2.admin.inc,v 1.1.2.24 2009/01/07 17:46:47 snpower
+#  lightbox2.module,v 1.16.2.16.2.147 2009/01/08 12:34:25 snpower
+#  lightbox2.info,v 1.1.6.4 2008/07/14 11:51:34 snpower
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2009-01-08 12:41+0000\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: lightbox2.admin.inc:26
+msgid "View Image Details"
+msgstr ""
+
+#: lightbox2.admin.inc:26
+msgid "Image !current of !total"
+msgstr ""
+
+#: lightbox2.admin.inc:26
+msgid "Page !current of !total"
+msgstr ""
+
+#: lightbox2.admin.inc:26
+msgid "Video !current of !total"
+msgstr ""
+
+#: lightbox2.admin.inc:26
+msgid "Download Original"
+msgstr ""
+
+#: lightbox2.admin.inc:32
+msgid "Layout settings"
+msgstr ""
+
+#: lightbox2.admin.inc:42
+msgid "Lightbox2 lite"
+msgstr ""
+
+#: lightbox2.admin.inc:50
+msgid "Use lightbox2 lite"
+msgstr ""
+
+#: lightbox2.admin.inc:51
+msgid "Checking this box will enable Lightbox2 Lite and will disable all of the automatic image URL re-formatting features.  It also disables all grouping features."
+msgstr ""
+
+#: lightbox2.admin.inc:59
+msgid "Use alternative layout"
+msgstr ""
+
+#: lightbox2.admin.inc:60
+msgid "Enabling this option alters the layout of the lightbox elements. In the alternative layout the navigational links appear under the image with the caption text, instead of being overlayed on the image itself.  This doesn't apply when using Lightbox Lite."
+msgstr ""
+
+#: lightbox2.admin.inc:67
+msgid "Force visibility of navigation links"
+msgstr ""
+
+#: lightbox2.admin.inc:68
+msgid "When viewing grouped images, the navigational links to the next and previous images are only displayed when you hover over the image.  Checking this box forces these links to be displayed all the time."
+msgstr ""
+
+#: lightbox2.admin.inc:75
+msgid "Continuous galleries"
+msgstr ""
+
+#: lightbox2.admin.inc:76
+msgid "When viewing grouped images, the Next button on the last image will display the first image, while the Previous button on the first image will display the last image."
+msgstr ""
+
+#: lightbox2.admin.inc:83
+msgid "Open image page in new window"
+msgstr ""
+
+#: lightbox2.admin.inc:84
+msgid "This controls whether the link to the image page underneath the image is opened in a new window or the current window."
+msgstr ""
+
+#: lightbox2.admin.inc:92
+msgid "Text for image page link"
+msgstr ""
+
+#: lightbox2.admin.inc:93
+msgid "This is the text that will appear as the link to the image page underneath the image in the lightbox.  Leave this blank for the link not to appear."
+msgstr ""
+
+#: lightbox2.admin.inc:100
+msgid "Text for image original link"
+msgstr ""
+
+#: lightbox2.admin.inc:101
+msgid "This is the text that will appear as the link to the original file underneath the image in the lightbox.  Leave this blank for the link not to appear."
+msgstr ""
+
+#: lightbox2.admin.inc:109
+msgid "Image count text"
+msgstr ""
+
+#: lightbox2.admin.inc:110
+msgid "This text is used to display the image count underneath the image in the lightbox when image grouping is enabled.  Use !current as a placeholder for the number of the current image and !total for the total number of images in the group.  For example, \"Image !current of !total\".  Leave blank for text not to appear."
+msgstr ""
+
+#: lightbox2.admin.inc:117
+msgid "Page count text"
+msgstr ""
+
+#: lightbox2.admin.inc:118
+msgid "This text is used to display the page count underneath HTML content displayed in the lightbox when using groups.  Use !current as a placeholder for the number of the current page and !total for the total number of pages in the group.  For example, \"Page !current of !total\".  Leave blank for text not to appear."
+msgstr ""
+
+#: lightbox2.admin.inc:125
+msgid "Video count text"
+msgstr ""
+
+#: lightbox2.admin.inc:126
+msgid "This text is used to display the count underneath video content displayed in the lightbox when using groups.  Use !current as a placeholder for the number of the current video and !total for the total number of videos in the group.  For example, \"Video !current of !total\".  Leave blank for text not to appear."
+msgstr ""
+
+#: lightbox2.admin.inc:134
+msgid "Image resize settings"
+msgstr ""
+
+#: lightbox2.admin.inc:142
+msgid "Disable resizing feature"
+msgstr ""
+
+#: lightbox2.admin.inc:143
+msgid "By default, when the image being displayed in the lightbox is larger than the browser window, it is resized to fit within the window and a zoom button is provided for users who wish to view the image in its original size.  Checking this box will disable this feature and all images will be displayed without any resizing."
+msgstr ""
+
+#: lightbox2.admin.inc:150
+msgid "Disable zoom in / out feature"
+msgstr ""
+
+#: lightbox2.admin.inc:151
+msgid "When the image being displayed in the lightbox is resized to fit in the browser window, a \"zoom in\" button is shown.  This allows the user to zoom in to see the original full size image.  They will then see a \"zoom out\" button which will allow them to see the smaller resized version.  Checking this box will prevent these buttons from appearing."
+msgstr ""
+
+#: lightbox2.admin.inc:159
+msgid "Modal form settings"
+msgstr ""
+
+#: lightbox2.admin.inc:167
+msgid "Enable login support"
+msgstr ""
+
+#: lightbox2.admin.inc:168
+msgid "Enabling this option will modify all login links so that the login form appears in a lightbox."
+msgstr ""
+
+#: lightbox2.admin.inc:175
+msgid "Enable contact form support"
+msgstr ""
+
+#: lightbox2.admin.inc:176
+msgid "Enabling this option will modify all contact links so that the contact form appears in a lightbox."
+msgstr ""
+
+#: lightbox2.admin.inc:184
+msgid "Video settings"
+msgstr ""
+
+#: lightbox2.admin.inc:192
+msgid "Enable video support"
+msgstr ""
+
+#: lightbox2.admin.inc:193
+msgid "By default, video support is disabled in order to reduce the amount of javascript needed.  Checking this box will enable it."
+msgstr ""
+
+#: lightbox2.admin.inc:200
+msgid "Path to FLV Player"
+msgstr ""
+
+#: lightbox2.admin.inc:201
+msgid "The path to the FLV player, relative to Drupal root directory."
+msgstr ""
+
+#: lightbox2.admin.inc:208
+msgid "FLV Player flashvars"
+msgstr ""
+
+#: lightbox2.admin.inc:209
+msgid "Flashvars for the FLV Player where supported, e.g. \"autoplay=1&playerMode=normal\"."
+msgstr ""
+
+#: lightbox2.admin.inc:216
+msgid "Page specific lightbox2 settings"
+msgstr ""
+
+#: lightbox2.admin.inc:223
+msgid "Load only on the listed pages."
+msgstr ""
+
+#: lightbox2.admin.inc:224
+msgid "Load on every page except the listed pages."
+msgstr ""
+
+#: lightbox2.admin.inc:229
+msgid "Enable lightbox2 on specific pages"
+msgstr ""
+
+#: lightbox2.admin.inc:235
+msgid "Pages"
+msgstr ""
+
+#: lightbox2.admin.inc:236
+msgid "List one page per line as Drupal paths.  The * character is a wildcard.  Example paths are \"node/add/page\" and \"node/add/*\".  Use &lt;front&gt; to match the front page."
+msgstr ""
+
+#: lightbox2.admin.inc:245
+msgid "CCK display settings"
+msgstr ""
+
+#: lightbox2.admin.inc:251
+msgid "No grouping"
+msgstr ""
+
+#: lightbox2.admin.inc:252
+msgid "Group by field name"
+msgstr ""
+
+#: lightbox2.admin.inc:253
+msgid "Group by node id"
+msgstr ""
+
+#: lightbox2.admin.inc:254
+msgid "Group by field name and node id"
+msgstr ""
+
+#: lightbox2.admin.inc:261
+msgid "Select Emfield Image grouping in Views"
+msgstr ""
+
+#: lightbox2.admin.inc:262
+msgid "By default, emfield images in views are grouped by the field name they appear in the view in.  You can override that grouping here."
+msgstr ""
+
+#: lightbox2.admin.inc:272
+msgid "Select Imagefield grouping in Views"
+msgstr ""
+
+#: lightbox2.admin.inc:273
+msgid "By default, imagefields in views are grouped by the field name they appear in the view in.  You can override that grouping here."
+msgstr ""
+
+#: lightbox2.admin.inc:279
+msgid "Use node title as caption"
+msgstr ""
+
+#: lightbox2.admin.inc:280
+msgid "By default, the caption for imagefields is the image title text configured.  If no title is configured, then the alt text will be used.  This option allows you to override that and always display the node title as the image caption."
+msgstr ""
+
+#: lightbox2.admin.inc:291
+msgid "Advanced settings"
+msgstr ""
+
+#: lightbox2.admin.inc:301
+msgid "Location of javscript"
+msgstr ""
+
+#: lightbox2.admin.inc:302
+msgid "Header"
+msgstr ""
+
+#: lightbox2.admin.inc:302
+msgid "Footer"
+msgstr ""
+
+#: lightbox2.admin.inc:303
+msgid "By default, the lightbox javascript files are loaded in the HTML header.  However, for sites using SWFObject to load their Flash content, the footer setting is recommended to prevent \"Operation Aborted\" errors in IE.  If using the footer setting, please note that not all themes correctly implement the footer region and may require a small change."
+msgstr ""
+
+#: lightbox2.admin.inc:309
+msgid "Click on overlay or lightbox to close it"
+msgstr ""
+
+#: lightbox2.admin.inc:310
+msgid "Enable user to close lightbox by clicking on the lightbox itself or the overlay background."
+msgstr ""
+
+#: lightbox2.admin.inc:318
+msgid "Keyboard shortcuts"
+msgstr ""
+
+#: lightbox2.admin.inc:319
+msgid "Configure the keyboard shortcuts for controlling the lightbox.  These options do not apply to the Lightbox2 Lite version, which uses the default \"Close keys\" (c, x and esc) to close the lightbox."
+msgstr ""
+
+#: lightbox2.admin.inc:326
+msgid "Close keys"
+msgstr ""
+
+#: lightbox2.admin.inc:327
+msgid "A list of keys (or key codes) that a user may use to close the lightbox. Values should be separated by a space. Defaults to 'c x 27' (c, x, or esc)."
+msgstr ""
+
+#: lightbox2.admin.inc:333
+msgid "Previous keys"
+msgstr ""
+
+#: lightbox2.admin.inc:334
+msgid "A list of keys (or key codes) that a user may use to navigate to the previous item in the lightbox. Values should be separated by a space. Defaults to 'p 37' (p or left arrow)."
+msgstr ""
+
+#: lightbox2.admin.inc:340
+msgid "Next keys"
+msgstr ""
+
+#: lightbox2.admin.inc:341
+msgid "A list of keys (or key codes) that a user may use to navigate to the next item in the lightbox. Values should be separated by a space. Defaults to 'n 39' (n or right arrow)."
+msgstr ""
+
+#: lightbox2.admin.inc:347
+msgid "Zoom keys"
+msgstr ""
+
+#: lightbox2.admin.inc:348
+msgid "A list of keys (or key codes) that a user may use to zoom in / out of images in the lightbox. Values should be separated by a space. Defaults to 'z'."
+msgstr ""
+
+#: lightbox2.admin.inc:354
+msgid "Pause / play keys"
+msgstr ""
+
+#: lightbox2.admin.inc:355
+msgid "A list of keys (or key codes) that a user may use to pause / play the lightbox. Values should be separated by a space. Defaults to '32' (spacebar)."
+msgstr ""
+
+#: lightbox2.admin.inc:366
+msgid "Skin settings"
+msgstr ""
+
+#: lightbox2.admin.inc:373
+msgid "Border size"
+msgstr ""
+
+#: lightbox2.admin.inc:376
+msgid "Enter the size of the border in pixels to display around the image."
+msgstr ""
+
+#: lightbox2.admin.inc:382
+msgid "Lightbox color"
+msgstr ""
+
+#: lightbox2.admin.inc:386
+msgid "Enter a hexadecimal color value for the border.  For example <code>fff</code> or <code>ffffff</code> for white)."
+msgstr ""
+
+#: lightbox2.admin.inc:392
+msgid "Font color"
+msgstr ""
+
+#: lightbox2.admin.inc:396
+msgid "Enter a hexadecimal color value for the font.  For example <code>000</code> or <code>000000</code> for black)."
+msgstr ""
+
+#: lightbox2.admin.inc:402
+msgid "Distance from top"
+msgstr ""
+
+#: lightbox2.admin.inc:405
+msgid "Enter the position of the top of the lightbox in pixels.  Leave blank for automatic calculation."
+msgstr ""
+
+#: lightbox2.admin.inc:415
+msgid "Overlay settings"
+msgstr ""
+
+#: lightbox2.admin.inc:426
+msgid "Overlay opacity"
+msgstr ""
+
+#: lightbox2.admin.inc:428
+msgid "The overlay opacity setting determines how visible the background page is behind the lightbox.  The opacity value can range from 0.0 to 1.0 where 0.0 is 100% transparent and 1.0 is 100% opaque."
+msgstr ""
+
+#: lightbox2.admin.inc:434
+msgid "Overlay color"
+msgstr ""
+
+#: lightbox2.admin.inc:438
+msgid "Enter a hexadecimal color value for the overlay.  For example <code>000</code> or <code>000000</code> for black)."
+msgstr ""
+
+#: lightbox2.admin.inc:447
+msgid "Animation settings"
+msgstr ""
+
+#: lightbox2.admin.inc:453
+msgid "These options aren't available when using Lightbox2 Lite."
+msgstr ""
+
+#: lightbox2.admin.inc:456
+msgid "Simultaneous"
+msgstr ""
+
+#: lightbox2.admin.inc:457
+msgid "Width then height"
+msgstr ""
+
+#: lightbox2.admin.inc:458
+msgid "Height then width"
+msgstr ""
+
+#: lightbox2.admin.inc:462
+msgid "Resize sequence"
+msgstr ""
+
+#: lightbox2.admin.inc:464
+msgid "The sequence to use for the resizing animation."
+msgstr ""
+
+#: lightbox2.admin.inc:469
+msgid "Resize duration"
+msgstr ""
+
+#: lightbox2.admin.inc:472
+msgid "The duration (in seconds) of the resizing animation.  Enter a value between 0 and 10."
+msgstr ""
+
+#: lightbox2.admin.inc:477
+msgid "Appearance duration"
+msgstr ""
+
+#: lightbox2.admin.inc:480
+msgid "The duration (in seconds) of the lightbox appearance animation.  Enter a value between 0 and 10."
+msgstr ""
+
+#: lightbox2.admin.inc:487
+msgid "Caption slide down duration"
+msgstr ""
+
+#: lightbox2.admin.inc:490
+msgid "The duration (in seconds) of the caption sliding-down animation.  Enter a value between 0 and 10."
+msgstr ""
+
+#: lightbox2.admin.inc:520
+msgid "FLV player path doesn't exist."
+msgstr ""
+
+#: lightbox2.admin.inc:526;535;539
+msgid "You must enter a properly formed hex value."
+msgstr ""
+
+#: lightbox2.admin.inc:531
+msgid "You must enter a size greater than 0 pixels."
+msgstr ""
+
+#: lightbox2.admin.inc:543
+msgid "You must enter a size greater than 0 pixels.  Leave blank for default positioning."
+msgstr ""
+
+#: lightbox2.admin.inc:547;551;555
+msgid "You must enter a duration between 0 and 10 seconds."
+msgstr ""
+
+#: lightbox2.admin.inc:586
+msgid "Interval seconds"
+msgstr ""
+
+#: lightbox2.admin.inc:587
+msgid "The slideshow interval is the length of time in seconds an image is visible before the slideshow shows the next image."
+msgstr ""
+
+#: lightbox2.admin.inc:595
+msgid "Automatically start slideshow"
+msgstr ""
+
+#: lightbox2.admin.inc:596
+msgid "When enabled the slideshow will automatically start."
+msgstr ""
+
+#: lightbox2.admin.inc:603
+msgid "Automatically exit slideshow"
+msgstr ""
+
+#: lightbox2.admin.inc:604
+msgid "When enabled the lightbox will automatically close after displaying the last image."
+msgstr ""
+
+#: lightbox2.admin.inc:611
+msgid "Show play / pause button"
+msgstr ""
+
+#: lightbox2.admin.inc:612
+msgid "When enabled, a play / pause button will be shown in the slideshow allowing the user more control over their viewing experience."
+msgstr ""
+
+#: lightbox2.admin.inc:619
+msgid "Pause slideshow on \"Next Image\" click"
+msgstr ""
+
+#: lightbox2.admin.inc:620
+msgid "When enabled the slideshow is automatically paused, and the following image shown, when the \"Next\" button is clicked."
+msgstr ""
+
+#: lightbox2.admin.inc:627
+msgid "Pause slideshow on \"Previous Image\" click"
+msgstr ""
+
+#: lightbox2.admin.inc:628
+msgid "When enabled the slideshow is automatically paused, and the previous image shown, when the \"Previous\" button is clicked."
+msgstr ""
+
+#: lightbox2.admin.inc:635
+msgid "Continuous loop"
+msgstr ""
+
+#: lightbox2.admin.inc:636
+msgid "When enabled the slideshow will automatically start over after displaying the last slide.  This prevents the slideshow from automatically exiting when enabled."
+msgstr ""
+
+#: lightbox2.admin.inc:650
+msgid "The \"interval seconds\" value must be numeric."
+msgstr ""
+
+#: lightbox2.admin.inc:672
+msgid "Default width"
+msgstr ""
+
+#: lightbox2.admin.inc:673
+msgid "The default width of the iframe in pixels."
+msgstr ""
+
+#: lightbox2.admin.inc:681
+msgid "Default height"
+msgstr ""
+
+#: lightbox2.admin.inc:682
+msgid "The default height of the iframe in pixels."
+msgstr ""
+
+#: lightbox2.admin.inc:690
+msgid "Enable border"
+msgstr ""
+
+#: lightbox2.admin.inc:691
+msgid "Enable iframe border.  You can modify the border style in your theme's css file using the iframe's id \"lightboxFrame\"."
+msgstr ""
+
+#: lightbox2.admin.inc:705
+msgid "The \"default width\" value must be numeric."
+msgstr ""
+
+#: lightbox2.admin.inc:708
+msgid "The \"default height\" value must be numeric."
+msgstr ""
+
+#: lightbox2.admin.inc:728
+msgid "Disabled"
+msgstr ""
+
+#: lightbox2.admin.inc:729
+msgid "Lightbox"
+msgstr ""
+
+#: lightbox2.admin.inc:730
+msgid "Lightbox grouped"
+msgstr ""
+
+#: lightbox2.admin.inc:731 lightbox2.module:233
+msgid "Slideshow"
+msgstr ""
+
+#: lightbox2.admin.inc:732
+msgid "HTML content"
+msgstr ""
+
+#: lightbox2.admin.inc:733
+msgid "HTML content grouped"
+msgstr ""
+
+#: lightbox2.admin.inc:738
+msgid "These options allow automatic URL re-formatting of images.  This removes the need for you to add 'rel=\"lightbox\"' to each image link throughout your site.  You can select which image sizes will trigger the lightbox and configure a list of image CSS classes which should also have their URLs automatically re-formatted.  This feature is not available when using Lightbox2 Lite."
+msgstr ""
+
+#: lightbox2.admin.inc:745
+msgid "Automatic handlers"
+msgstr ""
+
+#: lightbox2.admin.inc:754
+msgid "Image node settings"
+msgstr ""
+
+#: lightbox2.admin.inc:762
+msgid "Automatic handler for image nodes"
+msgstr ""
+
+#: lightbox2.admin.inc:764
+msgid "Choose how URLs for image nodes will be automatically handled."
+msgstr ""
+
+#: lightbox2.admin.inc:779
+msgid "Lightbox image display size"
+msgstr ""
+
+#: lightbox2.admin.inc:782
+msgid "Select which image size will be loaded in the lightbox.  This only applies to images uploaded with the Image module."
+msgstr ""
+
+#: lightbox2.admin.inc:788
+msgid "Image trigger size"
+msgstr ""
+
+#: lightbox2.admin.inc:791
+msgid "Select which image size, when clicked on, will automatically trigger the lightbox.  This only applies to images uploaded with the Image module."
+msgstr ""
+
+#: lightbox2.admin.inc:799
+msgid "Disable lightbox for gallery lists"
+msgstr ""
+
+#: lightbox2.admin.inc:800
+msgid "Checking this box will disable the lightbox for images in gallery lists.  This means it is possible to open a gallery by clicking on the teaser image, but the lightbox will still appear when viewing images within the gallery.  This only applies to image galleries created with the \"image gallery\" module."
+msgstr ""
+
+#: lightbox2.admin.inc:808
+msgid "Flickr images"
+msgstr ""
+
+#: lightbox2.admin.inc:815
+msgid "Automatic handler for Flickr images"
+msgstr ""
+
+#: lightbox2.admin.inc:817
+msgid "Choose how URLs for Flickr images will be automatically handled."
+msgstr ""
+
+#: lightbox2.admin.inc:825
+msgid "Gallery2 images"
+msgstr ""
+
+#: lightbox2.admin.inc:832
+msgid "Automatic handler for Gallery2 block images"
+msgstr ""
+
+#: lightbox2.admin.inc:834
+msgid "Choose how URLs for images, contained within Gallery2 image blocks, will be automatically handled."
+msgstr ""
+
+#: lightbox2.admin.inc:842
+msgid "Inline images"
+msgstr ""
+
+#: lightbox2.admin.inc:849
+msgid "Automatic handler for Inline images"
+msgstr ""
+
+#: lightbox2.admin.inc:851
+msgid "Choose how URLs for Inline images will be automatically handled."
+msgstr ""
+
+#: lightbox2.admin.inc:859
+msgid "Image Assist images"
+msgstr ""
+
+#: lightbox2.admin.inc:866
+msgid "Automatic handler for Image Assist custom size images"
+msgstr ""
+
+#: lightbox2.admin.inc:868
+msgid "Choose how URLs for custom size images, displayed by the Image Assist module, will be automatically handled."
+msgstr ""
+
+#: lightbox2.admin.inc:876
+msgid "Custom class images"
+msgstr ""
+
+#: lightbox2.admin.inc:883
+msgid "Automatic handler for custom class images"
+msgstr ""
+
+#: lightbox2.admin.inc:885
+msgid "Choose how URLs for custom class images will be automatically handled."
+msgstr ""
+
+#: lightbox2.admin.inc:891
+msgid "Custom image trigger classes"
+msgstr ""
+
+#: lightbox2.admin.inc:892
+msgid "List the image classes which should trigger the lightbox when clicked on.  Put each class on a separate line."
+msgstr ""
+
+#: lightbox2.admin.inc:902
+msgid "Acidfree settings"
+msgstr ""
+
+#: lightbox2.admin.inc:908
+msgid "Disable lightbox for Acidfree gallery lists"
+msgstr ""
+
+#: lightbox2.admin.inc:909
+msgid "Checking this box will disable the lightbox for images in gallery lists.  This means it is possible to open a gallery by clicking on the teaser image, but the lightbox will still appear when viewing images within the gallery.  This only applies to image galleries created with the \"acidfree\" module."
+msgstr ""
+
+#: lightbox2.admin.inc:916
+msgid "Enable lightbox for Acidfree videos"
+msgstr ""
+
+#: lightbox2.admin.inc:917
+msgid "Checking this box will enable the display of acidfree videos in a lightbox.  This only applies to videos created by the \"video\" module and which appear in an acidfree gallery."
+msgstr ""
+
+#: lightbox2.module:25 lightbox2.info:0
+msgid "Enables Lightbox2 for Drupal"
+msgstr ""
+
+#: lightbox2.module:27
+msgid "<h3>Overview</h3>\n      <p align=\"justify\">Lightbox2 JS is a simple, unobtrusive script used to overlay images on the current page. It's a snap to setup and works on all modern browsers. The module comes with a Lightbox2 Lite option which does not use the JQuery libraries; it is therefore less likely to conflict with anything else.</p>\n      <p align=\"justify\">Places images above your current page, not within. This frees you from the constraints of the layout, particularly column widths. Keeps users on the same page. Clicking to view an image and then having to click the back button to return to your site is bad for continuity (and no fun!).</p>\n<h3>Features</h3>\nThe version 2 module has several benefits over the plain Lightbox module.  Note, not all of these features are available when the \"Lightbox2 Lite\" option is enabled.\n<ul>\n<li>Image Sets: group related images and navigate through them with ease - ideal for your image galleries.</li>\n<li>Slideshow Capability: automatically transition between grouped images, includes play/pause and previous and next buttons.</li>\n<li>HTML Content Support: ability to show websites or other HTML content in a lightbox.</li>\n<li>Video Content Support: ability to show videos in a lightbox.</li>\n<li>Visual Effects: fancy pre-loader and transition when you click on the image.</li>\n<li>Keyboard Shortcuts: useful <a href=\"http://drupal.org/node/249827\">keyboard shortcuts</a> for switching between images, toggling play / pause, etc.</li>\n<li>Zoom Capability: larger images are reduced in size so they fit snugly inside the browser window.  A zoom button can then be clicked on to see it in its original size.</li>\n<li>Automatic Image Detection: configurable automatic re-formatting of\nimage thumbnails, so there is no need to add 'rel=\"lightbox\"' to each\nimage link on your site.  <a\nhref=\"http://drupal.org/project/image\">Image</a>, <a\nhref=\"http://drupal.org/project/inline\">Inline</a>, <a\nhref=\"http://drupal.org/project/flickr\">Flickr</a>, <a\nhref=\"http://drupal.org/project/img_assist\">Image Assist</a> and <a\nhref=\"http://drupal.org/project/imagefield\">CCK Imagefield</a> modules are all\nsupported.  It's also possible to configure a custom list of image classes\nwhich should trigger the lightbox functionality.</li>\n<li><a href=\"http://drupal.org/project/imagecache\">Imagecache</a> Support: adds a Lightbox2 field formatter for <a href=\"http://drupal.org/project/imagefield\">CCK imagefields</a> for your custom <a href=\"http://drupal.org/project/views\">views</a>.</li>\n<li>Image Page Link: a link to the image node can be provided within the lightbox itself.</li>\n<li>Page Exclusion Capability: exclude certain pages on your site from having the lightbox2 functionality.</li>\n<li>Login Support: ability to modify all user/login links so the login form appears in a lightbox.</li>\n<li>Skin and Animation Configuration: configure the order and speed of the lightbox animations, along with the lightbox colors, border size and overlay opacity.</li>\n<li>Gallery 2 Support: support for Gallery 2 images via the <a href=\"http://drupal.org/project/gallery\">Gallery</a> module (beta).</li>\n</ul>\n<p align=\"justify\"><h3>Usage</h3></p>\n      <h5 style=\"text-decoration: underline;\">Adding a Basic Lightbox</h5>\n      <p>Add rel=&quot;lightbox&quot; attribute to any link tag to activate the lightbox. For example: </p>\n      <p>&lt;a href=&quot;image-1.jpg&quot; rel=&quot;lightbox&quot;&gt;image #1&lt;/a&gt;</p>\n      <p>&lt;a href=&quot;image-1.jpg&quot; rel=&quot;lightbox[][my caption]&quot;&gt;image #1&lt;/a&gt;</p>\n      <p>Optional: To show a caption either use the title attribute or put in the second set of [] of the rel attribute.</p>\n<h5 style=\"text-decoration: underline;\">Grouping Images</h5>\n   <p>If you have a set of related images that you would like to group, follow\n   step one but additionally include a group name between square brackets in the\n   rel attribute. For example:</p><p>&lt;a href=\"images/image-1.jpg\"\n   rel=\"lightbox[roadtrip]\"&gt;image #1&lt;/a&gt;<br />\n&lt;a href=\"images/image-2.jpg\" rel=\"lightbox[roadtrip][caption 2]\"&gt;image\n#2&lt;/a&gt;<br />\n&lt;a href=\"images/image-3.jpg\" rel=\"lightbox[roadtrip][caption 3]\"&gt;image\n#3&lt;/a&gt;<br /></p>\n<p>No limits to the number of image sets per page or how many images are allowed\nin each set.</p>\n\n<p>If you have a set of images that you would like to group together in a lightbox, but only wish for one of these images to be visible on your page, you can assign the \"lightbox_hide_image\" class to hide the additional images.  For example:</p>\n\n<p>&lt;a href=\"images/image-1.jpg\" rel=\"lightbox[roadtrip]\"&gt;image #1&lt;/a&gt;<br />\n&lt;a href=\"images/image-2.jpg\" rel=\"lightbox[roadtrip]\" class=\"lightbox_hide_image\"&gt;image #2&lt;/a&gt;<br />\n&lt;a href=\"images/image-3.jpg\" rel=\"lightbox[roadtrip][caption 3]\" class=\"lightbox_hide_image\"&gt;image #3&lt;/a&gt;</p>\n\n<h5 style=\"text-decoration: underline;\">Slideshow</h5>\n<p>This is very similar to the grouping functionality described above.  The only difference is that \"rel\" attribute should be set to \"lightshow\" instead of \"lightbox\".  Using the same example as above, we could launch the images in a slideshow by doing:</p>\n\n<p>&lt;a href=\"images/image-1.jpg\" rel=\"lightshow[roadtrip]\"&gt;image #1&lt;/a&gt;<br />\n&lt;a href=\"images/image-2.jpg\" rel=\"lightshow[roadtrip][caption 2]\"&gt;image #2&lt;/a&gt;<br />\n&lt;a href=\"images/image-3.jpg\" rel=\"lightshow[roadtrip][caption 3]\"&gt;image #3&lt;/a&gt;</p>\n\n<h5 style=\"text-decoration: underline;\">Video Content</h5>\n<p>\nIt's possible to show video content in the lightbox.  In this case the \"rel\" attribute should be set to <code>lightvideo</code>.  It's possible to group videos and to control the size of the lightbox by setting the 'width' and 'height' properties.  The properties can be configured like <code>lightvideo[group|width:300px; height: 200px;]</code> and <code>lightvideo[|width:300px; height: 200px;][my caption]</code>.  The properties should all be of the format \"property: value;\" - note the closing semi-colon.  If no properties are set, then the default width and height of 400px will be used.  See below for more detailed examples.</p>\n\n<p>Basic example:<br />\n<code>\n&lt;a href=\"http://video.google.com/videoplay?docid=1811233136844420765\" rel=\"lightvideo\"&gt;Google video example - default size&lt;/a&gt;<br />\n</code></p>\n\n<p>Basic example with caption:<br />\n<code>\n&lt;a href=\"http://video.google.com/videoplay?docid=1811233136844420765\" rel=\"lightvideo[][my caption]\"&gt;Google video example - default size&lt;/a&gt;<br />\n</code></p>\n\n<p>Grouped example:<br />\n<code>\n&lt;a href=\"http://video.google.com/videoplay?docid=29023498723974239479\" rel=\"lightvideo[group][my caption]\"&gt;Grouped example 1&lt;/a&gt;<br />\n&lt;a href=\"http://video.google.com/videoplay?docid=1811233136844420765\" rel=\"lightvideo[group][my caption]\"&gt;Grouped example 2&lt;/a&gt;<br />\n</code></p>\n\n<p>Controlling lightbox size example:<br />\n<code>\n&lt;a href=\"http://video.google.com/videoplay?docid=1811233136844420765\" rel=\"lightvideo[|width:400px; height:300px;][my caption]\"&gt;Google video example - custom size&lt;/a&gt;<br />\n</code></p>\n\n<p>Supported Video Formats<br />\nasx, wmv, mov and swf videos should all be supported.  A number of video providers are also supported, for example YouTube and Google Video.  For full details on how to integrate these with lightbox, please see the online documentation.</p>\n\n<h5 style=\"text-decoration: underline;\">HTML Content</h5>\n<p>It's possible to show webpage content in the lightbox, using iframes.  In this case the \"rel\" attribute should be set to <code>lightframe</code>.  Again it's possible to group the items, (e.g. <code>lightframe[search]</code>) but in addition to that, it's possible to control some of the iframe properties.  It's possible to set the 'width', 'height' and 'scrolling' properties of the iframe.  The properties are separated from the group name by a <code>|</code>, for example <code>lightframe[search|width:100px;]</code> and <code>lightframe[search|width:120px][my caption]</code>.  If no grouping is being used, then the <code>|</code> is still used and the format would be <code>lightframe[|width:100px;]</code>.  The properties should all be of the format \"property: value;\" - note the closing semi-colon.  If no iframe properties are set, then the default width and height of 400px will be used.  See below for more detailed examples.</p>\n\n<p>Basic example:<br />\n<code>\n&lt;a href=\"http://www.google.com\" rel=\"lightframe[][Search Google]\"&gt;Search google&lt;/a&gt;\n</code></p>\n\n<p>Grouped example:<br />\n<code>\n&lt;a href=\"http://www.google.com\" rel=\"lightframe[search]\"&gt;Search google&lt;/a&gt;<br />\n&lt;a href=\"http://www.yahoo.com\" rel=\"lightframe[search][Search Yahoo]\"&gt;Search yahoo&lt;/a&gt;\n</code></p>\n\n<p>Controlling iframe property example:<br />\n<code>\n&lt;a href=\"http://www.google.com\" rel=\"lightframe[|width:400px; height:300px; scrolling: auto;]\"&gt;Search google&lt;/a&gt;\n</code></p>\n\n<p>Controlling iframe property when grouped example:<br />\n<code>\n&lt;a href=\"http://www.google.com\" rel=\"lightframe[search|width:400px; height:300px; scrolling: auto;]\"&gt;Search google&lt;/a&gt;<br />\n&lt;a href=\"http://www.yahoo.com\" rel=\"lightframe[search|width:400px; height:300px;][Search Yahoo]\"&gt;Search yahoo&lt;/a&gt;\n</code></p>\n\n<h5 style=\"text-decoration: underline;\">Inline Content Support</h5>\n<p>It's possible to show HTML snippets in the lightbox, that is on the same domain.  In this case the \"rel\" attribute should be set to <code>lightmodal</code>.  Again it's possible to group the content, (e.g. <code>lightmodal[search]</code>) but in addition to that, it's possible to control some of the inline / modal properties.  It's possible to set the 'width', 'height' and 'scrolling' properties of the inline content.  The properties are separated from the group name by a <code>|</code>, for example <code>lightmodal[search|width:100px;]</code> and <code>lightmodal[search|width:100px;][my caption]</code>.  If no grouping is being used, then the <code>|</code> is still used and the format would be <code>lightmodal[|width:100px;]</code>.  The properties should all be of the format \"property: value;\" - note the closing semi-colon.  If no properties are set, then the default width and height of 400px will be used. See below for more detailed examples.</p>\n\n<p>Basic example:<br />\n<code>\n&lt;a href=\"search.php\" rel=\"lightmodal\"&gt;Search&lt;/a&gt;\n</code></p>\n\n<p>Basic example with caption:<br />\n<code>\n&lt;a href=\"search.php\" rel=\"lightmodal[][my caption]\"&gt;Search&lt;/a&gt;\n</code></p>\n\n<p>Grouped example:<br />\n<code>\n&lt;a href=\"search.php\" rel=\"lightmodal[search]\"&gt;Search&lt;/a&gt;<br />\n&lt;a href=\"search.php?status=1\" rel=\"lightmodal[search][published]\"&gt;Search published content&lt;/a&gt;\n</code></p>\n\n<p>Controlling modal property example:<br />\n<code>\n&lt;a href=\"search.php\" rel=\"lightmodal[|width:400px; height:300px; scrolling: auto;]\"&gt;Search&lt;/a&gt;\n</code></p>\n\n<p>Controlling modal property when grouped example:<br />\n<code>\n&lt;a href=\"search.php\" rel=\"lightmodal[search|width:400px; height:300px; scrolling: auto;]\"&gt;Search&lt;/a&gt;<br />\n&lt;a href=\"search.php?status=1\" rel=\"lightmodal[search|width:400px; height:300px;][Search published]\"&gt;Search published content&lt;/a&gt;<br />\n&lt;a href=\"search.php?status=0\" rel=\"lightmodal[search|width:400px; height:300px;][Search Unpublished]\"&gt;Search unpublished content&lt;/a&gt;\n</code></p>\n\n\n<h3>Keyboard Shortcuts</h3>\n<p>The default keyboard shortcuts are listed below.  You can override these on the admin page.</a>\n\n<table border=0>\n<tr><td>Close Lightbox</td><td>x</td></tr>\n<tr><td></td><td>o</td></tr>\n<tr><td></td><td>c</td></tr>\n<tr><td></td><td>ESC</td></tr>\n\n<tr><td>Previous Image</td><td>p</td></tr>\n<tr><td></td><td>Left Arrow</td></tr>\n\n<tr><td>Next Image</td><td>n</td></tr>\n<tr><td></td><td>Right Arrow</td></tr>\n\n<tr><td>Toggle Zoom</td><td>z (not available in slideshow)</td></tr>\n\n<tr><td>Toggle Play / Pause</td><td>Spacebar (slideshow only)</td></tr>\n</table>\n\n<p>Not all of the keyboard shortcuts work in the Opera browser, for example \"z\" for toggling the zoom and \"spacebar\" for toggling play / pause in slideshows.  This can be overcome by updating your shortcut settings in the Opera preferences editor.</p>\n"
+msgstr ""
+
+#: lightbox2.module:314;418
+msgid "Image links with 'rel=\"lightbox\"' in the &lt;a&gt; tag will appear in a Lightbox when clicked on."
+msgstr ""
+
+#: lightbox2.module:317
+msgid "To add a lightbox to your images, add rel=\"lightbox\" attribute to any link tag to activate the lightbox. For example:"
+msgstr ""
+
+#: lightbox2.module:318
+msgid "<code>&lt;a href=\"image-1.jpg\" rel=\"lightbox\"&gt;image #1&lt;/a&gt;</code>"
+msgstr ""
+
+#: lightbox2.module:319
+msgid "<code>&lt;a href=\"image-1.jpg\" rel=\"lightbox[][my caption]\"&gt;image #1&lt;/a&gt;</code>"
+msgstr ""
+
+#: lightbox2.module:320
+msgid "To show a caption either use the title attribute or put in the second set of square brackets of the rel attribute."
+msgstr ""
+
+#: lightbox2.module:321
+msgid "If you have a set of related images that you would like to group, then you will need to include a group name between square brackets in the rel attribute. For example:"
+msgstr ""
+
+#: lightbox2.module:322
+msgid "<code>&lt;a href=\"image-1.jpg\" rel=\"lightbox[roadtrip]\"&gt;image #1&lt;/a&gt;<br /> &lt;a href=\"image-2.jpg\" rel=\"lightbox[roadtrip][caption 2]\"&gt;image #2&lt;/a&gt;<br /> &lt;a href=\"image-3.jpg\" rel=\"lightbox[roadtrip][caption 3]\"&gt;image #3&lt;/a&gt;<br /> </code>"
+msgstr ""
+
+#: lightbox2.module:323
+msgid "There are no limits to the number of image sets per page or how many images are allowed in each set."
+msgstr ""
+
+#: lightbox2.module:324;341
+msgid "If you wish to turn the caption into a link, format your caption in the following way:"
+msgstr ""
+
+#: lightbox2.module:325
+msgid "<code>&lt;a href=\"image-1.jpg\" rel='lightbox[][&lt;a href=\"http://www.yourlink.com\"&gt;View Image Details&lt;/a&gt;]' &gt;image #1&lt;/a&gt;</code>"
+msgstr ""
+
+#: lightbox2.module:330
+msgid "Image links from G2 are formatted for use with Lightbox2"
+msgstr ""
+
+#: lightbox2.module:334;424
+msgid "Image links with 'rel=\"lightshow\"' in the &lt;a&gt; tag will appear in a Lightbox slideshow when clicked on."
+msgstr ""
+
+#: lightbox2.module:337
+msgid "To add a lightbox slideshow to your images, add rel=\"lightshow[slideshowname][slide caption]\" attribute to any link tag to activate the slideshow. For example:"
+msgstr ""
+
+#: lightbox2.module:338
+msgid "<code>&lt;a href=\"image-1.jpg\" rel=\"lightshow[show1]\"&gt;image #1&lt;/a&gt;<br /> &lt;a href=\"image-2.jpg\" rel=\"lightshow[show1]\"&gt;image #2&lt;/a&gt;<br /> &lt;a href=\"image-3.jpg\" rel=\"lightshow[show1]\"&gt;image #3&lt;/a&gt;<br /> </code>"
+msgstr ""
+
+#: lightbox2.module:339
+msgid "The title attribute in the link tag is optional. The addition of this attribute enables the display of a caption with the image displayed in the lightbox."
+msgstr ""
+
+#: lightbox2.module:340
+msgid "There are no limits to the number of slideshow image sets per page or how many images are allowed in each slideshow."
+msgstr ""
+
+#: lightbox2.module:342
+msgid "<code>&lt;a href=\"image-1.jpg\" rel='lightshow[show1][&lt;a href=\"http://www.yourlink.com\"&gt;View Image Details&lt;/a&gt;]'&gt;image #1&lt;/a&gt;</code>"
+msgstr ""
+
+#: lightbox2.module:348;427
+msgid "Links to HTML content with 'rel=\"lightframe\"' in the &lt;a&gt; tag will appear in a Lightbox when clicked on."
+msgstr ""
+
+#: lightbox2.module:351
+msgid "It's possible to show webpage content in the lightbox, using iframes.  In this case the \"rel\" attribute should be set to \"lightframe\".  Again it's possible to group the content, (e.g. <code>lightframe[search][caption]</code>) but in addition to that, it's possible to control some of the iframe properties.  It's possible to set the \"width\", \"height\" and \"scrolling\" properties of the iframe.  The properties are separated from the group name by a <code>|</code>, for example <code>lightframe[search|width:100px;][caption]</code>.  If no grouping is being used, then the <code>|</code> is still used and the format would be <code>lightframe[|width:100px;]</code>.  The properties should all be of the format \"property: value;\" - note the closing semi-colon.  If no iframe properties are set, then the default width and height of 400px will be used.  See below for more detailed examples."
+msgstr ""
+
+#: lightbox2.module:352;371;385
+msgid "Basic example:"
+msgstr ""
+
+#: lightbox2.module:353
+msgid "<code>&lt;a href=&quot;http://www.google.com&quot; rel=&quot;lightframe&quot;&gt;Search google&lt;/a&gt;</code>"
+msgstr ""
+
+#: lightbox2.module:354;387
+msgid "Grouped example:"
+msgstr ""
+
+#: lightbox2.module:355
+msgid "<code>&lt;a href=&quot;http://www.google.com&quot; rel=&quot;lightframe[search][caption]&quot;&gt;Search google&lt;/a&gt;<br />&lt;a href=&quot;http://www.yahoo.com&quot; rel=&quot;lightframe[search]&quot;&gt;Search yahoo&lt;/a&gt;</code>"
+msgstr ""
+
+#: lightbox2.module:357
+msgid "Controlling iframe property example:"
+msgstr ""
+
+#: lightbox2.module:358
+msgid "<code>&lt;a href=&quot;http://www.google.com&quot; rel=&quot;lightframe[|width:400px; height:300px; scrolling: auto;][caption]&quot;&gt;Search google&lt;/a&gt;</code>"
+msgstr ""
+
+#: lightbox2.module:359
+msgid "Controlling iframe property when grouped example:"
+msgstr ""
+
+#: lightbox2.module:360
+msgid "<code>&lt;a href=&quot;http://www.google.com&quot; rel=&quot;lightframe[search|width:400px; height:300px; scrolling: auto;]&quot;&gt;Search google&lt;/a&gt;<br />&lt;a href=&quot;http://www.yahoo.com&quot; rel=&quot;lightframe[search|width:400px; height:300px;]&quot;&gt;Search yahoo&lt;/a&gt;</code>"
+msgstr ""
+
+#: lightbox2.module:367;430
+msgid "Links to video content with 'rel=\"lightvideo\"' in the &lt;a&gt; tag will appear in a Lightbox when clicked on."
+msgstr ""
+
+#: lightbox2.module:370
+msgid "It's possible to show video content in the lightbox.  In this case the \"rel\" attribute should be set to <code>lightvideo</code>.  It's possible to group videos and to control the size of the lightbox by setting the \"width\" and \"height\" properties.  The properties can be configured like <code>lightvideo[group|width:300px; height: 200px;][caption]</code>.  The properties should all be of the format \"property: value;\" - note the closing semi-colon.  If no properties are set, then the default width and height of 400px will be used.  See below for more detailed examples."
+msgstr ""
+
+#: lightbox2.module:372
+msgid "<code>&lt;a href=&quot;http://video.google.com/videoplay?docid=1811233136844420765&quot; rel=&quot;lightvideo&quot;&gt;Google video example - default size&lt;/a&gt;</code>"
+msgstr ""
+
+#: lightbox2.module:373
+msgid "Controlling lightbox size example:"
+msgstr ""
+
+#: lightbox2.module:374
+msgid "<code>&lt;a href=&quot;http://video.google.com/videoplay?docid=1811233136844420765&quot; rel=&quot;lightvideo[group|width:400px; height:300px;][caption]&quot;&gt;Google video example - custom size&lt;/a&gt;</code>"
+msgstr ""
+
+#: lightbox2.module:375
+msgid "Supported video formats include asx, wmv, mov and swf.  A number of online video providers are also supported, including YouTube and Google Video.  For a full list of the current supported video providers please see the documentation on drupal.org."
+msgstr ""
+
+#: lightbox2.module:381;433
+msgid "Links to inline or modal content with 'rel=\"lightmodal\"' in the &lt;a&gt; tag will appear in a Lightbox when clicked on."
+msgstr ""
+
+#: lightbox2.module:384
+msgid "It's possible to show HTML snippets in the lightbox, that is on the same domain.  In this case the \"rel\" attribute should be set to \"lightmodal\".  Again it's possible to group the content, (e.g. <code>lightmodal[group][caption]</code>) but in addition to that, it's possible to control some of the modal properties.  It's possible to set the \"width\", \"height\" and \"scrolling\" properties of the modal.  The properties are separated from the group name by a <code>|</code>, for example <code>lightmodal[group|width:100px;][caption]</code>.  If no grouping is being used, then the <code>|</code> is still used and the format would be <code>lightmodal[|width:100px;]</code>.  The properties should all be of the format \"property: value;\" - note the closing semi-colon.  If no modal properties are set, then the default width and height of 400px will be used.  See below for more detailed examples."
+msgstr ""
+
+#: lightbox2.module:386
+msgid "<code>&lt;a href=&quot;search.php&quot; rel=&quot;lightmodal&quot;&gt;Search&lt;/a&gt;</code>"
+msgstr ""
+
+#: lightbox2.module:388
+msgid "<code>&lt;a href=&quot;search.php&quot; rel=&quot;lightmodal[search][caption 1]&quot;&gt;Search&lt;/a&gt;<br />&lt;a href=&quot;search.php?status=1&quot; rel=&quot;lightmodal[search]&quot;&gt;Search published&lt;/a&gt;</code>"
+msgstr ""
+
+#: lightbox2.module:390
+msgid "Controlling modal property example:"
+msgstr ""
+
+#: lightbox2.module:391
+msgid "<code>&lt;a href=&quot;search.php&quot; rel=&quot;lightmodal[|width:400px; height:300px; scrolling: auto;][caption]&quot;&gt;Search&lt;/a&gt;</code>"
+msgstr ""
+
+#: lightbox2.module:392
+msgid "Controlling modal property when grouped example:"
+msgstr ""
+
+#: lightbox2.module:393
+msgid "<code>&lt;a href=&quot;search.php&quot; rel=&quot;lightmodal[search|width:400px; height:300px; scrolling: auto;]&quot;&gt;Search&lt;/a&gt;<br />&lt;a href=&quot;search.php?status=1&quot; rel=&quot;lightmodal[search|width:400px; height:300px;]&quot;&gt;Search published&lt;/a&gt;</code>"
+msgstr ""
+
+#: lightbox2.module:407
+msgid "Lightbox filter"
+msgstr ""
+
+#: lightbox2.module:408
+msgid "Lightbox G2 filter"
+msgstr ""
+
+#: lightbox2.module:409
+msgid "Lightbox slideshow filter"
+msgstr ""
+
+#: lightbox2.module:410
+msgid "Lightbox iframe filter"
+msgstr ""
+
+#: lightbox2.module:411
+msgid "Lightbox video filter"
+msgstr ""
+
+#: lightbox2.module:412
+msgid "Lightbox modal filter"
+msgstr ""
+
+#: lightbox2.module:413
+msgid "Disable Lightbox iframe filter"
+msgstr ""
+
+#: lightbox2.module:421
+msgid "Turns g2_filter links into Lightbox2 appropriate links"
+msgstr ""
+
+#: lightbox2.module:436
+msgid "It's possible to show webpage content in the lightbox, using iframes.  In this case the \"rel\" attribute should be set to \"lightframe\".  However, users can do this without any filters to be enabled.  To prevent users from adding iframes to the site in this manner, then please enable this option."
+msgstr ""
+
+#: lightbox2.module:663
+msgid "press !x to close"
+msgstr ""
+
+#: lightbox2.module:808
+msgid "Lightbox2: Image Thumbnail -> Original"
+msgstr ""
+
+#: lightbox2.module:812
+msgid "Lightbox2 slideshow: Image Thumbnail -> Original"
+msgstr ""
+
+#: lightbox2.module:816
+msgid "Lightbox2 iframe: Image Thumbnail -> Content"
+msgstr ""
+
+#: lightbox2.module:822
+msgid "Lightbox2: Image Thumbnail -> Full Size Video"
+msgstr ""
+
+#: lightbox2.module:828;1151
+msgid "Lightbox2 iframe"
+msgstr ""
+
+#: lightbox2.module:1152
+msgid "Displays all kinds of files in a popup lightbox in an iframe."
+msgstr ""
+
+#: lightbox2.module:1156
+msgid "Lightbox2 image"
+msgstr ""
+
+#: lightbox2.module:1157
+msgid "Displays image files in a popup lightbox."
+msgstr ""
+
+#: lightbox2.module:203
+msgid "administer lightbox2"
+msgstr ""
+
+#: lightbox2.module:203
+msgid "download original image"
+msgstr ""
+
+#: lightbox2.module:214 lightbox2.info:0
+msgid "Lightbox2"
+msgstr ""
+
+#: lightbox2.module:215;223
+msgid "Allows the user to configure the lightbox2 settings"
+msgstr ""
+
+#: lightbox2.module:222
+msgid "General"
+msgstr ""
+
+#: lightbox2.module:234
+msgid "Allows the user to configure the lightbox2 slideshow functionality"
+msgstr ""
+
+#: lightbox2.module:244
+msgid "HTML Content"
+msgstr ""
+
+#: lightbox2.module:250
+msgid "Allows the user to configure the lightbox2 HTML content functionality."
+msgstr ""
+
+#: lightbox2.module:255
+msgid "Automatic image handling"
+msgstr ""
+
+#: lightbox2.module:256
+msgid "Allows the user to configure the lightbox2 automatic image handling settings"
+msgstr ""
+
+#: lightbox2.module:283
+msgid "Login"
+msgstr ""
+
+#: lightbox2.module:289
+msgid "Contact"
+msgstr ""
+
+#: lightbox2.module:0
+msgid "lightbox2"
+msgstr ""
+

@@ -1,0 +1,13 @@
+name = ImageField
+description = Defines an image field type.
+core = 6.x
+dependencies[] = content
+dependencies[] = filefield
+package = CCK
+
+; Information added by drupal.org packaging script on 2013-04-14
+version = "6.x-3.11"
+core = "6.x"
+project = "imagefield"
+datestamp = "1365969012"
+

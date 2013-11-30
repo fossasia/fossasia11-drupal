@@ -1,0 +1,36 @@
+<?php
+/*
+ * implement hook_init
+ * */
+ 
+function menu_iframe_init(){
+	
+}
+
+/*
+ * implement hook_form_alter
+ **/
+function menu_iframe_form_alter(&$form, &$form_state, $form_id){
+	global $user;
+	if($form_id=="user_profile_form"){
+		$form['FOSSASIA']=null;
+		$form['locale']=null;
+	}
+}
+
+/*
+ * implement hook_menu
+ * */
+function menu_iframe_menu(){
+	$item['developer_room']=array(
+		"title" => "",
+		"page callback" => "developer_room",
+		"access arguments" => array("access content")
+	);
+	return $item;
+}
+
+function developer_room(){
+	return "<iframe id=\"dev_room_iframe\" src=\"http://titanpad.com/fadr\" width=\"800\" height=\"600\"/>";
+}
+?>

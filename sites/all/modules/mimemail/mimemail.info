@@ -1,0 +1,11 @@
+; $Id: mimemail.info,v 1.2 2008/09/21 02:20:56 jerdavis Exp $
+name = Mime Mail
+description = E-mail with HTML and attachments
+package = Mail
+core = 6.x
+; Information added by drupal.org packaging script on 2010-09-13
+version = "6.x-1.0-alpha6"
+core = "6.x"
+project = "mimemail"
+datestamp = "1284388908"
+

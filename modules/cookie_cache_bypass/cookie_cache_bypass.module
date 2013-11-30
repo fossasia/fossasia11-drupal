@@ -1,0 +1,11 @@
+<?php
+
+function cookie_cache_bypass_form_alter(&$form, $form_state, $form_id) {
+  $form['#submit'][] = 'cookie_cache_bypass_submit';
+}
+
+function cookie_cache_bypass_submit() {
+  global $cookie_domain;
+  $lifetime = variable_get('cache_lifetime', 300);
+  setcookie('NO_CACHE', 'Y', $_SERVER['REQUEST_TIME'] + ($lifetime + 300), '/', $cookie_domain);
+}

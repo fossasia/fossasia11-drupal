@@ -1,0 +1,8 @@
+<?php
+// $Id: curl.module,v 1.1.4.1 2009/04/17 19:58:41 doq Exp $
+
+/**
+ * @file
+ */
+
+require_once drupal_get_path('module', 'curl') .'/libcurlemu-1.0.4/libcurlemu.inc.php';

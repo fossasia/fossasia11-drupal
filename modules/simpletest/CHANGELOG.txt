@@ -1,0 +1,153 @@
+// $Id: CHANGELOG.txt,v 1.1.2.110 2009/12/30 22:37:21 boombatower Exp $
+
+SimpleTest 6.x-2.10, 2009-12-30
+-------------------------------
+- Bugs
+   * Correct INSTALL.txt link URL in requirement check.
+   * #587304: Call to undefined function drupal_realpath().
+   * #587988: drupal_http_request() does not use drupal_generate_test_ua().
+   * Manual fix of --file argument for run-tests.sh.
+   * #596440 by grendzy: assertMail doesn't work on real modules - Class 'DrupalWebTestCase' not found.
+   * #603410: Missing backported error handler in _drupal_bootstrap_full().
+   * #640076: Link to file INSTALL.txt should use url().
+   * #654534 by sun: SimpleTest deletes *all* files.
+   * #649344 by joachim: Link in admin help message to INSTALL file is broken.
+- Changes:
+   * #580406: DrupalUnitTestCase requires Database class.
+   * #667546: INSTALL.txt text correction.
+- Backports:
+   * #653860 by yhahn: Ensure simpletest JS handlers are attached only once.
+
+SimpleTest 6.x-2.9, 2009-09-14
+------------------------------
+- Changes:
+   * #576256: Theme laying needs to be initialized during setUp().
+   * Correct comment on previous workaround.
+   * #400296 by neilnz: Make simpletest_get_like_tables() work in MySQL and PostgreSQL.
+   * #573822: Update SimpleTestMailCaptureTestCase from simpletest.test.
+   * #577324 by Dave Reid: Module tests with extending submodule tests not included correctly.
+- Bugs:
+   * #442890: HEAD info left in simpletest.info.
+   * #474394 by RockyRoad: block.test should treat delta as string.
+- Backports:
+   * #335756: SimpleTest: $this->originalFileDirectory should be set before
+              installation to ensure non-standard directories are picked up.
+   * #567422: Fresh backport of Drupal 7 SimpleTest.
+   * #545228: Missing D7 constants.
+   * Remove simpletest.function.inc.
+   * Correct file_scan_directory() $mask parameter API change.
+   * Correct another 'class' atrribute as array().
+   * Update files.
+   * Changes to install.php included in D6 core patch.
+   * #577496: drupal_mail_wrapper() conflicts.
+
+SimpleTest 6.x-2.8, 2009-04-23
+------------------------------
+- Bugs:
+   * #382334: drupalGetNodeByTitle uses node_load_multiple in 6.x.
+   * #385152: Clear user_access() cache.
+   * Change file in drupalGetTestFiles() to use ereg() format used in Drupal 6.
+   * #430512 by soxofaan: Drupal 7 style database code in run-tests.sh.
+   * #430682: backport: run-tests.sh does not work with non-default server port.
+- Changes:
+   * #346844: Clear language statics to remove locale module errors.
+   * #400296 by carlos8f: Use "SHOW TABLES" in simpletest_get_like_tables().
+   * #390232: Update 313902-2.patch to D6.10 misc/drupal.js
+   * #409372 by Dave Reid: Hide modules that have hidden = TRUE on admin/build/modules.
+   * #415864: Backport sample files.
+   * #400296: Revert: Use "SHOW TABLES" in simpletest_get_like_tables().
+   * #409294 by wlp1979: Add extra condition to getAssertionCall() for DrupalWebTestCaseCore.
+   * Merge DrupalWebTestCase change into DrupalWebTestCaseCore.
+   * Move "core" directory files into root.
+   * #442436: Full backport of Drupal 7 SimpleTest and common.inc functions.
+
+SimpleTest 6.x-2.7, 2009-02-16
+------------------------------
+- Bugs:
+   * #372697: Content type created but not  "appearing".
+   * #373722: Table {node_revision} doesn't exist
+- Changes:
+   * #370966: Ignore 1.x style tests.
+   * Format fix.
+   * #373172: Add curl requirement to documentation.
+
+SimpleTest 6.x-2.6, 2009-02-07
+------------------------------
+- Complete backport of Drupal 7.x SimpleTest module. (voids all backports).
+   * Added header to all relevant files.
+   * Updated INSTALL.txt.
+   * #369952: Clarify INSTALL.txt.
+   * Add drupalLogout() override.
+   * Add equivilent auto-clear user code.
+   * #359577: Add run-tests.sh to 6--2 branch.
+- Backports:
+   * #305150: Keep running tests checked.
+   * #313902: DX: Show fatal errors in tests. (Added to INSTALL.txt)
+   * #304940: SimpleTest shouldn't try to upload non files.
+   * #308186: cURL 7.18.2 and SimpleTest module bitterly despise one another. (again?)
+   * #330582: Retrieve HTTP response headers.
+   * #336043: Simpletest speedup: skip call to curlExec() in curlConnect().
+- Changes:
+   * #334679 by hass: improve update path from 5.x and 6.x-1.x to 6.x-2.x.
+
+SimpleTest 6.x-2.5, 2008-10-22
+------------------------------
+- Backports:
+   * #308668: Make test selection page work with non-JS.
+   * #316344: Add meta refresh support to SimpleTest.
+   * #320127: error in drupal_web_test_case.php.
+   * #320161: drupalGetTestFiles does not sort files correctly.
+   * #320374: Simpletest now fails with max_allowed_packet = 1M.
+   * #322779: Simpletest calls file_check_directory incorrectly.
+- Changes:
+   * #319682: Install.txt refers to non-existent admin page.
+   * #323405: Remove bogus version = VERSION line from .info file.
+
+SimpleTest 6.x-2.4, 2008-09-22
+------------------------------
+- Bugs:
+   * #310427: settings.php check doesn't work properly.
+- Backports:
+   * #305077: Rework simpletest backend.
+   * #308399: The simpletest error handler is broken for PHP functions.
+   * #308262: Clean-up and documentation of simpletest.js.
+   * #308186: cURL 7.18.2 and SimpleTest module bitterly despise one another.
+   * #295697: update cURL requirement.
+   * #299186: assertFieldByXPath does not work for selects or textareas with value.
+   * #308272: Improve test selection page.
+   * #255613: Update clickLink() to use drupalGet() and clean-up code.
+- Changes:
+   * #310783: Fix up requirements check for settings.php.
+
+SimpleTest 6.x-2.3, 2008-09-15
+------------------------------
+- Backports:
+    * #297869: Add xpath method to SimpleTest.
+    * #297894: Add assertLink and assertNoLink to SimpleTest.
+    * #298137: drupalCreateContentType() should reset node permissions.
+    * #268148: Don't verify SSL certificates.
+    * #293099: Clarify form documentation and error handling.
+    * #296027: {simpletest} indexes come with wrong array expression.
+    * #299461: assertEqual() does not work with arrays.
+    * #246261: Simpletest-light doesn't handle selects with <optgroup>'s correctly.
+- Changes:
+    * #297890: Add notice to INSTALL.txt instructing users on Windows to
+               encode settings file with the UNIX standard.
+    * #302606: Usability: improve installation error message.
+
+SimpleTest 6.x-2.2, 2008-08-15
+------------------------------
+- Bugs:
+    * #292062: fixed role creation permission check for 6.x style.
+- Backports:
+    * #290316: test_id field name corrected.
+    * #293500: change message field to type text.
+    * #268063: added instruction in INSTALL.txt about hidden property.
+    * #291750: remove results after displayed.
+- Changes:
+    * #295001: clarified INSTALL.txt and installation requirements message.
+    * Updated README.txt with issue information.
+
+SimpleTest 6.x-2.1, 2008-08-05
+------------------------------
+- Complete backport of Drupal 7.x SimpleTest module.

@@ -1,0 +1,166 @@
+<?php
+/**
+ * @file
+ * Initialize and clean up the Menu per role module.
+ */
+
+/*
+ * Implementation of hook_install();
+ */
+function menu_per_role_install() {
+  drupal_install_schema('menu_per_role');
+}
+
+/*
+ * Implementation of hook_uninstall();
+ */
+function menu_per_role_uninstall() {
+  drupal_uninstall_schema('menu_per_role');
+
+  variable_del('menu_per_role_uid1_see_all');
+  variable_del('menu_per_role_admin_see_all');
+  variable_del('menu_per_role_hide_show');
+}
+
+/*
+ * Implementation of hook_schema()
+ */
+function menu_per_role_schema() {
+  $schema['menu_per_role'] = array(
+    'fields' => array(
+      'mlid' => array(
+        'description' => t('The menu identifier.'),
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'rids' => array(
+        'description' => t('The role identifiers separated by commas. Show to those roles.'),
+        'type' => 'text',
+        'not null' => TRUE,
+      ),
+      'hrids' => array(
+        'description' => t('The role identifiers separated by commas. Hide from those roles.'),
+        'type' => 'text',
+        'not null' => TRUE,
+      ),
+    ),
+    'primary key' => array('mlid'),
+  );
+  return $schema;
+}
+
+/**
+ * hook_update()
+ */
+function menu_per_role_update_6000() {
+  $ret = array();
+
+  // already using new schema?
+  if (db_column_exists('menu_per_role', 'mlid')) {
+    return $ret;
+  }
+
+  db_query('BEGIN');
+
+  // read the old data in memory (assuming it is not extra large, we should be fine)
+  $result = db_query('SELECT mid, rid FROM {menu_per_role} WHERE mid IS NOT NULL');
+  while ($row = db_fetch_array($result)) {
+    $mid[$row['mid']][] = $row['rid'];
+  }
+
+  $ret[] = update_sql('DELETE FROM {menu_per_role}');
+
+  // create new fields right there
+  db_add_field($ret, 'menu_per_role', 'mlid', array(
+    'description' => t('The menu identifier.'),
+    'type' => 'int',
+    'unsigned' => TRUE,
+    'not null' => TRUE,
+    'default' => 0,
+  ));
+  db_add_field($ret, 'menu_per_role', 'rids', array(
+    'description' => t('The role identifiers separated by commas.'),
+    'type' => 'text',
+    'not null' => TRUE,
+  ));
+
+  // delete old schema fields and set new primary key
+  db_drop_field($ret, 'menu_per_role', 'mid');
+  db_drop_field($ret, 'menu_per_role', 'rid');
+  db_add_primary_key($ret, 'menu_per_role', array('mlid'));
+
+  // save the old data in the new table
+  foreach ($mid as $key => $value) {
+    if (count($value) > 0) {
+      $list = implode(',', $value);
+      $ret[] = update_sql("INSERT INTO {menu_per_role} (mlid, rids) VALUES (" . $key . ", '" . $list . "')");
+    }
+  }
+
+  // we're done
+  db_query('COMMIT');
+
+  return $ret;
+}
+
+/**
+ * hook_update()
+ */
+function menu_per_role_update_6001() {
+  $ret = array();
+
+  // already using new schema?
+  if (db_column_exists('menu_per_role', 'hrids')) {
+    return $ret;
+  }
+
+  // create new field
+  db_add_field($ret, 'menu_per_role', 'hrids', array(
+    'description' => t('The role identifiers separated by commas. Hide from those roles.'),
+    'type' => 'text',
+    'not null' => TRUE,
+    'default' => '',
+  ));
+
+  return $ret;
+}
+
+/**
+ * hook_update_N();
+ */
+function menu_per_role_update_6002() {
+  $ret = array();
+
+  // This default creates problems with MySQL and really it should not be there!
+  db_field_set_no_default($ret, 'menu_per_role', 'mlid');
+
+  return $ret;
+}
+
+/**
+ * hook_update_N();
+ */
+function menu_per_role_update_6003() {
+  $ret = array();
+
+  // We do not need to have empty entries, this will accelerate total
+  // processing time on every page load
+  $ret[] = update_sql("DELETE FROM {menu_per_role} WHERE rids = '' AND hrids = ''");
+
+  return $ret;
+}
+
+/**
+ * hook_update_N();
+ */
+function menu_per_role_update_6004() {
+  $ret = array();
+
+  // for the menu to rebuild
+  variable_set('menu_rebuild_needed', TRUE);
+
+  return $ret;
+}
+
+// vim: ts=2 sw=2 et syntax=php

@@ -1,0 +1,26 @@
+<?php
+
+/**
+ * Implementation of hook_install().
+ */
+function path_alias_cache_install() {
+  // Create tables.
+  drupal_install_schema('path_alias_cache');
+}
+
+/**
+ * Implementation of hook_uninstall().
+ */
+function path_alias_cache_uninstall() {
+  // Remove tables.
+  drupal_uninstall_schema('path_alias_cache');
+}
+
+/**
+ * Implementation of hook_schema().
+ */
+function path_alias_cache_schema() {
+  $schema['cache_path'] = drupal_get_schema_unprocessed('system', 'cache');
+  return $schema;
+}
+

@@ -1,0 +1,225 @@
+<?php
+
+/**
+ * @file
+ * Internationalization (i18n) package - translatable content type parameters
+ *
+ * This new module uses a pure forms/strings approach as opposed to the old one (v5)
+ * which was using some dirty db rewrite tricks.
+ *
+ * The i18n strings created by this module are:
+ * - nodetype:type:[type]:[name,title,body,help]
+ *
+ * @author Jose A. Reyero, 2007
+ */
+
+/**
+ * Implementation of hook_help().
+ */
+function i18ncontent_help($path, $arg) {
+  switch ($path) {
+    case 'admin/help#i18ncontent':
+      $output = '<p>'. t('This module will localize all content type configuration texts.') .'</p>';
+      $output .= '<ul>';
+      $output .= '<li>'. t('Content type names') .'</li>';
+      $output .= '<li>'. t('Submission guidelines') .'</li>';
+      $output .= '<li>'. t("Content type descriptions were previously localized so they won't be affected.") .'</li>';
+      $output .= '</ul>';
+      $output .= '<p>'. t('To search and translate strings, use the <a href="@translate-interface">translation interface</a> pages.', array('@translate-interface' => url('admin/build/translate'))) .'</p>';
+      return $output;
+  }
+  // Add translated help text for node add pages
+  if (!menu_get_object() && $arg[1] == 'add' && $arg[2]) {
+    $type = str_replace('-', '_', $arg[2]);
+    // Fetch default language node type help
+    $source = i18ncontent_node_help_source($type);
+    if (isset($source->source) && ($help = i18nstrings("nodetype:type:$type:help", $source->source))) {
+      return '<p>'. filter_xss_admin($help) .'</p>';
+    }
+  }
+}
+
+/**
+ * Implementation of hook_locale().
+ */
+function i18ncontent_locale($op = 'groups', $group = NULL) {
+  switch ($op) {
+    case 'groups':
+      return array('nodetype' => t('Content type'));
+    case 'info':
+      $info['nodetype']['refresh callback'] = 'i18ncontent_locale_refresh';
+      $info['nodetype']['format'] = FALSE;
+      return $info;
+  }
+}
+
+/**
+ * Refresh content type strings.
+ */
+function i18ncontent_locale_refresh() {
+  foreach (node_get_types() as $type) {
+    i18nstrings_update("nodetype:type:$type->type:name", $type->name);
+    i18nstrings_update("nodetype:type:$type->type:title", $type->title_label);
+    if (isset($type->body_label)) {
+      i18nstrings_update("nodetype:type:$type->type:body", $type->body_label);
+    }
+    i18nstrings_update("nodetype:type:$type->type:description", $type->description);
+    if ($type->help) {
+      i18nstrings_ts("nodetype:type:$type->type:help", $type->help, NULL, TRUE);
+      $type->help = '';
+      node_type_save($type);
+    }
+  }
+  return TRUE; // Meaning it completed with no issues
+}
+
+/**
+ * Implementation of hook_form_alter().
+ */
+function i18ncontent_form_alter(&$form, $form_state, $form_id) {
+  switch ($form_id) {
+    case 'node_type_form':
+      // Replace the help text default value in the node type form with data from
+      // i18nstrings. Help text is handled in hook_node_type() and hook_help().
+      $type = $form['#node_type']->type;
+      if ($type) {
+        // Fetch default language node type help
+        $source = i18ncontent_node_help_source($type);
+        // We dont need to pass the value through i18nstrings_ts()
+    		if (isset($source->source)) {
+    			$form['submission']['help']['#default_value'] = $source->source;
+    		}
+      }
+      break;
+
+    case 'search_form':
+      // Advanced search form. Add language and localize content type names
+      if ($form['module']['#value'] == 'node' && !empty($form['advanced'])){
+        // @todo Handle language search conditions
+        //$form['advanced']['language'] = _i18n_language_select();
+        if (!empty($form['advanced']['type'])) {
+          foreach ($form['advanced']['type']['#options'] as $type => $name) {
+            $form['advanced']['type']['#options'][$type] = i18nstrings("nodetype:type:$type:name", $name);
+          }
+        }
+      }
+      break;
+
+    default:
+      // Translate field names for title and body for the node edit form.
+      if (isset($form['#id']) && $form['#id'] == 'node-form') {
+        $type = $form['#node']->type;
+        if (!empty($form['title']['#title'])) {
+          $form['title']['#title'] = i18nstrings("nodetype:type:$type:title", $form['title']['#title']);
+        }
+        if (!empty($form['body_field']['body']['#title'])) {
+          $form['body_field']['body']['#title'] = i18nstrings("nodetype:type:$type:body", $form['body_field']['body']['#title']);
+        }
+      }
+      break;
+  }
+}
+
+/**
+ * Implementation of hook_node_type().
+ */
+function i18ncontent_node_type($op, $info) {
+  $language = language_default('language');
+  if ($op == 'insert' || $op == 'update') {
+    if(!empty($info->old_type) && $info->old_type != $info->type) {
+      i18nstrings_update_context("nodetype:type:$old_type:*", "nodetype:type:$type:*");
+    }
+    i18nstrings_update("nodetype:type:$info->type:name", $info->name);
+    i18nstrings_update("nodetype:type:$info->type:title", $info->title_label);
+    i18nstrings_update("nodetype:type:$info->type:body", $info->body_label);
+    i18nstrings_update("nodetype:type:$info->type:description", $info->description);
+    if (empty($info->help)) {
+      i18nstrings_remove("nodetype:type:$info->type:help");
+    } else {
+      i18nstrings_ts("nodetype:type:$info->type:help", $info->help, $language, TRUE);
+      // Remove the 'help' text from {node_type} to avoid both the
+      // original text and translation appearing in hook_help().
+      db_query("UPDATE {node_type} set help = '' WHERE type = '%s'", $info->type);
+    }
+  }
+
+  if ($op == 'delete') {
+    i18nstrings_remove("nodetype:type:$info->type:title");
+    i18nstrings_remove("nodetype:type:$info->type:name");
+    i18nstrings_remove("nodetype:type:$info->type:description");
+    i18nstrings_remove("nodetype:type:$info->type:body");
+    i18nstrings_remove("nodetype:type:$info->type:help");
+  }
+}
+
+
+/**
+ * Implementation of hook_menu_alter().
+ *
+ * Take over the node add pages.
+ */
+function i18ncontent_menu_alter(&$menu) {
+  $menu['node/add']['page callback'] =  'i18ncontent_node_add_page';
+  if (variable_get('page_manager_node_edit_disabled', TRUE)) {
+    // Replace node/add/* menu items
+    foreach (node_get_types('types', NULL, TRUE) as $type) {
+      $type_url_str = str_replace('_', '-', $type->type);
+      $path = 'node/add/' . $type_url_str;
+      if (!empty($menu[$path]['page callback']) && $menu[$path]['page callback'] == 'node_add') {
+        $menu[$path]['page callback'] = 'i18ncontent_node_add';
+        $menu[$path]['title callback'] = 'i18nstrings_title_callback';
+        $menu[$path]['title arguments'] = array('nodetype:type:'. $type->type .':name', $type->name);
+       }
+     }
+  }
+}
+
+/**
+ * Replacement for node_add_page.
+ */
+function i18ncontent_node_add_page() {
+  $item = menu_get_item();
+  $content = system_admin_menu_block($item);
+  // The node type isn't available in the menu path, but 'title' is equivalent
+  // to the human readable name, so check this against node_get_types() to get
+  // the correct values. First we build an array of node types indexed by names
+  $type_names = array_flip(node_get_types('names'));
+  foreach ($content as $key => $item) {
+    if ($type = $type_names[$item['link_title']]){
+      // We just need to translate the description, the title is translated by the menu system
+      $content[$key]['description'] = i18nstrings("nodetype:type:$type:description", $item['description']);
+    }
+  }
+  return theme('node_add_list', $content);
+}
+
+/**
+ * Replacement for node_add
+ *
+ * This just calls node_add() and switches title. This has to be done here to work always
+ */
+function i18ncontent_node_add($type) {
+  global $user;
+
+  $types = node_get_types();
+  $type = isset($type) ? str_replace('-', '_', $type) : NULL;
+  // If a node type has been specified, validate its existence.
+  if (isset($types[$type]) && node_access('create', $type)) {
+    // Initialize settings:
+    $node = array('uid' => $user->uid, 'name' => (isset($user->name) ? $user->name : ''), 'type' => $type, 'language' => '');
+
+    drupal_set_title(t('Create @name', array('@name' => i18nstrings("nodetype:type:$type:name", $types[$type]->name))));
+    $output = drupal_get_form($type .'_node_form', $node);
+  }
+
+  return $output;
+}
+
+/**
+ * Fetch default source for node type help
+ */
+function i18ncontent_node_help_source($type) {
+  $context = i18nstrings_context("nodetype:type:$type:help");
+  $source = i18nstrings_get_source($context);
+  return $source;
+}

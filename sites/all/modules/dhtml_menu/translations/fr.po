@@ -1,0 +1,72 @@
+# $Id: fr.po,v 1.1.4.2 2008/11/28 20:48:05 arancaytar Exp $
+#
+# French translation of Drupal (dhtml_menu)
+# Copyright 2008 Roulion <roulion@afterfoot.com>
+# Generated from files:
+#  dhtml_menu.admin.inc,v 1.5 2008/07/14 21:58:51 arancaytar
+#  dhtml_menu.module,v 1.29.2.1 2008/07/18 20:13:06 arancaytar
+#  dhtml_menu.info,v 1.6 2008/07/11 22:15:58 arancaytar
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2008-11-04 14:56-0800\n"
+"PO-Revision-Date: 2008-11-26 00:20+0100\n"
+"Last-Translator: Roulion <roulion@afterfoot.com>\n"
+"Language-Team: Roulion <roulion@afterfoot.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2;plural=(n!=1);\n"
+"X-Poedit-Language: French\n"
+"X-Poedit-Country: FRANCE\n"
+
+#: dhtml_menu.admin.inc:15
+msgid "DHTML Menu effects"
+msgstr "Effets de menu"
+
+#: dhtml_menu.admin.inc:17
+msgid "Animated sliding effect"
+msgstr "Effet d'animation"
+
+#: dhtml_menu.admin.inc:18
+msgid "Keep only one menu open at a time."
+msgstr "Garder un seul menu déplié à la fois"
+
+#: dhtml_menu.admin.inc:19
+msgid "For the above option, consider each menu tree separately."
+msgstr "Pour les options ci-dessus, consdérez chaque menu séparément"
+
+#: dhtml_menu.admin.inc:20
+msgid "Close menus when their parent menu is closed."
+msgstr "Replier le menu quand les enfants sont fermés "
+
+#: dhtml_menu.admin.inc:21
+msgid "Add an extra page link to each expanding menu item."
+msgstr "Ajouter un lien en plus pour atteindre la page du menu père"
+
+#: dhtml_menu.admin.inc:22
+msgid "Go to the page on double-click."
+msgstr "Double-cliquer pour atteindre la page "
+
+#: dhtml_menu.module:170
+msgid "<em>DHTML Menu</em> adds dynamic functionality to the menus of your site. Ordinarily, reaching the child elements below an item requires you to visit its page. With DHTML Menu, clicking on an item with child elements will expand it without leaving the page, saving time. You can reach the actual page of such an item either by double-clicking on it or visiting the small extra link that will be shown right below it when expanded."
+msgstr "<em>DHTML Menu</em> ajoute des fonctionalités dynamiques à votre site. D'habitude, pour atteindre un élément enfant d'un item parent vous devez d'abord voir cet item. Avec DHTML Menu, en cliquant sur un ite, vous déroulerez la liste de  ses enfants sans recharger la page. Vous pouvez atteindre la page de l'item en double-cliquant sur le lien ou sur le lien supplémentaire en petit ajouté en dessous. "
+
+#: dhtml_menu.module:154
+#: dhtml_menu.info:0
+msgid "DHTML Menu"
+msgstr "DHTML Menu"
+
+#: dhtml_menu.module:155
+msgid "Configure the effects of DHTML Menu"
+msgstr "Configurer les effets du Menu DHTML"
+
+#: dhtml_menu.module:0
+msgid "dhtml_menu"
+msgstr "dhtml_menu"
+
+#: dhtml_menu.info:0
+msgid "Opens menus dynamically to reduce page refreshes."
+msgstr "Déplie les menus pour réduire le nombre de rechargement de la page"
+

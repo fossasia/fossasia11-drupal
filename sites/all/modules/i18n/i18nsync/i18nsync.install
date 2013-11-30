@@ -1,0 +1,16 @@
+<?php
+
+/**
+ * @file
+ * Installation file for i18nsync module.
+ */
+
+/**
+ * Set module weight.
+ *
+ * Make sure this runs after taxonomy, i18n and translation modules
+ * and ideally after all other modules implementing nodeapi hook.
+ */
+function i18nsync_install() {
+  db_query("UPDATE {system} SET weight = 100 WHERE name = 'i18nsync' AND type = 'module'");
+}

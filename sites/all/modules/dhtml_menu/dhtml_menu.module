@@ -1,0 +1,249 @@
+<?php
+// $Id: dhtml_menu.module,v 1.29.2.19 2009/06/05 00:09:25 arancaytar Exp $
+
+/**
+ * @file dhtml_menu.module
+ * Adds preprocessors to the menu theming functions
+ * that will add dynamic expansion to their menus.
+ */
+
+/**
+ * Effects enabled by default. This is an array and
+ * must be unserialized to be used. Constants can not contain arrays.
+ */
+define('DHTML_MENU_DEFAULT', serialize(array('slide' => 'slide', 'clone' => 'clone')));
+
+/**
+ * Implementation of hook_init().
+ * Adds CSS, Javascript and settings to the page.
+ */
+function dhtml_menu_init() {
+  drupal_add_css(drupal_get_path('module', 'dhtml_menu') .'/dhtml_menu.css');
+  drupal_add_js(drupal_get_path('module', 'dhtml_menu') .'/dhtml_menu.js');
+  $settings = variable_get('dhtml_menu_effects', unserialize(DHTML_MENU_DEFAULT));
+  drupal_add_js(array('dhtmlMenu' => $settings), 'setting');
+}
+
+/** 
+ * Implementation of hook_theme_registry_alter().
+ * Replaces the theme functions for the menu_item functions, and stores the
+ * original functions in order to call them when this module is done with preprocessing.
+ */
+function dhtml_menu_theme_registry_alter(&$theme_registry) {
+  global $theme;
+
+  // Back up the existing theme functions.
+  $themes = variable_get('dhtml_menu_theme', array());
+  $themes[$theme] = array(
+    'menu_item' => $theme_registry['menu_item']['function'],
+    'menu_item_link' => $theme_registry['menu_item_link']['function'],
+  );
+  variable_set('dhtml_menu_theme', $themes);
+
+  // Replace them with our own. These will "preprocess" and call the real functions.
+  $theme_registry['menu_item']['function'] = 'dhtml_menu_theme_menu_item';
+  $theme_registry['menu_item_link']['function'] = 'dhtml_menu_theme_menu_item_link';
+}
+
+/**
+ * Preprocessor for menu_item_link.
+ * Adds an ID attribute to menu links and helps the module
+ * follow the recursion of menu_tree_output().
+ */
+function dhtml_menu_theme_menu_item_link($link) {
+  // Find out which theme function to dispatch to after preprocessing.
+  global $theme;
+  static $disabled, $function;
+  if (!isset($disabled)) {
+    $disabled = variable_get('dhtml_menu_disabled', array());
+    $registry = variable_get('dhtml_menu_theme', array());
+    $function = isset($registry[$theme]) ? $registry[$theme]['menu_item_link'] : 'theme_menu_item_link';
+  }
+
+  // Only work with menu items that have an mlid and a menu name.
+  if (isset($link['menu_name']) && isset($link['mlid'])) {
+    // Some themes use options, others use localized_options. Populate both.
+    $link['localized_options']['attributes']['id'] = 'dhtml_menu-' . _dhtml_menu_unique_id($link['mlid']);
+    $link['options']['attributes']['id'] = $link['localized_options']['attributes']['id'];
+
+    // Disabled items are now marked. They must still be added to the stack to pass information within this module.
+    if (!empty($disabled[$link['menu_name']])) {
+      $link['dhtml_disabled'] = TRUE;
+    }
+
+    // Stack this item to track the recursion levels.
+    _dhtml_menu_stack($link);    
+  }
+
+  // Pass the altered variables to the normal menu themer.
+  return $function($link);
+}
+
+/**
+ * Preprocessor for menu_item.
+ * Checks whether the current item has children that
+ * were not rendered, and loads and renders them.
+ */
+function dhtml_menu_theme_menu_item($link, $has_children, $menu = '', $in_active_trail = FALSE, $extra_class = NULL) {
+  global $theme;
+  static $cookie, $settings, $function;
+  if (!isset($cookie)) {
+    $settings =  variable_get('dhtml_menu_effects', unserialize(DHTML_MENU_DEFAULT));
+
+    // Do not use this feature when keeping only one menu open at a time - the active path will always be open.
+    $cookie = !empty($_COOKIE['dhtml_menu']) && empty($settings['siblings']) ? explode(',', $_COOKIE['dhtml_menu']) : array();
+    // Cascade up to the original theming function.
+    $registry = variable_get('dhtml_menu_theme', array());
+    $function = isset($registry[$theme]) ? $registry[$theme]['menu_item'] : 'theme_menu_item';
+  }
+
+  /* When theme('menu_item') is called, the menu tree below it has been
+   * rendered already. Since we are done on this recursion level,
+   * one element must be popped off the stack.
+   */
+  $item = _dhtml_menu_stack();
+
+  // If this item should not have DHTML, then return to the "parent" function.
+  if (!empty($item['dhtml_disabled'])) {
+    $extra_class .= ' no-dhtml ';
+    return $function($link, $has_children, $menu, $in_active_trail, $extra_class);
+  }
+  // Otherwise, add a class to identify this element for JS.
+  $extra_class .= ' dhtml-menu ';  
+
+  // If there are children, but they were not loaded...
+  if ($has_children && !$menu) {
+    // Load the tree below the current position.
+    $tree = _dhtml_menu_subtree($item);
+
+    // Render it...
+    $menu = menu_tree_output($tree);
+    if (!$menu) $has_children = FALSE; // Sanitize tree. If we found no children, the item has none.
+  }
+
+  // If the current item can expand, and is neither saved as open nor in the active trail, close it.
+  if ($menu && !($in_active_trail || in_array(substr($item['options']['attributes']['id'], 5), $cookie))) {
+    $extra_class .= ' collapsed start-collapsed ';
+  }
+
+  return $function($link, $has_children, $menu, $in_active_trail, $extra_class);
+}
+
+/**
+ * Helper function for storing recursion levels.
+ *
+ * @param $link
+ *   If a menu item link is passed, it will be appended to the stack.
+ *   If none is given, the stack will be returned and popped by one.
+ *
+ * @return
+ *   The stack, if no parameter is given.
+ */
+function _dhtml_menu_stack($link = FALSE) {
+  static $stack = array();
+  if ($link) {
+    array_push($stack, $link);
+  }
+  else {
+    return array_pop($stack);
+  }
+}
+
+/**
+ * Traverses the menu tree and returns the sub-tree of the item
+ * indicated by the parameter.
+ *
+ * @param $item
+ *   An menu item whose children should be found.
+ *
+ * @return
+ *   The items below the passed menu item.
+ */
+function _dhtml_menu_subtree($item) {
+  static $index = array();
+  static $indexed = array();
+
+  // This looks expensive, but menu_tree_all_data uses static caching.
+  $tree = menu_tree_all_data($item['menu_name']);
+
+  // Index the tree to find the path to this item.
+  if (!isset($indexed[$item['menu_name']])) {
+    $index += _dhtml_menu_index($tree);
+    $indexed[$item['menu_name']] = TRUE;
+  }
+  // Traverse the tree.
+  foreach ($index[$item['mlid']]['parents'] as $mlid) {
+    $key = $index[$mlid]['key'];
+    if (!isset($tree[$key])) {
+      return array();
+    }
+    $tree = $tree[$key]['below'];
+  }
+  $key = $index[$item['mlid']]['key'];
+  return isset($tree[$key]) ? $tree[$key]['below'] : array();
+}
+
+/**
+ * Indexes the menu tree by mlid. This is needed to identify the items
+ * without relying on titles. This function is recursive.
+ *
+ * @param $tree
+ *   A tree of menu items such as the return value of menu_tree_all_data()
+ *
+ * @return
+ *   An array associating mlid values with the internal keys of the menu tree.
+ */
+function _dhtml_menu_index($tree, $ancestors = array(), $parent = NULL) {
+  $index = array();
+  if ($parent) $ancestors[] = $parent;
+  foreach ($tree as $key => $item) {
+    $index[$item['link']['mlid']] = array(
+      'key' => $key,
+      'parents' => $ancestors,
+    );
+    if (!empty($item['below'])) {
+      $index += _dhtml_menu_index($item['below'], $ancestors, $item['link']['mlid']);
+    }
+  }
+  return $index;
+}
+
+/**
+ * Implementation of hook_menu().
+ * Adds a settings page.
+ */
+function dhtml_menu_menu() {
+  $menu['admin/settings/dhtml_menu'] = array(
+    'title' => 'DHTML Menu',
+    'description' => 'Configure the effects of DHTML Menu',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('dhtml_menu_settings'),
+    'access arguments' => array('administer site configuration'),
+    'file' => 'dhtml_menu.admin.inc',
+  );
+  return $menu;
+}
+
+/**
+ * Implementation of hook_help().
+ */
+function dhtml_menu_help($path) {
+  switch ($path) {
+    case 'admin/settings/dhtml_menu':
+      return t('<em>DHTML Menu</em> adds dynamic functionality to the menus of your site. Ordinarily, reaching the child elements below an item requires you to visit its page. With DHTML Menu, clicking on an item with child elements will expand it without leaving the page, saving time. You can reach the actual page of such an item either by double-clicking on it or visiting the small extra link that will be shown right below it when expanded.');
+  }
+}
+
+/**
+ * Keeps track of ID attributes and adds a suffix to make it unique-when necessary.
+ */
+function _dhtml_menu_unique_id($id) {
+  static $ids = array();
+  if (!isset($ids[$id])) {
+    $ids[$id] = 1;
+    return $id;
+  }
+  else {
+    return $id . '-' . $ids[$id]++;
+  }
+}

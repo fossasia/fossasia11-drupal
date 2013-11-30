@@ -1,0 +1,99 @@
+<?php
+// $Id$
+
+/**
+ * @file
+ * Install file.
+ */
+
+/**
+ * Implementation of hook_install().
+ *
+ * Sets the module weight to make ed_readmore run later than most other modules.
+ * This prevents a conflict over the value of $node->readmore when used together
+ * with excerpt.module.
+ */
+function ed_readmore_install() {
+  $ret = db_query("UPDATE {system} SET weight = 5 WHERE name = 'ed_readmore'");
+
+  if ($ret) {
+    drupal_set_message(t('Read More link module installed succesfully.'));
+  }
+  else {
+    drupal_set_message(t('Read More link module installation was unsuccessfull. Could not update module weight in database.'), 'error');
+  }
+}
+
+
+/**
+ * Implementation of hook_uninstall().
+ */
+function ed_readmore_uninstall() {
+  // Pre-update_6000 vars
+  variable_del('ed_readmore_readmore_tweak');
+  variable_del('ed_readmore_readmore_strong');
+  variable_del('ed_readmore_readmore_inline');
+  variable_del('ed_readmore_readmore_remove');
+
+  // Pre-update_6001 var
+  variable_del('ed_readmore_rss');
+
+  // Active vars
+  variable_del('ed_readmore_remove');
+  variable_del('ed_readmore_placement');
+  variable_del('ed_readmore_text');
+  variable_del('ed_readmore_title');
+  variable_del('ed_readmore_tokens');
+  variable_del('ed_readmore_nofollow');
+  variable_del('ed_readmore_separator');
+}
+
+
+/**
+ * Update 6000.
+ * 
+ * Changes variable names and values for users upgrading from 5.x and earlier
+ * 6.x versions (3.x, 4.x).
+ */
+function ed_readmore_update_6000() {
+  // Change ed_readmore_readmore_tweak to ed_readmore_placement
+  if (variable_get('ed_readmore_readmore_tweak', 1)) {
+    variable_set('ed_readmore_placement', 'inline');
+  }
+  else {
+    variable_set('ed_readmore_placement', 'disable');
+  }
+
+  // Wrap link text in <strong> tags if bold option was previously set to TRUE
+  if (variable_get('ed_readmore_readmore_strong', 1)) {
+    $link_text = variable_get('ed_readmore_text', 'Read more &raquo;');
+    variable_set('ed_readmore_text', '<strong>'. $link_text .'</strong>');
+  }
+
+  // Set new "remove 'Read More' link from node linkes value
+  variable_set('ed_readmore_remove', variable_get('ed_readmore_readmore_remove', TRUE));
+
+  // Delete old or renamed vars
+  variable_del('ed_readmore_readmore_tweak');
+  variable_del('ed_readmore_readmore_strong');
+  variable_del('ed_readmore_readmore_inline');
+  variable_del('ed_readmore_readmore_remove');
+
+  // Must return an array
+  return array();
+}
+
+
+/**
+ * Update 6001.
+ * 
+ * Removes obsolete variable "ed_readmore_rss." This module no longer handles
+ * the "read more" link in RSS teasers because Drupal core already does.
+ */
+function ed_readmore_update_6001() {
+  // Delete old var
+  variable_del('ed_readmore_rss');
+
+  // Must return an array
+  return array();
+}

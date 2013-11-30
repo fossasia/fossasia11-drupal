@@ -1,0 +1,91 @@
+<?php
+
+/**
+ * @file
+ * Views Slideshow: SingleFrame is typically used for field views.
+ */
+
+/**
+ * Implements hook_init().
+ */
+function views_slideshow_singleframe_init() {
+  // If the jQ module is installed, use that to add the jQuery Cycle plugin.
+  // This allows different versions of the plugin to be used.
+  $js = FALSE;
+  if (module_exists('jq')) {
+    $loaded_plugins = jq_plugins();
+    if (!empty($loaded_plugins['cycle'])) {
+      $js = jq_add('cycle');
+    }
+  }
+
+  // Otherwise, we'll add the version included with this module.
+  if (!$js) {
+    drupal_add_js(drupal_get_path('module', 'views_slideshow') . '/js/jquery.cycle.all.min.js');
+  }
+
+  $module_path = drupal_get_path('module', 'views_slideshow_singleframe');
+  drupal_add_js($module_path . '/views_slideshow.js', 'module');
+  drupal_add_css($module_path . '/views_slideshow.css', 'module');
+}
+
+/**
+ * Implements hook_theme().
+ */
+function views_slideshow_singleframe_theme($existing, $type, $theme, $path) {
+  return array(
+    'views_slideshow_singleframe' => array(
+      'arguments' => array('view' => NULL, 'options' => array(), 'rows' => array(), 'title' => ''),
+      'template' => 'views-slideshow-singleframe',
+      'file' => 'views_slideshow_singleframe.theme.inc',
+    ),
+    'views_slideshow_singleframe_controls' =>array(
+      'arguments' => array('vss_id' => '', 'view' => NULL, 'options' => array()),
+      'file' => 'views_slideshow_singleframe.theme.inc',
+    ),
+    'views_slideshow_singleframe_control_previous' =>array(
+      'arguments' => array('vss_id' => '', 'view' => NULL, 'options' => array()),
+      'file' => 'views_slideshow_singleframe.theme.inc',
+    ),
+    'views_slideshow_singleframe_control_pause' =>array(
+      'arguments' => array('vss_id' => '', 'view' => NULL, 'options' => array()),
+      'file' => 'views_slideshow_singleframe.theme.inc',
+    ),
+    'views_slideshow_singleframe_control_next' =>array(
+      'arguments' => array('vss_id' => '', 'view' => NULL, 'options' => array()),
+      'file' => 'views_slideshow_singleframe.theme.inc',
+    ),
+    'views_slideshow_singleframe_pager' => array(
+      'arguments' => array('vss_id' => '', 'view' => NULL, 'options' => array()),
+      'file' => 'views_slideshow_singleframe.theme.inc',
+    ),
+    'views_slideshow_singleframe_image_count' => array(
+      'arguments' => array('vss_id' => '', 'view' => NULL, 'options' => array()),
+      'file' => 'views_slideshow_singleframe.theme.inc',
+    ),
+    'views_slideshow_singleframe_no_display_section' => array(
+      'arguments' => array('view' => NULL, 'rows' => NULL, 'vss_id' => NULL, 'mode' => NULL, 'teaser' => TRUE),
+      'file' => 'views_slideshow_singleframe.theme.inc',
+    ),    
+    'views_slideshow_singleframe_no_display_teaser' => array(
+      'arguments' => array('item' => NULL, 'vss_id' => NULL, 'count' => NULL),
+      'file' => 'views_slideshow_singleframe.theme.inc',
+    ),
+  );
+}
+
+/**
+ * Implements hook_help().
+ */
+function views_slideshow_singleframe_help($path, $arg) {
+  switch ($path) {
+    case 'admin/help#views_slideshow_singleframe':
+      if (module_exists('advanced_help')) {
+        $output = '<p>' . l(t('Click here to view the documentation for Views Slideshow SingleFrame.'),  'admin/advanced_help/views_slideshow_singleframe') . '</p>';
+      }
+      else {
+        $output = '<p>' . t('Views Slideshow SingleFrame help can be found by installing and enabling the !advanced_help',  array('!advanced_help' => l('Advanced Help module', 'http://drupal.org/project/advanced_help'))) . '</p>';
+      }
+      return $output;
+  }
+}

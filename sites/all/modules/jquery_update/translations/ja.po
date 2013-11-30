@@ -1,0 +1,38 @@
+# $Id: ja.po,v 1.1 2008/05/31 08:25:08 imagine Exp $
+#
+# Japanese translation of Drupal (jquery_update)
+# Copyright 2008 0829 <hixarg+0829@gmail.com>
+# Generated from files:
+#  jquery_update.info: n/a
+#  jquery_update.install,v 1.1 2008/05/21 05:04:45 webchick Exp
+#  jquery_update.module,v 1.2 2008/05/21 05:04:45 webchick Exp
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Drupal 6.x\n"
+"POT-Creation-Date: 2008-05-29 17:43+0900\n"
+"PO-Revision-Date: 2008-05-29 17:46+0900\n"
+"Last-Translator: 0829 <hixarg+0829@gmail.com>\n"
+"Language-Team: DRUPAL*DRUPAL <hixarg+0829@gmail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+
+#: modules/jquery_update/jquery_update.info:0
+#: modules/jquery_update/jquery_update.install:18
+msgid "jQuery Update"
+msgstr "jQuery アップデート"
+
+#: modules/jquery_update/jquery_update.info:0
+msgid "Updates Drupal to use the latest version of jQuery."
+msgstr "jQuery の最新バージョンを利用するために Drupal をアップデートします。"
+
+#: modules/jquery_update/jquery_update.info:0
+msgid "User Interface"
+msgstr "ユーザインターフェイス"
+
+#: modules/jquery_update/jquery_update.module:0
+msgid "jquery_update"
+msgstr "jQuery アップデート"
+

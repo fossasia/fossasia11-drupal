@@ -1,0 +1,201 @@
+<?php
+// $Id: custom_breadcrumbs.module,v 1.6.2.8 2009/09/30 12:12:11 mgn Exp $
+
+/**
+ * @file
+ * Provide custom breadcrumbs for node-type pages.
+ */
+
+/**
+ * Implementation of hook_menu().
+ */
+function custom_breadcrumbs_menu() {
+  $items = array();
+
+  $items['admin/build/custom_breadcrumbs'] = array(
+    'title' => 'Custom breadcrumbs',
+    'description' => 'Add custom breadcrumb trails for content types.',
+    'page callback' => 'custom_breadcrumbs_page',
+    'access callback' => 'user_access',
+    'access arguments' => array('administer custom breadcrumbs'),
+    'file' => 'custom_breadcrumbs.admin.inc',
+  );
+
+  $items['admin/build/custom_breadcrumbs/add'] = array(
+    'title' => 'Add custom breadcrumb',
+    'type' => MENU_CALLBACK,
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('custom_breadcrumbs_form'),
+    'access callback' => 'user_access',
+    'access arguments' => array('administer custom breadcrumbs'),
+    'file' => 'custom_breadcrumbs.admin.inc',
+  );
+
+  $items['admin/build/custom_breadcrumbs/edit'] = array(
+    'title' => 'Edit custom breadcrumb',
+    'type' => MENU_CALLBACK,
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('custom_breadcrumbs_form'),
+    'access callback' => 'user_access',
+    'access arguments' => array('administer custom breadcrumbs'),
+    'file' => 'custom_breadcrumbs.admin.inc',
+  );
+
+  return $items;
+}
+
+function custom_breadcrumbs_perm() {
+  return array('administer custom breadcrumbs', 'use php in custom breadcrumbs');
+}
+
+/**
+ * Implementation of hook_theme().
+ */
+function custom_breadcrumbs_theme() {
+  return array('custom_breadcrumbs_help_identifiers' => array('arguments' => array()));
+}
+
+function custom_breadcrumbs_nodeapi($node, $op, $teaser, $page) {
+  if ($op == 'alter' && !$teaser && $page) {
+    if ($breadcrumb = _custom_breadcrumbs_load_for_type($node)) {
+      $titles = preg_split("/[\n]+/", $breadcrumb->titles);
+      $paths = preg_split("/[\n]+/", $breadcrumb->paths);
+
+      $titles = module_exists('token') ? token_replace($titles, 'node', $node) : $titles;
+      $paths = module_exists('token') ? token_replace($paths, 'node', $node) : $paths;
+
+      $trail = array(l(t('Home'), '<front>'));
+      for ($i = 0; $i < count($titles); $i++) {
+        $title = trim($titles[$i]);
+        if (($title != '') && ($title != '<none>')) {
+          // Create breadcrumb only if there is a title.
+          $trail[] = _custom_breadcrumbs_create_crumb($title, trim($paths[$i]));
+        }
+      }
+      drupal_set_breadcrumb($trail);
+    }
+  }
+}
+
+function _custom_breadcrumbs_load_breadcrumb($bid) {
+  $sql = 'SELECT * FROM {custom_breadcrumb} WHERE bid = %d';
+  $result = db_query($sql, $bid);
+  $breadcrumb = db_fetch_object($result);
+  return $breadcrumb;
+}
+
+function _custom_breadcrumbs_load_for_type($node) {
+  $sql = "SELECT * FROM {custom_breadcrumb} WHERE node_type = '%s'";
+  $result = db_query($sql, $node->type);
+  while ($breadcrumb = db_fetch_object($result)) {
+    if (!empty($breadcrumb->visibility_php)) {
+      // Use PHP code to check the visibility.
+      ob_start();
+      $visibility = eval(trim($breadcrumb->visibility_php));
+      ob_end_clean();
+      if ($visibility == TRUE) {
+        return $breadcrumb;
+      }
+    }
+    else {
+      return $breadcrumb;
+    }
+  }
+}
+
+function _custom_breadcrumbs_load_all_breadcrumbs($refresh = FALSE) {
+  static $breadcrumbs;
+  if ($refresh || !isset($breadcrumbs)) {
+    $sql = 'SELECT * FROM {custom_breadcrumb}';
+    $result = db_query($sql);
+
+    $breadcrumbs = array();
+    while ($breadcrumb = db_fetch_object($result)) {
+      $breadcrumbs[] = $breadcrumb;
+    }
+  }
+  return $breadcrumbs;
+}
+
+function custom_breadcrumbs_save_breadcrumb($breadcrumb = NULL) {
+  if (is_array($breadcrumb->paths)) {
+    $breadcrumb->paths = implode("\n", $breadcrumb->paths);
+  }
+  if (is_array($breadcrumb->titles)) {
+    $breadcrumb->titles = implode("\n", $breadcrumb->titles);
+  }
+
+  if (isset($breadcrumb->bid)) {
+    drupal_write_record('custom_breadcrumb', $breadcrumb, 'bid');
+  }
+  else {
+    drupal_write_record('custom_breadcrumb', $breadcrumb);
+  }
+}
+
+function _custom_breadcrumbs_delete_breadcrumb($bid) {
+  $sql = 'DELETE FROM {custom_breadcrumb} WHERE bid = %d';
+  db_query($sql, $bid);
+}
+/**
+ * Private function for custom breadcrumb to create a crumb item
+ *
+ * @param $title
+ *   The human readable title to be rendered by the browser
+ * @param $original_path
+ *   The desired URI and/or special identifier
+ */
+function _custom_breadcrumbs_create_crumb($title, $original_path) {
+  // Collapse double slashes to one.
+  $original_path = preg_replace('/\/+/', '/', $original_path);
+  // Removing leading and trailing slashes.
+  $original_path = preg_replace('/^\/|\/+$/', '', $original_path);
+  list($identifier, $path) = explode("|", $original_path, 2);
+
+  if ($path) {
+    switch ($identifier) {
+      case '<pathauto>':
+        if (module_exists('pathauto'))
+          $crumb = l($title, pathauto_cleanstring($path, FALSE));
+        break;
+      default:
+        $crumb = l($title, $original_path);
+    }
+  }
+  else {
+    // This may be just be a single identifier.
+    switch ($identifier) {
+      case '<none>':
+        $crumb = $title;
+        break;
+      default:
+        $crumb = l($title, $original_path);
+    }
+  }
+
+  return $crumb;
+}
+
+/**
+ * Builds a table of identifiers and their behaviors
+ */
+function theme_custom_breadcrumbs_help_identifiers() {
+  $headers = array(t('Identifier'), t('Behaviour'));
+  $rows = array();
+
+  // <none> identifier
+  $row = array();
+  $row[] = check_plain('<none>');
+  $row[] = 'This will result in a plain text crumb. This identifier should not be used with the pipe (|) symbol.';
+  $rows[] = $row;
+
+  // <pathauto> identifier
+  if (module_exists('pathauto')) {
+    $row = array();
+    $row[] = check_plain('<pathauto>');
+    $row[] = 'Cleans the given path using your pathauto replacement rules.';
+    $rows[] = $row;
+  }
+
+  return theme('table', $headers, $rows, array('class' => 'description'));
+}

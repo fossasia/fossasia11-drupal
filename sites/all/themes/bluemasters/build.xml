@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="urbantech" default="help" basedir=".">
+	<description>
+	        theme build script
+			copy this theme into a drupal instance ignoring CVS files
+	</description>
+	<!-- set global properties for this build -->
+	<property name="themename" value="bluemasters" />
+	<property name="drupalpath" value="c:/server/xampp/htdocs/mt-themes/drupal-base/drupal-6.20/" />
+
+	<target name="help">
+		<echo>Available targets</echo>
+		<echo>build</echo>
+		<echo>       ant build -Ddrupalpath={c:/full/path/to/dist/folder}</echo>
+		<echo>clean</echo>
+		<echo>       ant clean -Ddrupalpath={c:/full/path/to/dist/folder}</echo>
+	</target>
+
+	<target name="-init">
+		<!-- Create the time stamp -->
+		<tstamp/>
+	</target>
+
+	<!--
+		| create working directories
+		-->
+	<target name="-makedirs"> 
+		<mkdir dir="${drupalpath}/sites/all/themes/${themename}/"/>
+	</target>
+	
+	<!--
+		| copy files that are common for all distributions
+		-->
+	<target name="-copy-common-files">		
+		
+	</target>
+	
+	<target name="-copy-theme">
+		<copy todir="${drupalpath}/sites/all/themes/${themename}/">
+			<fileset dir=".">
+				<include name="**/*.*"/>
+				<exclude name="CVS"/>
+			</fileset>
+		</copy>
+	</target>
+		
+	<!--
+		| Devilerable content preperation. 
+	    -->
+	<target name="build"
+        description="generate the distribution" >
+		<!-- Create the distribution directory -->
+		<antcall target="-makedirs"/>
+
+		<!-- Copy files -->
+		<antcall target="-copy-theme"/>
+				
+	</target>	
+	
+	<target name="clean"
+        description="clean up" >
+		<!-- Delete the ${work} directory trees -->
+		<delete dir="${drupalpath}/sites/all/themes/${themename}/"/>
+	</target>			
+</project>

@@ -1,0 +1,180 @@
+/* $Id: views-slideshow-ddblock-cycle-fever.css,v 1.1 2010/08/05 07:52:20 antsin Exp $ */
+
+/*
++----------------------------------------------------------------+
+|   Fever for Dupal 6.x - Version 1.0                            |
+|   Copyright (C) 2010 Antsin.com All Rights Reserved.           |
+|   @license - GNU GENERAL PUBLIC LICENSE                        |
+|----------------------------------------------------------------|
+|   Theme Name: Fever                                            |
+|   Description: Fever by Antsin                                 |
+|   Author: Antsin.com                                           |
+|   Date: 5th August 2010                                        |
+|   Website: http://www.antsin.com/                              |
+|----------------------------------------------------------------+
+*/ 
+
+div.views-slideshow-ddblock-cycle-fever div.container {
+  width: 100%;
+}
+div.views-slideshow-ddblock-cycle-fever div.container-inner {
+  height: 300px;
+  position: relative;
+  z-index: 0;
+}
+
+div.views-slideshow-ddblock-cycle-fever div.slider {
+  float:left;
+  width:658px;
+  border: 1px solid #fff;
+}
+
+div.views-slideshow-ddblock-cycle-fever div.slider-inner {
+  background: transparent url("../images/transparent_bg.png") repeat scroll 0 0!important;
+  height: 300px;
+  overflow: hidden;
+  position: relative;
+  visibility: hidden;
+}
+
+div.views-slideshow-ddblock-cycle-fever div.slide {
+  display: none;
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+}
+
+div.views-slideshow-ddblock-cycle-fever div.slide-inner img {
+  width: 660px;
+  height: 300px;
+}
+
+div.views-slideshow-ddblock-cycle-fever div.slide-text {
+  background: transparent url("../images/transparent_bg.png") repeat scroll 0 0!important;
+  position: absolute;
+}
+
+div.views-slideshow-ddblock-cycle-fever div.slide-text-horizontal {
+  left: 0;
+  bottom: 0;
+  height: 80px;
+  width: 660px;
+}
+
+div.views-slideshow-ddblock-cycle-fever div.slide-text-inner {
+  color: white;
+  padding: 10px;
+}
+
+div.views-slideshow-ddblock-cycle-fever div.slide-body-horizontal {
+  width: 640px;
+}
+
+div.views-slideshow-ddblock-cycle-fever div.slide-body-inner p {
+  margin: 0;
+  padding: 0;
+}
+
+div.views-slideshow-ddblock-cycle-fever div.vsd-scrollable-pager {
+  height: 260px;
+  width: 275px;
+  overflow: hidden;
+  position: relative;
+  float: left;
+  padding: 40px 0 0 15px;
+}
+
+div.views-slideshow-ddblock-cycle-fever span.slide-title {
+  font-size: 100%;
+  font-weight: bold;
+}
+
+div.views-slideshow-ddblock-cycle-fever div.vsd-scrollable-pager div.items div {
+  height: 68px;
+}
+
+div.views-slideshow-ddblock-cycle-fever div.vsd-scrollable-pager div.items div a {
+  color: #787878;
+  display: block;
+  height: 58px;
+  text-decoration: none !important;
+}
+
+div.views-slideshow-ddblock-cycle-fever div.vsd-scrollable-pager div.items div a.activeSlide,
+div.views-slideshow-ddblock-cycle-fever div.vsd-scrollable-pager div.items div a:hover {
+  color: #222222;
+}
+
+div.views-slideshow-ddblock-cycle-fever div.vsd-scrollable-pager div.items div a.activeSlide .slide-title,
+div.views-slideshow-ddblock-cycle-fever div.vsd-scrollable-pager div.items div a:hover .slide-title {
+  color: #222222;  
+}
+
+div.views-slideshow-ddblock-cycle-fever div.vsd-scrollable-pager div.items div a.activeSlide img,
+div.views-slideshow-ddblock-cycle-fever div.vsd-scrollable-pager div.items div a:hover img {
+  background: #212121;
+  border: 1px solid #2E2E2E;
+}
+
+div.views-slideshow-ddblock-cycle-fever div.vsd-scrollable-pager div.items div a:focus {
+  outline: none;
+}
+
+div.views-slideshow-ddblock-cycle-fever div.vsd-scrollable-pager div.items img {
+  float: left;
+  border: none;
+  height: 45px;
+  padding: 5px;
+  margin-right: 10px;
+  background: #BBBBBB;
+  border: 1px solid #fff;
+  vertical-align: middle;
+  width: 99px;
+}
+
+/*previous next pager on the slide*/
+div.views-slideshow-ddblock-cycle-fever div.views-slideshow-ddblock-prev-next-slide a  {
+  color: #fff;
+  display: block;
+  height: 28px;
+  margin: 0;
+  padding: 0;
+  width: 28px;
+}
+
+div.views-slideshow-ddblock-cycle-fever div.views-slideshow-ddblock-prev-next-slide a:focus {
+  outline: none;
+}
+
+div.views-slideshow-ddblock-cycle-fever div.next-container {
+  top: 2px;
+  right: 28px;
+  width: 28px;
+  height: 28px;
+  position: absolute;
+}
+
+div.views-slideshow-ddblock-cycle-fever div.prev-container {
+  top: 2px;
+  right: -1px;
+  width: 29px;
+  height: 28px;
+  position: absolute;
+}
+
+div.views-slideshow-ddblock-cycle-fever div.views-slideshow-ddblock-prev-next-slide a.next {
+  background: url("../images/button_next_previous.png") no-repeat top left;
+}
+
+div.views-slideshow-ddblock-cycle-fever div.views-slideshow-ddblock-prev-next-slide a.prev {
+  background: url("../images/button_next_previous.png") no-repeat -28px top;
+}
+
+div.views-slideshow-ddblock-cycle-fever div.views-slideshow-ddblock-prev-next-slide a.next:hover {
+  background: url("../images/button_next_previous.png") no-repeat bottom left;
+}
+
+div.views-slideshow-ddblock-cycle-fever div.views-slideshow-ddblock-prev-next-slide a.prev:hover {
+  background: url("../images/button_next_previous.png") no-repeat -28px bottom;
+}

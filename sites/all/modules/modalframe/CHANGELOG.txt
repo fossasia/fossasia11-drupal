@@ -1,0 +1,102 @@
+// $Id: CHANGELOG.txt,v 1.1.2.29 2010/05/14 03:52:42 markuspetrux Exp $
+
+6.x-1.7 (2010-05-14)
+====================
+
+Features:
+- #732820 Use module_invoke_all('suppress') in child windows to provide support for modules such as admin_menu and admin 2.x.
+
+Bugfixes:
+- #673710 IE issue - Object doesn't support this property or method in js/parent.js line 605.
+- #740160 by corey.aufang - Internet Explorer issues with IFRAME.
+- #744122 Colides with page-admin.tpl.php and other page.tpl.php variants.
+
+Compatibility:
+- #798618 Deprecate support for jQuery UI library 1.6.x.
+
+
+6.x-1.6 (2010-01-02)
+====================
+
+Features:
+- Transform function triggerParentEvent() into a method of the modalFrameChild object, so it can be easily reused.
+- Added onLoad option to client-side modal frame (callback to invoke when the child document in the modal frame is fully loaded).
+- Package name replaced from "User interface" to "Modal frame", because we now have the modalframe_contrib package that provides a few modules that implement Modal Frame API for common day to day tasks.
+- Added onLoad event handler for the iframe element to catch up bugs in server-side of child processing when modalframe_child_js() is not invoked.
+- Added Drupal.theme('modalFrameThrobber') as a helper theme function that can be reused elsewhere.
+- Performance enhancement: prevent template_preprocess_page() from generating sidebar blocks when a modal frame has been requested.
+
+
+6.x-1.5 (2009-12-29)
+====================
+
+Features:
+- #668540 Removed the autoResize option in favor of the autoFit option that serves both purposes.
+- #668540 Added onOpen option to client-side modal frame (callback to invoke when the modal frame is opened).
+- #668540 Added customDialogOptions option to client-side modal frame (an object with custom jQuery UI Dialog options).
+- #668540 Added doxygen comments to Drupal.modalFrame.open() method.
+- #669478 Prevent from resizing the modal frame while a child document is loading or unloading.
+
+Bugfixes:
+- #608472 jQuery Tabs in Modal Frame do not work because the child document is not visible until the child Drupal behavior is executed.
+- #602176 by Bodo Maass: Incorrect scrolling with theme.css from jquery ui 1.7.2.
+- #595646 by EugenMayer, mbutcher: Hide loading animation as soon as the child document is loaded, restore the animation on page transitions.
+- #668000 Unable to use Escape key to close Modal Frame after an inner Modal Frame has been closed.
+- #635754 Closing a Modal Frame breaks mouse events of autocomplete widgets on parent window.
+- #590564 Modal Frame not resized on some situations.
+- #590564 Use custom event handlers to trigger events on the parent from the child window.
+
+
+6.x-1.4 (2009-09-20)
+====================
+
+Features:
+- #536410 by quicksketch: Increase height/width calculation consistency.
+- #498282 Change parent.js to make it easy to extend jQuery UI dialog options (in preparation for finding a way to enhance draggable performance).
+- Hide the contents of the dialog while dragging. Related to [#498282].
+
+Bugfixes:
+- Fix javascript behaviors not executed for AJAX requests in child window.
+- #576448 Use unique filename for CSS files to allow overriding stylesheets from theme.
+
+
+6.x-1.3 (2009-07-08)
+====================
+
+Features:
+- #496078 by Gábor Hojtsy: Make draggability optional.
+- #496056 by Gábor Hojtsy: Do not include site name in modal dialog title.
+
+
+6.x-1.2 (2009-06-17)
+====================
+
+Features:
+- Added second argument to onSubmit handler to get access to status messages generated during form processing.
+
+Bugfixes:
+- #477832 The API function modalframe_close_dialog() does not work on node edit form.
+- Missing $closure in modalframe-page template. Oops!
+
+
+6.x-1.1 (2009-05-30)
+====================
+
+- Load jQuery UI core on child windows to get access to tabbable elements.
+- Fully rewritten method to deal with tabbable elements in child window.
+- Fully rewritten methods to compute dialog size and position.
+- Enhanced clean up code to help browsers deal with memory leaks.
+- Enhanced support for autoResize option. Also, enabled this option in example module.
+- Make sure modalframe_close_dialog() cannot be invoked more than once.
+- Removed a few snippets with IE dependencies present in previous version.
+- CSS simplification: remove class .modalframe-loading, background moved to #modalframe-container.
+- CSS change: opacity effect increased from 0.3 to 0.4.
+- #476004 by bangpound: Remove jQuery Update requirement.
+- Changed description of example module (s/module/API).
+- Minor changes in inline code documentation and coding style.
+
+
+6.x-1.0 (2009-05-27)
+====================
+
+- Initial release.

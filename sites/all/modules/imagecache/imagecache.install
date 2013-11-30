@@ -1,0 +1,322 @@
+<?php
+
+ function imagecache_requirements($phase) {
+  $requirements = array();
+  // Ensure translations don't break at install time.
+  $t = get_t();
+
+  if ($phase == 'runtime') {
+
+    $imagecache_directory = file_create_path() .'/imagecache';
+    if (!file_check_directory($imagecache_directory, FILE_CREATE_DIRECTORY | FILE_MODIFY_PERMISSIONS)) {
+      if (!is_dir($imagecache_directory)) {
+        $requirements['imagecache_directory'] = array(
+          'title' => $t('ImageCache Directory'),
+          'value' => $t('%p is not a directory or is not readable by the webserver.', array('%p' => $imagecache_directory)),
+          'severity' => REQUIREMENT_ERROR,
+        );
+      }
+      elseif (!is_writable($imagecache_directory)) {
+        $requirements['imagecache_directory'] = array(
+          'title' => $t('ImageCache Directory'),
+          'value' => $t('%p is not writeable by the webserver.', array('%p' => $imagecache_directory)),
+          'severity' => REQUIREMENT_ERROR,
+        );
+      }
+      else {
+        $requirements['imagecache_directory'] = array(
+          'title' => $t('ImageCache Directory'),
+          'value' => $t('An unknown error occured.'),
+          'description' => $t('An unknown error occured trying to verify %p is a directory and is writable.', array('%p' => $imagecache_directory)),
+          'severity' => REQUIREMENT_ERROR,
+        );
+      }
+    }
+
+    if (!is_writable(file_directory_temp())) {
+      $requirements['imagecache_directory'] = array(
+        'title' => $t('ImageCache Temp Directory'),
+        'value' => $t('%p is not writeable by the webserver.', array('%p' => file_directory_temp())),
+        'severity' => REQUIREMENT_ERROR,
+      );
+    }
+  }
+  return $requirements;
+}
+
+function imagecache_schema() {
+    $schema['imagecache_preset'] = array(
+    'fields' => array(
+      'presetid' => array(
+        'description' => t('The primary identifier for an imagecache_preset.'),
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'presetname' => array(
+        'description' => t('The primary identifier for a node.'),
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+      ),
+    ),
+    'primary key' => array('presetid'),
+  );
+
+  $schema['imagecache_action'] = array(
+    'fields' => array(
+      'actionid' => array(
+        'description' => t('The primary identifier for an imagecache_action.'),
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'presetid' => array(
+        'description' => t('The primary identifier for an imagecache_preset.'),
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'weight' => array(
+        'description' => t('The weight of the action in the preset.'),
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'module' => array(
+        'description' => t('The module that defined the action.'),
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+      ),
+      'action' => array(
+        'description' => t('The unique ID of the action to be executed.'),
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+      ),
+      'data' => array(
+        'description' => t('The configuration data for the action.'),
+        'type' => 'text',
+        'not null' => TRUE,
+        'size' => 'big',
+        'serialize' => TRUE,
+      ),
+    ),
+    'primary key' => array('actionid'),
+    'indexes' => array(
+      'presetid' => array('presetid'),
+    ),
+  );
+
+  return $schema;
+}
+
+/**
+ * Implementation of hook_install().
+ */
+function imagecache_install() {
+  drupal_install_schema('imagecache');
+}
+
+/**
+ * Implementation of hook_uninstall().
+ */
+function imagecache_uninstall() {
+  // Remove any cached images.
+  $path = file_directory_path() .'/imagecache/';
+  if (is_dir($path)) {
+    _imagecache_recursive_delete($path);
+  }
+
+  drupal_uninstall_schema('imagecache');
+}
+
+// Add action id to actions table.
+function imagecache_update_1() {
+  $ret = array();
+  $ret[] = update_sql('ALTER TABLE {imagecache_actions} ADD COLUMN actionid INT UNSIGNED NOT NULL  primary key auto_increment');
+  return $ret;
+}
+
+// Rename rulesets to presets; Make all table names singular;
+function imagecache_update_2() {
+  $ret = array();
+  $ret[] = update_sql('ALTER TABLE {imagecache_rulesets} RENAME TO {imagecache_preset}');
+  $ret[] = update_sql('ALTER TABLE {imagecache_actions} RENAME TO {imagecache_action}');
+  switch ($GLOBALS['db_type']) {
+    case 'mysql':
+    case 'mysqli':
+      $ret[] = update_sql('ALTER TABLE {imagecache_preset} CHANGE rulesetid presetid INT UNSIGNED NOT NULL AUTO_INCREMENT');
+      $ret[] = update_sql('ALTER TABLE {imagecache_preset} CHANGE rulesetname presetname VARCHAR(255) NOT NULL DEFAULT \'\'');
+      $ret[] = update_sql('ALTER TABLE {imagecache_action} CHANGE rulesetid presetid  INTEGER NOT NULL DEFAULT 0');
+      break;
+
+    case 'pgsql':
+      $ret[] = update_sql('ALTER TABLE {imagecache_preset} RENAME COLUMN rulesetid TO presetid');
+      $ret[] = update_sql('ALTER TABLE {imagecache_preset} RENAME COLUMN rulesetname TO presetname');
+      $ret[] = update_sql('ALTER TABLE {imagecache_action} RENAME COLUMN rulesetid TO presetid');
+      break;
+  }
+  return $ret;
+}
+
+
+/**
+ * Remove auto-increment from tables, instead depending on the sequences table and db_next_id()
+ */
+function imagecache_update_3() {
+  $ret = array();
+
+  $count_action = db_result(db_query('SELECT max(actionid) FROM {imagecache_action}')) + 1;
+  $count_preset = db_result(db_query('SELECT max(presetid) FROM {imagecache_preset}')) + 1;
+
+  switch ($GLOBALS['db_type']) {
+    case 'mysql':
+    case 'mysqli':
+      $ret[] = update_sql("ALTER TABLE {imagecache_action} CHANGE actionid actionid INT UNSIGNED NOT NULL");
+      $ret[] = update_sql("ALTER TABLE {imagecache_preset} CHANGE presetid presetid INT UNSIGNED NOT NULL");
+      // Add the sequences
+      $ret[] = update_sql("INSERT INTO {sequences} (name, id) VALUES ('{imagecache_action}_actionid', $count_action)");
+      $ret[] = update_sql("INSERT INTO {sequences} (name, id) VALUES ('{imagecache_preset}_presetid', $count_preset)");
+      break;
+    case 'pgsql':
+      db_change_column($ret, 'imagecache_action', 'actionid', 'actionid', 'INT', $attributes = array('not null' => TRUE, 'default' => '0'));
+      db_change_column($ret, 'imagecache_preset', 'presetid', 'presetid', 'INT', $attributes = array('not null' => TRUE, 'default' => '0'));
+      // Re-add our indexes
+      $ret[] = update_sql("ALTER TABLE {imagecache_action} ADD PRIMARY KEY (actionid)");
+      $ret[] = update_sql("ALTER TABLE {imagecache_preset} ADD PRIMARY KEY (rulesetid)");
+      // Add the sequences
+      $ret[] = update_sql("CREATE SEQUENCE {imagecache_action}_actionid_seq INCREMENT 1 START $count_action;");
+      $ret[] = update_sql("CREATE SEQUENCE {imagecache_preset}_presetid_seq INCREMENT 1 START $count_preset;");
+  }
+  return $ret;
+}
+
+function imagecache_update_4() {
+  $ret = array();
+
+   // add action column to the imagecache_action table just becuase serialization bugs me.
+   switch ($GLOBALS['db_type']) {
+    case 'mysql':
+    case 'mysqli':
+      $ret[] = update_sql("ALTER TABLE {imagecache_action} ADD COLUMN action varchar(255) not null default '' after weight");
+       break;
+    case 'pgsql':
+      $ret[] = update_sql("ALTER TABLE {imagecache_action} ADD COLUMN action varchar(255) NOT NULL DEFAULT ''");
+      break;
+  }
+
+  // unserialize what we can.
+  $result = db_query("SELECT * FROM {imagecache_action}");
+  while ($row = db_fetch_array($result)) {
+    $data = unserialize($row['data']);
+
+    // remove function from data if present;
+    $function = $data['function'];
+    unset($data['function']);
+    $data = serialize($data);
+
+    // Rename scale and crop for any people who upgraded early...
+    if ($function == 'scale and crop') {
+      $function = 'scale_and_crop';
+    }
+    // Keep scale and crop and the old scale function seperate... I don't really want to break BC with
+    // the 2.x update. We'll deprecate this version.
+    if ($function == 'scale') {
+      $function = 'deprecated_scale';
+    }
+
+    // prefix with module name as per new status quo.
+    // since other modules couldn't implement actions before this update
+    // we assume imagecache...
+    $function = 'imagecache_'. $function;
+
+    db_query("UPDATE {imagecache_action} SET action='%s', data='%s' WHERE actionid = %d", $function, $data, $row['actionid']);
+  }
+  cache_clear_all('*', 'cache', TRUE);
+  return $ret;
+}
+
+function imagecache_update_5() {
+  // enable image API.
+  module_rebuild_cache(); // make sure new modules are in the system table.
+  module_enable(array('imageapi', 'imageapi_gd', 'imageapi_imagemagick')); // enable our new module.
+
+  // @todo: update formatter names: http://cvs.drupal.org/viewvc.py/drupal/contributions/modules/imagecache/imagecache.module?r1=1.68&r2=1.68.2.8&pathrev=DRUPAL-5--2
+  // ln: 516 diff 511.
+
+  return array();
+}
+
+/**
+ * Upgrade from Drupal 5 => Drupal 6.
+ *
+ * Use serial data type for primary keys.  Add module field and presetid index.
+ */
+function imagecache_update_6000() {
+  $ret = array();
+
+  // Our additions to the schema.
+  $schema['imagecache_preset'] = array(
+    'fields' => array(
+      'presetid' => array(
+        'description' => t('The primary identifier for an imagecache_preset.'),
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+    ),
+    'primary key' => array('presetid'),
+  );
+  $schema['imagecache_action'] = array(
+    'fields' => array(
+      'actionid' => array(
+        'description' => t('The primary identifier for an imagecache_action.'),
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'module' => array(
+        'description' => t('The module that defined the action.'),
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'initial' => 'imagecache',
+      ),
+    ),
+    'primary key' => array('actionid'),
+  );
+
+  // Update primary keys to serial type for Drupal 6
+  foreach ($schema as $table => $info) {
+    $field = $info['primary key'][0];
+    if (db_table_exists('sequences')) {
+      $ret[] = update_sql("DELETE FROM {sequences} WHERE name = '{{$table}}_{$field}'");
+    }
+    db_change_field($ret, $table, $field, $field, $info['fields'][$field]);
+  }
+
+  // Going to assume that if the table doesn't have a module column that
+  // it needs the index as well.
+  if (!db_column_exists('imagecache_action', 'module')) {
+    // Add 'module' column to action table.
+    db_add_field($ret, 'imagecache_action', 'module', $schema['imagecache_action']['fields']['module']);
+
+    // Add 'presetid' index to action table
+    db_add_index($ret, 'imagecache_action', 'presetid', array('presetid'));
+  }
+
+
+  return $ret;
+}
+
+/**
+ * Make sure the schemas match, the weight should be signed.
+ */
+function imagecache_update_6001() {
+  $ret = array();
+  db_change_field($ret, 'imagecache_action', 'weight', 'weight', array('type' => 'int', 'not null' => TRUE, 'default' => 0));
+  return $ret;
+}

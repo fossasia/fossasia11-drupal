@@ -1,0 +1,119 @@
+/* $Id: noderelationships.admin_erd.css,v 1.1.2.1 2009/09/20 18:08:53 markuspetrux Exp $ */
+
+/**
+ * Entity Relationship Diagram (ERD).
+ */
+.noderelationships-erd {
+  margin: 2em 0 0 0;
+  padding: 0;
+}
+.noderelationships-erd-group {
+  margin: 0;
+  padding: 1em;
+  background-color: #f8f8f8;
+  border: 1px dashed #808080;
+  text-align: center;
+}
+
+.noderelationships-erd-entity {
+  display: inline-block;
+  margin: 0.5em;
+  padding: 0;
+  vertical-align: top;
+}
+.noderelationships-erd-entity-caption {
+  margin: 0;
+  padding: 0;
+  color: #cecece;
+  background-color: #6699cc;
+}
+.noderelationships-erd-entity-caption h2 a,
+.noderelationships-erd-entity-caption h2 a:link,
+.noderelationships-erd-entity-caption h2 a:active,
+.noderelationships-erd-entity-caption h2 a:visited {
+  color: #f0f0f0;
+}
+.noderelationships-erd-entity-caption h2 a:hover {
+  color: #ffffff;
+}
+.noderelationships-erd-entity-caption h2 {
+  margin: 0;
+  padding: 0.4em 30px 0.4em 30px;
+  font-family: Verdana, sans-serif;
+  font-size: 1em;
+  font-weight: bold;
+  text-align: left;
+}
+.noderelationships-erd-referrer h2 {
+  background: url(../images/entity-referrer.png) no-repeat 8px 0.4em;
+}
+.noderelationships-erd-referred h2 {
+  background: url(../images/entity-referred.png) no-repeat 8px 0.4em;
+}
+.noderelationships-erd-entity .noderelationships-erd-fields {
+  margin: 0;
+  padding: 0.6em 0;
+  list-style: none;
+  background-color: #d8e8f8;
+  text-align: left;
+}
+.noderelationships-erd-entity .noderelationships-erd-fields ul {
+  margin: 0;
+  padding: 0;
+}
+.noderelationships-erd-entity .noderelationships-erd-fields li {
+  margin: 0;
+  padding: 0.1em 30px 0.1em 30px;
+  list-style: none;
+  background-image: none;
+}
+.noderelationships-erd-fields li.noderelationships-erd-noderef {
+  background: url(../images/field-nodereference.png) no-repeat 8px 0.2em;
+}
+
+.noderelationships-erd-relation {
+  margin: 0;
+  padding: 0;
+  background: url(../images/relation-arrow-down.gif) no-repeat 50% 100%;
+  text-align: center;
+}
+.noderelationships-erd-relation-box {
+  display: inline-block;
+  margin: 0;
+  padding: 1em 0 2em 0;
+}
+.noderelationships-erd-relation-caption {
+  margin: 0;
+  padding: 0;
+  color: #606060;
+  background-color: #e0e0e0;
+}
+.noderelationships-erd-relation-caption h2 {
+  margin: 0;
+  padding: 0.2em 1em;
+  font-family: Verdana, sans-serif;
+  font-size: 1em;
+  font-weight: bold;
+}
+
+.noderelationships-erd-current {
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+.noderelationships-erd-current .noderelationships-erd-entity {
+  margin: 0;
+  padding: 0;
+}
+.noderelationships-erd-current .noderelationships-erd-entity h2 {
+  background: url(../images/entity-current.png) no-repeat 8px 0.4em;
+}
+.noderelationships-erd-current .noderelationships-erd-entity h2.noderelationships-erd-self {
+  background: url(../images/entity-current-self.png) no-repeat 8px 0.4em;
+}
+.noderelationships-erd-current .noderelationships-erd-entity li {
+  background: url(../images/field-nodereference-self.png) no-repeat 8px 0.2em;
+}
+.noderelationships-erd-current .noderelationships-erd-entity li.noderelationships-erd-noderef-any {
+  background: url(../images/field-nodereference-any.png) no-repeat 8px 0.2em;
+}

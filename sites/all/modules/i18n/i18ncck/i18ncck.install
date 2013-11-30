@@ -1,0 +1,16 @@
+<?php
+
+/**
+ * @file
+ * Installation file for i18ncck module.
+ */
+
+/**
+ * Implementation of hook_enable().
+ *
+ * Create all strings from CCK for translation.
+ */
+function i18ncck_enable() {
+  drupal_load('module', 'i18nstrings');
+  i18ncck_locale_refresh();
+}

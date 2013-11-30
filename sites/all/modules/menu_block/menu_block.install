@@ -1,0 +1,146 @@
+<?php
+// $Id: menu_block.install,v 1.18 2010/03/22 07:12:51 johnalbin Exp $
+
+/**
+ * @file
+ * Provides install, upgrade and un-install functions for menu_block.
+ */
+
+/**
+ * Implements hook_uninstall().
+ */
+function menu_block_uninstall() {
+  // Delete menu block variables.
+  foreach (variable_get('menu_block_ids', array()) AS $delta) {
+    variable_del("menu_block_{$delta}_title_link");
+    variable_del("menu_block_{$delta}_admin_title");
+    variable_del("menu_block_{$delta}_parent");
+    variable_del("menu_block_{$delta}_level");
+    variable_del("menu_block_{$delta}_follow");
+    variable_del("menu_block_{$delta}_depth");
+    variable_del("menu_block_{$delta}_expanded");
+    variable_del("menu_block_{$delta}_sort");
+  }
+  variable_del('menu_block_ids');
+  variable_del('menu_block_menu_order');
+  // Remove block configurations.
+  db_query("DELETE FROM {blocks} WHERE module = 'menu_block'");
+  db_query("DELETE FROM {blocks_roles} WHERE module = 'menu_block'");
+  cache_clear_all();
+}
+
+/**
+ * Implements hook_enable().
+ */
+function menu_block_enable() {
+  drupal_set_message(t('To use menu blocks, find the "Add menu block" tab (or button) on the <a href="@url">administer blocks page</a>.', array('@url' => url('admin/build/block'))));
+}
+
+/**
+ * Implements hook_install().
+ */
+function menu_block_install() {
+  // No-op.
+}
+
+/**
+ * Implements hook_update_N().
+ *
+ * Pre-1.0 versions used a different naming convention for block names. Convert
+ * the old names to the new format. An unfortunate side effect of this renaming
+ * is that it disables all the previously enabled blocks.
+ */
+function menu_block_update_5100() {
+  $delta = 0;
+  $enabled_blocks = array();
+
+  // Find the old enabled blocks.
+  foreach (variable_get('menu_block_enabled_blocks', array()) AS $old_delta => $enabled) {
+    list($mid, $level) = explode('-', $old_delta);
+    if ($enabled) {
+      $enabled_blocks[++$delta] = TRUE;
+      variable_set("menu_block_{$delta}_mid", $mid);
+      variable_set("menu_block_{$delta}_level", $level);
+      variable_set("menu_block_{$delta}_depth", variable_get("menu_block_depth_{$mid}_{$level}", 0));
+      variable_set("menu_block_{$delta}_expanded", variable_get("menu_block_expanded_{$mid}_{$level}", 0));
+    }
+    // Remove any of the old-style variables.
+    variable_del("menu_block_depth_{$mid}_{$level}");
+    variable_del("menu_block_expanded_{$mid}_{$level}");
+  }
+  variable_set('menu_block_enabled_blocks', $enabled_blocks);
+
+  return array(0 => array('success' => TRUE, 'query' => t('A pre-release version of Menu block has been detected. All menu blocks from the pre-release version have been given a new delta and are no longer placed in any block regions; their block placement should be re-configured immediately.')));
+}
+
+/**
+ * Implements hook_update_N().
+ *
+ * Converts $menu_block_enabled_blocks to $menu_block_ids and
+ * $menu_block_DELTA_mid to $menu_block_DELTA_menu_name. Also deletes un-enabled
+ * menu blocks.
+ */
+function menu_block_update_5200() {
+  $block_ids = array();
+  foreach (variable_get('menu_block_enabled_blocks', array()) AS $delta => $enabled) {
+    if ($enabled) {
+      $block_ids[] = $delta; // Build new $menu_block_ids.
+      // Convert $menu_block_DELTA_mid to $menu_block_DELTA_menu_name.
+      $mid = variable_get("menu_block_{$delta}_mid", 1);
+      variable_set("menu_block_{$delta}_menu_name", $mid);
+      // If we weren't upgraded to 5.x-2.x before the Drupal 6 upgrade, the
+      // mid-to-menu_name conversion is not possible.
+      variable_set("menu_block_{$delta}_title", $mid == 2 ? 'primary-links' : 'navigation');
+      variable_del("menu_block_{$delta}_mid");
+    }
+    else {
+      // Delete un-enabled menu block.
+      variable_del("menu_block_{$delta}_mid");
+      variable_del("menu_block_{$delta}_level");
+      variable_del("menu_block_{$delta}_depth");
+      variable_del("menu_block_{$delta}_expanded");
+      db_query("DELETE FROM {blocks} WHERE module = 'menu_block' AND delta = %d", $delta);
+    }
+  }
+  // Finish conversion of $menu_block_enabled_blocks to $menu_block_ids.
+  sort($block_ids);
+  variable_set('menu_block_ids', $block_ids);
+  variable_del('menu_block_enabled_blocks');
+  cache_clear_all();
+
+  return array(0 => array('success' => TRUE, 'query' => t('A 5.x-1.x version of Menu block has been detected and an attempt was made to upgrade it. Unfortunately, you should have upgraded to Menu block 5.x-2.x before your upgrade to Drupal 6. You may need to re-configure all your menu blocks. To use menu blocks in Drupal 6, find the "Add menu block" tab (or button) on the <a href="@url">administer blocks page</a>.', array('@url' => url('admin/build/block')))));
+}
+
+/**
+ * Implements hook_update_N().
+ *
+ * Converts the mids to menu names using the D5-stored menu_title variable.
+ */
+function menu_block_update_6200() {
+  $menus = menu_get_menus();
+  foreach (variable_get('menu_block_ids', array()) AS $delta) {
+    // Drupal 6 uses the menu title to create the new menu_name.
+    $menu_name = preg_replace('/[^a-zA-Z0-9]/', '-', strtolower(variable_get("menu_block_{$delta}_title", '')));
+    // If we can't find the new menu_name, default to the navigation menu.
+    if (empty($menus[$menu_name])) {
+      $menu_name = 'navigation';
+    }
+    variable_set("menu_block_{$delta}_menu_name", $menu_name);
+    variable_del("menu_block_{$delta}_title");
+  }
+  return array(0 => array('success' => TRUE, 'query' => t('The 5.x-2.x version of Menu block has been upgraded. To use menu blocks in Drupal 6, find the "Add menu block" tab (or button) on the <a href="@url">administer blocks page</a>.', array('@url' => url('admin/build/block')))));
+}
+
+/**
+ * Implements hook_update_N().
+ *
+ * Converts the menu names to parent items.
+ */
+function menu_block_update_6201() {
+  $menus = menu_get_menus();
+  foreach (variable_get('menu_block_ids', array()) AS $delta) {
+    variable_set("menu_block_{$delta}_parent", variable_get("menu_block_{$delta}_menu_name", 'navigation') . ':0');
+    variable_del("menu_block_{$delta}_menu_name");
+  }
+  return array(0 => array('success' => TRUE, 'query' => t('The 6.x-2.0 version of Menu block has been upgraded. To use menu blocks in Drupal 6, find the "Add menu block" tab (or button) on the <a href="@url">administer blocks page</a>.', array('@url' => url('admin/build/block')))));
+}

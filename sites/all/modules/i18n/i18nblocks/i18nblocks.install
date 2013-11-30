@@ -1,0 +1,151 @@
+<?php
+
+/**
+ * @file
+ * Installation file for i18nblocks module.
+ */
+
+// @ TODO Update scripts
+/**
+ * Implementation of hook_install().
+ */
+function i18nblocks_install() {
+  // Create database tables.
+  drupal_install_schema('i18nblocks');
+  // We dont need to change module weight
+  //db_query("UPDATE {system} SET weight = 20 WHERE name = 'i18nblocks' AND type = 'module'");
+}
+
+/**
+ * Implementation of hook_uninstall().
+ */
+function i18nblocks_uninstall() {
+  drupal_uninstall_schema('i18nblocks');
+}
+
+/**
+ * Implementation of hook_schema().
+ */
+function i18nblocks_schema() {
+  $schema['i18n_blocks'] = array(
+    'description' => 'Special i18n translatable blocks.',
+    'fields' => array(
+      'ibid' => array(
+        'description' => 'The i18n block identifier.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE
+      ),
+      'module' => array(
+        'type' => 'varchar',
+        'length' => 64,
+        'not null' => TRUE,
+        'description' => "The block's origin module, from {blocks}.module.",
+      ),
+      'delta' => array(
+        'type' => 'varchar',
+        'length' => 32,
+        'not null' => TRUE,
+        'default' => '0',
+        'description' => 'Unique ID for block within a module.',
+      ),
+     'type' => array(
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+        'description' => 'Block type.',
+      ),
+      'language' => array(
+        'type' => 'varchar',
+        'length' => 12,
+        'description' => 'Block language.',
+        'not null' => TRUE,
+        'default' => '',
+      ),
+    ),
+    'primary key' => array(
+      'ibid',
+    ),
+  );
+
+  return $schema;
+}
+
+/**
+ * Update: move old variable to new tables.
+ */
+function i18nblocks_update_1() {
+  $ret = array();
+  $t = get_t();
+  require_once drupal_get_path('module', 'i18nblocks') .'/i18nblocks.module';
+  require_once drupal_get_path('module', 'i18n') .'/i18n.module';
+  // Create the tables if updating from previous version.
+  i18nblocks_install();
+  // Move old data from variables into new tables.
+  $languages = i18n_supported_languages();
+  if ($number = variable_get('i18nblocks_number', 0)) {
+    for ($delta = 1; $delta <= $number; $delta++) {
+      if ($block = variable_get('i18nblocks_'. $delta, NULL)) {
+        $update = update_sql("INSERT INTO {i18n_blocks} (delta) VALUES('". db_escape_string($delta) ."')");
+        $ret[] = $update;
+        $metablock = array();
+        if ($update['success']) {
+          $metablock['delta'] = $delta;
+        }
+        $metablock['info'] = isset($block['name']) ? $block['name'] : '';
+        $metablock['i18nblocks'] = array();
+        foreach (array_keys($languages) as $lang) {
+          if (isset($block[$lang]) && isset($block[$lang]['module']) && isset($block[$lang]['delta'])) {
+            $metablock['i18nblocks'][$lang] = $block[$lang]['module'] .':'. $block[$lang]['delta'];
+          }
+        }
+      }
+      i18nblocks_save($metablock);
+    }
+    drupal_set_message($t('The i18nblocks have been updated. Please, review your block settings.'));
+  }
+  return $ret;
+}
+
+/**
+ * Drupal 6 upgrade script.
+ */
+function i18nblocks_update_2() {
+  $ret = array();
+  // Rename old table and install new schema
+  db_rename_table($ret, 'i18n_blocks', 'i18n_blocks_drupal5');
+  drupal_install_schema('i18nblocks');
+  // Fill in new table with old blocks but only for user defined blocks.
+  // The rest will need manual update
+  $ret[] = update_sql("INSERT INTO {i18n_blocks} (module, delta, language) SELECT i.module, i.delta, i.language FROM {i18n_blocks_i18n} i WHERE i.module = 'block'");
+
+  drupal_set_message(t('Multilingual blocks have been updated. Please, review your blocks configuration.'));
+  return $ret;
+}
+
+/**
+ * Drop old tables and fields. Uncomment when the previous one is 100% working.
+ */
+/*
+function i18nblocks_update_3() {
+  $items = array();
+  $items[] = update_sql('DROP TABLE {i18n_blocks_i18n}');
+  $items[] = update_sql('DROP TABLE {i18n_blocks_drupal5}');
+  return $items;
+}*/
+
+/**
+ * Rework block string keys, all must use module, delta
+ */
+function i18nblocks_update_6001() {
+  $ret = array();
+  $result = db_query("SELECT * FROM {i18n_blocks} WHERE module = 'block' AND language = ''");
+  while ($block = db_fetch_object($result)) {
+    foreach (array('title' => 'title', 'content' => 'body') as $property => $rename) {
+      $old = "blocks:block:$block->ibid:$property";
+      $new = "blocks:block:$block->delta:$rename";
+      i18nstrings_update_context($old, $new);
+    }
+  }
+  return $ret;
+}

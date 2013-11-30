@@ -1,0 +1,38 @@
+; $Id: fever.info,v 1.1 2010/08/05 07:51:20 antsin Exp $
+
+name        = Antsin - Fever
+description = Theme by <a href="http://www.antsin.com">Antsin</a> - Drupal Theme Maker
+screenshot  = screenshot.png
+core        = 6.x
+engine      = phptemplate
+
+stylesheets[all][]   = css/fever.css
+stylesheets[all][]   = css/custom.css
+
+regions[header]               = header
+regions[search]               = search
+regions[navbar]               = navigation bar
+regions[showcase]             = showcase
+regions[content_bottom_one]   = content bottom one
+regions[content_bottom_two]   = content bottom two
+regions[content_bottom_three] = content bottom three
+regions[content_bottom_four]  = content bottom four
+regions[content_bottom_five]  = content bottom five
+regions[left]                 = left sidebar
+regions[right]                = right sidebar
+regions[closure_region]       = closure
+
+features[] = logo
+features[] = name
+features[] = slogan
+features[] = comment_user_picture
+features[] = search
+features[] = favicon
+features[] = primary_links
+features[] = secondary_links
+; Information added by drupal.org packaging script on 2010-12-17
+version = "6.x-1.5"
+core = "6.x"
+project = "fever"
+datestamp = "1292548252"
+

@@ -1,0 +1,92 @@
+<?php
+
+/**
+ * @file
+ * The profile_checkboxes module install file, which handles the install/uninstall tasks.
+ *
+ */
+
+ /**
+ * Implementation of hook_install().
+ */
+function profile_checkboxes_install() {
+  // Create tables
+  drupal_install_schema('profile_checkboxes');
+}
+
+/**
+ * Implementation of hook_uninstall().
+ */
+function profile_checkboxes_uninstall() {
+  // Transform serialized data in the profile_values table to avoid confusing values in forgotten fields
+  $result = db_query("SELECT pc.type, pc.delimiter, v.* FROM {profile_checkboxes} pc JOIN {profile_values} v ON pc.fid = v.fid");
+  while ($record = db_fetch_object($result)) {
+    // check each field whether it is a "multiple" type
+    if ($record->type == "multiple" || $record->type == "checkboxes") {
+      if (isset($record->value) && $record->uid && $record->fid) {
+        // An imploded array is probably the best way to hold the user data for display
+        $transformed = implode($record->delimiter, (array)unserialize($record->value));
+        // update the related field in the database
+        db_query("UPDATE {profile_values} SET value = '%s' WHERE fid = %d AND uid = %d",$transformed, $record->fid, $record->uid);
+      }
+    }
+  }
+
+  // Remove tables
+  drupal_uninstall_schema('profile_checkboxes');
+}
+
+/**
+ * Implementation of hook_schema().
+ */
+function profile_checkboxes_schema() {
+  $schema['profile_checkboxes'] = array(
+    'description' => t('Stores choice for profile list selection field alternates.'),
+    'fields' => array(
+      'fid' => array(
+        'description' => t('Profile field id.'),
+        'type' => 'int',
+        'not null' => TRUE,
+      ),
+      'type' => array(
+        'description' => t('List selection type.'),
+        'type' => 'varchar',
+        'length' => '10',
+        'not null' => TRUE,
+        'default' => '0',
+      ),
+      'delimiter' => array(
+        'description' => t('Value separator string.'),
+        'type' => 'varchar',
+        'length' => '10',
+        'not null' => TRUE,
+      ),
+    ),
+    'indexes' => array(
+      'fid' => array('fid'),
+    ),
+  );
+
+  return $schema;
+}
+
+function profile_checkboxes_update_1() {
+  $return = array();
+
+  // convert existing profile checkboxes values from comma-delimited to serialize
+  $result = db_query("SELECT pv.* FROM {profile_values} pv INNER JOIN {profile_checkboxes} pc ON pc.fid = pv.fid WHERE pc.checkboxes > 0");
+  while ($row = db_fetch_object($result)) {
+    db_query("UPDATE {profile_values} SET value = '%s' WHERE fid = %d AND uid = %d", serialize(explode(', ', $row->value)), $row->fid, $row->uid);
+  } 
+  // change name of column storing name of list selection field alternate
+  $return[] = update_sql("ALTER TABLE {profile_checkboxes} CHANGE COLUMN checkboxes type VARCHAR(10) NOT NULL DEFAULT '0'");
+  // add column to store separator string for displaying multiple values
+  $return[] = update_sql("ALTER TABLE {profile_checkboxes} ADD delimiter VARCHAR(10) NOT NULL AFTER type");
+  // change values of list selection field types from numeric to string; define default delimiter string
+  $return[] = update_sql("UPDATE {profile_checkboxes} SET type = 'list', delimiter = ', ' WHERE type = 0");
+  $return[] = update_sql("UPDATE {profile_checkboxes} SET type = 'checkboxes', delimiter = ', ' WHERE type = 1");
+  $return[] = update_sql("UPDATE {profile_checkboxes} SET type = 'radios', delimiter = ', ' WHERE type = 2");
+  $return[] = update_sql("UPDATE {profile_checkboxes} SET type = 'multiple', delimiter = ', ' WHERE type = 3");
+
+  return $return;
+}

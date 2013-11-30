@@ -1,0 +1,132 @@
+<?php
+// $Id: translation_table.module,v 1.1.2.5 2009/09/30 01:07:34 pasqualle Exp $
+
+/**
+ * @file
+ * Translation table module
+ *
+ * UI for quick translation of user submitted strings.
+ * The i18n module allows the translation of different dynamic strings, but the
+ * process is tedious.
+ *
+ * This module presents your taxonomy terms, menu items and other text groups in
+ * a table, and each language has a corresponding column. Just fill out the
+ * translations and click Save.
+ */
+
+/**
+ * Implementation of hook_menu().
+ */
+function translation_table_menu() {
+  $items = array();
+
+  // Get the different translation tables.
+  foreach (module_list() as $module) {
+    translation_table_module_include("$module.translation_table.inc");
+  }
+
+  $module_items = module_invoke_all('translation_table_data');
+
+  foreach ($module_items as $key => $module_item) {
+    if (isset($module_item['form']) && isset($module_item['file'])) {
+      $items['admin/build/translate/table/'. $key] = array(
+        'title' => isset($module_item['title']) ? $module_item['title'] : 'Unknown',
+        'description' => isset($module_item['description']) ? $module_item['description'] : '*',
+        'page callback' => 'translation_table_get_form',
+        'page arguments' => array($module_item['form']),
+        'access callback' => 'user_access',
+        'access arguments' => array('translate interface'),
+        'type' => MENU_LOCAL_TASK,
+        'file' => $module_item['file'],
+        'file path' => isset($module_item['file path']) ? $module_item['file path'] : NULL,
+      );
+    }
+  }
+
+  if (!empty($items)) {
+    // Modify the fist item to local task.
+    $first_key = key($items);
+    $items[$first_key]['weight'] = -10;
+    $items[$first_key]['type'] = MENU_DEFAULT_LOCAL_TASK;
+
+    $items['admin/build/translate/table'] = array(
+      'title' => 'Translation table',
+      'description' => 'Edit translations',
+      'page callback' => 'translation_table_get_form',
+      'page arguments' => $items[$first_key]['page arguments'],
+      'access callback' => 'user_access',
+      'access arguments' => array('translate interface'),
+      'type' => MENU_LOCAL_TASK,
+      'file' => $items[$first_key]['file'],
+    );
+  }
+
+  return $items;
+}
+
+/**
+ * Menu callback;
+ */
+function translation_table_get_form($form_id) {
+  module_load_include('inc', 'translation_table', 'includes/admin');
+  return drupal_get_form($form_id);
+}
+
+/**
+ * Implementation of hook_theme().
+ */
+function translation_table_theme() {
+  return array(
+    'translation_table' => array(
+      'arguments' => array('form' => NULL),
+      'file' => 'includes/theme.inc',
+    ),
+    'translation_table_filter' => array(
+      'arguments' => array('form' => NULL),
+      'file' => 'includes/theme.inc',
+    ),
+  );
+}
+
+/**
+ * Load translation table files on behalf of modules.
+ */
+function translation_table_module_include($file) {
+  foreach (translation_table_get_module_apis() as $module => $info) {
+    if (file_exists("./$info[path]/$file")) {
+      require_once "./$info[path]/$file";
+    }
+  }
+}
+
+/**
+ * Get a list of modules that support the current translation_table API.
+ */
+function translation_table_get_module_apis() {
+  static $cache = NULL;
+  if (!isset($cache)) {
+    $cache = array();
+    foreach (module_implements('translation_table_api') as $module) {
+      $function = $module .'_translation_table_api';
+      $info = $function();
+      if (isset($info['api']) && $info['api'] == 1.000) {
+        if (!isset($info['path'])) {
+          $info['path'] = drupal_get_path('module', $module);
+        }
+        $cache[$module] = $info;
+      }
+    }
+  }
+
+  return $cache;
+}
+
+/**
+ * Implementation of hook_translation_table_api().
+ */
+function translation_table_translation_table_api() {
+  return array(
+    'api' => 1,
+    'path' => drupal_get_path('module', 'translation_table') .'/modules',
+  );
+}

@@ -1,0 +1,22 @@
+Installation
+------------
+This module requires the htmltidy executable for your machine to be available.
+
+1. Place htmltidy.module in modules/htmltidy:
+
+2. Download and unpack Tidy from http://tidy.sf.net
+   Place it in the 'bin' directory of this module if you like and it will 
+   be found automatically.
+
+3. Enable the htmltidy module under administer > configuration > modules.
+
+4. Enable it as an input filter on your chosen input format at
+   Administer > Site configuration > Input formats
+
+5. Once enabled, formatting options are available if you use the [Configure]
+   tab for that input format.
+   The only option you absolutely *must* set is the location
+   of the tidy executable.
+
+6. Grant the proper access to user accounts under administer > accounts >
+   permissions.

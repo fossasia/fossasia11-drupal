@@ -1,0 +1,14 @@
+; $Id: customcssjs.info,v 1.1.2.1 2009/07/24 10:29:11 davebv Exp $
+name = Custom CSS and JS
+description = Allows to upload CSS and JS files to a folder and use them as extra theming.
+core = 6.x
+
+; dependencies[] =
+package = Theme
+
+; Information added by drupal.org packaging script on 2010-08-17
+version = "6.x-1.6"
+core = "6.x"
+project = "customcssjs"
+datestamp = "1282069590"
+

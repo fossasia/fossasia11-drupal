@@ -1,0 +1,42 @@
+<?php
+
+/**
+ * Implements hook_menu().
+ */
+function xmlsitemap_engines_test_menu() {
+  $items['ping'] = array(
+    'page callback' => 'xmlsitemap_engines_test_pinged',
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
+  );
+  return $items;
+}
+
+/**
+ * Implements hook_xmlsitemap_engine_info().
+ */
+function xmlsitemap_engines_test_xmlsitemap_engine_info() {
+  $engines['simpletest'] = array(
+    'name' => t('SimpleTest'),
+    'url' => 'http://example.com/',
+  );
+  return $engines;
+}
+
+/**
+ * Implements hook_xmlsitemap_engine_info_alter().
+ */
+function xmlsitemap_engines_test_xmlsitemap_engine_info_alter(&$engines) {
+  $engines['simpletest']['url'] = url('ping', array('absolute' => TRUE, 'query' => array('sitemap' => ''))) . '[sitemap]';
+}
+
+function xmlsitemap_engines_test_pinged() {
+  if (empty($_GET['sitemap']) || !valid_url($_GET['sitemap'])) {
+    watchdog('xmlsitemap', 'No valid sitemap parameter provided.', array(), WATCHDOG_WARNING);
+    // @todo Remove this? Causes an extra watchdog error to be handled.
+    return drupal_not_found();
+  }
+  else {
+    watchdog('xmlsitemap', 'Recieved ping for @sitemap.', array('@sitemap' => $_GET['sitemap']));
+  }
+}

@@ -1,0 +1,34 @@
+// $Id: CHANGELOG.txt,v 1.3.2.1.2.4 2010/04/23 16:37:46 sun Exp $
+
+jQuery Update 6.x-2.x, xxxx-xx-xx
+---------------------------------
+
+
+jQuery Update 6.x-2.0-alpha1, 2010-04-23
+----------------------------------------
+#452376 by jcmarco, CPyle, markus_petrux: Fixed tabledrag.js override for Views.
+- Updated to jQuery 1.3.x.
+- Removed Packed version. It is not longer distributed by jQuery.
+
+
+jQuery Update 6.x-1.x, xxxx-xx-xx
+---------------------------------
+- Updated to use drupal 7 version of farbtastic.js.
+- #227687 by sun: Fixed improperly capitalized package name.
+- #339105 by bdragon and q0rban. Allow tabledrag to work inside fieldsets.
+
+
+jQuery Update 6.x-1.1, 2008-06-23
+---------------------------------
+- Ships with jQuery 1.2.6 + replacement for farbtastic.js to fix IE 6
+  compatibility.
+- Added version detection to only replace jquery.js if core's version is older.
+- Allow selection of jquery.js compression from admin settings page.
+
+
+jQuery Update 6.x-1.0, 2008-05-26
+---------------------------------
+- Initial release for Drupal 6
+- Ships with jQuery 1.2.4a for use with jQuery UI 1.5b4.
+- No more need to change any core files; replacement of jquery.js happens
+  automatically!

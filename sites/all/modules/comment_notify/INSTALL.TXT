@@ -1,0 +1,47 @@
+$Id: INSTALL.TXT,v 1.7 2009/11/07 18:48:34 greggles Exp $
+
+INSTALLATION
+------------
+
+1. Enable module on the Administer > Site Building > Modules
+
+2. Grant permission to use this module:
+
+http://example.com/admin/user/permissions#module-comment_notify
+
+3. Configure the settings for comments, especially
+    -comment moderation on/off
+    -users must leave their contact info (set to yes, or optional)
+
+4. Configure this module at Administer > Site configuraiton > Comment Notify
+
+  -Determine which content types to activate it for
+  -Determine which subscription modes are allowed
+  -Configure the templates for the e-mails
+  
+5. Set your node-notify settings per user (optional)
+The module includes a feature to notify the node author of all comments on 
+their nodes. To enable this go to "My account" > Edit (e.g. user/1/edit)
+and change the settings there.
+  
+OPTIONAL MODULES
+----------------
+
+Performance: If you notice that your site is very slow when submitting
+new comments it is possible that the problem is with sending the mails. 
+One option is to use the Queue Mail module
+http://drupal.org/project/queue_mail
+
+COMPATIBILITY NOTE
+------------------------ 
+Comment Notify is not built to work
+on sites where other mail related modules are installed (modules like Actions,
+Notify, Subscriptions, and Organic Groups are popular examples). If you install
+both Comment Notify and one of these other mail modules on your site in addition
+to Comment Notify it may send duplicate messages and/or have user interface
+elements that will appear to be duplicates and confuse your site visitors.
+
+The suggested configuration in these instances is to separate Comment Notify and
+whatever other mail module you have installed. Common ways to separate them are
+by content type or user permissions.
+

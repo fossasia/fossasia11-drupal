@@ -1,0 +1,80 @@
+<?php
+
+/**
+ * Implements hook_menu_alter().
+ */
+function xmlsitemap_modal_menu_alter(&$items) {
+  foreach ($items as $path => $item) {
+    if (!empty($item['modal']) && strpos($path, '%ctools_js') === FALSE && $item['page callback'] ==='drupal_get_form') {
+      $items["$path/%ctools_js"] = $item;
+      $items["$path/%ctools_js"]['page callback'] = 'xmlsitemap_modal_get_form';
+      $items["$path/%ctools_js"]['page arguments'][] = substr_count($path, '/') + 1;
+    }
+  }
+}
+
+/**
+ * Display a Drupal form using CTools modal or normal page display.
+ */
+function xmlsitemap_modal_get_form() {
+  $args = func_get_args();
+  $form_id = array_shift($args);
+  $ajax = array_pop($args);
+
+  if ($ajax) {
+    ctools_include('ajax');
+    ctools_include('modal');
+
+    $form_state = array(
+      'ajax' => TRUE,
+      'args' => $args,
+    );
+    $commands = ctools_modal_form_wrapper($form_id, $form_state);
+
+    if (empty($commands)) {
+      $commands[] = ctools_modal_command_loading();
+      if (!empty($_GET['destination'])) {
+        $commands[] = ctools_ajax_command_redirect($_GET['destination']);
+      }
+    }
+    return ctools_ajax_render($commands);
+  }
+  else {
+    array_unshift($args, $form_id);
+    return call_user_func_array('drupal_get_form', $args);
+  }
+}
+
+/**
+ * Implements hook_xmlsitemap_operation_link_alter().
+ */
+function xmlsitemap_modal_xmlsitemap_operation_link_alter(array &$link) {
+  static $ctools_modal_included;
+
+  // Process modal frame links.
+  if (!empty($link['modal'])) {
+    unset($link['modal']);
+
+    if (!isset($ctools_modal_included)) {
+      // Only process a few includes once per request.
+      ctools_include('ajax');
+      ctools_include('modal');
+      ctools_modal_add_js();
+      drupal_add_css(drupal_get_path('module', 'xmlsitemap_modal') . '/xmlsitemap_modal.css');
+    }
+
+    $link['attributes']['class'] = 'ctools-use-modal';
+
+    if (strpos($link['href'], 'nojs') === FALSE) {
+      $link['href'] .= '/nojs';
+    }
+    else {
+      $link['href'] = trim($link['href'], '/');
+    }
+
+    // @todo Remove when http://drupal.org/node/565808 is fixed.
+    if (substr($link['href'], -4) === 'nojs') {
+      $link['href'] .= '/';
+    }
+  }
+}

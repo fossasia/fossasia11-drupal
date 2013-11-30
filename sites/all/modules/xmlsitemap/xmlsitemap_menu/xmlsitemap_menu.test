@@ -1,0 +1,50 @@
+<?php
+
+/**
+ * @file
+ * Unit tests for the xmlsitemap_menu module.
+ */
+
+class XMLSitemapMenuFunctionalTest extends XMLSitemapTestHelper {
+  protected $normal_user;
+  protected $menu_items = array();
+
+  public static function getInfo() {
+    return array(
+      'name' => 'XML sitemap menu',
+      'description' => 'Functional tests for the XML sitemap menu module.',
+      'group' => 'XML sitemap',
+    );
+  }
+
+  function setUp($modules = array()) {
+    $modules[] = 'xmlsitemap_menu';
+    $modules[] = 'menu';
+    parent::setUp($modules);
+
+    $this->admin_user = $this->drupalCreateUser(array('administer menu', 'administer xmlsitemap'));
+    $this->normal_user = $this->drupalCreateUser(array('access content'));
+  }
+
+  function testMenuSettings() {
+    $this->drupalLogin($this->admin_user);
+
+    $edit = array(
+      'title' => $this->randomName(),
+      'menu_name' => drupal_strtolower($this->randomName()),
+      'xmlsitemap[status]' => '1',
+      'xmlsitemap[priority]' => '1.0',
+    );
+    $this->drupalPost('admin/build/menu/add', $edit, 'Save');
+    $menu = menu_load($edit['menu_name']);
+
+    $this->clickLink('Add item');
+    $edit = array(
+      'menu[link_title]' => $this->randomName(),
+      'menu[link_path]' => 'node',
+      'xmlsitemap[status]' => 'default',
+      'xmlsitemap[priority]' => 'default',
+    );
+    $this->drupalPost(NULL, $edit, 'Save');
+  }
+}

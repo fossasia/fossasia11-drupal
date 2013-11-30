@@ -1,0 +1,41 @@
+<?php
+// $Id: menu_breadcrumb.install,v 1.2 2009/12/01 22:55:43 xuriz Exp $
+/**
+ * @file
+ * Install file for the menu_breadcrumb module.
+ */
+
+/**
+ * Implementation of hook_uninstall().
+ */
+function menu_breadcrumb_uninstall() {
+  variable_del('menu_breadcrumb_append_node_title');
+  variable_del('menu_breadcrumb_append_node_url');
+  variable_del('menu_breadcrumb_determine_menu');
+  variable_del('menu_breadcrumb_hide_on_single_item');
+  variable_del('menu_breadcrumb_menu_patterns');
+  variable_del('menu_breadcrumb_menus');
+  variable_del('menu_breadcrumb_pattern_matches');
+  variable_del('menu_breadcrumb_pattern_matches_rebuild');
+}
+
+/**
+ * If people are upgrading from a patched version based on drupal.org/node/303247
+ * we'll try to catch it here. Will just notify and clear the variables for now.
+ */
+function menu_breadcrumb_update_6100() {
+  // Remove deprecated filter variable, if it exists.
+  if (!is_null(variable_get('menu_breadcrumb_menus_filter', NULL))) {
+    variable_del('menu_breadcrumb_menus_filter');
+  }
+
+  // Require re-configuration of the menu list, if an incompatible
+  // menu_breadcrumb_default_menu variable exists.
+  $menus = variable_get('menu_breadcrumb_menus', array());
+  $incompatible = empty($menus['menu_breadcrumb_default_menu']);
+  if ($incompatible) {
+    drupal_set_message(t("Menu Breadcrumb's menu selection settings have changed recently. Please review the !settings and check that the correct menus are selected.", array('!settings' => l('Menu Breadcrumb settings', 'admin/settings/menu_breadcrumb'))), 'warning');
+    variable_del('menu_breadcrumb_menus');
+  }
+  return array();
+}

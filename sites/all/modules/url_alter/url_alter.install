@@ -1,0 +1,74 @@
+<?php
+// $Id: url_alter.install,v 1.4 2009/07/24 23:20:13 davereid Exp $
+
+/**
+ * @file
+ * Install and uninstall schema and functions for the url_alter module.
+ */
+
+/**
+ * Implementation of hook_install().
+ */
+function url_alter_install() {
+  db_query("UPDATE {system} SET weight = -1000 WHERE type = 'module' AND name = 'url_alter'");
+}
+
+/**
+ * Implementation of hook_uninstall().
+ */
+function url_alter_uninstall() {
+  // Remove variables.
+  drupal_load('module', 'url_alter');
+  $variables = array_keys(url_alter_variables());
+  foreach ($variables as $variable) {
+    variable_del($variable);
+  }
+}
+
+/**
+ * Implementation of hook_requirements().
+ */
+function url_alter_requirements($phase) {
+  $requirements = array();
+  $t = get_t();
+
+  drupal_load('module', 'url_alter');
+  foreach (array('custom_url_rewrite_inbound', 'custom_url_rewrite_outbound') as $function) {
+    $defined = defined('URL_ALTER_' . strtoupper($function));
+    $requirement = array(
+      'title' => $t('Url alter'),
+      'value' => $defined ? $t('Overriding @function() successfully.', array('@function' => $function)) : $t('Cannot override @function().', array('@function' => $function)),
+    );
+    if (!$defined && !isset($_GET['url-alter-kill'])) {
+      $requirement['severity'] = $phase == 'install' ? REQUIREMENT_WARNING : REQUIREMENT_ERROR;
+      $requirement['description'] = $t('Url alter cannot override the function @function() because it is already defined (!location). Please comment this function and copy the function code into the <a href="@url-alter">Url alter module settings</a>.', array('@function' => $function, '!location' => _url_alter_find_function($function, t("usually located in your site's settings.php file")), '@url-alter' => url('admin/settings/url-alter')));
+    }
+    $requirements['url_alter_' . $function] = $requirement;
+  }
+
+  return $requirements;
+}
+
+/**
+ * Finds the file and line where a function is defined using PHP's reflection.
+ */
+function _url_alter_find_function($function, $default = TRUE) {
+  if (function_exists($function)) {
+    if (class_exists('ReflectionFunction')) {
+      $info = new ReflectionFunction($function);
+      return t('line @line in @file', array('@function' => $function, '@file' => substr($info->getFileName(), strlen(getcwd()) + 1), '@line' => $info->getStartLine()));
+    }
+    else {
+      return $default;
+    }
+  }
+}
+
+/**
+ * Set an even lower module weight to make sure we are included first.
+ */
+function url_alter_update_6000() {
+  $ret = array();
+  $ret[] = update_sql("UPDATE {system} SET weight = -1000 WHERE type = 'module' AND name = 'url_alter'");
+  return $ret;
+}

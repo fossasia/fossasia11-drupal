@@ -1,0 +1,49 @@
+<?php
+
+/**
+ * @file
+ * Install and uninstall schema and functions for the xmlsitemap_menu module.
+ */
+
+/**
+ * Implements hook_uninstall().
+ */
+function xmlsitemap_menu_uninstall() {
+  drupal_load('module', 'menu');
+  drupal_load('module', 'xmlsitemap');
+  $menus = array_keys(menu_get_menus());
+  foreach ($menus as $menu) {
+    xmlsitemap_link_bundle_delete('menu_link', $menu);
+  }
+}
+
+/**
+ * Cleanup variables.
+ */
+function xmlsitemap_menu_update_6200() {
+  drupal_load('module', 'menu');
+  drupal_load('module', 'xmlsitemap');
+  $menus = array_keys(menu_get_menus());
+  foreach ($menus as $menu) {
+    $settings = array(
+      'status' => variable_get('xmlsitemap_menu_status_' . $menu, XMLSITEMAP_STATUS_DEFAULT),
+      'priority' => variable_get('xmlsitemap_menu_priority_' . $menu, XMLSITEMAP_PRIORITY_DEFAULT),
+    );
+    variable_set('xmlsitemap_settings_menu_' . $menu, $settings);
+    variable_del('xmlsitemap_menu_status_' . $menu);
+    variable_del('xmlsitemap_menu_priority_' . $menu);
+    variable_del('xmlsitemap_menu_calculate_priority_' . $menu);
+  }
+  variable_del('xmlsitemap_menu_menus');
+  variable_del('xmlsitemap_menu_calculate_priority');
+  return array();
+}
+
+/**
+ * Rename the menu type to 'menu_link'.
+ */
+function xmlsitemap_menu_update_6201() {
+  drupal_load('module', 'xmlsitemap');
+  xmlsitemap_link_type_rename('menu', 'menu_link');
+  return array();
+}

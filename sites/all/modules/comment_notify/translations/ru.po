@@ -1,0 +1,217 @@
+# $Id: ru.po,v 1.1 2009/03/24 13:09:52 greggles Exp $
+#
+# Russian translation of Drupal (general)
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# Generated from files:
+#  comment_notify.module,v 1.54 2009/03/07 19:22:51 greggles
+#  comment_notify.install,v 1.14 2009/03/07 19:33:03 greggles
+#  comment_notify.info,v 1.3 2008/08/06 23:27:08 greggles
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2009-03-23 20:18+0500\n"
+"PO-Revision-Date: 2009-03-23 20:18+0500\n"
+"Last-Translator: Sergey Ivanov <lw_ru@mail.ru>\n"
+"Language-Team: Russian <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=((((n%10)==1)&&((n%100)!=11))?(0):(((((n%10)>=2)&&((n%10)<=4))&&(((n%100)<10)||((n%100)>=20)))?(1):2));\n"
+
+#: comment_notify.module:61
+msgid "Comment follow-up e-mail notification for anonymous and registered users."
+msgstr "Уведомления на емайл о коментариях для анономов и зарегистрированных пользователей"
+
+#: comment_notify.module:88;312;587;594
+msgid "All comments"
+msgstr "Все комментарии"
+
+#: comment_notify.module:89;313;588;595
+msgid "Replies to my comment"
+msgstr "Ответы на мои комментарии"
+
+#: comment_notify.module:114
+msgid "Notify me when new comments are posted"
+msgstr "Уведомлять меня о новых комментариях"
+
+#: comment_notify.module:209
+msgid "Your comment follow-up notification for this post was disabled. Thanks."
+msgstr "Уведомления о новых комментариях к этому материалу для вас отключены. Спасибо."
+
+#: comment_notify.module:210
+msgid "Disabled comment follow-up notification feature for this post."
+msgstr "Отключены уведомления об уведомлениях о комментариях к этому материалу."
+
+#: comment_notify.module:213;154
+msgid "Comment notify"
+msgstr "Уведомления о комментариях"
+
+#: comment_notify.module:234
+msgid "If you want to subscribe to comments you must supply a valid e-mail address."
+msgstr "Если вы хотите получать уведомления о комментариях, укажите ваш адрес электронной почты."
+
+#: comment_notify.module:294
+msgid "Comment follow-up notification settings"
+msgstr "Уведомления о новых комментариях"
+
+#: comment_notify.module:301
+msgid "Receive node follow-up notification e-mails"
+msgstr "Получать уведомления о новых комментариях"
+
+#: comment_notify.module:303
+msgid "Check this box to receive an e-mail notification for follow-ups on your nodes (pages, forum topics, etc). You can not disable notifications for individual threads."
+msgstr "Поставьте отметку, если хотите получать уведомления о комментариях на ваши материалы. Вы не сможете отключать уведомления для отдельных веток обсуждений."
+
+#: comment_notify.module:308
+msgid "Receive comment follow-up notification e-mails"
+msgstr "Получать уведомления по e-mail о новых комментариях."
+
+#: comment_notify.module:311;593
+msgid "No notifications"
+msgstr "Не уведомлять"
+
+#: comment_notify.module:315
+msgid "Check this box to receive e-mail notification for follow-up comments to comments you posted. You can later disable this on a post-by-post basis... so if you leave this to YES, you can still disable follow-up notifications for comments you don't want follow-up mails anymore - i.e. for very popular posts."
+msgstr "Выберите вариант уведомлений на электронную почту о комментариях на ваши комментарии. Вы сможете изменить это для конкретных материалов, если расхотите получать уведомления об ответах на конкретный комментарий."
+
+#: comment_notify.module:397;446
+msgid "!site :: new comment for your post."
+msgstr "!site :: Новый комментарий к вашему материалу."
+
+#: comment_notify.module:485
+msgid "source comment"
+msgstr "источник комментария"
+
+#: comment_notify.module:512
+msgid "Email to unsubscribe"
+msgstr "Емайл, для которого нужно отключить уведомления"
+
+#: comment_notify.module:516
+msgid "Unsubscribe this e-mail"
+msgstr "Отключить уведомления на этот емайл"
+
+#: comment_notify.module:538
+msgid "There were no active comment notifications for that email."
+msgstr "Для этого емайла нет включенных уведомлений"
+
+#: comment_notify.module:563
+msgid "@content-type"
+msgstr ""
+
+#: comment_notify.module:569
+msgid "Anonymous commenters have the permission to subscribe to comments but cannot leave their contact infromation on the following content types: !types.  You should either disable subscriptions on those types here, revoke the permission for anonymous users, or enable anonymous users to leave their contact information in the comment settings."
+msgstr "Анонимные комментаторы имеют возможность включить уведомления на комментарии, но не могут оставлять контактную информацию для следующих типов материалов: !types. Отключите уведомления для этих типов, отключите у анонимов возможность получать уведомления, или дайте им возможность оставлять контактную информацию при комментировании."
+
+#: comment_notify.module:574
+msgid "Content types to enable for comment notification"
+msgstr "Типы материалов, для которых разрешены уведомления о комментариях"
+
+#: comment_notify.module:577
+msgid "Comments on content types enabled here will have the option of comment notification."
+msgstr "Комментарии для этих типов материалов будут иметь возможность уведомления о новых комментариях."
+
+#: comment_notify.module:582
+msgid "Available subscription modes"
+msgstr "Доступные режимы подписки"
+
+#: comment_notify.module:585
+msgid "Choose which notification subscription styles are available for users"
+msgstr "Выберите, какие варианты уведомлений доступны для пользователей"
+
+#: comment_notify.module:600
+msgid "Default state for the notification selection box for anonymous users"
+msgstr "Значение уведомлений по умолчанию для анонимов"
+
+#: comment_notify.module:608
+msgid "Default state for the notification selection box for registered users."
+msgstr "Значение уведомлений по умолчанию для зарегистрированных пользователей."
+
+#: comment_notify.module:611
+msgid "This flag presets the flag for the follow-up notification on the form that anon users will see when posting a comment"
+msgstr "Выберите вариант уведомления, который будут видеть анонимы при отправке комментария"
+
+#: comment_notify.module:618
+msgid "Default mail text for sending out notifications to commenters"
+msgstr "Текст письма для рассылки уведомлений комментаторам"
+
+#: comment_notify.module:619
+msgid "You can use the following variables to be replaced:\n      <ul>\n      <li>!commname = the username who posted the comment\n      <li>!commtext = the text of the posted comment\n      <li>!commsubj = the subject of the posted comment\n      <li>!comment_url = the full url of the post and comment - note: if you have paging enabled, this does not work correct - set your max comments per page so that all fit on one page or reverse order them\n      <li>!node_title = the title of the node that was commented on\n      <li>!node_teaser = the teaser of the node that was commented on\n      <li>!node_body = the body of the node that was commented on\n      <li>!mission = site_mission text\n      <li>!name = username receiving the alert\n      <li>!site = your site\n      <li>!uri = base_url of site\n      <li>!uri_brief = base_url of site w/o http\n      <li>!date = the current time\n      <li>!login_uri  uri to login the user\n      <li>!edit_uri = uri to edit user profile\n      <li>!link1 the QUICKLINK to disable future follow-up otifications for the user\n      </ul>"
+msgstr "Можно использовать следующие переменные для подстановки:\n <ul>\n <li>!commname = имя пользователя, оставившего комментарий\n <li>!commtext = текст комментария \n <li>!commsubj = тема комментария\n <li>!comment_url = полный адрес материала и коментария; замечание: если комментарии на второй или далее страницах, то эта ссылка не работает (увеличьте максимальное количество комментариев на страницу или выводите их в обратном порядке)\n <li>!node_teaser = тизер (начало, анонс) материала, который был прокомментирован\n <li>!node_body = содержимое материала, который был прокомментирован\n <li>!mission = текст миссии сайта\n <li>!name = имя пользователя, получающего уведомление\n <li>!site = имя сайта\n <li>!uri = адрес сайта\n <li>!uri_brief = адрес сайта без http\n <li>!date = текущее время и дата\n <li>!login_uri = адрес для входа пользователя\n <li>!edit_uri = адрес для редактирования профиля пользователя\n <li>!link1 = быстрая ссылка для отключения дальнейших уведомлений для пользователя\n </ul>"
+
+#: comment_notify.module:648
+msgid "Default mail text for sending out the notifications to node authors"
+msgstr "Текст письма по умолчанию для авторов материалов"
+
+#: comment_notify.module:649
+msgid "You can use the following variables to be replaced:\n      <ul>\n      <li>!commname = the username who posted the comment\n      <li>!commtext = the text of the posted comment\n      <li>!commsubj = the subject of the posted comment\n      <li>!comment_url = the full url of the post and comment - note: if you have paging enabled, this does not work correct - set your max comments per page so that all fit on one page or reverse order them\n      <li>!node_title = the title of the node that was commented on\n      <li>!node_teaser = the teaser of the node that was commented on\n      <li>!node_body = the body of the node that was commented on\n      <li>!mission = site_mission text\n      <li>!name = username receiving the alert\n      <li>!site = your site\n      <li>!uri = base_url of site\n      <li>!uri_brief = base_url of site w/o http\n      <li>!date = the current time\n      <li>!login_uri  uri to login the user\n      <li>!edit_uri = uri to edit user profile\n      </ul>"
+msgstr "Можно использовать следующие переменные для подстановки:\n <ul>\n <li>!commname = имя пользователя, оставившего комментарий\n <li>!commtext = текст комментария \n <li>!commsubj = тема комментария\n <li>!comment_url = полный адрес материала и коментария; замечание: если комментарии на второй или далее страницах, то эта ссылка не работает (увеличьте максимальное количество комментариев на страницу или выводите их в обратном порядке)\n <li>!node_title = название откоменнтированного материала\n <li>!node_teaser = тизер (начало, анонс) материала, который был прокомментирован\n <li>!node_body = содержимое материала, который был прокомментирован\n <li>!mission = текст миссии сайта\n <li>!name = имя пользователя, получающего уведомление\n <li>!site = имя сайта\n <li>!uri = адрес сайта\n <li>!uri_brief = адрес сайта без http\n <li>!date = текущее время и дата\n <li>!login_uri = адрес для входа пользователя\n <li>!edit_uri = адрес для редактирования профиля пользователя\n"
+
+#: comment_notify.module:480;0
+msgid "comment_notify"
+msgstr ""
+
+#: comment_notify.module:480
+msgid "Notified: !user_mail"
+msgstr "Уведомлен: !user_mail"
+
+#: comment_notify.module:541
+msgid "Email unsubscribed from 1 comment notification."
+msgid_plural "Email unsubscribed from @count comment notifications."
+msgstr[0] "Для емайла отключено @count уведомление о комментарии."
+msgstr[1] "Для емайла отключено @count уведомления о комментариях."
+msgstr[2] "Для емайла отключено @count уведомлений о комментариях."
+
+#: comment_notify.module:145
+msgid "administer comment notify"
+msgstr "управлять уведомлениями о комментариях"
+
+#: comment_notify.module:145
+msgid "subscribe to comments"
+msgstr "подписываться на уведомления о комментариях"
+
+#: comment_notify.module:155;163
+msgid "Configure settings for e-mails about new comments."
+msgstr "Настроить уведомления о новых уведомлениях для емайлов."
+
+#: comment_notify.module:162
+msgid "Settings"
+msgstr "Настройки"
+
+#: comment_notify.module:171
+msgid "Unsubscribe"
+msgstr "Отписаться"
+
+#: comment_notify.module:172
+msgid "Unsubscribe an email from all notifications."
+msgstr "Отключить все уведомления для емайла."
+
+#: comment_notify.module:180
+msgid "comment notify"
+msgstr "уведомления о комментариях"
+
+#: comment_notify.install:41
+msgid "Stores information about which commenters on the site have subscriped to followup emails."
+msgstr ""
+
+#: comment_notify.install:197
+msgid "For some reason the {comment_notify_user_settings} table was not properly created, and so per-user comment_notify settings could not be copied from {users}.data.  You will need to run this update again."
+msgstr ""
+
+#: comment_notify.install:248
+msgid "Moved comment_notify user settings data from the {users} table into the {comment_notify_user_settings} table."
+msgstr ""
+
+#: comment_notify.install:253
+msgid "Something is maybe not right."
+msgstr ""
+
+#: comment_notify.info:0
+msgid "Comment Notify"
+msgstr "Уведомления о комментариях"
+
+#: comment_notify.info:0
+msgid "Comment follow-up e-mail notification for anonymous as well as registered users."
+msgstr "Уведомления на емайл о новых комментариях для анонимных и зарегистрированных пользователей"
+

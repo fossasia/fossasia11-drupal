@@ -1,0 +1,121 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the xmlsitemap_engines module.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function xmlsitemap_engines_install() {
+  // Set this module's weight to 1 so xmlsitemap_engines_cron() runs after
+  // the sitemap has been generated in xmlsitemap_cron().
+  db_query("UPDATE {system} SET weight = 2 WHERE type = 'module' AND name = 'xmlsitemap_engines'");
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function xmlsitemap_engines_uninstall() {
+  variable_del('xmlsitemap_engines_engines');
+  variable_del('xmlsitemap_engines_custom_urls');
+  variable_del('xmlsitemap_engines_minimum_lifetime');
+  variable_del('xmlsitemap_engines_submit_last');
+  variable_del('xmlsitemap_engines_submit_updated');
+}
+
+/**
+ * Update engine-specific variables from 6.x-1.x.
+ */
+function xmlsitemap_engines_update_6196() {
+  $engines = array(
+    'ask' => 'http://submissions.ask.com/ping?sitemap=[sitemap]',
+    'google' => 'http://www.google.com/webmasters/tools/ping?sitemap=[sitemap]',
+    'moreover' => 'http://api.moreover.com/ping?u=[sitemap]',
+    'bing' => 'http://www.bing.com/webmaster/ping.aspx?siteMap=[sitemap]',
+    'yahoo' => 'http://search.yahooapis.com/SiteExplorerService/V1/ping?sitemap=[sitemap]',
+  );
+  $custom_urls = array();
+
+  foreach ($engines as $engine => $default_url) {
+    if (variable_get("xmlsitemap_engines_{$engine}_url", $default_url) != $default_url) {
+      // If the default URL has changed
+      unset($engines[$engine]);
+      $custom_urls[] = $default_url;
+    }
+    elseif (!variable_get("xmlsitemap_engines_{$engine}_submit", 0)) {
+      unset($engines[$engine]);
+    }
+  }
+
+  if ($engines) {
+    variable_set('xmlsitemap_engines_engines', array_keys($engines));
+  }
+  if ($custom_urls) {
+    variable_set('xmlsitemap_engines_custom_urls', implode("\n", $custom_urls));
+  }
+
+  return array();
+}
+
+/**
+ * Upgrade the rest of the 6.x-1.x variables.
+ */
+function xmlsitemap_engines_update_6198() {
+  // Submit when updated variable.
+  $value = variable_get('xmlsitemap_engines_submit', 1);
+  variable_set('xmlsitemap_engines_submit_updated', $value);
+
+  // Minimum lifetime variable.
+  $value = variable_get('xmlsitemap_engines_cron_submit_frequency', 0);
+  if ($value == -1) {
+    $value = 0;
+  }
+  variable_set('xmlsitemap_engines_minimum_lifetime', $value);
+
+  // Last submitted variable.
+  $value = variable_get('xmlsitemap_engines_cron_timestamp_submit', 0);
+  variable_set('xmlsitemap_engines_submit_last', $value);
+
+  return array();
+}
+
+/**
+ * Empty update.
+ */
+function xmlsitemap_engines_update_6200() {
+  return array();
+}
+
+/**
+ * Cleanup 6.x-1.x variables and weights.
+ */
+function xmlsitemap_engines_update_6201() {
+  $ret = array();
+  $engines = array('google', 'bing', 'live', 'yahoo', 'ask', 'moreover');
+  foreach ($engines as $engine) {
+    db_query("DELETE FROM {variable} WHERE name LIKE 'xmlsitemap_engines_%s_%%'", $engine);
+  }
+  variable_del('xmlsitemap_engines_cron_submit_frequency');
+  variable_del('xmlsitemap_engines_cron_timestamp_submit');
+  variable_del('xmlsitemap_engines_submit');
+  $ret[] = update_sql("UPDATE {system} SET weight = 2 WHERE type = 'module' AND name = 'xmlsitemap_engines'");
+  return $ret;
+}
+
+/**
+ * Deprecate support for Ask.com, Moreover, and Yahoo! search engines.
+ */
+function xmlsitemap_engines_update_6202() {
+  $engines = variable_get('xmlsitemap_engines_engines', array());
+  $removed = array(
+    'ask' => 'Ask.com',
+    'moreover' => 'Moreover',
+    'yahoo' => 'Yahoo.com',
+  );
+  $engines = array_diff($engines, array_keys($removed));
+  variable_set('xmlsitemap_engines_engines', $engines);
+  $ret[] = array('success' => TRUE, 'query' => t('The following search engines have deprecated their XML sitemap ping services and have been disabled: !list.', array('!list' => implode(', ', $removed))));
+  return $ret;
+}

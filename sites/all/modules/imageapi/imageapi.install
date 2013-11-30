@@ -1,0 +1,41 @@
+<?php
+
+
+/**
+ * Implementation of hook_requirements().
+ */
+function imageapi_requirements($phase) {
+  $requirements = array();
+  // Ensure translations don't break at install time.
+  $t = get_t();
+
+  // Check this at runtime rather than install time because the order of
+  // installation doesn't take dependencies into account. ImageAPI may have
+  // been installed by not loaded and if we report a requirement error
+  // because we can't find its function or no toolkit is enabled modules that
+  // depend on us will still be enabled but will have a missing dependency.
+  // Seems like a better idea to let everything get enabled and then inform
+  // them of the problem.
+  if ($phase == 'runtime') {
+    if (count(imageapi_get_available_toolkits()) == 0) {
+      $requirements['imageapi_toolkits'] = array(
+        'title' => $t('ImageAPI Toolkit'),
+        'value' => $t('No ImageAPI toolkits available'),
+        'severity' => REQUIREMENT_ERROR,
+        'description' => $t('ImageAPI requires a Toolkit such as ImageAPI GD or ImageAPI ImageMagick to function. Go to !modules and enable one of them.', array('!modules' => l('admin/build/modules', 'admin/build/modules'))),
+      );
+    }
+  }
+
+  return $requirements;
+}
+function imageapi_install() {
+}
+
+/**
+ * Implementation of hook_uninstall().
+ *
+ */
+function imageapi_uninstall() {
+  variable_del('imageapi_image_toolkit');
+}

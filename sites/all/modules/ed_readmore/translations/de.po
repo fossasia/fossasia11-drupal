@@ -1,0 +1,143 @@
+# German translation of ed_readmore (6.x-5.x-dev)
+# Copyright (c) 2009 by the German translation team
+# Generated from files:
+#  ed_readmore.module,v 1.5.8.2.2.11.2.9 2009/11/10 05:59:19 toddnienkerk
+#  ed_readmore.info,v 1.1.2.2.4.1.2.6 2009/03/18 02:39:29 toddnienkerk
+#  ed_readmore.install,v 1.1.4.2.2.9.2.2 2009/09/15 19:20:33 toddnienkerk
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: ed_readmore (6.x-5.x-dev)\n"
+"POT-Creation-Date: 2009-11-11 21:51+0100\n"
+"PO-Revision-Date: 2009-11-11 21:51+0100\n"
+"Language-Team: German\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+"Last-Translator: Tobias Bähr <info@tobiasbaehr.de>\n"
+"X-Poedit-Language: German\n"
+"X-Poedit-Country: GERMANY\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+#: ed_readmore.module:153
+msgid "Separator"
+msgstr "Separator"
+
+#: ed_readmore.module:134
+msgid "Placeholder tokens"
+msgstr "Platzhalter-Tokens"
+
+#: ed_readmore.module:31
+msgid "Read the whole post"
+msgstr "Den ganzen Beitrag lesen"
+
+#: ed_readmore.module:74
+msgid "Read More link display options"
+msgstr "Anzeigeoptionen des Weiterlesen-Links"
+
+#: ed_readmore.module:85
+msgid "Link placement"
+msgstr "Link Ersetzung"
+
+#: ed_readmore.module:112
+msgid "Read More link formatting and attributes"
+msgstr "Formatierung und Attribute des Weiterlesen-Links"
+
+#: ed_readmore.module:117
+msgid "Link text"
+msgstr "Linktext"
+
+#: ed_readmore.module:124
+msgid "Link title"
+msgstr "Link-Titel"
+
+#: ed_readmore.module:147
+msgid "Make link nofollow"
+msgstr "Nofollow hinzufügen"
+
+#: ed_readmore.module:149
+msgid "Adds %nofollow to the link's attributes. Often used for search engine optimization purposes."
+msgstr "%nofollow zu den Link-Attributen hinzufügen. Oft für Suchmaschinen-Optimierung verwendet."
+
+#: ed_readmore.info:0;
+#: ed_readmore.module:40
+msgid "Read More link"
+msgstr "Read More link"
+
+#: ed_readmore.module:41
+msgid "Configures the <strong>Read More</strong> link that appears in node teasers."
+msgstr "Den <strong>Weiterlesen</strong> Link konfigurieren, welcher in der Beitragsansicht erscheint."
+
+#: ed_readmore.install:20
+msgid "Read More link module installed succesfully."
+msgstr "„Read More Link“-Modul erfolgreich installiert."
+
+#: ed_readmore.install:23
+msgid "Read More link module installation was unsuccessfull. Could not update module weight in database."
+msgstr "Die „Read More Link“-Modul Installation war nicht erfolgreich. Die Modulreihenfolge konnte in der Datenbank nicht aktualisiert werden."
+
+#: ed_readmore.info:0
+msgid "Customize the \"Read more\" link shown in node teasers."
+msgstr "Den in einem Anrisstext angezeigten „Weiterlesen“ Link anpassen."
+
+#: ed_readmore.module:30
+msgid "<strong>Read more &raquo;</strong>"
+msgstr "<strong>Weiterlesen &raquo;</strong>"
+
+#: ed_readmore.module:79
+msgid "Remove Read More link from links section"
+msgstr "Weiterlesen-Link aus dem Linkbereich entfernen"
+
+#: ed_readmore.module:81
+msgid "Enabling this option will remove Drupal's default Read More link from the node links (the <code>$links</code> output)."
+msgstr "Mit dem Aktivieren dieser Option wird Drupals Weiterlesen-Link aus den Beitragslink entfernt. (die Ausgabe von <code>$links</code>)."
+
+#: ed_readmore.module:87
+msgid "Inline: Try to add the Read More link after the last word of the teaser. If this fails, add the link on a new line after the teaser."
+msgstr "Inline: Versuche den Weiterlesen-Link nach dem letzten Wort des Anrisstext einzufügen. Wenn dies fehlschlägt, füge den Link in eine neue Zeile nach dem Anrisstext hinzu."
+
+#: ed_readmore.module:88
+msgid "On a new line: Add the Read More link on a new line after the teaser."
+msgstr "In einer neuen Zeile: Füge den Weiterlesen-Link in einer neuen Zeile ein."
+
+#: ed_readmore.module:89
+msgid "Disable the link: Do not add a Read More link to the teaser."
+msgstr "Deaktiviere den Link: Füge kein Weiterlesen-Link in den Anrisstext ein."
+
+#: ed_readmore.module:92
+msgid "The inline option will attempt to add the Read More link after the last word of the teaser and before any CCK fields. The HTML elements into which the Read More link may be inserted can be chosen in the \"Advanced options for inline placement\" interface below."
+msgstr "Mit der Inline-Option wird versucht den Weiterlesen-Link nach dem letzten Wort des Anrisstexts und vor einem CKK-Feld einzufügen. Die HTML-Elemente, in die der Weiterlesen-Link eingefügt werden kann, können unten in der \"Erweiterte Optionen für die Inline-Platzierung\" Einstellung ausgewählt werden."
+
+#: ed_readmore.module:96
+msgid "Advanced options for inline placement"
+msgstr "Erweiterte Optionen für die Inline-Platzierung"
+
+#: ed_readmore.module:102
+msgid "Elements eligible for inline placement"
+msgstr "Geeignete HTML-Elemente für die Inline-Platzierung"
+
+#: ed_readmore.module:103
+msgid "Select the elements into which the Read More link may be inserted. The \"Inline\" placement option must be selected above."
+msgstr "Wähle das HTML-Element, in welches der Weiterlesen-Link eingefügt werden soll. Die \"Inline\" Ersetzungsoption muss oben auswählt werden."
+
+#: ed_readmore.module:119
+msgid "Enter the text you wish to display in the Read More link. May contain HTML. Special characters should be encoded (like %raquo or %amp). Spaces will be changed to non-breaking spaces (%nbsp)."
+msgstr "Gebe hier den Text ein, der im Weiterlesen-Link angezeigt werden soll. Der Text kann HTML enthalten. Besondere Zeichen sollten encodiert werden (z.B. %raquo oder %amp). Leerzeichen werden in geschützte Leerzeichen umgewandelt (%nbsp)."
+
+#: ed_readmore.module:126
+msgid "Enter the text you wish to be used as the title for the Read More link (the value of the %title attribute). It is used for accessibility and search engine optimization purposes and appears as a tooltip in some browsers."
+msgstr "Gebe hier den Text ein, der als Titel für den Weiterlesen-Link verwendet wird (Der Wert des %title Attributes). Dieser wird für die Zugänglichkeit und Suchmaschinen-Optimierung genutzt und erscheint als Tooltip in einigen Browsern."
+
+#: ed_readmore.module:135
+msgid "The following placeholder tokens can be used in the Read More text and title. They will be replaced with the appropriate values."
+msgstr "Die folgenden Platzhalter Token können für den Weiterlesen-Link und dem Titel verwendet werden. Die Platzhalter werden mit ihrem entsprechden Werten ersetzt."
+
+#: ed_readmore.module:141
+msgid "<a href=\"@tokens\">Tokens</a> are supported."
+msgstr "<a href=\"@tokens\">Tokens</a> werden unterstützt."
+
+#: ed_readmore.module:154
+msgid "Enter the text you wish to be inserted between the teaser and the Read More link when the link is displayed inline. If you enter nothing, the link will be separated using a space character. May contain HTML. Special characters should be encoded (like %nbsp or %raquo). "
+msgstr "Gebe hier den Text ein, der zwischen dem Anrisstext und dem Weiterlesen-Link angezeigt werden soll, wenn dieser Link inline angezeigt wird. Wenn nichts eingetragen wird, wird der Link mir einem Leerzeichen getrennt. HTML kann in dem Text eingegeben werden. Besondere Zeichen sollten encodiert werden (wie %nbsp oder %raquo). "
+

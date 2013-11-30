@@ -1,0 +1,40 @@
+; $Id: blogbuzz.info,v 1.3 2010/04/24 13:19:56 antsin Exp $
+
+name        = Antsin - BlogBuzz II
+description = Lightweight, tableless, three columns, four color options, fixed width theme. By <a href="http://www.antsin.com">Antsin</a>
+screenshot  = screenshot.png
+core        = 6.x
+engine      = phptemplate
+
+stylesheets[all][]   = css/blogbuzz.css
+;stylesheets[all][]   = css/custom.css
+
+regions[header]            = header
+regions[showcase]          = showcase
+regions[main_bottom_one]   = main bottom one
+regions[main_bottom_two]   = main bottom two
+regions[main_bottom_three] = main bottom three
+regions[main_bottom_four]  = main bottom four
+regions[left]              = left sidebar
+regions[right]             = right sidebar
+regions[footer_one]        = footer one
+regions[footer_two]        = footer two
+regions[footer_three]      = footer three
+regions[footer_four]       = footer four
+regions[closure_region]    = closure
+
+features[] = logo
+features[] = name
+features[] = slogan
+features[] = mission
+features[] = comment_user_picture
+features[] = search
+features[] = favicon
+features[] = primary_links
+features[] = secondary_links
+; Information added by drupal.org packaging script on 2010-12-17
+version = "6.x-2.2"
+core = "6.x"
+project = "blogbuzz"
+datestamp = "1292552169"
+

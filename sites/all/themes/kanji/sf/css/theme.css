@@ -1,0 +1,41 @@
+/* Superfish Default skin */
+#superfish {background: #2C788F; width: 100%; height: 26px;}
+#superfish h2 {
+  height: 0;
+  overflow: hidden;
+  position: absolute;
+}
+
+
+#superfish .menu {
+  float: left;
+  margin: 0;
+}
+#superfish .menu a {
+  padding: 6px 12px 8px;
+  text-decoration:none;
+}
+#superfish .menu a, 
+#superfish .menu a:visited  { 
+  color: #FFF;
+}
+#superfish .menu li {
+  background: #2C788F;
+}
+#superfish .menu li li {
+  background: #2C788F;
+}
+#superfish .menu li li li {
+  background: #2C788F;
+}
+#superfish .menu li:hover, 
+#superfish .menu li.sfHover,
+#superfish .menu a:focus, 
+#superfish .menu a:hover, 
+#superfish .menu a:active,
+#superfish .menu a.active {
+  background: #14424F;
+  outline: 0;
+}
+
+

@@ -1,0 +1,133 @@
+// $Id: CHANGELOG.txt,v 1.1.2.58 2010/05/16 18:36:52 markuspetrux Exp $
+
+6.x-1.6 (2010-05-16)
+====================
+
+Features:
+- Reset the static storage of node_load() when it is used to retrieve the updated node title when the child node form is submitted.
+- #735358 by Zach Harkey and markus_petrux - Redesign the "Node reference extras" tab so that we can manage more options for each node reference field.
+- #719576 by cyberpunk and markus_petrux - Make button "View in new window" configurable with checkbox like the "Create and reference".
+- #724064 First step to add "Edit referenced node" option. For the moment, added edit icon to Node Reference Extras sprite.
+- #589296 Ozmodiar and markus_petrux - Add "Edit referenced node" option.
+
+Bugfixes:
+- Fix the query string passed to the node/add page on the child modal frame.
+- Provide a proxy function on the main module script for the submit handler of the child node form to make sure Forms API can find the function when the form is cached.
+- #694404 "Search and Reference" disabled but tab still present when "Create and Reference" selected.
+- #713200 by BWPanda - Change 'View on new window' wording by 'View in new window'.
+- #706104 by katbailey - Translate and reference may pass the wrong language when "Switch interface for translating" is not enabled.
+- #769130 i18n API change causes call to undefined function tt() in noderelationships.inc on line 1176.
+- #769130 Follow up patch to provide support for both, i18nstrings() and tt().
+- #642358 How to delete a "dangling" back reference?
+
+Compatibility:
+- #798666 Deprecate support for jQuery UI library 1.6.x.
+
+
+6.x-1.5 (2010-01-04)
+====================
+
+Release notes:
+- This is just another new release (hopefully the last one in these series of recent changes) to fix a critical issue introduced with #668922.
+- If you upgrade from 6.x-1.3 or 6.x-1.4, all you need to do is replace the module files.
+- If you upgrade from a previous version (6.x-1.2 or lower), then please see the 6.x-1.3 release notes below.
+
+Bugfixes:
+- #668922 Follow up patch - sadly, there were still cases where the child window remains open after a "Create and reference" operation.
+
+
+6.x-1.4 (2009-12-30)
+====================
+
+Release notes:
+- This is just a new release to fix a critical issue introduced with #668922.
+- If you upgrade from 6.x-1.3, all you need to do is replace the module files.
+- If you upgrade from a previous version, then please see the 6.x-1.3 release notes below.
+
+Bugfixes:
+- #668922 Follow up patch - Fix related to "Create and reference" feature, where the Modal Frame remains open with the loading animation in an endless loop in certain cases.
+
+
+6.x-1.3 (2009-12-29)
+====================
+
+Release notes:
+- This release requires running update.php to force a theme registry rebuild.
+
+Features:
+- #580788 Allow external modules to deny access to (and hide) the Relationships tab.
+- #589848 Add support for Views Fluid Grid style plugin.
+- Get rid of Modal Frame option autoResize (deprecated).
+- #668922 Redirect to node/add/[type] when creating nodes within the Modal Frame. Needs update.php to force a theme registry rebuild.
+
+Bugfixes:
+- #583870 Uninstall should remove all back reference fields.
+- #605280 Documentation issue - Back-reference to non-autocomplete node reference.
+- #624138 by kehan - Enable noderelationships on locked CCK content types.
+- #620476 Translate and reference broken since #582086.
+- #668554 PHP Fatal error: Call to a member function advanced_render() on a non-object in views/theme/theme.inc on line 209.
+- Remove obsolete code related to clearing module variables from noderelationships_uninstall().
+
+
+6.x-1.2 (2009-09-20)
+====================
+
+This release requires running update.php.
+
+Features:
+- #556422 Create translations folder, translation template and es.po (translation to Spanish, not completed).
+- Move hook_theme() and hook_menu() to external include keeping only proxy methods in main module script to save a bit more memory during normal site operation.
+- #514956 Add support for Internationalization module and an option to "Translate and reference". Requires update.php.
+- #557070 Deprecate use of t() for field labels as soon as i18ncck module is committed to i18n project.
+- #580832 Display a warning if i18n module is not enabled, or not configured for the "Translate and reference" feature to work properly.
+- Changed child window size to be 30 pixels less than current browser window size.
+- #582086 Pass extra query string arguments in parent window to child windows.
+- Make javaScript compatible with other libraries than jQuery. See:
+  http://drupal.org/update/modules/6/7#javascript_compatibility
+
+Bugfixes:
+- Rename CSS files to make sure no namespace conflicts occur when trying to overridde them in theme .info files.
+
+
+6.x-1.1 (2009-08-22)
+====================
+
+Features:
+- #556024 Add support for Automatic Node Titles.
+
+Bugfixes:
+- #536514 Search and reference multiple items error after submit.
+- #548602 Buttons enabled for node reference extras disappear when validation errors occur in the form.
+- #551100 nodereference buttons disappear on add another item (caused by #548602).
+
+
+6.x-1.0 (2009-07-18)
+====================
+
+Bugfixes:
+- Remove default value for settings column in schema definition. This change does not affect the table already created.
+- Fix CSS in back references settings to hide the link to fields when a field is moved off the fields region.
+
+
+6.x-1.0-beta3 (2009-07-13)
+==========================
+
+Features:
+- Added a new formatter for back references fields to display the count of back references.
+
+
+6.x-1.0-beta2 (2009-07-08)
+==========================
+
+Bugfixes:
+- #511968: Can't remove "title" label.
+- Enable search/create and reference features when creating nodes.
+- Use separate columns for hidden nid/title fields used for search and reference views.
+- Include .inc file from backref field formatted, required to support content_view_field().
+- Implement hook_field('load') so that we can support content_view_field() used for Panels integration in CCK.
+
+
+6.x-1.0-beta1 (2009-07-05)
+==========================
+
+- First official release of the Node Relationships module.

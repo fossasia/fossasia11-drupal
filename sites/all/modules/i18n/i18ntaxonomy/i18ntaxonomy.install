@@ -1,0 +1,94 @@
+<?php
+
+/**
+ * @file
+ * Installation file for i18ntaxonomy module.
+ */
+
+/**
+ * Set language field in its own table.
+ * Do not drop node.language now, just in case.
+ * TO-DO: Drop old tables, fields
+ */
+function i18ntaxonomy_install() {
+  $ret = array();
+  db_add_field($ret, 'vocabulary', 'language', array('type' => 'varchar', 'length' => 12, 'not null' => TRUE, 'default' => ''));
+  db_add_field($ret, 'term_data', 'language', array('type' => 'varchar', 'length' => 12, 'not null' => TRUE, 'default' => ''));
+  db_add_field($ret, 'term_data', 'trid', array('type' => 'int', 'not null' => TRUE, 'default' => 0));
+
+  // Set module weight for it to run after core modules, but before views.
+  db_query("UPDATE {system} SET weight = 5 WHERE name = 'i18ntaxonomy' AND type = 'module'");
+}
+
+/**
+ * Implementation of hook_uninstall().
+ */
+function i18ntaxonomy_uninstall() {
+  $ret = array();
+  db_drop_field($ret, 'vocabulary', 'language');
+  db_drop_field($ret, 'term_data', 'language');
+  db_drop_field($ret, 'term_data', 'trid');
+
+  variable_del('i18ntaxonomy_vocabulary');
+}
+
+/**
+ * Implementation of hook_schema_alter().
+ */
+function i18ntaxonomy_schema_alter(&$schema) {
+  $schema['vocabulary']['fields']['language'] = array('type' => 'varchar', 'length' => 12, 'not null' => TRUE, 'default' => '');
+  $schema['term_data']['fields']['language'] = array('type' => 'varchar', 'length' => 12, 'not null' => TRUE, 'default' => '');
+  $schema['term_data']['fields']['trid'] = array('type' => 'int', 'not null' => TRUE, 'default' => 0);
+}
+
+/**
+ * Implementation of hook_enable().
+ *
+ * Just add strings to locale tables.
+ */
+function i18ntaxonomy_enable() {
+  drupal_load('module', 'i18nstrings');
+  i18ntaxonomy_locale_refresh();
+}
+
+/**
+ * Drupal 6 update.
+ *
+ * Move i18n vocabulary options to new variables.
+ */
+function i18ntaxonomy_update_1() {
+  $items = array();
+  $options = variable_get('i18ntaxonomy_vocabulary', array());
+  $translate = variable_get('i18ntaxonomy_vocabularies', array());
+  foreach (taxonomy_get_vocabularies() as $vid => $vocabulary) {
+    if ($vocabulary->language) {
+      $options[$vid] = I18N_TAXONOMY_LANGUAGE;
+    }
+    elseif (isset($translate[$vid]) && $translate[$vid]) {
+      $options[$vid] = I18N_TAXONOMY_LOCALIZE;
+    }
+    else {
+      // Search for terms with language.
+      $count = db_result(db_query("SELECT COUNT(language) FROM {term_data} WHERE vid = %d AND NOT language = ''", $vid));
+      if ($count) {
+        $options[$vid] = I18N_TAXONOMY_TRANSLATE;
+      }
+      elseif (!isset($options[$vid])) {
+        $options[$vid] = I18N_TAXONOMY_NONE;
+      }
+    }
+  }
+  variable_set('i18ntaxonomy_vocabulary', $options);
+  drupal_set_message(t('The multilingual vocabulary settings have been updated. Please review them in the <a href="@taxonomy_admin page">taxonomy administration</a>.', array('@taxonomy_admin' => url('admin/content/taxonomy'))));
+  // @ TODO Update strings in localization tables.
+  return $items;
+}
+
+/**
+ * Set module weight for it to run after core modules, but before views.
+ */
+function i18ntaxonomy_update_6002() {
+  $items = array();
+  $items[] = update_sql("UPDATE {system} SET weight = 5 WHERE name = 'i18ntaxonomy' AND type = 'module'");
+  return $items;
+}

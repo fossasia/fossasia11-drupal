@@ -1,0 +1,12 @@
+name = ImageCache
+description = Dynamic image manipulator and cache.
+package = ImageCache
+dependencies[] = imageapi
+core = 6.x
+
+; Information added by drupal.org packaging script on 2012-05-23
+version = "6.x-2.0-rc1"
+core = "6.x"
+project = "imagecache"
+datestamp = "1337742655"
+

@@ -1,0 +1,102 @@
+<?php
+
+/**
+ * @file
+ * Internationalization (i18n) submodule: CCK.
+ */
+
+/**
+ * Implementation of hook_locale().
+ */
+function i18ncck_locale($op = 'groups', $group = NULL) {
+  switch ($op) {
+    case 'groups':
+      return array('cck' => t('CCK'));
+    case 'info':
+      $info['cck']['refresh callback'] = 'i18ncck_locale_refresh';
+      $info['cck']['format'] = FALSE;
+      return $info;
+  }
+}
+
+/**
+ * Makes safe keys for using in i18nstrings().
+ */
+function i18ncck_get_safe_value($value) {
+  return html_entity_decode(strip_tags($value), ENT_QUOTES);
+}
+
+/**
+ * Refresh locale strings.
+ */
+function i18ncck_locale_refresh() {
+  foreach (content_types() as $content_type => $type) {
+    // Localization of CCK fields.
+    if (isset($type['fields'])) {
+      foreach ($type['fields'] as $field_name => $field) {
+        // Localize field title and description per content type.
+        i18nstrings_update('cck:field:'. $content_type .'-'. $field_name .':widget_label', $field['widget']['label']);
+        if (!empty($field['widget']['description'])) {
+          i18nstrings_update('cck:field:'. $content_type .'-'. $field_name .':widget_description', $field['widget']['description']);
+        }
+
+        // Localize allowed values per field.
+        if (empty($field['allowed_values_php']) && !empty($field['allowed_values'])) {
+          $function = $field['module'] .'_allowed_values';
+          $allowed_values = function_exists($function) ? $function($field) : (array) content_allowed_values($field);
+          if (!empty($allowed_values)) {
+            foreach ($allowed_values as $key => $value) {
+              i18nstrings_update('cck:field:'. $field_name .':option_'. i18ncck_get_safe_value($key), $value);
+            }
+          }
+        }
+      }
+    }
+
+    // Localization of CCK fieldgroups.
+    if (module_exists('fieldgroup')) {
+      foreach (fieldgroup_groups($content_type) as $group_name => $group) {
+        i18nstrings_update('cck:fieldgroup:'. $content_type .'-'. $group_name .':label', $group['label']);
+        if (!empty($group['settings']['form']['description'])) {
+          i18nstrings_update('cck:fieldgroup:'. $content_type .'-'. $group_name .':form_description', $group['settings']['form']['description']);
+        }
+        if (!empty($group['settings']['display']['description'])) {
+          i18nstrings_update('cck:fieldgroup:'. $content_type .'-'. $group_name .':display_description', $group['settings']['display']['description']);
+        }
+      }
+    }
+  }
+  return TRUE; // Meaning it completed with no issues
+}
+
+/**
+ * Translate widget's labels and descriptions.
+ */
+function i18ncck_content_field_strings_alter(&$field_strings, $content_type, $field_name) {
+  $field_strings['widget_label'] = i18nstrings('cck:field:'. $content_type .'-'. $field_name .':widget_label', $field_strings['widget_label']);
+  if (!empty($field_strings['widget_description'])) {
+    $field_strings['widget_description'] = i18nstrings('cck:field:'. $content_type .'-'. $field_name .':widget_description', $field_strings['widget_description']);
+  }
+}
+
+/**
+ * Translate allowed values lists.
+ */
+function i18ncck_content_allowed_values_alter(&$allowed_values, $field) {
+  foreach ($allowed_values as $key => $value) {
+    $allowed_values[$key] = i18nstrings('cck:field:'. $field['field_name'] .':option_'. i18ncck_get_safe_value($key), $value);
+  }
+}
+
+/**
+ * Translate fieldgroup labels and descriptions.
+ */
+function i18ncck_content_fieldgroup_strings_alter(&$group_strings, $content_type, $group_name) {
+  $group_strings['label'] = i18nstrings('cck:fieldgroup:'. $content_type .'-'. $group_name .':label', $group_strings['label']);
+  if (!empty($group_strings['form_description'])) {
+    $group_strings['form_description'] = i18nstrings('cck:fieldgroup:'. $content_type .'-'. $group_name .':form_description', $group_strings['form_description']);
+  }
+  if (!empty($group_strings['display_description'])) {
+    $group_strings['display_description'] = i18nstrings('cck:fieldgroup:'. $content_type .'-'. $group_name .':display_description', $group_strings['display_description']);
+  }
+}

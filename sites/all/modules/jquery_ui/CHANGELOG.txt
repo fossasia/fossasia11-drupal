@@ -1,0 +1,42 @@
+
+jQuery UI 6.x-1.x, xxxx-xx-xx
+-----------------------------
+
+
+jQuery UI 6.x-1.x, 2011-06-16
+-----------------------------
+#489140 by g33nman, sun, oneoftwo: Fixed backwards compatibility.
+#489140 by DamienMcKenna, jcmarco, Rob Loach, Dave Reid, sun: Added Libraries
+  API support.
+
+
+jQuery UI 6.x-1.4, 2010-09-08
+-----------------------------
+#559582 by sun, drupal-id.com: Fixed installation instructions.
+#325831 by sun: Fixed url() in hook_requirements() breaks install profiles.
+#879446 by Jolidog, Itangalo, webchick: Updated link for jQuery 1.6.
+#325831 by hanoii: Fixed drupal_get_path() in hook_requirements() breaks install
+  profiles.
+#758910 by fp, sun: Fixed jQuery UI download link.
+#542908 by sun: Clarified installation instructions.
+
+
+jQuery UI 6.x-1.3, 2009-06-21
+-----------------------------
+#325831 by quicksketch, James Andres, ksenzee: Fixed drupal_get_path() fails
+  during Drupal installation.
+#362509 by Rob Loach, Deciphered, sun, and adrinux: New release system with
+  jQuery UI 1.6.
+#322731 by sun: Fixed improper use of t() in module install file.
+#227687 by sun: Fixed improperly capitalized package name.
+
+
+jQuery UI 6.x-1.2, 2008-06-23
+-----------------------------
+- Updated to work with jQuery UI 1.5 release.
+- Uses jQuery Update's compression settings rather than its own.
+
+jQuery UI 6.x-1.1, 2008-03-27
+-----------------------------
+- Initial release of jQuery UI.
+- Works with jQuery UI 1.5b4.

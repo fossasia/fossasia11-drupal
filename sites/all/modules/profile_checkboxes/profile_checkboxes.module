@@ -1,0 +1,282 @@
+<?php
+
+/**
+ * @file
+ * The profile_checkboxes.module file, which produces the primary functionality.
+ *
+ */
+
+/**
+ * Implementation of hook_menu().
+ */
+function profile_checkboxes_menu() {
+  $items = array();
+
+  $items['multiprofile/%/%'] = array(
+    'title' => 'User list',
+    'page callback' => 'profile_checkboxes_browse',
+    'page arguments' => array(1,2),
+    'access arguments' => array('access user profiles'),
+    'type' => MENU_SUGGESTED_ITEM,
+  );
+
+  return $items;
+}
+
+/**
+ * Implementation of hook_form_alter().
+ */
+function profile_checkboxes_form_alter(&$form, $form_state, $form_id) {
+  switch ($form_id) {
+    case 'profile_field_form':
+      if (isset($form['fields']['options'])) {
+        // list selection option field exists
+        if (isset($form['fid']['#value'])) {
+          // get choice for existing list selection field
+          $field = db_fetch_object(db_query("SELECT type, delimiter FROM {profile_checkboxes} WHERE fid = %d", $form['fid']['#value']));
+        }
+
+        $form['checkboxes'] = array(
+          '#type' => 'fieldset',
+          '#title' => t('Profile checkboxes'),
+          '#weight' => 1,
+          '#collapsible' => FALSE,
+          '#collapsed' => FALSE,
+          '#description' => t('Change single list selection to multi-select or replace options with equivalent number of checkboxes or radio buttons. Warning: to prevent data loss changing this option is prohibited when checkboxes or multi-select is selected.'),
+        );
+        $options = array('list' => t('Single list selection (default)'), 'checkboxes' => t('Checkboxes (multiple choice)'), 'radios' => t('Radio buttons (single choice)'), 'multiple' => t('Multi-select (multiple choice)'));
+        $form['checkboxes']['field'] = array(
+          '#type' => 'radios',
+          '#title' => t('Display as field type'),
+          '#default_value' => ($field->type ? $field->type : 'list'),
+          '#options' => $options,
+          '#required' => TRUE,
+          '#disabled' => (($field->type == 'checkboxes' || $field->type == 'multiple') ? TRUE : FALSE),
+        );
+        $form['checkboxes']['delimiter'] = array(
+          '#type' => 'textfield',
+          '#title' => t('Delimiter to separate values'),
+          '#default_value' => ($field->delimiter ? $field->delimiter : ', '),
+          '#required' => TRUE,
+          '#maxlength' => 10,
+          '#size' => 1,
+          '#description' => t('Enter a delimiter used when displaying multiple values.'),
+        );
+
+        // special submit handler to process checkboxes choice
+        $form['#submit'][] = 'profile_checkboxes_submit_handler';
+        // adjust submit button weight to appear below profile checkboxes fieldset
+        $form['submit']['#weight'] = 10;
+      }
+      break;
+    case 'user_profile_form':
+    case 'user_register':
+      global $user;
+      // support for me aliases module, http://drupal.org/project/me
+      $uid = $form['_account']['#value']->uid;
+
+      $fields = $form_id == 'user_register' ? profile_checkboxes_selection_fields() : profile_checkboxes_selection_fields($uid);
+
+      while ($field = db_fetch_object($fields)) {
+        if (isset($form[$field->category][$field->name])) {
+          if (!$form[$field->category][$field->name]['#required']) {
+            // remove default selection element from options array
+            // we can't use array_shift here because it resets numeric array keys to zero
+            if (!empty($form[$field->category][$field->name]['#options'])) {
+              reset($form[$field->category][$field->name]['#options']);
+              unset($form[$field->category][$field->name]['#options'][key($form[$field->category][$field->name]['#options'])]);
+            }
+          }
+          $value = unserialize($field->value) ? unserialize($field->value) : array($field->value);
+          switch ($field->type) {
+            case 'checkboxes':
+              // change list selection field type from 'select' to 'checkboxes'
+              $form[$field->category][$field->name]['#type'] = 'checkboxes';
+              $form[$field->category][$field->name]['#default_value'] = $value;
+              break;
+            case 'radios':
+              // change list selection field type from 'select' to 'radios'
+              $form[$field->category][$field->name]['#type'] = 'radios';
+              if ($form[$field->category][$field->name]['#default_value'] == '0') {
+                // profile module records empty field text value as zero (0) when input is not required
+                // clear zero text value for pre-existing entry when radio button field is required
+                // will otherwise produce "An illegal choice has been detected." message on submit
+                $form[$field->category][$field->name]['#default_value'] = '';
+              }
+              break;
+            case 'multiple':
+              // change single list selection to multi-select
+              $form[$field->category][$field->name]['#multiple'] = TRUE;
+              $form[$field->category][$field->name]['#default_value'] = $value;
+              break;
+          }
+        }
+      }
+      break;
+  }
+}
+
+/**
+ * Custom submit handler to process profile field add/edit form data.
+ */
+function profile_checkboxes_submit_handler($form, &$form_state) {
+  if (isset($form_state['values']['fid'])) {
+    // delete existing record (instead of updating) to accommodate list selection fields created before enabling profile checkboxes
+    db_query("DELETE FROM {profile_checkboxes} WHERE fid = %d", $form_state['values']['fid']);
+    // use fid for existing list selection record
+    $fid = $form_state['values']['fid'];
+  }
+  else {
+    // get fid for created list selection record
+    $fid = db_result(db_query_range("SELECT fid FROM {profile_fields} WHERE type = 'selection' ORDER BY fid DESC", 0, 1));
+  }
+
+  // insert checkboxes choice for this list selection field
+  db_query("INSERT INTO {profile_checkboxes} (fid, type, delimiter) VALUES (%d, '%s', '%s')", $fid, $form_state['values']['field'], $form_state['values']['delimiter']);
+  // cleanup any orphaned records remaining from previously deleted list selections
+  db_query("DELETE FROM {profile_checkboxes} WHERE fid NOT IN (SELECT fid FROM {profile_fields})");
+}
+
+/**
+ * Implementation of hook_user().
+ */
+function profile_checkboxes_user($op, &$edit, &$account, $category = NULL) {
+  switch ($op) {
+    case 'load':
+      $fields = profile_checkboxes_selection_fields($account->uid);
+      while ($field = db_fetch_object($fields)) {
+        if ($value = unserialize($field->value)) {
+          // unserialize and implode array with field delimiter
+          $account->{$field->name} = implode($field->delimiter, array_values($value));
+        }
+      }
+      break;
+    case 'validate':
+      $fields = profile_checkboxes_selection_fields($account->uid);
+      while ($field = db_fetch_object($fields)) {
+        if (is_array($edit[$field->name])) {
+          $value = array_filter($edit[$field->name]);
+          // convert non-empty field array to serialize array
+          $edit[$field->name] = count($value) ? serialize($value) : NULL;
+        }
+      }
+      break;
+  }
+}
+
+/**
+ * Implementation of hook_profile_alter().
+ */
+function profile_checkboxes_profile_alter(&$account) {
+  $fields = profile_checkboxes_selection_fields(arg(1));
+  while ($field = db_fetch_object($fields)) {
+    // enable browsable links for fields with defined page title
+    if (!empty($field->page)) {
+      if ($items = unserialize($field->value)) {
+        $links = array();
+        foreach ($items as $item) {
+          // create individual links to mimic default behavior
+          $links[] = l($item, 'multiprofile/'. $field->name .'/'. $item);
+        }
+        // replace single value link with multiple value links
+        $account->content[$field->category][$field->name]['#value'] = implode($field->delimiter, $links);
+      }
+    }
+  }
+}
+
+/**
+ * Return profile list selection field data.
+ */
+function profile_checkboxes_selection_fields($uid = NULL) {
+  return db_query("SELECT pf.fid, pf.title, pf.name, pf.category, pf.page, pv.value, pc.type, pc.delimiter
+                   FROM {profile_fields} pf
+                   LEFT JOIN {profile_values} pv ON pv.fid = pf.fid AND pv.uid = %d
+                   LEFT JOIN {profile_checkboxes} pc ON pc.fid = pf.fid
+                   WHERE pf.type = 'selection' AND pc.type <> 'list'", $uid);
+}
+
+/**
+ * Helper function to retrieve field delimiter.
+ */
+function profile_checkboxes_field_delimiter($fid) {
+  static $delimiters = array();
+
+  if (isset($delimiters[$fid])) {
+    // retrieve cached delimiter from static array
+    $delimiter = $delimiters[$fid];
+  }
+  else {
+    if ($delimiter = db_result(db_query("SELECT delimiter FROM {profile_checkboxes} WHERE (type = 'checkboxes' OR type = 'multiple') AND fid = %d", $fid))) {
+      // cache delimiter for subsequent queries
+      $delimiters[$fid] = $delimiter;
+    }
+    else {
+      // delimiter doesn't exist for field
+      $delimiter = FALSE;
+    }
+  }
+
+  return $delimiter;
+}
+
+/**
+ * Implementation of hook_views_api().
+ */
+function profile_checkboxes_views_api() {
+  return array(
+    'api' => 2.0,
+    'path' => drupal_get_path('module', 'profile_checkboxes') .'/views',
+  );
+}
+
+/**
+ * Menu callback; display a list of user information.
+ */
+function profile_checkboxes_browse($name,$value) {
+  $field = db_fetch_object(db_query("SELECT DISTINCT(fid), type, title, page, visibility FROM {profile_fields} WHERE name = '%s'", $name));
+
+  if ($name && $field->fid) {
+    // Only allow browsing of fields that have a page title set.
+    if (empty($field->page)) {
+      drupal_not_found();
+      return;
+    }
+    // Do not allow browsing of private and hidden fields by non-admins.
+    if (!user_access('administer users') && ($field->visibility == PROFILE_PRIVATE || $field->visibility == PROFILE_HIDDEN)) {
+      drupal_access_denied();
+      return;
+    }
+
+    // Compile a list of fields to show.
+    $fields = array();
+    $result = db_query('SELECT name, title, type, weight, page FROM {profile_fields} WHERE fid != %d AND visibility = %d ORDER BY weight', $field->fid, PROFILE_PUBLIC_LISTINGS);
+    while ($record = db_fetch_object($result)) {
+      $fields[] = $record;
+    }
+
+    // Determine what query to use:
+    $arguments = array($field->fid);
+    $arguments[] = $value;
+
+    // Extract the affected users:
+    $result = pager_query("SELECT u.uid, u.access FROM {users} u INNER JOIN {profile_values} v ON u.uid = v.uid WHERE v.fid = %d AND v.value LIKE '%%%s%%' AND u.access != 0 AND u.status != 0 ORDER BY u.access DESC", 20, 0, NULL, $arguments);
+
+    $content = '';
+    while ($account = db_fetch_object($result)) {
+      $account = user_load(array('uid' => $account->uid));
+      $profile = _profile_update_user_fields($fields, $account);
+      $content .= theme('profile_listing', $account, $profile);
+    }
+    $output = theme('profile_wrapper', $content);
+    $output .= theme('pager', NULL, 20);
+
+    $title = strtr(check_plain($field->page), array('%value' => theme('placeholder', $value)));
+
+    drupal_set_title($title);
+    return $output;
+  }
+  else {
+    drupal_not_found();
+  }
+}

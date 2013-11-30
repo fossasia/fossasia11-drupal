@@ -1,0 +1,282 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: comment_notify\n"
+"POT-Creation-Date: 2008-12-23 01:43+0200\n"
+"PO-Revision-Date: \n"
+"Last-Translator: Serkan Arikusu <arikusu@gmail.com>\n"
+"Language-Team: Serkan Arikusu <arikusu@gmail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Poedit-Language: Turkish\n"
+"X-Poedit-Country: TURKEY\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+#: comment_notify.module:61
+msgid "Comment follow-up e-mail notification for anonymous and registered users."
+msgstr "Ziyaretçiler ve kayıtlı kullanıcıları yapılan yorumlardan haberdar eder"
+
+#: comment_notify.module:85;274;510
+msgid "No notifications"
+msgstr "Uyarı olmasın"
+
+#: comment_notify.module:86;275;511
+msgid "For all comments on this post"
+msgstr "Bu habere yapılan tüm yorumlar için"
+
+#: comment_notify.module:87;276;512
+msgid "Just for replies to my comment"
+msgstr "Sadece benim yorumuma verilen cevaplar için"
+
+#: comment_notify.module:106
+msgid "Notify me of follow-up comments posted here"
+msgstr "Buraya eklenen yorumlardan beni haberdar et"
+
+#: comment_notify.module:115
+msgid "Notify me of follow-up comments posted here."
+msgstr "Buraya eklenen yorumlardan beni haberdar et"
+
+#: comment_notify.module:194
+msgid "Your comment follow-up notification for this post was disabled. Thanks."
+msgstr "Bu haber için yorum takibiniz iptal edilmiştir. Teşekkürler"
+
+#: comment_notify.module:195
+msgid "Disabled comment follow-up notification feature for this post."
+msgstr "Bu haber için yorum takip özelliği iptal edilmiştir."
+
+#: comment_notify.module:198;139
+msgid "Comment notify"
+msgstr "Yorum takipçisi"
+
+#: comment_notify.module:217
+msgid "If you want to subscribe to comments you must supply a valid e-mail address."
+msgstr "Yorumları takip etmek istiyorsanız geçerli bir e-posta adresi girmelisiniz."
+
+#: comment_notify.module:232
+msgid "You can change the default for this field in \"Comment follow-up notification settings\" on <a href=\"!uri\">your account edit page</a>."
+msgstr "Bu seçeneği <a href=\"!uri\">hesabınızdaki</a> \"Yapılan yorumlardan haberdar olma seçenekleri\" bölümünden değiştirebilirsiniz."
+
+#: comment_notify.module:257
+msgid "Comment follow-up notification settings"
+msgstr "Yapılan yorumlardan haberdar olma seçenekleri"
+
+#: comment_notify.module:264
+msgid "Receive node follow-up notification e-mails"
+msgstr "Haberlere yapılan yorumlardan haberdar ol"
+
+#: comment_notify.module:266
+msgid "Check this box to receive an e-mail notification for follow-ups on your nodes (pages, forum topics, etc). You can not disable notifications for individual threads."
+msgstr "Haberlerinize yapılan yorumlardan haberdar olmanızı sağlar."
+
+#: comment_notify.module:271
+msgid "Receive comment follow-up notification e-mails"
+msgstr "Yorumları e-posta yolu ile takip et"
+
+#: comment_notify.module:278
+msgid "Check this box to receive e-mail notification for follow-up comments to comments you posted. You can later disable this on a post-by-post basis... so if you leave this to YES, you can still disable follow-up notifications for comments you don't want follow-up mails anymore - i.e. for very popular posts."
+msgstr "Bu seçenek ile yaptığınız yorumlara yapılan yorumlardan e-posta ile haberdar olabilirsiniz. Bu özelliği daha sonra istediğiniz haber bazında değiştirebilirsiniz... Örneğin burada yorum almak istediğinizi belirtip daha sonra çok fazla yorumlanan bir haber için aboneliğinizi iptal edebilirsiniz. "
+
+#: comment_notify.module:323;373
+msgid "!site :: new comment for your post."
+msgstr "!site :: gönderinize yeni yorum yapıldı"
+
+#: comment_notify.module:406
+msgid "source comment"
+msgstr "esas yorum"
+
+#: comment_notify.module:429
+msgid "Email to unsubscribe"
+msgstr "Üyelikten çıkartılacak e-posta"
+
+#: comment_notify.module:433
+msgid "Unsubscribe this e-mail"
+msgstr "Bu e-postayı üyelikten çıkar"
+
+#: comment_notify.module:455
+msgid "There were no active comment notifications for that email."
+msgstr "Bu e-posta için aktif yorum uyarısı üyeliği bulunmamaktadır"
+
+#: comment_notify.module:480
+msgid "@content-type"
+msgstr "@content-type"
+
+#: comment_notify.module:486
+msgid "Anonymous commenters have the permission to subscribe to comments but cannot leave their contact infromation on the following content types: !types.  You should either disable subscriptions on those types here, revoke the permission for anonymous users, or enable anonymous users to leave their contact information in the comment settings."
+msgstr "Siteye üye olmayan yorumcular yorumları takip etme hakkına sahiptir ama !types içerik tipleri için kendi kişisel iletişim bilgilerini bırakamazlar. Bu içerik tipleri için takip etme özelliğini devre dışı bırakabilir, ziyaretçiler için yetkileri yeniden belirleyebilir ya da yorum ayarlarında ziyaretçilerin iletişim bilgilerini bırakmalarına izin verebilirsiniz."
+
+#: comment_notify.module:491
+msgid "Content types to enable for comment notification"
+msgstr "Yorum uyarılarının geçerli olacağı içerik tipleri"
+
+#: comment_notify.module:494
+msgid "Comments on content types enabled here will have the option of comment notification."
+msgstr "Burada seçilen içerik tiplerinde yer alan yorumlar, yorum uyarılarından haberdar olma seçeneğine sahip olacaktır."
+
+#: comment_notify.module:499
+msgid "Available subscription modes"
+msgstr "Uygun abonelik yöntemleri"
+
+#: comment_notify.module:502
+msgid "Choose which notification subscription styles are available for users"
+msgstr "Kullanıcılar için hangi uyarı üyelik biçimlerinin geçerli olduğunu seçin"
+
+#: comment_notify.module:504
+msgid "For all comments on a post"
+msgstr "Bu habere yapılan tüm yorumlara"
+
+#: comment_notify.module:505
+msgid "Just for replies to a comment"
+msgstr "Sadece yorumuma verilen cevaplara"
+
+#: comment_notify.module:517
+msgid "Default state for the notification selection box for anonymous users"
+msgstr "Ziyaretçiler için öntanımlı uyarı seçim durumu"
+
+#: comment_notify.module:525
+msgid "Default state for the notification selection box for registered users."
+msgstr "Kayıtlı kullanıcılar için öntanımlı uyarı seçim durumu"
+
+#: comment_notify.module:528
+msgid "This flag presets the flag for the follow-up notification on the form that anon users will see when posting a comment"
+msgstr "Bu seçenek kayıtlı olmayan ziyaretçilerin yorum yaparken görecekleri haberdar olma özelliğini belirler"
+
+#: comment_notify.module:535
+msgid "Default mail text for sending out notifications to commenters"
+msgstr "Yorumculara gönderilen ön tanımlı uyarı e-posta mesajı"
+
+#: comment_notify.module:536
+msgid ""
+"You can use the following variables to be replaced:\n"
+"      <ul>\n"
+"      <li>!commname = the username who posted the comment\n"
+"      <li>!commtext = the text of the posted comment\n"
+"      <li>!commsubj = the subject of the posted comment\n"
+"      <li>!comment_url = the full url of the post and comment - note: if you have paging enabled, this does not work correct - set your max comments per page so that all fit on one page or reverse order them\n"
+"      <li>!node_title = the title of the node that was commented on\n"
+"      <li>!node_teaser = the teaser of the node that was commented on\n"
+"      <li>!node_body = the body of the node that was commented on\n"
+"      <li>!mission = site_mission text\n"
+"      <li>!name = username receiving the alert\n"
+"      <li>!site = your site\n"
+"      <li>!uri = base_url of site\n"
+"      <li>!uri_brief = base_url of site w/o http\n"
+"      <li>!date = the current time\n"
+"      <li>!login_uri  uri to login the user\n"
+"      <li>!edit_uri = uri to edit user profile\n"
+"      <li>!link1 the QUICKLINK to disable future follow-up otifications for the user\n"
+"      </ul>"
+msgstr ""
+"Aşağıdaki değişkenleri kullanabilirsiniz:\n"
+"      <ul>\n"
+"      <li>!commname = yorumu yapan kullanıcı adı\n"
+"      <li>!commtext = yorum metni\n"
+"      <li>!commsubj = yorum başlığı\n"
+"      <li>!comment_url = haberin ve yorumun tam adresi - not: eğer sayfalama sitenizde aktif ise, bu düzgün çalışmayacaktır - sayfa başı maksimum yorum ayaralarınızı değiştirebilir ya da yorumlarınızı ters sıralı olarak ilk sayfaya gelecek şekilde gösterebilirsiniz \n"
+"      <li>!node_title = yorumun yapıldığı düğümün başlığı\n"
+"      <li>!node_teaser = yorumun yapıldığı düğümün özeti\n"
+"      <li>!node_body = yorumun yapıldığı düğümün metni\n"
+"      <li>!mission = site görev metni\n"
+"      <li>!name = uyarıyı alacak kullanıcının adı\n"
+"      <li>!site = siteniz\n"
+"      <li>!uri = sitenizin adresi\n"
+"      <li>!uri_brief = http olmaksınız sitenizin adresi\n"
+"      <li>!date = o anki zaman\n"
+"      <li>!login_uri  kullanıcı login adresi\n"
+"      <li>!edit_uri =kullanıcı hesabı düzenleme adresi\n"
+"       <li>!link1 kullanıcının yorumlardan haberdar olmak istemediği durumlar için kullanacağı adres\n"
+"      </ul>"
+
+#: comment_notify.module:565
+msgid "Default mail text for sending out the notifications to node authors"
+msgstr "Düğüm yazarlarına gönderilen ön tanımlı e-posta mesajı"
+
+#: comment_notify.module:566
+msgid ""
+"You can use the following variables to be replaced:\n"
+"      <ul>\n"
+"      <li>!commname = the username who posted the comment\n"
+"      <li>!commtext = the text of the posted comment\n"
+"      <li>!commsubj = the subject of the posted comment\n"
+"      <li>!comment_url = the full url of the post and comment - note: if you have paging enabled, this does not work correct - set your max comments per page so that all fit on one page or reverse order them\n"
+"      <li>!node_title = the title of the node that was commented on\n"
+"      <li>!node_teaser = the teaser of the node that was commented on\n"
+"      <li>!node_body = the body of the node that was commented on\n"
+"      <li>!mission = site_mission text\n"
+"      <li>!name = username receiving the alert\n"
+"      <li>!site = your site\n"
+"      <li>!uri = base_url of site\n"
+"      <li>!uri_brief = base_url of site w/o http\n"
+"      <li>!date = the current time\n"
+"      <li>!login_uri  uri to login the user\n"
+"      <li>!edit_uri = uri to edit user profile\n"
+"      </ul>"
+msgstr ""
+"Aşağıdaki değişkenleri kullanabilirsiniz:\n"
+"      <ul>\n"
+"      <li>!commname = yorumu yapan kullanıcı adı\n"
+"      <li>!commtext = yorum metni\n"
+"      <li>!commsubj = yorum başlığı\n"
+"      <li>!comment_url = haberin ve yorumun tam adresi - not: eğer sayfalama sitenizde aktif ise, bu düzgün çalışmayacaktır - sayfa başı maksimum yorum ayaralarınızı değiştirebilir ya da yorumlarınızı ters sıralı olarak ilk sayfaya gelecek şekilde gösterebilirsiniz \n"
+"      <li>!node_title = yorumun yapıldığı düğümün başlığı\n"
+"      <li>!node_teaser = yorumun yapıldığı düğümün özeti\n"
+"      <li>!node_body = yorumun yapıldığı düğümün metni\n"
+"      <li>!mission = site görev metni\n"
+"      <li>!name = uyarıyı alacak kullanıcının adı\n"
+"      <li>!site = siteniz\n"
+"      <li>!uri = sitenizin adresi\n"
+"      <li>!uri_brief = http olmaksınız sitenizin adresi\n"
+"      <li>!date = o anki zaman\n"
+"      <li>!login_uri  kullanıcı login adresi\n"
+"      <li>!edit_uri =kullanıcı hesabı düzenleme adresi\n"
+"      </ul>"
+
+#: comment_notify.module:458
+msgid "Email unsubscribed from 1 comment notification."
+msgid_plural "Email unsubscribed from @count comment notifications."
+msgstr[0] "e-posta @count yorum takibinden vazgeçti."
+
+#: comment_notify.module:130
+msgid "administer comment notify"
+msgstr "Yorum Uyarılarını yönet"
+
+#: comment_notify.module:130
+msgid "subscribe to comments"
+msgstr "Yorumlara üye ol"
+
+#: comment_notify.module:140;148
+msgid "Configure settings for e-mails about new comments."
+msgstr "Yeni yorumlar için e-posta ayarlarını düzenle"
+
+#: comment_notify.module:147
+msgid "Settings"
+msgstr "Ayarlar"
+
+#: comment_notify.module:156
+msgid "Unsubscribe"
+msgstr "Üyelikten çıkma"
+
+#: comment_notify.module:157
+msgid "Unsubscribe an email from all notifications."
+msgstr "Bir e-postayı tüm uyarı üyeliklerinden çıkar"
+
+#: comment_notify.module:165
+msgid "comment notify"
+msgstr "yorum uyarıları"
+
+#: comment_notify.module:0
+msgid "comment_notify"
+msgstr "comment_notify"
+
+#: comment_notify.install:36
+msgid "Stores information about which commenters on the site have subscriped to followup emails."
+msgstr "Sitede yer alan yorumculardan hangilerinin yapılan yorumlardan e-posta yoluyla haberdar olmak istediği bilgisini kaydeder."
+
+#: comment_notify.info:0
+msgid "Comment Notify"
+msgstr "Yorum Uyarıları"
+
+#: comment_notify.info:0
+msgid "Comment follow-up e-mail notification for anonymous as well as registered users."
+msgstr "Ziyaretçiler ve kayıtlı kullanıcılar için e-posta bildirimleri yorum takibi"
+

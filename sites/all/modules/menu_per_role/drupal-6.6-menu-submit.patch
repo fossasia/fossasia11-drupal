@@ -1,0 +1,11 @@
+--- modules/menu/menu.admin.inc.orig	2008-10-25 19:56:48.000000000 -0700
++++ modules/menu/menu.admin.inc	2008-10-25 19:57:03.000000000 -0700
+@@ -366,7 +366,7 @@
+  * Process menu and menu item add/edit form submissions.
+  */
+ function menu_edit_item_submit($form, &$form_state) {
+-  $item = $form_state['values']['menu'];
++  $item = &$form_state['values']['menu'];
+ 
+   // The value of "hidden" is the opposite of the value
+   // supplied by the "enabled" checkbox.

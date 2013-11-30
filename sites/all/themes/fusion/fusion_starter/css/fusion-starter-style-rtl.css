@@ -1,0 +1,12 @@
+
+/* Tab Menus
+/-------------------------------------------------------------- */
+#content-tabs ul.primary,
+#content-tabs ul.secondary {
+  float: right;
+}
+
+#content-tabs ul.primary li,
+#content-tabs ul.secondary li {
+  float: right;
+}

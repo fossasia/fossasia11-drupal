@@ -1,0 +1,142 @@
+<?php
+
+/**
+ * @file
+ * Unit tests for the xmlsitemap_i18n module.
+ */
+
+/**
+ * Common base test class for XML sitemap internationalization tests.
+ */
+class XMLSitemapI18nWebTestCase extends XMLSitemapTestHelper {
+  protected $admin_user;
+
+  /**
+   * Set up an administrative user account and testing keys.
+   */
+  function setUp($modules = array()) {
+    // Call parent::setUp() allowing test cases to pass further modules.
+    $modules[] = 'locale';
+    $modules[] = 'translation';
+    $modules[] = 'i18n';
+    $modules[] = 'xmlsitemap_i18n';
+    parent::setUp($modules);
+
+    // Add predefined language and reset the locale cache.
+    require_once './includes/locale.inc';
+    locale_add_language('fr', NULL, NULL, LANGUAGE_LTR, '', 'fr');
+    language_list('language', TRUE);
+    drupal_init_language();
+
+    variable_set('xmlsitemap_languages', array('en', 'fr'));
+    variable_set('language_negotiation', LANGUAGE_NEGOTIATION_PATH);
+
+    // Create the two different language-context sitemaps.
+    db_query("DELETE FROM {xmlsitemap_sitemap}");
+    $sitemap = new stdClass();
+    $sitemap->context['language'] = 'en';
+    xmlsitemap_sitemap_save($sitemap);
+    $sitemap = new stdClass();
+    $sitemap->context['language'] = 'fr';
+    xmlsitemap_sitemap_save($sitemap);
+  }
+}
+
+class XMLSitemapI18nTest extends XMLSitemapI18nWebTestCase {
+  public static function getInfo() {
+    return array(
+      'name' => 'XML sitemap i18n tests',
+      'description' => 'Functional and integration tests for the XML sitemap and internationalization modules.',
+      'group' => 'XML sitemap',
+      'dependencies' => array('i18n'),
+    );
+  }
+
+  function testLanguageSelection() {
+    // Create our three different language nodes.
+    $node = $this->addSitemapLink(array('type' => 'node', 'language' => ''));
+    $node_en = $this->addSitemapLink(array('type' => 'node', 'language' => 'en'));
+    $node_fr = $this->addSitemapLink(array('type' => 'node', 'language' => 'fr'));
+
+    // Create three non-node language nodes.
+    $link = $this->addSitemapLink(array('language' => ''));
+    $link_en = $this->addSitemapLink(array('language' => 'en'));
+    $link_fr = $this->addSitemapLink(array('language' => 'fr'));
+
+    variable_set('i18n_selection_mode', 'off');
+    $this->regenerateSitemap();
+    $this->drupalGetSitemap(array('language' => 'en'));
+    $this->assertRawSitemapLinks($node, $node_en, $node_fr, $link, $link_en, $link_fr);
+    $this->drupalGetSitemap(array('language' => 'fr'));
+    $this->assertRawSitemapLinks($node, $node_en, $node_fr, $link, $link_en, $link_fr);
+
+    variable_set('i18n_selection_mode', 'simple');
+    $this->regenerateSitemap();
+    $this->drupalGetSitemap(array('language' => 'en'));
+    $this->assertRawSitemapLinks($node, $node_en, $link, $link_en);
+    $this->assertNoRawSitemapLinks($node_fr, $link_fr);
+    $this->drupalGetSitemap(array('language' => 'fr'));
+    $this->assertRawSitemapLinks($node, $node_fr, $link, $link_fr);
+    $this->assertNoRawSitemapLinks($node_en, $link_en);
+
+    variable_set('i18n_selection_mode', 'mixed');
+    $this->regenerateSitemap();
+    $this->drupalGetSitemap(array('language' => 'en'));
+    $this->assertRawSitemapLinks($node, $node_en, $link, $link_en);
+    $this->assertNoRawSitemapLinks($node_fr, $link_fr);
+    $this->drupalGetSitemap(array('language' => 'fr'));
+    $this->assertRawSitemapLinks($node, $node_en, $node_fr, $link, $link_en, $link_fr);
+
+    variable_set('i18n_selection_mode', 'default');
+    $this->regenerateSitemap();
+    $this->drupalGetSitemap(array('language' => 'en'));
+    $this->assertRawSitemapLinks($node, $node_en, $link, $link_en);
+    $this->assertNoRawSitemapLinks($node_fr, $link_fr);
+    $this->drupalGetSitemap(array('language' => 'fr'));
+    $this->assertRawSitemapLinks($node, $node_en, $link, $link_en);
+    $this->assertNoRawSitemapLinks($node_fr, $link_fr);
+
+    // With strict mode, the language neutral node should not be found, but the
+    // language neutral non-node should be.
+    variable_set('i18n_selection_mode', 'strict');
+    $this->regenerateSitemap();
+    $this->drupalGetSitemap(array('language' => 'en'));
+    $this->assertRawSitemapLinks($node_en, $link, $link_en);
+    $this->assertNoRawSitemapLinks($node, $node_fr, $link_fr);
+    $this->drupalGetSitemap(array('language' => 'fr'));
+    $this->assertRawSitemapLinks($node_fr, $link, $link_fr);
+    $this->assertNoRawSitemapLinks($node, $node_en, $link_en);
+  }
+}
+
+class XMLSitemapI18nNodeTest extends XMLSitemapI18nWebTestCase {
+  public static function getInfo() {
+    return array(
+      'name' => 'XML sitemap i18n node tests',
+      'description' => 'Functional and integration tests for the XML sitemap node and internationalization modules.',
+      'group' => 'XML sitemap',
+      'dependencies' => array('i18n'),
+    );
+  }
+
+  function setUp($modules = array()) {
+    $modules[] = 'xmlsitemap_node';
+    parent::setUp($modules);
+
+    variable_set('language_content_type_page', 1);
+    $this->admin_user = $this->drupalCreateUser(array('administer nodes'));
+    $this->drupalLogin($this->admin_user);
+  }
+
+  function testNodeLanguageData() {
+    $node = $this->drupalCreateNode(array());
+
+    $this->drupalPost('node/' . $node->nid . '/edit', array('language' => 'en'), t('Save'));
+    $link = $this->assertSitemapLink('node', $node->nid);
+    $this->assertIdentical($link['language'], 'en');
+
+    $this->drupalPost('node/' . $node->nid . '/edit', array('language' => 'fr'), t('Save'));
+    $link = $this->assertSitemapLink('node', $node->nid);
+    $this->assertIdentical($link['language'], 'fr');
+  }
+}

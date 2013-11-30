@@ -1,0 +1,286 @@
+<?php
+/**
+ * Implement hook_theme().
+ */
+function views_slideshow_jcarousel_theme($existing, $type, $theme, $path) {
+  return array(
+    'views_slideshow_jcarousel_pager' => array(
+      'arguments' => array('vss_id' => NULL, 'view' => NULL, 'settings' => array(), 'location' => NULL, 'attributes' => array()),
+      'template' => 'theme/views-slideshow-jcarousel-pager',
+    ),
+    'views_slideshow_jcarousel_pager_field' => array(
+      'arguments' => array('view' => NULL, 'field' => NULL, 'count' => NULL),
+      'template' => 'theme/views-slideshow-jcarousel-pager-field',
+      'file' => 'theme/views_slideshow_jcarousel.theme.inc',
+    ),
+    'views_slideshow_jcarousel_pager_item' => array(
+      'arguments' => array('vss_id' => NULL, 'item' => NULL, 'count' => NULL, 'location' => NULL),
+      'template' => 'theme/views-slideshow-jcarousel-pager-item',
+    ),
+  );
+}
+
+/**
+ * Gets the path to the jCarousel library.
+ *
+ * @return
+ *   The path to the jCarousel library js file, or FALSE if not found.
+ */
+function _views_slideshow_jcarousel_library_path() {
+  $jcarousel_path = libraries_get_path('jcarousel');
+
+  if (!empty($jcarousel_path)) {
+    // Attempt to use minified version of jCarousel plugin.
+    if (file_exists($jcarousel_path . '/lib/jquery.jcarousel.min.js')) {
+      $jcarousel_path .= '/lib/jquery.jcarousel.min.js';
+    }
+    // Otherwise use non-minified version if available.
+    elseif (file_exists($jcarousel_path . '/lib/jquery.jcarousel.js')) {
+      $jcarousel_path .= '/lib/jquery.jcarousel.js';
+    }
+    else {
+      $jcarousel_path = FALSE;
+    }
+  }
+  else {
+    $jcarousel_path = FALSE;
+  }
+
+  return $jcarousel_path;
+}
+
+function views_slideshow_jcarousel_views_slideshow_js_method_register() {
+  return array(
+    'viewsSlideshowJcarouselPager',
+  );
+}
+
+/**
+ * Implementation of hook_views_slideshow_info
+ */
+function views_slideshow_jcarousel_views_slideshow_widget_pager_info($view) {
+  $settings = array();
+  // Settings for fields.
+  // First verfiy that the view is using fields.
+  if ($view->row_plugin->uses_fields()) {
+    $settings = array(
+      'views_slideshow_jcarousel_pager' => array(
+        'name' => t('jCarousel Pager'),
+      ),
+    );
+  }
+
+  return $settings;
+}
+
+/**
+ * Implements hook_views_slideshow_option_definition.
+ */
+function views_slideshow_jcarousel_views_slideshow_option_definition() {
+  $locations = array('top', 'bottom');
+  // Defaults for the pager widget.
+  foreach ($locations as $location) {
+    $options['widgets']['contains'][$location]['contains']['views_slideshow_pager']['contains']['views_slideshow_jcarousel_pager_fields'] = array('default' => array());
+    $options['widgets']['contains'][$location]['contains']['views_slideshow_pager']['contains']['views_slideshow_jcarousel_pager_move_on_change'] = array('default' => 0);
+    $options['widgets']['contains'][$location]['contains']['views_slideshow_pager']['contains']['views_slideshow_jcarousel_pager_skin'] = array('default' => 'tango');
+    $options['widgets']['contains'][$location]['contains']['views_slideshow_pager']['contains']['views_slideshow_jcarousel_pager_orientation'] = array('default' => FALSE);
+    $options['widgets']['contains'][$location]['contains']['views_slideshow_pager']['contains']['views_slideshow_jcarousel_pager_scroll'] = array('default' => 3);
+    $options['widgets']['contains'][$location]['contains']['views_slideshow_pager']['contains']['views_slideshow_jcarousel_pager_visible'] = array('default' => 3);
+    $options['widgets']['contains'][$location]['contains']['views_slideshow_pager']['contains']['views_slideshow_jcarousel_pager_wrap'] = array('default' => NULL);
+    $options['widgets']['contains'][$location]['contains']['views_slideshow_pager']['contains']['views_slideshow_jcarousel_pager_animation'] = array('default' => 'fast');
+  }
+
+  return $options;
+}
+
+/**
+ * Implementation [widget-type]_views_slideshow_pager_form_options
+ */
+function views_slideshow_jcarousel_pager_views_slideshow_widget_pager_form_options(&$form, &$form_state, &$view, $defaults, $dependency) {
+  // Settings for fields pager.
+  $options = array();
+  // Get each field and it's name.
+  foreach ($view->display->handler->get_handlers('field') as $field => $handler) {
+    $options[$field] = $handler->ui_name();
+  }
+
+  // Add ability to choose which fields to show in the pager.
+  $form['views_slideshow_jcarousel_pager_fields'] = array(
+    '#type' => 'checkboxes',
+    '#title' => t('Pager fields'),
+    '#options' => $options,
+    '#default_value' => $defaults['views_slideshow_jcarousel_pager_fields'],
+    '#description' => t("Choose the fields that will appear in the pager."),
+    '#prefix' => '<div id="' . $dependency . '-views-slideshow-jcarousel-pager-fields-wrapper">',
+    '#suffix' => '</div>',
+    '#process' => array(
+      'expand_checkboxes',
+      'views_process_dependency',
+    ),
+    '#dependency_count' => 2,
+    '#dependency' => array(
+      $dependency . '-enable' => array(1),
+      $dependency . '-type' => array('views_slideshow_jcarousel_pager'),
+    )
+  );
+
+  // Add field to see if they would like the carousel to activate the pager item
+  // on slide change.
+  $form['views_slideshow_jcarousel_pager_move_on_change'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Move To Active Pager Item On Slide Change'),
+    '#default_value' => $defaults['views_slideshow_jcarousel_pager_move_on_change'],
+    '#description' => t('When the slide changes move the carousel to the active pager item.'),
+    '#prefix' => '<div id="' . $dependency . '-views-slideshow-jcarousel-pager-move-on-change">',
+    '#suffix' => '</div>',
+    '#process' => array(
+      'views_process_dependency',
+    ),
+    '#dependency_count' => 2,
+    '#dependency' => array(
+      $dependency . '-enable' => array(1),
+      $dependency . '-type' => array('views_slideshow_jcarousel_pager'),
+    ),
+  );
+
+  $skin_directory = libraries_get_path('jcarousel') . '/skins';
+  $skins = array();
+  foreach (scandir($skin_directory) as $dir) {
+    if ($dir !== '.' && $dir !== '..' && is_dir($skin_directory . '/' . $dir)) {
+      $skins[$dir] = $dir;
+    }
+  }
+
+  // Set the skin.
+  $form['views_slideshow_jcarousel_pager_skin'] = array(
+    '#type' => 'select',
+    '#title' => t('jCarousel Skin'),
+    '#options' => $skins,
+    '#default_value' => $defaults['views_slideshow_jcarousel_pager_skin'],
+    '#description' => t('Choose the skin for your carousel.  You can add more by placing your skin in the jcarousel library directory.'),
+    '#prefix' => '<div id="' . $dependency . '-views-slideshow-jcarousel-pager-skin">',
+    '#suffix' => '</div>',
+    '#process' => array(
+      'views_process_dependency',
+    ),
+    '#dependency_count' => 2,
+    '#dependency' => array(
+      $dependency . '-enable' => array(1),
+      $dependency . '-type' => array('views_slideshow_jcarousel_pager'),
+    ),
+  );
+
+  // Set orientation of the pager.
+  $form['views_slideshow_jcarousel_pager_orientation'] = array(
+    '#type' => 'select',
+    '#title' => t('Orientation of the Pager'),
+    '#options' => array(FALSE => 'Horizontal', TRUE => 'Vertical'),
+    '#default_value' => $defaults['views_slideshow_jcarousel_pager_orientation'],
+    '#description' => t('Should the pager be horizontal or vertical.'),
+    '#prefix' => '<div id="' . $dependency . '-views-slideshow-jcarousel-pager-orientation">',
+    '#suffix' => '</div>',
+    '#process' => array(
+      'views_process_dependency',
+    ),
+    '#dependency_count' => 2,
+    '#dependency' => array(
+      $dependency . '-enable' => array(1),
+      $dependency . '-type' => array('views_slideshow_jcarousel_pager'),
+    ),
+  );
+
+  // Set the number of visible items.
+  $form['views_slideshow_jcarousel_pager_visible'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Number of Visable Pager Items'),
+    '#default_value' => $defaults['views_slideshow_jcarousel_pager_visible'],
+    '#description' => t('Set the number of pager items that are visible at a single time.'),
+    '#size' => 10,
+    '#prefix' => '<div id="' . $dependency . '-views-slideshow-jcarousel-pager-visible">',
+    '#suffix' => '</div>',
+    '#process' => array(
+      'views_process_dependency',
+    ),
+    '#dependency_count' => 2,
+    '#dependency' => array(
+      $dependency . '-enable' => array(1),
+      $dependency . '-type' => array('views_slideshow_jcarousel_pager'),
+    ),
+  );
+
+  // Set the number of items to scroll by.
+  $form['views_slideshow_jcarousel_pager_scroll'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Scroll'),
+    '#default_value' => $defaults['views_slideshow_jcarousel_pager_scroll'],
+    '#description' => t('The number of items to scroll by.'),
+    '#size' => 10,
+    '#prefix' => '<div id="' . $dependency . '-views-slideshow-jcarousel-pager-scroll">',
+    '#suffix' => '</div>',
+    '#process' => array(
+      'views_process_dependency',
+    ),
+    '#dependency_count' => 2,
+    '#dependency' => array(
+      $dependency . '-enable' => array(1),
+      $dependency . '-type' => array('views_slideshow_jcarousel_pager'),
+    ),
+  );
+
+  // animation speed
+  $form['views_slideshow_jcarousel_pager_animation'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Speed of the transition'),
+    '#default_value' => $defaults['views_slideshow_jcarousel_pager_animation'],
+    '#description' => t('Options are fast, slow or a number in milliseconds.'),
+    '#size' => '10',
+    '#prefix' => '<div id="' . $dependency . '-views-slideshow-jcarousel-pager-animation">',
+    '#suffix' => '</div>',
+    '#process' => array(
+      'views_process_dependency',
+    ),
+    '#dependency_count' => 2,
+    '#dependency' => array(
+      $dependency . '-enable' => array(1),
+      $dependency . '-type' => array('views_slideshow_jcarousel_pager'),
+    ),
+  );
+
+  // Wrap the carousel
+  $form['views_slideshow_jcarousel_pager_wrap'] = array(
+    '#type' => 'select',
+    '#title' => t('Wrapping'),
+    '#options' => array(NULL => 'Disabled', 'circular' => 'Circular', 'first' => 'First', 'last' => 'Last', 'both' => 'Both'),
+    '#default_value' => $defaults['views_slideshow_jcarousel_pager_wrap'],
+    '#description' => t('Wrap the carousel.'),
+    '#prefix' => '<div id="' . $dependency . '-views-slideshow-jcarousel-pager-wrap">',
+    '#suffix' => '</div>',
+    '#process' => array(
+      'views_process_dependency',
+    ),
+    '#dependency_count' => 2,
+    '#dependency' => array(
+      $dependency . '-enable' => array(1),
+      $dependency . '-type' => array('views_slideshow_jcarousel_pager'),
+    ),
+  );
+}
+
+/**
+ * Need to have preprocess functions here because drupal doesn't cache them
+ * correctly in the theme.inc file.
+ *
+ * If you would like to override the preprocess functions make sure to look at
+ * the associated function in theme.inc.
+ */
+
+// Trying to make sure the theme.inc get's loaded.
+include_once('theme/views_slideshow_jcarousel.theme.inc');
+
+function template_preprocess_views_slideshow_jcarousel_pager(&$vars) {
+  _views_slideshow_jcarousel_preprocess_pager($vars);
+}
+
+function template_preprocess_views_slideshow_jcarousel_pager_item(&$vars) {
+  _views_slideshow_jcarousel_preprocess_pager_item($vars);
+}

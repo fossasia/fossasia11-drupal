@@ -1,0 +1,153 @@
+.print-content { font-family: Tahoma; font-size: 11px; line-height: 1.5; }
+.print-content a { text-decoration: none; }
+.print-breadcrumb { display: none; height: 0px; }
+
+.print-content th, .print-content td { padding: 0.5em; }
+
+.schedule-table tr th, .schedule-table-friday tr th { height: 60px; text-align: center; }
+
+.schedule-table tr, .schedule-table-friday tr { border-left: 1px solid #CCCCCC; }
+
+#logo-title { width: 500px; }
+#site-slogan { /*float: left; */font-size: 1.9em; margin: 32px 0px 0px 0px; font-weight: normal; }
+#logo-image { padding-top: 30px; }
+#header-blocks { padding-top: 0px; }
+
+.speaker-list .item-list ul { padding: 0px; margin: 0px; list-style: none; }
+.speaker-list .item-list ul li { float: left; display: block; margin: 5px 10px; padding: 7px 2px 2px 2px; border: 1px solid #BBBBBB; background-color: #FFFFFF; width: 130px; height: 205px; }
+.speaker-list .item-list ul li:hover { border: 1px solid #FFFFFF; background-color: #BE7300; }
+.speaker-list .item-list ul li:hover a { color: #FFFFFF; }
+.speaker-list .item-list ul li .views-field-title { text-align: center; font-weight: bold; }
+.speaker-list .item-list ul li .field-content { text-align: center; display: block; }
+.speaker-list .item-list ul li img { border: 1px solid #BBBBBB; background: none; padding: 0px; }
+.speaker-list .item-list ul li:hover img { border: 1px solid #FFFFFF; }
+
+.block-speaker-list .item-list ul { padding: 0px; margin: 0px; list-style: none; }
+.block-speaker-list .item-list ul li { float: left; display: block; margin: 5px 12px; padding: 0px 0px 0px 0px; border: none; background: none; width: 102px; }
+.block-speaker-list .item-list ul li img { border: 1px solid #BBBBBB; background-color: #FFFFFF; padding: 4px; float: left; margin: 0px 5px; }
+.block-speaker-list .item-list ul li:hover img { border: 1px solid #FFFFFF; background-color: #BE7300; }
+.block-speaker-list .item-list ul li:hover a { text-decoration: underline; }
+.block-speaker-list .item-list ul li .field-content { text-align: center; display: block; font-size: 0.95em; }
+.block-speaker-list .more-link { float: none; clear: both; }
+
+.block-views .views-field-field-sponsor-logo-fid { text-align: center; }
+.view-sponsor-list .views-row { margin: 10px 0px 0px 0px; }
+
+.project-list ul { padding: 0px; margin: 0px; }
+.project-list ul li { background: none; border: none; display: block; float: left; padding: 5px; overflow: hidden; padding: 2px 0px 3px 0px; text-align: center; width: 110px; }
+.project-list ul li img { vertical-align: middle; padding: 2px; border: 2px solid #F2F2F2; }
+.project-list ul li a:hover img { border: 2px solid #BE7300; }
+
+.clearfix { float: none; clear: both; }
+img.imagefield-field_speaker_avatar, img.imagecache-speaker_avatar { border: 1px solid #BBBBBB; padding: 4px; background-color: #FFFFFF; }
+#content-bottom #content-bottom-five .region-count-2 { margin-top: 10px; }
+#closure .block { float: left; }
+#content-top-block .block
+{
+background-color:#F2F2F2;
+border-color:/*-moz-use-text-color*/#222222 #FFFFFF #FFFFFF;
+border-right:1px solid #FFFFFF;
+border-style:none solid solid;
+border-width:medium 1px 1px;
+margin-bottom:10px;
+}
+#content-top-block .block-inner
+{
+border-color:#999999 #C4C4C4 /*-moz-use-text-color*/#222222;
+border-left:1px solid #C4C4C4;
+border-right:1px solid #C4C4C4;
+border-style:solid solid none;
+border-width:1px 1px medium;
+padding:30px 10px 10px;
+position:relative;
+}
+#content-top-block h2.title
+{
+background:url("../../../../all/themes/fever/images/sidebar_header_right.png") no-repeat scroll right top transparent;
+display:inline-block;
+height:20px;
+left:-2px;
+padding:5px 20px 5px 10px;
+position:absolute;
+top:-1px;
+}
+
+.view-user-coming table tr:hover ,
+.view-user-coming-2011 table tr:hover 
+{ background-color: #DDDDDD; }
+.view-user-coming table thead tr ,
+.view-user-coming-2011 table thead tr 
+{ background-color: #DDDDDD; }
+#designed-by { color: #EDEDED; }
+#designed-by a { color: #BE7300; }
+.view-user-coming .views-field-value, .view-user-coming .views-field-value-3 ,
+.view-user-coming-2011 .views-field-value, .view-user-coming .views-field-value-3 
+{ width: 150px; }
+
+table.schedule-table tr td { padding: 0px; }
+table.schedule-table tr td .time-block { display: block; margin-bottom: -1px; margin-right: -1px; padding: 0px; height: 90px; border-right: 1px solid #CCCCCC; border-bottom: 1px solid #CCCCCC; }
+table.schedule-table tr td .time-block a, table.schedule-table-friday a, table.schedule-table-minidebconf a { display: block; font-weight: bold; }
+.time-block-content { display: block; padding: 5px 10px; }
+table.schedule-table tr td .time-block:hover {  }
+table.schedule-table tr td .time-block .view-schedule-detail, table.schedule-table-friday .view-schedule-detail { float: right; }
+
+.schedule-table tr th { padding: 0px; }
+.schedule-table tr th .tb-title { border-right: 1px solid #CCCCCC; margin: 0px -1px 0px 0px; height: 60px; display: block; }
+
+div.hide { visibility: hidden; height: 0px; display: absolute; margin: 0px; padding: 0px; }
+
+div.relax { text-align: center; font-weight: bold; }
+
+table.schedule-table-friday tr td { border-right: 1px solid #CCCCCC; border-bottom: 1px solid #CCCCCC; }
+table.schedule-table tr td .time-block .view-schedule-detail a, table.schedule-table-friday .view-schedule-detail a, table.schedule-table-minidebconf .view-schedule-detail a,
+table.schedule-table tr td .time-block .view-schedule-detail a:link, table.schedule-table-friday .view-schedule-detail a:link, table.schedule-table-minidebconf .view-schedule-detail a:link,
+table.schedule-table tr td .time-block .view-schedule-detail a:visited, table.schedule-table-friday .view-schedule-detail a:visited, table.schedule-table-minidebconf .view-schedule-detail a:visited { color: #222222; font-style: italic; font-weight: normal; }
+table.schedule-table tr td .time-block .view-schedule-detail a:hover, table.schedule-table-friday .view-schedule-detail a:hover, table.schedule-table-minidebconf .view-schedule-detail a:hover { color: #BE7300; }
+
+table.schedule-table-friday tr th { border-right: 1px solid #CCCCCC; }
+
+.noderelationships-backref-view { margin: 0px; }
+.noderelationships-backref-view dt { display: none; }
+.noderelationships-backref-view dd { padding: 0px; margin: 0px; }
+
+.sidebar-left #sidebar-left, .two-sidebars #sidebar-left, .two-sidebars #content { float: none; display: block; width: 100%; }
+
+.schedule-table-minidebconf tr td { padding: 5px; margin: 0px; border-bottom: 1px solid #CCCCCC; }
+.schedule-table-minidebconf .view-schedule-detail .views-row { display: inline-block; padding: 0px 0px 0px 10px; }
+
+.view-field-topic-speaker-ref table { width: 100%; }
+.view-field-topic-speaker-ref table tr td { text-align: center; }
+
+.view-topic-views h3,
+.view-topic-views-2011 h3 
+{ font-size: 11px; font-weight: bold; margin: 10px 0px 0px 0px; }
+.view-topic-views h3 a ,
+.view-topic-views-2011 h3 a 
+{ color: #BE7300; }
+.view-topic-views .views-row ,
+.view-topic-views-2011 .views-row 
+{ display: inline-block; padding: 3px 0px 0px 10px; }
+.view-topic-views .views-row a ,
+.view-topic-views-2011 .views-row a 
+{ color: #222222; font-style: italic; }
+.view-topic-views .views-row a:hover ,
+.view-topic-views-2011 .views-row a:hover 
+{ color: #BE7300; }
+
+a.block-link { display: block; }
+.print-syslink { text-align: right; display: block; margin: 5px 15px; }
+
+.profile .picture {margin:30px 0 0 0;}
+
+#block-block-11 div.content {
+  padding: 0;
+}
+
+#block-block-16 div.content {
+  padding: 5px;
+}
+
+#block-views-sponsor_list-block_9 div.content {
+  padding: 5px;
+}
+

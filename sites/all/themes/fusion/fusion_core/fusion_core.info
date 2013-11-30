@@ -1,0 +1,250 @@
+
+name = Fusion Core
+description = <a href="http://drupal.org/project/fusion">Fusion Core</a> is the grid-enabled base theme for powerful sub-themes.  With the <a href="http://drupal.org/project/skinr">Skinr</a> module, it enables easy point-and-click theming. By <a href="http://www.topnotchthemes.com">TopNotchThemes</a>
+core = 6.x
+engine = phptemplate
+
+stylesheets[all][] = css/style.css
+stylesheets[all][] = css/typography.css
+stylesheets[all][] = css/superfish.css
+stylesheets[all][] = css/superfish-navbar.css
+stylesheets[all][] = css/superfish-vertical.css
+
+scripts[] = js/jquery.bgiframe.min.js
+scripts[] = js/hoverIntent.js
+scripts[] = js/supposition.js
+scripts[] = js/supersubs.js
+scripts[] = js/superfish.js
+scripts[] = js/script.js
+
+regions[sidebar_first] = sidebar first
+regions[sidebar_last] = sidebar last
+regions[header_top] = header top
+regions[header] = header
+regions[preface_top] = preface top
+regions[preface_bottom] = preface bottom
+regions[content_top] = content top
+regions[content] = content
+regions[content_bottom] = content bottom
+regions[postscript_top] = postscript top
+regions[postscript_bottom] = postscript bottom
+regions[footer] = footer
+regions[node_top] = node top
+regions[node_bottom] = node bottom
+
+features[] = logo
+features[] = name
+features[] = slogan
+features[] = node_user_picture
+features[] = comment_user_picture
+features[] = search
+features[] = favicon
+features[] = primary_links
+features[] = secondary_links
+
+; Default theme settings
+settings[theme_grid] = grid16-960
+settings[theme_grid_options][] = grid16-960
+settings[theme_grid_options][] = grid16-fluid
+settings[theme_grid_options][] = grid12-960
+settings[theme_grid_options][] = grid12-fluid
+settings[fluid_grid_width] = fluid-100
+settings[theme_font_size] = font-size-13
+settings[sidebar_layout] = sidebars-split
+settings[sidebar_first_width] = 3
+settings[sidebar_last_width] = 3
+
+; Widths for 16 column, 960px/fluid grid
+skinr[grid16-width][title] = Width (16 column grid)
+skinr[grid16-width][type] = select
+skinr[grid16-width][features][] = block
+skinr[grid16-width][options][1][label] = 1 unit wide (60px/6.25%)
+skinr[grid16-width][options][1][class] = grid16-1
+skinr[grid16-width][options][2][label] = 2 units wide (120px/12.5%)
+skinr[grid16-width][options][2][class] = grid16-2
+skinr[grid16-width][options][3][label] = 3 units wide (180px/18.75%)
+skinr[grid16-width][options][3][class] = grid16-3
+skinr[grid16-width][options][4][label] = 4 units wide (240px/25%)
+skinr[grid16-width][options][4][class] = grid16-4
+skinr[grid16-width][options][5][label] = 5 units wide (300px/31.25%)
+skinr[grid16-width][options][5][class] = grid16-5
+skinr[grid16-width][options][6][label] = 6 units wide (360px/37.5%)
+skinr[grid16-width][options][6][class] = grid16-6
+skinr[grid16-width][options][7][label] = 7 units wide (420px/43.75%)
+skinr[grid16-width][options][7][class] = grid16-7
+skinr[grid16-width][options][8][label] = 8 units wide (480px/50%)
+skinr[grid16-width][options][8][class] = grid16-8
+skinr[grid16-width][options][9][label] = 9 units wide (540px/56.25%)
+skinr[grid16-width][options][9][class] = grid16-9
+skinr[grid16-width][options][10][label] = 10 units wide (600px/62.5%)
+skinr[grid16-width][options][10][class] = grid16-10
+skinr[grid16-width][options][11][label] = 11 units wide (660px/68.75%)
+skinr[grid16-width][options][11][class] = grid16-11
+skinr[grid16-width][options][12][label] = 12 units wide (720px/75%)
+skinr[grid16-width][options][12][class] = grid16-12
+skinr[grid16-width][options][13][label] = 13 units wide (780px/81.25%)
+skinr[grid16-width][options][13][class] = grid16-13
+skinr[grid16-width][options][14][label] = 14 units wide (840px/87.5%)
+skinr[grid16-width][options][14][class] = grid16-14
+skinr[grid16-width][options][15][label] = 15 units wide (900px/93.75%)
+skinr[grid16-width][options][15][class] = grid16-15
+skinr[grid16-width][options][16][label] = 16 units wide (960px/100%)
+skinr[grid16-width][options][16][class] = grid16-16
+
+; Widths for 12 column, 960px/fluid grid
+skinr[grid12-width][title] = Width (12 column grid)
+skinr[grid12-width][type] = select
+skinr[grid12-width][features][] = block
+skinr[grid12-width][options][1][label] = 1 unit wide (80px/8.33%)
+skinr[grid12-width][options][1][class] = grid12-1
+skinr[grid12-width][options][2][label] = 2 units wide (160px/16.67%)
+skinr[grid12-width][options][2][class] = grid12-2
+skinr[grid12-width][options][3][label] = 3 units wide (240px/25%)
+skinr[grid12-width][options][3][class] = grid12-3
+skinr[grid12-width][options][4][label] = 4 units wide (320px/33.33%)
+skinr[grid12-width][options][4][class] = grid12-4
+skinr[grid12-width][options][5][label] = 5 units wide (400px/41.67%)
+skinr[grid12-width][options][5][class] = grid12-5
+skinr[grid12-width][options][6][label] = 6 units wide (480px/50%)
+skinr[grid12-width][options][6][class] = grid12-6
+skinr[grid12-width][options][7][label] = 7 units wide (560px/58.33%)
+skinr[grid12-width][options][7][class] = grid12-7
+skinr[grid12-width][options][8][label] = 8 units wide (640px/66.67%)
+skinr[grid12-width][options][8][class] = grid12-8
+skinr[grid12-width][options][9][label] = 9 units wide (720px/75%)
+skinr[grid12-width][options][9][class] = grid12-9
+skinr[grid12-width][options][10][label] = 10 units wide (800px/83.33%)
+skinr[grid12-width][options][10][class] = grid12-10
+skinr[grid12-width][options][11][label] = 11 units wide (880px/91.67%)
+skinr[grid12-width][options][11][class] = grid12-11
+skinr[grid12-width][options][12][label] = 12 units wide (960px/100%)
+skinr[grid12-width][options][12][class] = grid12-12
+skinr[grid-width][description] = Change the width of this block. Fluid grid % widths are relative to the parent region's width. Default widths: sidebar blocks default to the sidebar width; in other regions width is divided equally among all blocks.
+
+; Block positioning
+skinr[fusion-alignment][title] = Block position
+skinr[fusion-alignment][type] = select
+skinr[fusion-alignment][description] = Change the position of this block (default is to float to the left)
+skinr[fusion-alignment][features][] = block
+skinr[fusion-alignment][options][1][label] = Float block to the right
+skinr[fusion-alignment][options][1][class] = fusion-right
+skinr[fusion-alignment][options][2][label] = Position block in the center
+skinr[fusion-alignment][options][2][class] = fusion-center
+skinr[fusion-alignment][options][3][label] = Clear floats (block drops to a new line)
+skinr[fusion-alignment][options][3][class] = fusion-clear
+
+; Content alignment
+skinr[fusion-content-alignment][title] = Content alignment
+skinr[fusion-content-alignment][type] = select
+skinr[fusion-content-alignment][description] = Default is left aligned content
+skinr[fusion-content-alignment][options][1][label] = Center align content within its container
+skinr[fusion-content-alignment][options][1][class] = fusion-center-content
+skinr[fusion-content-alignment][options][2][label] = Right align content within its container
+skinr[fusion-content-alignment][options][2][class] = fusion-right-content
+
+; General styles
+skinr[fusion-general-styles][title] = General styles
+skinr[fusion-general-styles][type] = checkboxes
+skinr[fusion-general-styles][description] = These are some generally useful options for blocks
+skinr[fusion-general-styles][features][] = block
+skinr[fusion-general-styles][features][] = panels_display
+skinr[fusion-general-styles][features][] = panels_pane
+skinr[fusion-general-styles][features][] = panels_panel
+skinr[fusion-general-styles][options][1][label] = <span class="preview-text">Text: large, bold callout style <span class="preview-icon" id="fusion-general-styles-fusion-callout"></span></span>
+skinr[fusion-general-styles][options][1][class] = fusion-callout
+skinr[fusion-general-styles][options][2][label] = <span class="preview-text">Links: bold all links <span class="preview-icon" id="fusion-general-styles-bold-links"></span></span>
+skinr[fusion-general-styles][options][2][class] = fusion-bold-links
+skinr[fusion-general-styles][options][3][label] = <span class="preview-text">Padding: add 30px extra padding inside block <span class="preview-icon" id="fusion-general-styles-fusion-padding"></span></span>
+skinr[fusion-general-styles][options][3][class] = fusion-padding
+skinr[fusion-general-styles][options][4][label] = <span class="preview-text">Border: add 1px border and 10px padding <span class="preview-icon" id="fusion-general-styles-fusion-border"></span></span>
+skinr[fusion-general-styles][options][4][class] = fusion-border
+
+; General style - Equal heights
+skinr[fusion-equal-heights][title] = Equal heights
+skinr[fusion-equal-heights][type] = checkboxes
+skinr[fusion-equal-heights][description] = Make blocks in a region the same height
+skinr[fusion-equal-heights][features][] = block
+skinr[fusion-equal-heights][features][] = panels_display
+skinr[fusion-equal-heights][features][] = panels_pane
+skinr[fusion-equal-heights][features][] = panels_panel
+skinr[fusion-equal-heights][scripts][] = js/jquery.equalheights.js
+skinr[fusion-equal-heights][options][1][label] = <span class="preview-text">Equal heights: equalize the heights of blocks with this style in the same region <span class="preview-icon" id="fusion-general-styles-equal-heights"></span></span>
+skinr[fusion-equal-heights][options][1][class] = equal-heights
+
+; List styles
+skinr[fusion-multicol][title] = List columns
+skinr[fusion-multicol][type] = select
+skinr[fusion-multicol][description] = Put items in lists (menus, list views, etc.) in multiple columns
+skinr[fusion-multicol][features][] = block
+skinr[fusion-multicol][features][] = panels_display
+skinr[fusion-multicol][features][] = panels_pane
+skinr[fusion-multicol][features][] = panels_panel
+skinr[fusion-multicol][features][] = views_view
+skinr[fusion-multicol][options][1][label] = 2-column list/menu (50%/50%)
+skinr[fusion-multicol][options][1][class] = fusion-2-col-list clearfix
+skinr[fusion-multicol][options][2][label] = 3-column list/menu (33%/33%/33%)
+skinr[fusion-multicol][options][2][class] = fusion-3-col-list clearfix
+
+; Additional menu styles
+skinr[fusion-menu][title] = Menu layout
+skinr[fusion-menu][type] = radios
+skinr[fusion-menu][description] = Different layouts and alignment options for your menus
+skinr[fusion-menu][features][] = block
+skinr[fusion-menu][features][] = panels_display
+skinr[fusion-menu][features][] = panels_pane
+skinr[fusion-menu][features][] = panels_panel
+skinr[fusion-menu][options][1][label] = <span class="preview-text">Single line menu with separators <span class="preview-icon" id="fusion-menu-fusion-inline-menu"></span></span>
+skinr[fusion-menu][options][1][class] = fusion-inline-menu
+skinr[fusion-menu][options][2][label] = <span class="preview-text">Multi-column menu with bold headers (set menu items to Expanded) <span class="preview-icon" id="fusion-menu-fusion-multicol-menu"></span></span>
+skinr[fusion-menu][options][2][class] = fusion-multicol-menu clearfix
+
+; Stackable list/menu styles
+skinr[fusion-list-styles][title] = List/menu styles
+skinr[fusion-list-styles][type] = checkboxes
+skinr[fusion-list-styles][features][] = block
+skinr[fusion-list-styles][features][] = panels_display
+skinr[fusion-list-styles][features][] = panels_pane
+skinr[fusion-list-styles][features][] = panels_panel
+skinr[fusion-list-styles][features][] = views_view
+skinr[fusion-list-styles][options][1][label] = <span class="preview-text">Bottom border (no bullets) <span class="preview-icon" id="list-styles-bottom-border"></span></span>
+skinr[fusion-list-styles][options][1][class] = fusion-list-bottom-border
+skinr[fusion-list-styles][options][2][label] = <span class="preview-text">Extra vertical spacing (no bullets) <span class="preview-icon" id="list-styles-extra-vertical-spacing"></span></span>
+skinr[fusion-list-styles][options][2][class] = fusion-list-vertical-spacing
+
+; Superfish menu styles
+skinr[fusion-superfish][title] = Superfish menu styles
+skinr[fusion-superfish][type] = radios
+skinr[fusion-superfish][description] = Superfish dropdown menus (must also set menu items to Expanded)
+skinr[fusion-superfish][features][] = block
+skinr[fusion-superfish][options][1][label] = <span class="preview-text">Vertical menu (for sidebar blocks) <span class="preview-icon" id="fusion-superfish-superfish-vertical"></span></span>
+skinr[fusion-superfish][options][1][class] = superfish superfish-vertical
+
+; Image styles
+skinr[fusion-float-imagefield][title] = Image floating styles
+skinr[fusion-float-imagefield][type] = select
+skinr[fusion-float-imagefield][description] = These options will float ImageField images in content to the left or right and add margins
+skinr[fusion-float-imagefield][features][] = block
+skinr[fusion-float-imagefield][features][] = node
+skinr[fusion-float-imagefield][features][] = views_view
+skinr[fusion-float-imagefield][options][1][label] = Float ImageField left
+skinr[fusion-float-imagefield][options][1][class] = fusion-float-imagefield-left
+skinr[fusion-float-imagefield][options][2][label] = Float ImageField right
+skinr[fusion-float-imagefield][options][2][class] = fusion-float-imagefield-right
+
+; User login block styles
+skinr[fusion-login][title] = User login block styles
+skinr[fusion-login][type] = radios
+skinr[fusion-login][features][] = block
+skinr[fusion-login][features][] = panels_display
+skinr[fusion-login][features][] = panels_pane
+skinr[fusion-login][features][] = panels_panel
+skinr[fusion-login][scripts][] = js/jquery.overlabel.js
+skinr[fusion-login][options][1][label] = <span class="preview-text">Horizontal: puts user login block on a single line with label overlays (good for Header Top region) <span class="preview-icon" id="fusion-login-fusion-horiz-login"></span></span>
+skinr[fusion-login][options][1][class] = fusion-horiz-login
+
+; Information added by drupal.org packaging script on 2012-03-28
+version = "6.x-1.13"
+core = "6.x"
+project = "fusion"
+datestamp = "1332949846"
+

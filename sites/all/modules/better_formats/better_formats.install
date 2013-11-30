@@ -1,0 +1,160 @@
+<?php
+// $Id: better_formats.install,v 1.7.2.7 2009/05/31 06:24:40 dragonwize Exp $
+
+/**
+ * @file
+ * Installs the better_formats module.
+ *
+ * Creates a database for use of multi-layered default formats and sets
+ * default settings.
+ */
+
+
+/**
+ * Implementation of hook_schema().
+ */
+function better_formats_schema() {
+  $schema['better_formats_defaults'] = array(
+    'fields' => array(
+      'rid' => array(
+        'type'     => 'int',
+        'size'     => 'normal',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'type' => array(
+        'type'     => 'varchar',
+        'length'   => 255,
+        'not null' => TRUE,
+      ),
+      'format' => array(
+        'type' => 'int',
+        'size' => 'medium',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'type_weight' => array(
+        'type'     => 'int',
+        'size'     => 'tiny',
+        'default'  => 0,
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'weight' => array(
+        'type'     => 'int',
+        'size'     => 'tiny',
+        'default'  => 0,
+        'unsigned' => FALSE,
+        'not null' => TRUE,
+      ),
+    ),
+    'primary key' => array('rid', 'type'),
+  );
+
+  return $schema;
+}
+
+/**
+ * Implementation of hook_install().
+ */
+function better_formats_install() {
+  // Create tables.
+  drupal_install_schema('better_formats');
+
+  // Increase module weight to prevent compatibility issues.
+  $sql = "UPDATE {system}
+          SET weight = 100
+          WHERE name = 'better_formats'";
+  db_query($sql);
+
+  // Insert format defaults.
+  $roles = user_roles();
+  $sql   = "INSERT INTO {better_formats_defaults}
+            VALUES (%d, '%s', %d, %d, %d)";
+  foreach ($roles as $rid => $role) {
+    db_query($sql, $rid, 'node', 0, 1, 0);
+    db_query($sql, $rid, 'comment', 0, 1, 0);
+    db_query($sql, $rid, 'block', 0, 1, 25);
+  }
+
+  // Set default perms to be like core defaults.
+  $default_perms = ', show format selection for nodes, show format selection for comments, show format selection for blocks, show format tips, show more format tips link, collapsible format selection, collapse format fieldset by default';
+  // Get current core perms.
+  $sql = "SELECT *
+          FROM {permission}
+          WHERE rid IN (1,2)";
+  $result = db_query($sql);
+  $role_perms = array();
+  while ($row = db_fetch_object($result)) {
+    $role_perms[$row->rid] = $row;
+  }
+  // If a role has no permissions set it will not have a row in the database.
+  // Assume that roles do not need perms set for BF as well if none are set.
+  if (!empty($role_perms)) {
+    // Add perms to core roles (anonymous user, authenticated user).
+    foreach ($role_perms as $perms) {
+      $sql = "UPDATE {permission}
+              SET perm = '%s'
+              WHERE pid = %d";
+      db_query($sql, $perms->perm . $default_perms, $perms->pid);
+    }
+    // Clear the cache.
+    cache_clear_all();
+  }
+}
+
+/**
+ * Implementation of hook_uninstall().
+ */
+function better_formats_uninstall() {
+  // Remove tables.
+  drupal_uninstall_schema('better_formats');
+
+  // Delete settings from varible table.
+  $sql = "DELETE FROM {variable}
+          WHERE name LIKE 'better_formats%'";
+  db_query($sql);
+}
+
+/**
+ * Update from 1.0 to 1.1.
+ */
+function better_formats_update_6110() {
+  $ret = array();
+
+  // Insert block format defaults.
+  $roles = user_roles();
+  $sql   = "INSERT INTO {better_formats_defaults}
+            VALUES (%d, '%s', %d, %d, %d)";
+  foreach ($roles as $rid => $role) {
+    $result = db_query($sql, $rid, 'block', 0, 1, 25);
+    $ret[] = array('success' => $result !== FALSE, 'query' => check_plain($sql));
+  }
+
+  // Split show format selection permission.
+  // Get permissions by role.
+  $sql = "SELECT *
+          FROM {permission}";
+  $result = db_query($sql);
+  $row_perms = array();
+  while ($row = db_fetch_object($result)) {
+    $role_perms[$row->rid] = $row;
+  }
+  if (!empty($role_perms)) {
+    // Add perms to core roles (anonymous user, authenticated user).
+    foreach ($role_perms as $perms) {
+      // Only enable spit permissions if previous was enabled.
+      $replace = ', show format selection for nodes, show format selection for comments, show format selection for blocks,';
+      $perms->perm = str_replace(', show format selection,', $replace, $perms->perm);
+      $sql = "UPDATE {permission}
+              SET perm = '%s'
+              WHERE pid = %d";
+      $result = db_query($sql, $perms->perm, $perms->pid);
+      $ret[] = array('success' => $result !== FALSE, 'query' => check_plain($sql));
+    }
+    // Clear the cache.
+    cache_clear_all();
+  }
+
+  return $ret;
+}

@@ -1,0 +1,43 @@
+/* $Id: ie7.css,v 1.1 2010/04/24 13:24:34 antsin Exp $ */
+
+/*
++----------------------------------------------------------------+
+|   BlogBuzz for Dupal 6.x - Version 2.0                         |
+|   Copyright (C) 2010 Antsin.com All Rights Reserved.           |
+|   @license - GNU GENERAL PUBLIC LICENSE                        |
+|----------------------------------------------------------------|
+|   Theme Name: BlogBuzz                                         |
+|   Description: BlogBuzz by Antsin                              |
+|   Author: Antsin.com                                           |
+|   Website: http://www.antsin.com/                              |
+|----------------------------------------------------------------+
+*/
+
+/** button & read more **/
+span.button {
+  padding: 0; 
+}
+
+.read-more a {
+  padding: 3px 10px 3px 20px;
+}
+
+#secondary ul {
+  float: right;
+}
+
+ul.pager li {
+  margin-right: 3px !important;
+}
+
+#showcase-inner {
+  background: #fff url("../images/bg_fade_ie.png") repeat-x left top; 
+}
+
+#showcase h1, #showcase .slide-text, #showcase .slide-read-more a {
+  background-color: #fff; 
+}
+
+#primary ul li {
+  zoom: 1;
+}

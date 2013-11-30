@@ -1,0 +1,136 @@
+<?php
+
+/**
+ * @file
+ * Provides the jQuery UI plug-in to other Drupal modules.
+ *
+ * This module doesn't do too much, but it is a central location for any other
+ * modules that implement the JQuery UI library. It ensures that multiple
+ * modules will all include the same library script just once on any given page.
+ */
+
+/**
+ * Add the specified jQuery UI library files to this page.
+ *
+ * The ui.core file is always included automatically, as well as the
+ * effects.core file if any of the effects libraries are used.
+ *
+ * @param $files
+ *   An array of what additional files (other than UI core) should be loaded
+ *   on the page, or a string with a single file name.
+ */
+function jquery_ui_add($files = array()) {
+  static $loaded_files, $ui_core, $effects_core;
+
+  $jquery_ui_path = jquery_ui_get_path();
+  if ($jquery_ui_path === FALSE) {
+    return FALSE;
+  }
+  $jquery_ui_path .= '/ui';
+  $compression = variable_get('jquery_update_compression_type', 'mini');
+
+  // Convert file to an array if it's not one already, to compensate for
+  // lazy developers. ;)
+  if (!is_array($files)) {
+    $files = array($files);
+  }
+
+  // If core hasn't been added yet, add it.
+  if (!isset($ui_core)) {
+    $ui_core = TRUE;
+    jquery_ui_add(array('ui.core'));
+  }
+
+  // Loop through list of files to include and add them to the page.
+  foreach ($files as $file) {
+    // Any effects files require the effects core file.
+    if (!isset($effects_core) && strpos($file, 'effects.') === 0) {
+      $effects_core = TRUE;
+      jquery_ui_add(array('effects.core'));
+    }
+
+    // Load other files.
+    if (!isset($loaded_files[$file])) {
+      switch ($compression) {
+        case 'none':
+          $file_path = "$file.js";
+          break;
+
+        case 'pack':
+          $file_path = "packed/$file.packed.js";
+          break;
+
+        case 'mini':
+        default:
+          $file_path = "minified/$file.min.js";
+          break;
+      }
+      $js_path = $jquery_ui_path . '/' . $file_path;
+      drupal_add_js($js_path);
+      $loaded_files[$file] = $js_path;
+    }
+  }
+}
+
+/**
+ * Returns the path to the jQuery UI library or FALSE if not found.
+ */
+function jquery_ui_get_path() {
+  static $path;
+
+  if (isset($path)) {
+    return $path;
+  }
+  $path = FALSE;
+
+  // Libraries API integration.
+  if (function_exists('libraries_get_path')) {
+    $path = libraries_get_path('jquery.ui');
+    // Libraries API 1.x returns a default path; 2.x returns FALSE.
+    if ($path !== FALSE && !file_exists($path)) {
+      $path = FALSE;
+    }
+  }
+  // Manually check sites/all/libraries in case Libraries API is not available.
+  elseif (file_exists('./sites/all/libraries/jquery.ui')) {
+    $path = 'sites/all/libraries/jquery.ui';
+  }
+
+  // Check the module directory for backwards compatibility if other methods
+  // failed.
+  if (!$path) {
+    // drupal_get_path() is not available during Drupal installation.
+    if (defined('MAINTENANCE_MODE') && MAINTENANCE_MODE == 'install') {
+      $path = drupal_substr(dirname(__FILE__), drupal_strlen(getcwd()) + 1);
+      $path = strtr($path, '\\', '/');
+      $path .= '/jquery.ui';
+    }
+    else {
+      $path = drupal_get_path('module', 'jquery_ui') . '/jquery.ui';
+    }
+    if (!file_exists($path)) {
+      $path = FALSE;
+    }
+  }
+
+  return $path;
+}
+
+/**
+ * Return the version of jQuery UI installed.
+ */
+function jquery_ui_get_version() {
+  $version = 0;
+
+  $path = jquery_ui_get_path();
+  if ($path === FALSE) {
+    return $version;
+  }
+  $file = $path . '/version.txt';
+  if (file_exists($file)) {
+    $version = file_get_contents($file);
+  }
+
+  return $version;
+}
+

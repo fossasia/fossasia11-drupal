@@ -1,0 +1,12 @@
+name = Views Slideshow: JCarousel
+description = Adds a jCarousel option to views slideshow
+dependencies[] = views_slideshow
+package = Views
+core = 6.x
+
+; Information added by drupal.org packaging script on 2012-01-19
+version = "6.x-1.x-dev"
+core = "6.x"
+project = "views_slideshow_jcarousel"
+datestamp = "1326935149"
+

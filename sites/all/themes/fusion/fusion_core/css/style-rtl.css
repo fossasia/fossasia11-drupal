@@ -1,0 +1,225 @@
+
+body {
+  direction: rtl;
+}
+
+ul, ol, dd {
+  margin-left: 0;
+  margin-right: 2em;
+}
+
+.nested {
+  float: right;
+}
+
+/* sidebar layouts */
+.sidebars-both-first .content-group {
+  float: left;
+}
+
+.sidebars-both-last .sidebar-first {
+  float: left;
+}
+
+#site-name-wrapper {
+  float: right;
+}
+
+.block ul,
+.block ol {
+  margin-left: 0;
+  margin-right: 2em;
+}
+
+.block ul.links {
+  margin-right: 0;
+}
+
+/* remove left margin from primary menu list */
+#primary-menu.block ul {
+  margin-right: 0;
+}
+
+/* float right */
+.primary-menu ul li {
+  float: right;
+}
+
+.secondary-menu-inner ul.links {
+  margin-right: 0;
+}
+
+
+/* Skinr styles - swap directions in RTL so bidi sites are consistent
+/------------------------------------------------------------------- */
+
+/* Skinr selectable helper classes */
+div.fusion-right {
+  float: left;
+}
+
+.fusion-right-content .inner {
+  text-align: left;
+}
+
+.fusion-right-content #user-login-form {
+  text-align: left;
+}
+
+/* Single line menu with separators */
+.fusion-inline-menu .inner ul.menu {
+  margin-right: 0;
+}
+
+.fusion-inline-menu .inner ul.menu li a {
+  padding: 0 5px 0 8px;
+}
+
+/* Multi-column menu style with bolded top level menu items */
+.fusion-multicol-menu .inner ul {
+  margin-right: 0;
+  text-align: right;
+}
+
+.fusion-multicol-menu .inner ul li.last a {
+  padding-left: 0;
+}
+
+.fusion-multicol-menu .inner ul li.expanded,
+.fusion-multicol-menu .inner ul li.leaf {
+  float: right;
+  margin-left: 0;
+  margin-right: 50px;
+}
+
+.fusion-multicol-menu .inner ul li.expanded li.leaf {
+  margin-right: 0;
+}
+
+.fusion-multicol-menu .inner ul.menu li.first {
+  margin-right: 0;
+}
+
+.fusion-multicol-menu .inner ul li.expanded ul {
+  margin-right: 0;
+}
+
+.fusion-multicol-menu .inner ul li.expanded ul li {
+  margin-right: 0;
+  text-align: right;
+}
+
+/* Split list across multiple columns */
+.fusion-2-col-list .inner .item-list ul li,
+.fusion-2-col-list .inner ul.menu li {
+  float: right;
+}
+
+.fusion-3-col-list .inner .item-list ul li,
+.fusion-3-col-list .inner ul.menu li {
+  float: right;
+}
+
+.fusion-list-bottom-border .inner ul li,
+.fusion-list-bottom-border .view-content div.views-row {
+  padding: 0 10px 0 0;
+}
+
+.fusion-list-vertical-spacing .inner ul li ul {
+  margin-right: 10px;
+}
+
+/* Float imagefield images and add margin */
+.fusion-float-imagefield-right .field-type-filefield,
+.fusion-float-imagefield-right .image-insert,
+.fusion-float-imagefield-right .imagecache {
+  float: left;
+  margin: 0 15px 15px 0;
+}
+
+/* Clear float on new Views item so each row drops to a new line */
+.fusion-float-imagefield-right .views-row {
+  clear: left;
+}
+
+.fusion-float-imagefield-left .field-type-filefield,
+.fusion-float-imagefield-left .image-insert
+.fusion-float-imagefield-left .imagecache {
+  float: right;
+  margin: 0 0 15px 15px;
+}
+
+.fusion-float-imagefield-left .views-row {
+  clear: right;
+}
+
+.block {
+  float: right;
+}
+
+.block .fusion-edit {
+  left: 0;
+  right: auto;
+  text-align: right;
+}
+
+.profile dt {
+  float: right;
+  margin-left: 5px;
+  text-align: right;
+}
+
+.forum-topic-navigation .topic-previous {
+  text-align: left;
+  float: right;
+}
+
+.forum-topic-navigation .topic-next {
+  text-align: right;
+  float: left;
+}
+
+/* User Login Form
+/-------------------------------------------------------------- */
+#user-login-form {
+  text-align: right;
+}
+
+#user-login-form .item-list ul {
+  margin-right: 0;
+}
+
+/* Horizontal login form (Skinr selectable) */
+.fusion-horiz-login#block-user-0 {
+  float: left;
+}
+
+.fusion-horiz-login#block-user-0 #user-login-form div.form-item,
+.fusion-horiz-login#block-user-0 #user-login-form input.form-submit,
+.fusion-horiz-login#block-user-0 .item-list {
+  float: right;
+  margin: 0 0 0 10px;
+  text-align: right;
+}
+
+.fusion-horiz-login#block-user-0 #user-login-form label {
+  margin: -20px 2px 0 0;
+}
+
+html.js .fusion-horiz-login#block-user-0 #user-login-form label {
+  margin: 0 7px 0 0;
+}
+
+/* OpenID login*/
+.fusion-horiz-login#block-user-0 #user-login-form div#edit-openid-identifier-wrapper {
+  margin: 0 0 0 10px;
+}
+
+html.js .fusion-horiz-login#block-user-0 #user-login-form div#edit-openid-identifier-wrapper label {
+  padding-right: 18px;
+}
+
+.fusion-horiz-login#block-user-0 #edit-openid-identifier-wrapper .description {
+  padding-left: 5px;
+  text-align: left;
+}

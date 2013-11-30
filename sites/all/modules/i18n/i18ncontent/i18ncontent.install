@@ -1,0 +1,66 @@
+<?php
+
+/**
+ * @file
+ * Installation file for i18ncontent module.
+ */
+
+function i18ncontent_install() {
+  // Create strings in the extended localization system.
+  // There seems to be some issue with module loading on install/update.
+}
+
+/**
+ * Implementation of hook_enable().
+ */
+function i18ncontent_enable() {
+  // Make sure i18nstrings module is loaded, which may not be when enabling both modules at the same time
+  drupal_load('module', 'i18nstrings');
+  i18ncontent_locale_refresh();
+}
+
+/**
+ * Implementation of hook_disable().
+ *
+ * This function depends on i18nstrings, so it must be run on _disable() better than uninstall().
+ */
+function i18ncontent_disable() {
+  // Remove and restore help texts.
+  $langcode = language_default('language');
+  foreach (node_get_types() as $type) {
+    if (!$type->help && ($help = i18nstrings_ts("nodetype:type:$type->type:help", $langcode))) {
+      $type->help = $help;
+      node_type_save($type);
+    }
+  }
+  // @ TODO Some more clean up for strings
+}
+
+/**
+ * The old module with the same name had a different approach, so the update will be full install.
+ */
+function i18ncontent_update_6001() {
+  $ret = array();
+  // Update location for existing strings for this textgroup that was wrong
+  $ret[] = update_sql("UPDATE {locales_source} SET location = CONCAT('type:', location) WHERE textgroup = 'nodetype' AND location NOT LIKE 'type:%'");
+  // Delete all indexing data, it will be recreated
+  $ret[] = update_sql("DELETE FROM {i18n_strings} WHERE lid IN (SELECT lid FROM {locales_source} WHERE textgroup = 'nodetype')");
+  return $ret;
+}
+
+/**
+ * Locale refresh, this will run successfully only after the i18nstrings update has run
+ */
+function i18ncontent_update_6002() {
+  $ret = array();
+  $version = (int)drupal_get_installed_schema_version('i18nstrings');
+  if ($version > 6002) {
+    drupal_load('module', 'i18ncontent');
+    drupal_load('module', 'i18nstrings');
+    i18ncontent_locale_refresh();
+  } else {
+    drupal_set_message('The i18ncontent update 6002 needs to run after i18nstrings update 6003. Re-run update.php.', 'warning');
+    $ret['#abort'] = TRUE;
+  }
+  return $ret;
+}

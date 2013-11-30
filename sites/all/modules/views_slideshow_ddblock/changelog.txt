@@ -1,0 +1,54 @@
+/*
+ * Change Log for views_slideshow_ddblock module
+ */
+
+2011-04-22
+#1001756 by ppblaauw: add text module as dependency to example module
+
+2010-07-20
+#781204 by SweeneyTodd: Fixed pager position not saved and only valid options
+
+2010-06-21
+Fixed pager position not saved
+update jcycle plugin to version 2.88
+#832778 by grimer: Fixed menus hide behind slideshow
+#817680 by Delty: Prevent invalid JSON code 
+
+2010-04-25
+#781004 by ppblaauw: Fixed Custom jQuery settings field not used
+
+2010-04-24
+#777184 fix slideshow themes not found when using other admin theme
+#779458 fix parse error in vsd_if_examples.ccknodedef.inc file
+
+2010-04-15
+Delete imagecache code from views_slideshow_admin.js file
+Improve jquery functionality of admin page
+#769720 make compatible with views_slideshow beta4+
+#762164 Add settings for different slideshow sizes
+#762160 Detect slideshow themes from theme folder
+#677996 Add a default theme to the module
+Update readme.txt for with new features
+#770984 Make 'of' in count of prev/next pager translatable 
+update jcycle plugin to version 2.86
+
+2010-03-31
+Committed three files for the example module
+
+2010-03-29
+Update readme.txt to refect version 2.x
+Stop slidehow when hovering scrollable pager.
+Add support for starting slideshow with slide from URL.
+Changed preview text.
+Changed debug lines.
+Changed default order to none.
+Add support for vertical scrollable pager.
+Add nr of pager items field for scrollable pager
+Delete imagecache settings, use from viewsettings.
+Use themed view fields results.
+No preprocess functions needed anymore for standard usage.
+Added mapping of view fields to template files.
+Added example module for creating content type, view and example content.
+update jcycle plugin to version 2.81
+ 
+

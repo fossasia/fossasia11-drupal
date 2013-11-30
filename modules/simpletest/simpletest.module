@@ -1,0 +1,621 @@
+<?php
+// $Id: simpletest.module,v 1.33.2.4.2.21 2009/12/14 23:27:11 boombatower Exp $
+// Core: Id: simpletest.module,v 1.71 2009/08/24 00:14:21 webchick Exp
+
+/**
+ * @file
+ * Backport of Drupal 7 simpletest.module with modifications, see BACKPORT.txt.
+ *
+ * Copyright 2008-2009 by Jimmy Berry ("boombatower", http://drupal.org/user/214218)
+ */
+
+/**
+ * Implementation of hook_help().
+ */
+function simpletest_help($path, $arg) {
+  switch ($path) {
+    case 'admin/help#simpletest':
+      $output  = '<p>' . t('The SimpleTest module is a framework for running automated unit tests in Drupal. It can be used to verify a working state of Drupal before and after any code changes, or as a means for developers to write and execute tests for their modules.') . '</p>';
+//      $output .= '<p>' . t('Visit <a href="@admin-simpletest">Administer >> Structure >> SimpleTest</a> to display a list of available tests. For comprehensive testing, select <em>all</em> tests, or individually select tests for more targeted testing. Note that it might take several minutes for all tests to complete.)', array('@admin-simpletest' => url('admin/config/development/testing'))) . '</p>';
+      $output .= '<p>' . t('Visit <a href="@admin-simpletest">Administer >> Structure >> SimpleTest</a> to display a list of available tests. For comprehensive testing, select <em>all</em> tests, or individually select tests for more targeted testing. Note that it might take several minutes for all tests to complete.)', array('@admin-simpletest' => url('admin/build/testing'))) . '</p>';
+      $output .= '<p>' . t('After the tests have run, a message will be displayed next to each test group indicating whether tests within it passed, failed, or had exceptions. A pass means that a test returned the expected results, while fail means that it did not. An exception normally indicates an error outside of the test, such as a PHP warning or notice. If there were fails or exceptions, the results are expanded, and the tests that had issues will be indicated in red or pink rows. Use these results to refine your code and tests until all tests return a pass.') . '</p>';
+      $output .= '<p>' . t('For more information on creating and modifying your own tests, see the <a href="@simpletest-api">SimpleTest API Documentation</a> in the Drupal handbook.', array('@simpletest-api' => 'http://drupal.org/simpletest')) . '</p>';
+      $output .= '<p>' . t('For more information, see the online handbook entry for <a href="@simpletest">SimpleTest module</a>.', array('@simpletest' => 'http://drupal.org/handbook/modules/simpletest')) . '</p>';
+      return $output;
+  }
+}
+
+/**
+ * Implementation of hook_menu().
+ */
+function simpletest_menu() {
+//  $items['admin/config/development/testing'] = array(
+  $items['admin/build/testing'] = array(
+    'title' => 'Testing',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('simpletest_test_form'),
+    'description' => 'Run tests against Drupal core and your active modules. These tests help assure that your site code is working as designed.',
+    'access arguments' => array('administer unit tests'),
+    'file' => 'simpletest.pages.inc',
+  );
+//  $items['admin/config/development/testing/list'] = array(
+  $items['admin/build/testing/list'] = array(
+    'title' => 'List',
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+  );
+//  $items['admin/config/development/testing/settings'] = array(
+  $items['admin/build/testing/settings'] = array(
+    'title' => 'Settings',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('simpletest_settings_form'),
+    'access arguments' => array('administer unit tests'),
+    'type' => MENU_LOCAL_TASK,
+    'file' => 'simpletest.pages.inc',
+  );
+//  $items['admin/config/development/testing/results/%'] = array(
+  $items['admin/build/testing/results/%'] = array(
+    'title' => 'Test result',
+    'page callback' => 'drupal_get_form',
+//    'page arguments' => array('simpletest_result_form', 5),
+    'page arguments' => array('simpletest_result_form', 4),
+    'description' => 'View result of tests.',
+    'access arguments' => array('administer unit tests'),
+    'type' => MENU_CALLBACK,
+    'file' => 'simpletest.pages.inc',
+  );
+  return $items;
+}
+
+/**
+ * Implementation of hook_perm().
+ */
+function simpletest_perm() {
+//  return array(
+//    'administer unit tests' => array(
+//      'title' => t('Administer unit tests'),
+//      'description' => t('Manage and run automated testing. %warning', array('%warning' => t('Warning: Give to trusted roles only; this permission has security implications.'))),
+//    ),
+//  );
+  return array('administer unit tests');
+}
+
+/**
+ * Implementation of hook_theme().
+ */
+function simpletest_theme() {
+  return array(
+    'simpletest_test_table' => array(
+      'arguments' => array('table' => NULL),
+      'file' => 'simpletest.pages.inc',
+    ),
+    'simpletest_result_summary' => array(
+      'arguments' => array('form' => NULL),
+      'file' => 'simpletest.pages.inc',
+    ),
+  );
+}
+
+///**
+// * Implementation of hook_stream_wrappers().
+// */
+//function simpletest_test_stream_wrappers() {
+//  return array(
+//    'simpletest' => array(
+//      'name' => t('Simpletest files'),
+//      'class' => 'DrupalSimpleTestStreamWrapper',
+//      'description' => t('Stream Wrapper for Simpletest files.'),
+//    ),
+//  );
+//}
+
+///**
+// * Implement hook_js_alter().
+// */
+//function simpletest_js_alter(&$javascript) {
+//  // Since SimpleTest is a special use case for the table select, stick the
+//  // SimpleTest JavaScript above the table select.
+//  $simpletest = drupal_get_path('module', 'simpletest') . '/simpletest.js';
+//  if (array_key_exists($simpletest, $javascript) && array_key_exists('misc/tableselect.js', $javascript)) {
+//    $javascript[$simpletest]['weight'] = $javascript['misc/tableselect.js']['weight'] - 1;
+//  }
+//}
+
+function _simpletest_format_summary_line($summary) {
+  $args = array(
+    '@pass' => format_plural(isset($summary['#pass']) ? $summary['#pass'] : 0, '1 pass', '@count passes'),
+    '@fail' => format_plural(isset($summary['#fail']) ? $summary['#fail'] : 0, '1 fail', '@count fails'),
+    '@exception' => format_plural(isset($summary['#exception']) ? $summary['#exception'] : 0, '1 exception', '@count exceptions'),
+  );
+  if (!$summary['#debug']) {
+    return t('@pass, @fail, and @exception', $args);
+  }
+  $args['@debug'] = format_plural(isset($summary['#debug']) ? $summary['#debug'] : 0, '1 debug message', '@count debug messages');
+  return t('@pass, @fail, @exception, and @debug', $args);
+}
+
+/**
+ * Actually runs tests.
+ *
+ * @param $test_list
+ *   List of tests to run.
+ * @param $reporter
+ *   Which reporter to use. Allowed values are: text, xml, html and drupal,
+ *   drupal being the default.
+ */
+function simpletest_run_tests($test_list, $reporter = 'drupal') {
+  cache_clear_all();
+//  $test_id = db_insert('simpletest_test_id')
+//    ->useDefaults(array('test_id'))
+//    ->execute();
+  db_query('INSERT INTO {simpletest_test_id} (test_id) VALUES (default)');
+  $test_id = db_last_insert_id('simpletest_test_id', 'test_id');
+
+  // Clear out the previous verbose files.
+//  file_unmanaged_delete_recursive(file_directory_path() . '/simpletest/verbose');
+  simpletest_clean_temporary_directory(file_directory_path() . '/simpletest/verbose');
+
+  // Get the info for the first test being run.
+  $first_test = array_shift($test_list);
+  $first_instance = new $first_test();
+  array_unshift($test_list, $first_test);
+  $info = $first_instance->getInfo();
+
+  $batch = array(
+    'title' => t('Running SimpleTests'),
+    'operations' => array(
+      array('_simpletest_batch_operation', array($test_list, $test_id)),
+    ),
+    'finished' => '_simpletest_batch_finished',
+    'progress_message' => '',
+    'css' => array(drupal_get_path('module', 'simpletest') . '/simpletest.css'),
+    'init_message' => t('Processing test @num of @max - %test.', array('%test' => $info['name'], '@num' => '1', '@max' => count($test_list))),
+  );
+  batch_set($batch);
+
+  module_invoke_all('test_group_started');
+
+  // Normally, the forms portion of the batch API takes care of calling
+  // batch_process(), but in the process it saves the whole $form into the
+  // database (which is huge for the test selection form).
+  // By calling batch_process() directly, we skip that behavior and ensure
+  // that we don't exceed the size of data that can be sent to the database
+  // (max_allowed_packet on MySQL).
+//  batch_process('admin/config/development/testing/results/' . $test_id);
+  batch_process('admin/build/testing/results/' . $test_id);
+}
+
+/**
+ * Batch operation callback.
+ */
+function _simpletest_batch_operation($test_list_init, $test_id, &$context) {
+  // Get working values.
+  if (!isset($context['sandbox']['max'])) {
+    // First iteration: initialize working values.
+    $test_list = $test_list_init;
+    $context['sandbox']['max'] = count($test_list);
+    $test_results = array('#pass' => 0, '#fail' => 0, '#exception' => 0, '#debug' => 0);
+  }
+  else {
+    // Nth iteration: get the current values where we last stored them.
+    $test_list = $context['sandbox']['tests'];
+    $test_results = $context['sandbox']['test_results'];
+  }
+  $max = $context['sandbox']['max'];
+
+  // Perform the next test.
+  $test_class = array_shift($test_list);
+
+  // Drupal 6.
+  require_once drupal_get_path('module', 'simpletest') . '/drupal_web_test_case.php';
+  $classes = simpletest_test_get_all_classes();
+  require_once $classes[$test_class]['file'];
+
+  $test = new $test_class($test_id);
+  $test->run();
+  $size = count($test_list);
+  $info = $test->getInfo();
+
+  module_invoke_all('test_finished', $test->results);
+
+  // Gather results and compose the report.
+  $test_results[$test_class] = $test->results;
+  foreach ($test_results[$test_class] as $key => $value) {
+    $test_results[$key] += $value;
+  }
+  $test_results[$test_class]['#name'] = $info['name'];
+  $items = array();
+  foreach (element_children($test_results) as $class) {
+    array_unshift($items, '<div class="simpletest-' . ($test_results[$class]['#fail'] + $test_results[$class]['#exception'] ? 'fail' : 'pass') . '">' . t('@name: @summary', array('@name' => $test_results[$class]['#name'], '@summary' => _simpletest_format_summary_line($test_results[$class]))) . '</div>');
+  }
+  $context['message'] = t('Processed test @num of @max - %test.', array('%test' => $info['name'], '@num' => $max - $size, '@max' => $max));
+  $context['message'] .= '<div class="simpletest-' . ($test_results['#fail'] + $test_results['#exception'] ? 'fail' : 'pass') . '">Overall results: ' . _simpletest_format_summary_line($test_results) . '</div>';
+  $context['message'] .= theme('item_list', $items);
+
+  // Save working values for the next iteration.
+  $context['sandbox']['tests'] = $test_list;
+  $context['sandbox']['test_results'] = $test_results;
+  // The test_id is the only thing we need to save for the report page.
+  $context['results']['test_id'] = $test_id;
+
+  // Multistep processing: report progress.
+  $context['finished'] = 1 - $size / $max;
+}
+
+//function _simpletest_batch_finished($success, $results, $operations, $elapsed) {
+function _simpletest_batch_finished($success, $results, $operations) {
+  if ($success) {
+//    drupal_set_message(t('The test run finished in @elapsed.', array('@elapsed' => $elapsed)));
+    drupal_set_message(t('The test run finished.'));
+  }
+  else {
+    // Use the test_id passed as a parameter to _simpletest_batch_operation().
+    $test_id = $operations[0][1][1];
+
+    // Retrieve the last database prefix used for testing and the last test
+    // class that was run from. Use the information to read the lgo file
+    // in case any fatal errors caused the test to crash.
+    list($last_prefix, $last_test_class) = simpletest_last_test_get($test_id);
+    simpletest_log_read($test_id, $last_prefix, $last_test_class);
+
+    drupal_set_message(t('The test run did not successfully finish.'), 'error');
+    drupal_set_message(t('Please use the <em>Clean environment</em> button to clean-up temporary files and tables.'), 'warning');
+  }
+  module_invoke_all('test_group_finished');
+}
+
+/*
+ * Get information about the last test that ran given a test ID.
+ *
+ * @param $test_id
+ *   The test ID to get the last test from.
+ * @return
+ *   Array containing the last database prefix used and the last test class
+ *   that ran.
+ */
+function simpletest_last_test_get($test_id) {
+//  $last_prefix = db_result(db_query_range('SELECT last_prefix FROM {simpletest_test_id} WHERE test_id = :test_id', array(':test_id' => $test_id), 0, 1));
+  $last_prefix = db_result(db_query_range('SELECT last_prefix FROM {simpletest_test_id} WHERE test_id = ' . $test_id, 0, 1));
+//  $last_test_class = db_result(db_query_range('SELECT test_class FROM {simpletest} WHERE test_id = :test_id ORDER BY message_id DESC', array(':test_id' => $test_id), 0, 1));
+  $last_test_class = db_result(db_query_range('SELECT test_class FROM {simpletest} WHERE test_id = ' . $test_id . ' ORDER BY message_id DESC', 0, 1));
+  return array($last_prefix, $last_test_class);
+}
+
+/**
+ * Read the error log and report any errors as assertion failures.
+ *
+ * The errors in the log should only be fatal errors since any other errors
+ * will have been recorded by the error handler.
+ *
+ * @param $test_id
+ *   The test ID to which the log relates.
+ * @param $prefix
+ *   The database prefix to which the log relates.
+ * @param $test_class
+ *   The test class to which the log relates.
+ * @param $during_test
+ *   Indicates that the current file directory path is a temporary file
+ *   file directory used during testing.
+ * @return
+ *   Found any entries in log.
+ */
+function simpletest_log_read($test_id, $prefix, $test_class, $during_test = FALSE) {
+  require_once drupal_get_path('module', 'simpletest') . '/drupal_web_test_case.php';
+//  $log = 'public://' . ($during_test ? '' : '/simpletest/' . substr($prefix, 10)) . '/error.log';
+  $log = file_directory_path() . ($during_test ? '' : '/simpletest/' . substr($prefix, 10)) . '/error.log';
+  $found = FALSE;
+  if (file_exists($log)) {
+    foreach (file($log) as $line) {
+      if (preg_match('/\[.*?\] (.*?): (.*?) in (.*) on line (\d+)/', $line, $match)) {
+        // Parse PHP fatal errors for example: PHP Fatal error: Call to
+        // undefined function break_me() in /path/to/file.php on line 17
+        $caller = array(
+          'line' => $match[4],
+          'file' => $match[3],
+        );
+        DrupalTestCase::insertAssert($test_id, $test_class, FALSE, $match[2], $match[1], $caller);
+      }
+      else {
+        // Unkown format, place the entire message in the log.
+        DrupalTestCase::insertAssert($test_id, $test_class, FALSE, $line, 'Fatal error');
+      }
+      $found = TRUE;
+    }
+  }
+  return $found;
+}
+
+/**
+ * Get a list of all of the tests provided by the system.
+ *
+ * The list of test classes is loaded from the registry where it looks for
+ * files ending in ".test". Once loaded the test list is cached and stored in
+ * a static variable. In order to list tests provided by disabled modules
+ * hook_registry_files_alter() is used to forcefully add them to the registry.
+ *
+ * @return
+ *   An array of tests keyed with the groups specified in each of the tests
+ *   getInfo() method and then keyed by the test class. An example of the array
+ *   structure is provided below.
+ *
+ *   @code
+ *     $groups['Blog'] => array(
+ *       'BlogTestCase' => array(
+ *         'name' => 'Blog functionality',
+ *         'description' => 'Create, view, edit, delete, ...',
+ *         'group' => 'Blog',
+ *       ),
+ *     );
+ *   @endcode
+ * @see simpletest_registry_files_alter()
+ */
+function simpletest_test_get_all() {
+//  $groups = &drupal_static(__FUNCTION__);
+  static $groups;
+
+  if (!$groups) {
+    // Load test information from cache if available, otherwise retrieve the
+    // information from each tests getInfo() method.
+    if ($cache = cache_get('simpletest', 'cache')) {
+      $groups = $cache->data;
+    }
+    else {
+      // Select all clases in files ending with .test.
+//      $classes = db_select('registry')
+//        ->fields('registry', array('name'))
+//        ->condition('type', 'class')
+//        ->condition('filename', '%.test', 'LIKE')
+//        ->execute();
+      $classes = simpletest_test_get_all_classes();
+
+      $groups = array();
+
+      // Check that each class has a getInfo() method and store the information
+      // in an array keyed with the group specified in the test information.
+      foreach ($classes as $class) {
+//        $class = $class->name;
+        $class = $class['class'];
+
+        if (class_exists($class) && method_exists($class, 'getInfo')) {
+          // Valid test class, retrieve test information.
+          $info = call_user_func(array($class, 'getInfo'));
+
+          // Initialize test groups.
+          if (!isset($groups[$info['group']])) {
+            $groups[$info['group']] = array();
+          }
+          $groups[$info['group']][$class] = $info;
+        }
+      }
+      // Sort the groups and tests within the groups by name.
+      uksort($groups, 'strnatcasecmp');
+      foreach ($groups as $group => &$tests) {
+        uksort($tests, 'strnatcasecmp');
+      }
+
+      cache_set('simpletest', $groups);
+    }
+  }
+  return $groups;
+}
+
+function simpletest_test_get_all_classes() {
+  // Must load DrupalWebTestCase before loading any other test classes which
+  // will extend it.
+  require_once 'drupal_web_test_case.php';
+
+  $classes = array();
+  $files = module_rebuild_cache();
+  foreach ($files as $file) {
+    $directory = dirname($file->filename);
+    $test_files = file_scan_directory($directory, '\.test$', array('.', '..', 'CVS'), FALSE, FALSE);
+    $test_files += file_scan_directory($directory . '/tests', '\.test$');
+
+    foreach ($test_files as $test_file) {
+      $pre = get_declared_classes();
+      require_once $test_file->filename;
+      $post = get_declared_classes();
+
+      $classes_new = array_values(array_diff($post, $pre));
+      foreach ($classes_new as $class) {
+        $classes[$class] = array('file' => $test_file->filename, 'class' => $class);
+      }
+    }
+  }
+
+  return $classes;
+}
+
+///**
+// * Implementation of hook_registry_files_alter().
+// *
+// * Add the test files for disabled modules so that we get a list containing
+// * all the avialable tests.
+// */
+//function simpletest_registry_files_alter(&$files, $modules) {
+//  foreach ($modules as $module) {
+//    // Only add test files for disabled modules, as enabled modules should
+//    // already include any test files they provide.
+//    if (!$module->status) {
+//      $dir = $module->dir;
+//      if (!empty($module->info['files'])) {
+//        foreach ($module->info['files'] as $file) {
+//          if (substr($file, -5) == '.test') {
+//            $files["$dir/$file"] = array('module' => $module->name, 'weight' => $module->weight);
+//          }
+//        }
+//      }
+//    }
+//  }
+//}
+
+/**
+ * Remove all temporary database tables and directories.
+ */
+function simpletest_clean_environment() {
+  simpletest_clean_database();
+  simpletest_clean_temporary_directories();
+  if (variable_get('simpletest_clear_results', TRUE)) {
+    $count = simpletest_clean_results_table();
+    drupal_set_message(format_plural($count, 'Removed 1 test result.', 'Removed @count test results.'));
+  }
+  else {
+    drupal_set_message(t('Clear results is disabled and the test results table will not be cleared.'), 'warning');
+  }
+}
+
+/**
+ * Removed prefixed tables from the database that are left over from crashed tests.
+ */
+function simpletest_clean_database() {
+//  $tables = db_find_tables(Database::getConnection()->prefixTables('{simpletest}') . '%');
+  $tables = simpletest_get_like_tables();
+  $schema = drupal_get_schema_unprocessed('simpletest');
+  $ret = array();
+  foreach (array_diff_key($tables, $schema) as $table) {
+    // Strip the prefix and skip tables without digits following "simpletest",
+    // e.g. {simpletest_test_id}.
+    if (preg_match('/simpletest\d+.*/', $table, $matches)) {
+      db_drop_table($ret, $matches[0]);
+    }
+  }
+
+  if (count($ret) > 0) {
+    drupal_set_message(format_plural(count($ret), 'Removed 1 leftover table.', 'Removed @count leftover tables.'));
+  }
+  else {
+    drupal_set_message(t('No leftover tables to remove.'));
+  }
+}
+
+/**
+ * Find all tables that are like the specified base table name. (Drupal 6)
+ *
+ * @param string $base_table Base table name.
+ * @param boolean $count Return the table count instead of list of tables.
+ * @return mixed Array of matching tables or count of tables.
+ */
+function simpletest_get_like_tables($base_table = 'simpletest', $count = FALSE) {
+  global $db_url, $db_prefix;
+  $url = parse_url(is_array($db_url) ? $db_url['default'] : $db_url);
+  $database = substr($url['path'], 1);
+  $result = db_query("SELECT table_name FROM information_schema.tables WHERE (table_schema = '$database' OR table_catalog = '$database') AND table_name LIKE '$db_prefix$base_table%'");
+  $schema = drupal_get_schema_unprocessed('simpletest');
+
+  $tables = array();
+  while ($table = db_result($result)) {
+    if (!isset($schema[$table])) {
+      $tables[] = $table;
+    }
+  }
+  return ($count) ? count($tables) : $tables;
+}
+
+/**
+ * Find all leftover temporary directories and remove them.
+ */
+function simpletest_clean_temporary_directories() {
+//  $files = scandir('public://');
+  $files = scandir(file_directory_path());
+  $count = 0;
+  foreach ($files as $file) {
+//    $path = 'public://' . $file;
+    $path = file_directory_path() . '/' . $file;
+    if (is_dir($path) && preg_match('/^simpletest\d+/', $file)) {
+//      file_unmanaged_delete_recursive($path);
+      simpletest_clean_temporary_directory($path);
+      $count++;
+    }
+  }
+
+  if ($count > 0) {
+    drupal_set_message(format_plural($count, 'Removed 1 temporary directory.', 'Removed @count temporary directories.'));
+  }
+  else {
+    drupal_set_message(t('No temporary directories to remove.'));
+  }
+}
+
+/**
+ * Remove all files from specified directory and then remove directory. (Drupal 6)
+ *
+ * @param string $path Directory path.
+ */
+function simpletest_clean_temporary_directory($path) {
+  // Drupal 6.
+  if (!is_dir($path)) {
+    return;
+  }
+
+  $files = scandir($path);
+  foreach ($files as $file) {
+    if ($file != '.' && $file != '..') {
+      $file_path = "$path/$file";
+      if (is_dir($file_path)) {
+        simpletest_clean_temporary_directory($file_path);
+      }
+      else {
+//        file_unmanaged_delete($file_path);
+        unlink($file_path);
+      }
+    }
+  }
+  rmdir($path);
+}
+
+/**
+ * Clear the test result tables.
+ *
+ * @param $test_id
+ *   Test ID to remove results for, or NULL to remove all results.
+ * @return
+ *   The number of results removed.
+ */
+function simpletest_clean_results_table($test_id = NULL) {
+  if (variable_get('simpletest_clear_results', TRUE)) {
+    if ($test_id) {
+//      $count = db_query('SELECT COUNT(test_id) FROM {simpletest_test_id} WHERE test_id = :test_id', array(':test_id' => $test_id))->fetchField();
+      $count = db_result(db_query('SELECT COUNT(test_id) FROM {simpletest_test_id} WHERE test_id = %d', $test_id));
+
+//      db_delete('simpletest')
+//        ->condition('test_id', $test_id)
+//        ->execute();
+//      db_delete('simpletest_test_id')
+//        ->condition('test_id', $test_id)
+//        ->execute();
+      db_query("DELETE FROM {simpletest} WHERE test_id = %d", $test_id);
+      db_query("DELETE FROM {simpletest_test_id} WHERE test_id = %d", $test_id);
+    }
+    else {
+//      $count = db_query('SELECT COUNT(test_id) FROM {simpletest_test_id}')->fetchField();
+      $count = db_result(db_query('SELECT COUNT(test_id) FROM {simpletest_test_id}'));
+
+      // Clear test results.
+//      db_delete('simpletest')->execute();
+//      db_delete('simpletest_test_id')->execute();
+      db_query('DELETE FROM {simpletest}');
+      db_query('DELETE FROM {simpletest_test_id}');
+    }
+
+    return $count;
+  }
+  return 0;
+}
+
+/**
+ * Implementation of hook_form_FORM_ID_alter(): system_modules. (Drupal 6)
+ *
+ * Hide modules that have 'hidden = TRUE' in their .info files.
+ */
+function simpletest_form_system_modules_alter(&$form, $form_state) {
+  foreach ($form['validation_modules']['#value'] as $filename => $file) {
+    if (!empty($file->info['hidden'])) {
+      unset($form['name'][$filename]);
+      unset($form['version'][$filename]);
+      unset($form['description'][$filename]);
+      unset($form['status']['#options'][$filename]);
+      unset($form['throttle']['#options'][$filename]);
+      unset($form['validation_modules']['#value'][$filename]);
+    }
+  }
+}
+

@@ -1,0 +1,14 @@
+name = XML sitemap engines test
+description = Support module for XML sitemap engines testing.
+package = Testing
+core = 6.x
+files[] = xmlsitemap_engines_test.module
+version = VERSION
+hidden = TRUE
+
+; Information added by drupal.org packaging script on 2012-12-08
+version = "6.x-2.0-rc2"
+core = "6.x"
+project = "xmlsitemap"
+datestamp = "1354926583"
+

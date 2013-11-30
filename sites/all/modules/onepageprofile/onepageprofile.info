@@ -1,0 +1,10 @@
+name = One page profile
+description = A module for condensing user profiles into a single edit page
+core = 6.x
+dependencies[] = profile
+; Information added by drupal.org packaging script on 2011-10-26
+version = "6.x-1.13"
+core = "6.x"
+project = "onepageprofile"
+datestamp = "1319627137"
+

@@ -1,0 +1,127 @@
+<?php
+
+/**
+ * @file
+ * Install and uninstall schema and functions for the xmlsitemap_taxonomy module.
+ */
+
+/**
+ * Implements hook_uninstall().
+ */
+function xmlsitemap_taxonomy_uninstall() {
+  drupal_load('module', 'taxonomy');
+  drupal_load('module', 'xmlsitemap');
+  $vids = array_keys(taxonomy_get_vocabularies());
+  foreach ($vids as $vid) {
+    xmlsitemap_link_bundle_delete('taxonomy_term', $vid);
+  }
+}
+
+/**
+ * Migrate 6.x-1.x taxonomy variables.
+ */
+function xmlsitemap_taxonomy_update_6196() {
+  drupal_load('module', 'taxonomy');
+  $vids = array_keys(taxonomy_get_vocabularies());
+  foreach ($vids as $vid) {
+    $status = 0;
+    $priority = variable_get('xmlsitemap_taxonomy_vocabulary_priority_' . $vid, 0.5);
+    if ($priority == -1) {
+      $priority = 0.5;
+    }
+    else {
+      $status = 1;
+    }
+    variable_set('xmlsitemap_taxonomy_status_' . $vid, $status);
+    variable_set('xmlsitemap_taxonomy_priority_' . $vid, $priority);
+  }
+  return array();
+}
+
+/**
+ * Migrate 6.x-1.x taxonomy data.
+ */
+function xmlsitemap_taxonomy_update_6198(&$context) {
+  $ret = array();
+
+  if (!db_table_exists('xmlsitemap_taxonomy')) {
+    // Skip if the 6.x-1.x table doesn't exist.
+    return $ret;
+  }
+  elseif (db_column_exists('xmlsitemap', 'sid')) {
+    // Skip if the main {xmlsitemap} table hasn't been upgraded yet.
+    $ret['#abort'] = array('success' => FALSE, 'query' => 'The primary xmlsitemap table upgrade has not yet been completed. Re-run the upgrade script.');
+    return $ret;
+  }
+
+  if (!isset($context['progress'])) {
+    $context['progress'] = $context['last'] = 0;
+    $context['count'] = db_result(db_query("SELECT COUNT(tid) FROM {xmlsitemap_taxonomy} WHERE priority_override <> -2 AND tid > %d", $context['last']));
+  }
+
+  drupal_load('module', 'xmlsitemap_taxonomy');
+  drupal_load('module', 'xmlsitemap');
+
+  $query = db_query_range("SELECT tid, priority_override FROM {xmlsitemap_taxonomy} WHERE priority_override <> -2 AND tid > %d ORDER BY tid", $context['last'], 0, 10);
+  while ($record = db_fetch_object($query)) {
+    if ($term = taxonomy_get_term($record->tid)) {
+      $link = xmlsitemap_taxonomy_create_link($term);
+      $link['status'] = variable_get('xmlsitemap_taxonomy_status_' . $term->vid, 0);
+      $link['priority'] = variable_get('xmlsitemap_taxonomy_priority_' . $term->vid, 0.5);
+      if ($record->priority_override == -1) {
+        $link['status'] = 0;
+        $link['status_override'] = 1;
+      }
+      elseif ($record->priority_override != -2) {
+        $link['priority'] = $record->priority_override;
+        $link['priority_override'] = 1;
+      }
+      xmlsitemap_link_save($link);
+    }
+    $context['last'] = $record->tid;
+    $context['progress']++;
+  }
+
+  $ret['#finished'] = empty($context['count']) ? 1 : ($context['progress'] / $context['count']);
+  return $ret;
+}
+
+/**
+ * Cleanup variables.
+ */
+function xmlsitemap_taxonomy_update_6200() {
+  drupal_load('module', 'taxonomy');
+  drupal_load('module', 'xmlsitemap');
+  $vids = array_keys(taxonomy_get_vocabularies());
+  foreach ($vids as $vid) {
+    $settings = array(
+      'status' => variable_get('xmlsitemap_taxonomy_status_' . $vid, XMLSITEMAP_STATUS_DEFAULT),
+      'priority' => variable_get('xmlsitemap_taxonomy_priority_' . $vid, XMLSITEMAP_PRIORITY_DEFAULT),
+    );
+    variable_set('xmlsitemap_settings_taxonomy_term_' . $vid, $settings);
+    variable_del('xmlsitemap_taxonomy_status_' . $vid);
+    variable_del('xmlsitemap_taxonomy_priority_' . $vid);
+    variable_del('xmlsitemap_taxonomy_calculate_priority_' . $vid);
+    variable_del('xmlsitemap_taxonomy_include_empty_terms_' . $vid);
+  }
+  variable_del('xmlsitemap_taxonomy_include_empty_terms');
+  variable_del('xmlsitemap_taxonomy_calculate_priority');
+  return array();
+}
+
+/**
+ * Cleanup any remaining 6.x-1.x tables, variables or weights.
+ */
+function xmlsitemap_taxonomy_update_6201() {
+  $ret = array();
+  if (db_table_exists('xmlsitemap_taxonomy')) {
+    db_drop_table($ret, 'xmlsitemap_taxonomy');
+  }
+  if (db_table_exists('xmlsitemap_term')) {
+    db_drop_table($ret, 'xmlsitemap_term');
+  }
+  db_query("DELETE FROM {variable} WHERE name LIKE 'xmlsitemap_taxonomy_vocabulary_priority_%%'");
+  cache_clear_all('variables', 'cache');
+  $ret[] = update_sql("UPDATE {system} SET weight = 0 WHERE type = 'module' AND name = 'xmlsitemap_taxonomy'");
+  return $ret;
+}

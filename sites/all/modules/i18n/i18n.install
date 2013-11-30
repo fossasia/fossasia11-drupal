@@ -1,0 +1,120 @@
+<?php
+
+/**
+ * @file
+ * Installation file for Internationalization (i18n) module.
+ */
+
+/**
+ * Implementation of hook_schema().
+ */
+function i18n_schema() {
+  $schema['i18n_variable'] = array(
+    'description' => 'Multilingual variables.',
+    'fields' => array(
+      'name' => array(
+        'description' => 'The name of the variable.',
+        'type' => 'varchar',
+        'length' => 128,
+        'not null' => TRUE,
+        'default' => ''),
+      'language' => array(
+        'description' => 'The language of the variable.',
+        'type' => 'varchar',
+        'length' => 12,
+        'not null' => TRUE,
+        'default' => ''),
+      'value' => array(
+        'description' => 'The value of the variable.',
+        'type' => 'text',
+        'not null' => TRUE,
+        'size' => 'big'),
+      ),
+    'primary key' => array('name', 'language'),
+    );
+  return $schema;
+}
+
+/**
+ * Set language field in its own table
+ * Do not drop node.language now, just in case
+ * TO-DO: Drop old tables, fields
+ */
+function i18n_install() {
+  // Create database tables
+  drupal_install_schema('i18n');
+  // Set module weight for it to run after core modules
+  db_query("UPDATE {system} SET weight = 10 WHERE name = 'i18n' AND type = 'module'");
+}
+
+function i18n_uninstall() {
+  drupal_uninstall_schema('i18n');
+
+  variable_del('i18n_hide_translation_links');
+  variable_del('i18n_selection_mode');
+  foreach (array_keys(node_get_types()) as $type) {
+    variable_del('i18n_node_'. $type);
+  }
+}
+
+/**
+ * Drupal 6 upgrade. I have started with the wrong numbering, cannot change it now.
+ */
+function i18n_update_9() {
+  // Update content type settings
+  foreach (array_keys(node_get_types()) as $type) {
+    if (variable_get('i18n_node_'. $type, 0)) {
+      variable_set('language_content_type_'. $type, TRANSLATION_ENABLED);
+    }
+  }
+  // General language settings
+  if (variable_get('i18n_browser', 0)) {
+    variable_set('language_negotiation', LANGUAGE_NEGOTIATION_PATH);
+  }
+  else {
+    variable_set('language_negotiation', LANGUAGE_NEGOTIATION_PATH_DEFAULT);
+  }
+  // Set module weight for it to run after core modules
+  $items[] = update_sql("UPDATE {system} SET weight = 10 WHERE name = 'i18n' AND type = 'module'");
+
+  switch ($GLOBALS['db_type']) {
+    case 'mysql':
+    case 'mysqli':
+      // Move node language and trid into node table
+      $items[] = update_sql("UPDATE {node} n INNER JOIN {i18n_node} i ON n.nid = i.nid SET n.language = i.language, n.tnid = i.trid");
+      // Upgrade tnid's so they match one of the nodes nid's to avoid
+      // future conflicts when translating existing nodes
+      $items[] = update_sql("UPDATE {node} n SET n.tnid = (SELECT MIN(i.nid) FROM {i18n_node} i WHERE i.trid = n.tnid) WHERE n.tnid > 0");
+      break;
+    case 'pgsql':
+      // Move node language and trid into node table
+      $items[] = update_sql("UPDATE {node} SET language = {i18n_node}.language, tnid = {i18n_node}.trid FROM {i18n_node} WHERE {node}.nid = {i18n_node}.nid");
+      // Upgrade tnid's so they match one of the nodes nid's to avoid
+      // future conflicts when translating existing nodes
+      $items[] = update_sql("UPDATE {node} SET tnid = (SELECT MIN(i.nid) FROM {i18n_node} i WHERE i.trid = {node}.tnid) WHERE tnid > 0");
+  }
+  
+  return $items;
+}
+
+/**
+ * Drupal 6 clean up. To uncomment after making sure all previous updates work
+ */
+/*
+function i18n_update_10() {
+  // Drop old tables
+  $items[] = update_sql("DROP TABLE {i18n_node}");
+
+  // Delete variables. Most settings will be now handled by Drupal core.
+  variable_del('i18n_allow');
+  variable_del('i18n_browser');
+  variable_del('i18n_content');
+  variable_del('i18n_keep');
+  variable_del('i18n_multi');
+  variable_del('i18n_interface');
+  variable_del('i18n_default');
+  variable_del('i18n_supported_langs');
+  variable_del('i18n_translation_links');
+  variable_del('i18n_translation_node_links');
+  return $items;
+}*/

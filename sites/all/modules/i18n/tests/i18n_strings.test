@@ -1,0 +1,102 @@
+<?php
+/**
+ * Class for testing i18nstrings and modules using these features
+ *
+ * Tests basic API functions
+ */
+
+require_once 'drupal_i18n_test_case.php';
+
+class i18n_Strings_Test extends Drupali18nTestCase {
+  
+  function getInfo() {
+    return array(
+      'name' => 'String translation API',
+      'group' => 'Internationalization',
+      'description' => 'User defined strings translation functions'
+    );
+  }
+
+  function setUp() {
+    parent::setUp('i18n', 'locale', 'i18nstrings');
+    $this->addLanguage('es');
+    $this->addLanguage('de');
+    // A language with two letter code may help too
+    $this->addLanguage('pt-br');
+    // Set path languages so we can retrieve pages in different languages
+    variable_set('language_negotiation', LANGUAGE_NEGOTIATION_PATH);
+    //variable_set('i18n_variables', array('site_name','site_frontpage',));
+  }
+
+  /**
+   * Test base i18nstrings API
+   */
+  function testStringsAPI() {
+    // Create a bunch of strings for three languages
+    $strings = $this->stringCreateAll(10);
+ 
+    // Save source strings and store translations
+    foreach ($strings['en'] as $key => $string) {
+      $name = "test:string:$key:name";
+      i18nstrings_update($name, $string);
+      $count = $this->stringSaveTranslation($name, 'es', $strings['es'][$key]);
+      $count += $this->stringSaveTranslation($name, 'pt-br', $strings['pt-br'][$key]);
+      $this->assertEqual($count, 2, "Two translatins have been saved");
+    }
+    // Check translations
+    $language_list = language_list();
+    foreach (array('pt-br', 'es') as $lang) {
+      $language = $language_list[$lang];
+      foreach ($strings[$lang] as $key => $value) {
+        $name = "test:string:$key:name";
+        $translation = i18nstrings($name, 'NOT FOUND', $lang);
+        $this->assertEqual($translation, $value, "The right $language->language translation has been retrieved for $name, $translation");
+      }
+    }
+  }
+
+  /**
+   * Create strings for all languages
+   */
+  public static function stringCreateAll($number = 10, $length = 100) {
+    foreach (language_list() as $lang => $language) {
+      $strings[$lang] = self::stringCreateArray($number, $length);
+    }
+    return $strings;
+  }
+  /**
+   * Create a bunch of random strings to test the API
+   */
+  public static function stringCreateArray($number = 10, $length = 100) {
+    for ($i=1 ; $i <= $number ; $i++) {
+      $strings[$i] = self::randomName($length);
+    }
+    return $strings;
+  }
+  /**
+   * Create and store one translation into the db
+   */
+  public static function stringCreateTranslation($name, $lang, $length = 20) {
+    $translation = $this->randomName($length);
+    if (self::stringSaveTranslation($name, $lang, $translation)) {
+      return $translation;
+    }
+  }
+  /**
+   * Translate one string into the db
+   */
+  public static function stringSaveTranslation($name, $lang, $translation, $update = FALSE) {
+    $source = i18nstrings_get_source($name);
+    if ($source) {
+      if ($update) {
+        db_query("UPDATE {locales_target} SET translation = '%s' WHERE lid = %d AND language = '%s'", $translation, $source->lid, $lang);    
+      } else {
+        db_query("INSERT INTO {locales_target} (translation, lid, language) VALUES ('%s', %d, '%s')", $translation, $source->lid, $lang);
+      }
+      return db_affected_rows();
+    }
+    else {
+      return 0;
+    }
+  }
+}

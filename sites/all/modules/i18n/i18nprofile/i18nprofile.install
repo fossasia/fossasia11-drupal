@@ -1,0 +1,68 @@
+<?php
+
+/**
+ * @file
+ * Installation file for i18nprofile module.
+ */
+
+/**
+ * Refresh strings when enabled.
+ */
+function i18nprofile_enable() {
+  drupal_load('module', 'i18nstrings');
+  i18nprofile_locale_refresh();
+}
+
+// Drupal 6 updates.
+
+/**
+ * Drop old table and fields.
+ */
+function i18nprofile_update_2() {
+  $items = array();
+
+  // Create source strings for translations.
+  $categories = array();
+  $result = db_query("SELECT * FROM {profile_fields}");
+  while ($field = db_fetch_object($result)) {
+    // Store strings to translate: title, explanation, options.
+    i18nstrings_update_object("profile:field:$field->name", $field, array('title', 'explanation', 'options'));
+    if (!in_array($field->category, $categories)) {
+      $categories[] = $field->category;
+      i18nstrings_update("profile:category", $field->category);
+    }
+  }
+  // Category translations from variables.
+  foreach (array_keys(language_list()) as $lang) {
+    if ($translation = variable_get('i18nprofile_'. $lang, FALSE)) {
+      foreach ($translation as $category => $translation) {
+        if (in_array($category, $categories) && $translation) {
+          $context = i18nstrings_context('profile:category', $category);
+          i18nstrings_update_translation($context, $lang, $translation);
+        }
+      }
+    }
+  }
+  // Move current data into string translations.
+  $result = db_query("SELECT * FROM {i18n_profile_fields}");
+  while ($field = db_fetch_object($result)) {
+    foreach (array('title', 'explanation', 'options') as $property) {
+      if (!empty($field->$property)) {
+        i18nstrings_update_translation("profile:field:$field->name:$property", $field->language, $field->$property);
+      }
+    }
+  }
+
+  return $items;
+}
+
+// Clean up. Uncomment when it all works.
+/*
+function i18nprofile_update_3() {
+  $items[] =  update_sql("DROP TABLE {i18n_profile_fields};");
+
+  foreach (array_keys(language_list()) as $lang) {
+    variable_del('i18nprofile_'.$lang);
+  }
+  return $items;
+}*/

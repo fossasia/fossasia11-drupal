@@ -1,0 +1,289 @@
+# $Id: inactive_user.pot,v 1.1 2009/05/29 18:09:59 deekayen Exp $
+#
+# LANGUAGE translation of Drupal (general)
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# Generated from files:
+#  inactive_user.module,v 1.7 2007/05/07 01:26:33 crell
+#  inactive_user.info,v 1.1.2.1 2007/05/09 05:05:55 crell
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2007-07-16 20:13+0300\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: inactive_user.module:30
+msgid "Inactive users"
+msgstr ""
+
+#: inactive_user.module:31
+msgid "Configure notifications to and removal of inactive users."
+msgstr ""
+
+#: inactive_user.module:53
+msgid "Administrator e-mail"
+msgstr ""
+
+#: inactive_user.module:59
+msgid "E-mail addresses"
+msgstr ""
+
+#: inactive_user.module:61
+msgid "Supply a comma-separated list of e-mail addresses that will receive administrator alerts. Spaces between addresses are allowed."
+msgstr ""
+
+#: inactive_user.module:69
+msgid "Inactive user notification"
+msgstr ""
+
+#: inactive_user.module:75
+msgid "Notify administrator when a user hasn't logged in for more than"
+msgstr ""
+
+#: inactive_user.module:78
+msgid "Generate an email to notify the site administrator that a user account hasn't been used for longer than the specified amount of time.  Requires crontab."
+msgstr ""
+
+#: inactive_user.module:82
+msgid "Notify users when they haven't logged in for more than"
+msgstr ""
+
+#: inactive_user.module:85
+msgid "Generate an email to notify users when they haven't used their account for longer than the specified amount of time.  Requires crontab."
+msgstr ""
+
+#: inactive_user.module:89
+msgid "Body of user notification e-mail"
+msgstr ""
+
+#: inactive_user.module:93
+msgid "Customize the body of the notification e-mail sent to the user."
+msgstr ""
+
+#: inactive_user.module:93;123;145;181;203
+msgid "Available variables are:"
+msgstr ""
+
+#: inactive_user.module:100
+msgid "Automatically block inactive users"
+msgstr ""
+
+#: inactive_user.module:106
+msgid "Block users that haven't logged in for more than"
+msgstr ""
+
+#: inactive_user.module:109
+msgid "Automatically block user accounts that haven't been used in the specified amount of time.  Requires crontab."
+msgstr ""
+
+#: inactive_user.module:113;171
+msgid "Notify user"
+msgstr ""
+
+#: inactive_user.module:115
+msgid "Generate an email to notify a user that his/her account has been automatically blocked."
+msgstr ""
+
+#: inactive_user.module:119
+msgid "Body of blocked user acount e-mail"
+msgstr ""
+
+#: inactive_user.module:123
+msgid "Customize the body of the notification e-mail sent to the user when their account has been blocked."
+msgstr ""
+
+#: inactive_user.module:128;186
+msgid "Notify administrator"
+msgstr ""
+
+#: inactive_user.module:130
+msgid "Generate an email to notify the site administrator when a user is automatically blocked."
+msgstr ""
+
+#: inactive_user.module:134
+msgid "Warn users before they are blocked"
+msgstr ""
+
+#: inactive_user.module:137
+msgid "Generate an email to notify a user that his/her account is about to be blocked."
+msgstr ""
+
+#: inactive_user.module:141;199
+msgid "Body of user warning e-mail"
+msgstr ""
+
+#: inactive_user.module:145
+msgid "Customize the body of the notification e-mail sent to the user when their account is about to be blocked."
+msgstr ""
+
+#: inactive_user.module:152
+msgid "Automatically delete inactive users"
+msgstr ""
+
+#: inactive_user.module:158
+msgid "Delete users that haven't logged in for more than"
+msgstr ""
+
+#: inactive_user.module:161
+msgid "Automatically delete user accounts that haven't been used in the specified amount of time.  Warning, user accounts are permanently deleted, with no ability to undo the action!  Requires crontab."
+msgstr ""
+
+#: inactive_user.module:165
+msgid "Preserve users that own site content"
+msgstr ""
+
+#: inactive_user.module:167
+msgid "Select this option to never delete users that own site content.  If you delete a user that owns content on the site, such as a user that created a node or left a comment, the content will no longer be available via the normal Drupal user interface.  That is, if a user creates a node or leaves a comment, then the user is deleted, the node and/or comment will no longer be accesible even though it will still be in the database."
+msgstr ""
+
+#: inactive_user.module:173
+msgid "Generate an email to notify a user that his/her account has been automatically deleted."
+msgstr ""
+
+#: inactive_user.module:177
+msgid "Body of deleted user account e-mail"
+msgstr ""
+
+#: inactive_user.module:181
+msgid "Customize the body of the notification e-mail sent to the user when their account has been deleted."
+msgstr ""
+
+#: inactive_user.module:188
+msgid "Generate an email to notify the site administrator when a user is automatically deleted."
+msgstr ""
+
+#: inactive_user.module:192
+msgid "Warn users before they are deleted"
+msgstr ""
+
+#: inactive_user.module:195
+msgid "Generate an email to notify a user that his/her account is about to be deleted."
+msgstr ""
+
+#: inactive_user.module:203
+msgid "Customize the body of the notification e-mail sent to the user when their account is about to be deleted."
+msgstr ""
+
+#: inactive_user.module:219
+msgid "%mail is not a valid e-mail address"
+msgstr ""
+
+#: inactive_user.module:222
+msgid "The following e-mail addresses are invalid: %mail"
+msgstr ""
+
+#: inactive_user.module:242
+msgid "recent user activity: %user removed from inactivity list"
+msgstr ""
+
+#: inactive_user.module:242;276;292;313;353
+msgid "edit user"
+msgstr ""
+
+#: inactive_user.module:261
+msgid "[@sitename] Inactive users"
+msgstr ""
+
+#: inactive_user.module:275;291;352
+msgid "[@sitename] Account inactivity"
+msgstr ""
+
+#: inactive_user.module:276
+msgid "user %user notified of inactivity"
+msgstr ""
+
+#: inactive_user.module:292
+msgid "user %user warned will be blocked due to inactivity"
+msgstr ""
+
+#: inactive_user.module:312
+msgid "[@sitename] Account blocked due to inactivity"
+msgstr ""
+
+#: inactive_user.module:313
+msgid "user %user blocked due to inactivity"
+msgstr ""
+
+#: inactive_user.module:329
+msgid "[@sitename] Blocked users"
+msgstr ""
+
+#: inactive_user.module:353
+msgid "user %user warned will be deleted due to inactivity"
+msgstr ""
+
+#: inactive_user.module:378
+msgid "[@sitename] Account removed"
+msgstr ""
+
+#: inactive_user.module:383
+msgid "user %user deleted due to inactivity"
+msgstr ""
+
+#: inactive_user.module:388
+msgid "[@sitename] Deleted accounts"
+msgstr ""
+
+#: inactive_user.module:412
+msgid "0 sec"
+msgstr ""
+
+#: inactive_user.module:456
+msgid "Hello %username,\n\n  We haven't seen you at %sitename since %lastaccess, and we miss you!  Please come back and visit us soon at %siteurl.\n\nSincerely,\n  %sitename team"
+msgstr ""
+
+#: inactive_user.module:459
+msgid "Hello,\n\n  This automatic notification is to inform you that the following users haven't been seen on %sitename for more than %period:\n\n%userlist"
+msgstr ""
+
+#: inactive_user.module:462
+msgid "Hello %username,\n\n  We haven't seen you at %sitename since %lastaccess, and we miss you!  This automatic message is to warn you that your account will be disabled in %period unless you come back and visit us before that time.\n\n  Please visit us at %siteurl.\n\nSincerely,\n  %sitename team"
+msgstr ""
+
+#: inactive_user.module:465
+msgid "Hello %username,\n\n  This automatic message is to notify you that your account on %sitename has been automatically disabled due to no activity for more than %period.\n\n  Please visit us at %siteurl to have your account re-enabled.\n\nSincerely,\n  %sitename team"
+msgstr ""
+
+#: inactive_user.module:468
+msgid "Hello,\n\n  This automatic notification is to inform you that the following users have been automatically blocked due to inactivity on %sitename for more than %period:\n\n%userlist"
+msgstr ""
+
+#: inactive_user.module:471
+msgid "Hello %username,\n\n  We haven't seen you at %sitename since %lastaccess, and we miss you!  This automatic message is to warn you that your account will be completely removed in %period unless you come back and visit us before that time.\n\n  Please visit us at %siteurl.\n\nSincerely,\n  %sitename team"
+msgstr ""
+
+#: inactive_user.module:474
+msgid "Hello %username,\n\n  This automatic message is to notify you that your account on %sitename has been automatically removed due to no activity for more than %period.\n\n  Please visit us at %siteurl if you would like to create a new account.\n\nSincerely,\n  %sitename team"
+msgstr ""
+
+#: inactive_user.module:477
+msgid "Hello,\n\n  This automatic notification is to inform you that the following users have been automatically deleted due to inactivity on %sitename for more than %period:\n\n%userlist"
+msgstr ""
+
+#: inactive_user.module:242;276;292;313;353;383
+msgid "user"
+msgstr ""
+
+#: inactive_user.module:8
+msgid "change inactive user settings"
+msgstr ""
+
+#: inactive_user.module:0
+msgid "inactive_user"
+msgstr ""
+
+#: inactive_user.info:0
+msgid "Inactive User"
+msgstr ""
+
+#: inactive_user.info:0
+msgid "Automatic handling of inactive users."
+msgstr ""
+

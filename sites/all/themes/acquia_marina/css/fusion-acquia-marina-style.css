@@ -1,0 +1,1381 @@
+/* $Id: fusion-acquia-marina-style.css 8052 2010-10-22 17:23:56Z jeremy $ */
+
+/* Basic Typography & Colors
+-------------------------------------------------------------- */
+/* Add general site styling here for typography and background */
+body {
+  font-size: 75%;   /* also set in fusion_starter.info: settings[base-font-size] = font-size-12 */
+}
+
+/* Default link styles - separate a:visited for a different visited link style */
+a,
+a:link,
+a:visited {
+  color: #27638C;
+}
+
+/* Hover/active link styles. Don't forget :focus for accessibility */
+a:hover,
+a:focus,
+a:active {
+  text-decoration: underline;
+}
+
+
+/* Specific Typography
+-------------------------------------------------------------- */
+#site-name {
+  font-family: "Myriad Pro", "Myriad Web Pro Regular", "Lucida Grande", Geneva, Trebuchet MS, sans-serif;
+  font-size: 300%;
+  line-height: 120%;
+}
+
+
+/* HTML Elements
+-------------------------------------------------------------- */
+/* Add padding here if desired so edges of theme aren't flush with browser window */
+html {
+  background: #F4F7E7;                               /* background & font color */
+  color: #666;
+}
+
+
+/* Site Info
+-------------------------------------------------------------- */
+/* Wrapper around logo, site name, and slogan */
+#header-site-info.block {
+  margin-bottom: 0;
+}
+
+#logo {
+  float: left;
+  margin: 0 15px 0 0;
+}
+
+#site-name-wrapper  {
+  float: left;
+}
+
+#site-name {
+  line-height: 125%;
+}
+
+/* Typography for site slogan */
+#slogan {
+  font-family: "Myriad Pro", "Myriad Web Pro Regular", "Lucida Grande", Geneva, Trebuchet MS, sans-serif;
+  font-size: 116.7%; /* 14px/12px */
+  margin-top: -5px;
+}
+
+/* Regions
+-------------------------------------------------------------- */
+
+/* All Regions
+-------------------------------------------------------------- */
+.page-inner {
+  border: 0;
+  margin-bottom: 0;
+  padding: 0;
+}
+
+
+/* Header Regions
+-------------------------------------------------------------- */
+/* Header Top region to the bottom of Header region */
+/* For full-width header background, add background image/color here */
+#header-group-wrapper {
+  background: #fff;
+}
+
+#header-top-wrapper {
+  background: #e1e1e1;
+  border-bottom: 1px solid #ccc;
+  padding-top: 10px;
+}
+
+/* This is the Header region in which you can place (small) blocks */
+#header-group-inner-inner {
+  padding: 20px 0;
+}
+
+
+/* Primary Menu
+/-------------------------------------------------------------- */
+#primary-menu {
+  float: right;
+  margin: 0;
+}
+
+#primary-menu.block {
+  overflow: visible;
+  position: relative;
+  z-index: 101;
+}
+
+#primary-menu.block .inner {
+  float: right;
+  margin: 0;
+}
+
+#primary-menu ul.menu {
+  font-family: "Myriad Pro", "Myriad Web Pro Regular", "Lucida Grande", Geneva, Trebuchet MS, sans-serif;
+  font-size: 100%; /* 12px/12px */
+  font-weight: bold;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+#primary-menu ul.menu li {
+  background: transparent url(../images/tab-left.png) no-repeat 0 0;
+  display: block;
+  float: left;
+  margin: 0 4px 0 0;
+  padding: 0 0 0 10px;
+  position: relative;
+}
+
+#primary-menu ul.menu li a:link,
+#primary-menu ul.menu li a:visited {
+  background: transparent url(../images/tab-right.png) no-repeat 100% 0;
+  color: #154B70;
+  display: block;
+  padding: 5px 10px 1px 0;
+  text-decoration: none;
+}
+
+/* Second level - Hovers for parent menu item */
+#primary-menu ul.menu li a:hover,
+#primary-menu ul.menu li:hover a:link,
+#primary-menu ul.menu li:hover a:visited,
+#primary-menu ul.menu li.hover a:link,
+#primary-menu ul.menu li.hover a:visited,
+#primary-menu ul.menu li.active-trail a:link,
+#primary-menu ul.menu li.active-trail a:visited {
+  background-position: 100% -29px;
+  color: #fff;
+}
+
+#primary-menu ul.menu li:hover,
+#primary-menu ul.menu li.hover,
+#primary-menu ul.menu li.active-trail {
+  background-position: 0 -29px;
+}
+
+/* Second level */
+#primary-menu ul.menu li:hover ul.menu,
+#primary-menu ul.menu li.hover ul.menu,
+#primary-menu ul.menu li.sfHover ul.menu {
+  background: transparent url(../images/drop-bottom.png) no-repeat 0 100%;
+  font-family: Tahoma, Verdana, Arial, Helvetica, sans-serif;
+  font-size: 91.7%; /* 11px/12px */
+  margin-top: -5px;
+  padding: 2px 0 4px 0;
+  position: absolute;
+  text-align: left;
+  text-transform: none;
+  width: 144px;
+  z-index: 2;
+  opacity: 0.95;
+  filter: alpha(opacity=95);
+}
+
+#primary-menu ul.menu li:hover ul.menu li,
+#primary-menu ul.menu li.hover ul.menu li,
+#primary-menu ul.menu li.sfHover ul.menu li {
+  background: #98D022;
+  border-bottom: 1px solid #83A638;
+  padding-left: 0;
+}
+
+#primary-menu ul.menu li:hover ul.menu li.last,
+#primary-menu ul.menu li.hover ul.menu li.last,
+#primary-menu ul.menu li.sfHover ul.menu li.last {
+  border-bottom: 0;
+}
+
+#primary-menu ul.menu li ul.menu li a:link,
+#primary-menu ul.menu li ul.menu li a:visited {
+  background: #98D022;
+  color: #154B6F;
+  padding-left: 10px;
+}
+
+#primary-menu ul.menu li ul.menu li a:hover {
+  color: #fff;
+}
+
+#primary-menu ul.menu li ul.menu li a.active {
+  text-decoration: underline;
+}
+
+/* Third level */
+#primary-menu ul.menu li:hover ul.menu li ul.menu,
+#primary-menu ul.menu li.hover ul.menu li ul.menu,
+#primary-menu ul.menu li ul.menu li ul.menu {
+  font-size: 100%; /* 11px/12px */
+  margin-left: 34px;
+  margin-top: -2px;
+}
+
+/* Primary menu - Nolink */
+#primary-menu ul.menu li span.nolink  {
+  background: transparent url(../images/tab-right.png) no-repeat 100% 0;
+  color: #154B70;
+  display: block;
+  padding: 5px 10px 1px 0;
+  text-decoration: none;
+}
+
+#primary-menu ul.menu li span.nolink:hover,
+#primary-menu ul.menu li span.nolink.hover,
+#primary-menu ul.menu li:hover span.nolink,
+#primary-menu ul.menu li.hover span.nolink,
+#primary-menu ul.menu li.active-trail span.nolink {
+  background-position: right -46px;
+  color: #fff;
+}
+
+#primary-menu ul.sf-menu li.sfHover ul.menu li span.nolink,
+#primary-menu ul.menu li:hover ul.menu li span.nolink,
+#primary-menu ul.menu li.hover ul.menu li span.nolink {
+  background: #98D022;
+  color: #154B6F;
+  padding-left: 10px;
+}
+
+#primary-menu ul.menu li:hover ul.menu li span.nolink:hover,
+#primary-menu ul.menu li.hover ul.menu li span.nolink.hover {
+  color: #fff;
+}
+
+
+/* Secondary menu
+-------------------------------------------------------------- */
+/* This menu usually appears in the header as a set of simple text links */
+#secondary-menu.block {
+  float: right;
+  width: auto;
+}
+
+/* Set general style for menu here -- background, alignment, etc. */
+.secondary-menu-inner ul.links {
+  font-size: 91.7%; /* 11px/12px */
+  line-height: 100%;
+  margin: 15px 0 0 0;
+}
+
+/* Add a border-right here for a separator */
+.secondary-menu-inner ul.links li {
+  line-height: 120%;
+  margin: 0;
+  padding: 0;
+}
+
+/* Styles for links */
+.secondary-menu-inner ul.links li a:link,
+.secondary-menu-inner ul.links li a:visited {
+  border-left: 1px solid #ccc;
+  padding: 0 10px;
+}
+
+.secondary-menu-inner ul.links li.first a:link,
+.secondary-menu-inner ul.links li.first a:visited {
+  border-left: none;
+  padding-left: 0;
+}
+
+.secondary-menu-inner ul.links li.last a:link,
+.secondary-menu-inner ul.links li.last a:visited {
+  padding-right: 0;
+}
+
+
+/* Header - Search
+-------------------------------------------------------------- */
+#search-box {
+  float: right;
+  margin-top: -1px;
+  width: auto;
+}
+
+#search-box.block {
+  margin-bottom: 0;
+}
+
+#search-box-inner {
+  background: #e1e1e1;
+  border: 1px solid #ccc;
+  border-top: none;
+  float: right;
+  margin-right: 5px;
+  padding: 10px;
+}
+
+#search-box #edit-search-theme-form-header {
+  background: #F6F9FB url(../images/form-bg.png) 0 0;
+  border: 1px solid #9BABB0;
+  color: #666;
+  padding: 2px;
+  width: 170px;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+}
+
+.search-box-inner input.search-submit {
+  background: transparent url(../images/blue-button.png) repeat-x 0 0;
+  border: 1px solid #fff;
+  color: #fff;
+  cursor: pointer;
+  font-family: Tahoma, Verdana, Arial, Helvetica, sans-serif;
+  font-size: 100%; /* 12px/12px */
+  font-weight: bold;
+  margin: 0 4px;
+  padding: 2px 4px;
+  text-transform: uppercase;
+  outline: 1px solid #9BABB0;
+  -moz-border-radius: 4px;
+  -moz-outline-radius: 4px;
+  -webkit-border-radius: 4px;
+}
+
+.search-box-inner input.search-submit:hover,
+.search-box-inner input.search-submit.hover {
+  background-position: bottom left;
+  cursor: pointer;
+}
+
+/* Search box - Corners */
+#search-box .corner {
+  display: block;
+  height: 12px;
+  position: relative;
+  width: 12px;
+  z-index: 10;
+}
+
+#search-box .corner-bottom-left {
+  background: url(../images/rounded-corners-search.png) no-repeat 0 100%;
+  bottom: -11px;
+  left: -11px;
+}
+
+#search-box .corner-bottom-right {
+  background: url(../images/rounded-corners-search.png) no-repeat 100% 100%;
+  bottom: -11px;
+  float: right;
+  right: -11px;
+}
+
+#search-box .corner-bottom {
+  margin-top: -10px;
+}
+
+
+/*  Preface Regions
+-------------------------------------------------------------- */
+.preface-top-wrapper {
+  background: #144A6E url(../images/preface-wrapper-bg.png) repeat-x 0 0;
+  color: #fff;
+  min-height: 24px;
+  padding-top: 30px;
+}
+
+.preface-top a:link,
+.preface-top a:visited {
+  color: #fff;
+  text-decoration: underline;
+}
+
+
+/*  Main Area (content + sidebars + preface bottom + postscript top)
+-------------------------------------------------------------- */
+.main-wrapper {
+  background: #f5f7e7 url(../images/content-gradient.png) repeat-x 0 1px;
+  padding-top: 40px;
+}
+
+
+/*  Postscript & Footer Regions
+-------------------------------------------------------------- */
+.postscript-bottom-wrapper {
+  background: #144A6E url(../images/preface-wrapper-bg.png) repeat-x 0 0;
+  color: #fff;
+  margin-bottom: 20px;
+  min-height: 24px;
+  padding-top: 30px;
+}
+
+.postscript-bottom-wrapper a:link,
+.postscript-bottom-wrapper a:visited {
+  color: #fff;
+  text-decoration: underline;
+}
+
+.footer-message {
+  border-top: 1px solid #D6DDB9;
+  font-size: 91.7%; /* 11px/12px */
+  padding: 10px 0;
+  text-align: center;
+}
+
+
+/* Page titles
+/-------------------------------------------------------------- */
+/* Page and full node titles */
+h1.title {
+  border-bottom: 1px solid #D6DDB9;
+  clear: left;
+  font-family: "Myriad Pro", "Myriad Web Pro Regular", "Lucida Grande", Geneva, Trebuchet MS, sans-serif;
+  font-size: 183.3%; /* 22px/12px */
+  font-weight: bold;
+  line-height: 120%;
+  margin-bottom: 5px;
+}
+
+
+/* Default node styles
+/-------------------------------------------------------------- */
+/* Change unpublished and preview colors for dark background themes */
+.node-unpublished {
+  background-color: #fff4f4;
+}
+
+.preview .node {
+  background-color: #ffffea;
+}
+
+/* Typography for node titles */
+h2.title {                                        /* block titles, node titles */
+  font-family: "Myriad Pro", "Myriad Web Pro Regular", "Lucida Grande", Geneva, Trebuchet MS, sans-serif;
+  font-size: 133.3%; /* 16px/12px */
+  font-weight: 600;
+  text-transform: uppercase;
+  margin-bottom: 5px;
+}
+
+/* Colors and styles for linked node titles */
+h2.title a:hover,
+h2.title a:focus,
+h2.title a:active {
+  color: #619CBE;
+  text-decoration: none;
+}  
+
+div.node h2.title {
+  border-bottom: 1px solid #d6ddb9;
+}
+
+/* Separators and padding for node teasers */
+.teaser {
+  padding-bottom: 15px;
+}
+
+/* Author/date info */
+.meta {
+  font-size: 91.7%; /* 11px/12px */
+  margin-bottom: 10px;
+}
+
+.submitted, 
+.terms {
+  font-size: 100%; /* 12px/12px */
+}
+
+.terms {                                      /* styling for byline and tags */
+  font-size: 100%; /* 12px/12px */
+}
+
+.terms {
+  line-height: 130%;
+}
+
+/* Links for nodes (taxonomy, commenting, read more, etc) */
+.content-region .content-inner .content-inner-inner .content ul.terms,
+.content-region .content-inner .content-inner-inner .content ul.links {
+  margin: 0;
+}
+
+.node ul.links li,
+.node ul.inline li,
+.node .links a {
+  background: transparent;
+  margin: 0;
+  padding: 0 14px 0 0;    /* LTR */
+}
+
+div.full-node .inner .content {
+  border-bottom: 1px solid #D6DDB9;
+}
+
+div.full-node .inner .block .content {
+  border: none;
+}
+
+div.full-node.node-type-panel .content,
+div.full-node .panel-panel .content {
+  border-bottom: none;
+}
+
+#content-content .node ul.links li.comment_forbidden a {
+  padding-right: 4px;    /* LTR */
+}
+
+#content-content .inner {
+  margin-top: 0;
+}
+
+/* Just more/read more links */
+.node .read-more a,
+.node .more-link a,
+.node .links a {
+  font-size: 108.3%; /* 13px/12px */
+  font-weight: bold;
+  margin: 0;
+}
+
+hr {
+  border: 1px solid #D6DDB9;
+}
+
+.picture {
+  float: right;    /* LTR */
+  margin: 0 0 2px 4px;    /* LTR */
+  padding: 2px;
+  position: relative;
+  z-index: 10;
+}
+
+blockquote p {
+  font-style: italic;
+  margin: 0;
+  padding: 8px 20px;
+}
+
+blockquote {
+  background: url(../images/close-quote.png) no-repeat 100% 100%;    /* LTR */
+  color: #5A6A78;
+  margin: 10px 0;
+}
+
+blockquote p:first-child {
+  background: url(../images/open-quote.png) no-repeat 0 100%;    /* LTR */
+  padding: 0 0 0 20px;    /* LTR */
+}
+
+blockquote * > :first-child {
+  background: transparent;
+  padding: 0;
+}
+
+blockquote a:link {
+  text-decoration: underline;
+}
+
+/* Lists */
+.content-inner-inner .content-content .inner .content ul {
+  margin: 0 0 10px 20px;
+}
+
+.content-inner-inner .content-content .inner .content ol {
+  margin: 0 0 10px 40px;
+}
+
+.content-inner-inner .content-content .inner .content ul ul,
+.content-inner-inner .content-content .inner .content ol ol {
+  margin: 5px 0 5px 10px;
+}
+
+.content-inner-inner .content-content .inner .content ul li {
+  background: url(../images/green-bullet.png) no-repeat 0 2px;
+  list-style: none;
+  list-style-image: none;
+  margin-bottom: 5px;
+  padding: 0 0 0 15px;
+}
+
+
+/* Drupal messages
+/-------------------------------------------------------------- */
+/* Error that appears when a required form field is not filled out */
+.form-item input.error,
+.form-item textarea.error,
+.form-item select.error {
+  border: 1px solid #aa1144;
+}
+
+/* Required field */
+.marker,
+.form-required {
+  color: #aa1144;
+}
+
+div.messages,
+div.messages.status {
+  background: #FFFCE3;
+  border: 2px solid #EED300;
+  color: #C28E00;
+  font-weight: bold;
+  font-size: 116.7%; /* 14px/12px */
+  margin: 20px 0pt;
+  padding: 10px;
+  -moz-border-radius: 6px;
+  -webkit-border-radius: 6px;
+}
+
+div.messages ul {
+  list-style-position: inside;
+}
+
+div.messages em {
+  color: #656C9B;
+}
+
+div.error {
+  background-color: #fff2f2;
+  border-color: #f00;
+  color: #b20000;
+}
+
+table.update {
+  margin-bottom: 10px;
+}
+
+table.update tr td {
+  padding: 2px;
+}
+
+table.update tr.error td {
+  background-color: #edd9be;
+}
+
+table.update table.version td.version-links ul {
+  margin: 0;
+}
+
+table.update table.version td.version-links ul li {
+  padding: 0 0 0 1em;
+}
+
+table.update tr.ok td {
+  background-color: #e3ecc0;
+}
+
+table.update tr.warning td {
+  background-color: #ffc;
+}
+
+table.update tr.warning .project a:link,
+table.update tr.warning .project a:visited, 
+.version-status .not-current {
+  color: #900;
+}
+
+
+/* Pagers
+-------------------------------------------------------------- */
+ul.pager a:link,
+ul.pager a:visited,
+ul.pager li.pager-current {
+  background: #FDFFEF;
+  border-color: #266996;
+  color: #27638C;
+  font-weight: bold;
+  font-size: 108.3%; /* 13px/12px */
+}
+
+ul.pager li.pager-current {
+  background-color: #D9DBCD;
+  color: #000;
+}
+
+ul.pager a:hover,
+ul.pager a:active,
+ul.pager a:focus {
+  background-color: #EAEFCB;
+  border-color: #266996;
+  color: #27638C;
+}
+
+
+/* Forms
+/-------------------------------------------------------------- */
+/* Typography and backgrounds for all form buttons */
+form input.form-submit {
+  background: transparent url(../images/blue-button.png) repeat-x 0 0;
+  border: 1px solid #fff;
+  color: #fff;
+  cursor: pointer;
+  font-family: Tahoma, Verdana, Arial, Helvetica, sans-serif;
+  font-size: 100%; /* 12px/12px */
+  font-weight: bold;
+  margin: 0 4px;
+  padding: 2px 4px;
+  text-transform: uppercase;
+  outline: 1px solid #9BABB0;
+  -moz-border-radius: 4px;
+  -moz-outline-radius: 4px;
+  border-radius: 4px;
+}
+
+/* Hover style for form buttons */
+form input.form-submit:hover,
+form input.form-submit.hover,
+form input.form-submit:focus {
+  background-position: 0 100%;
+  cursor: pointer;
+}
+
+/* Typography, background, borders, padding for form fields */
+.form-item input,
+.form-item select,
+.form-item textarea {
+  background: #F6F9FB url(../images/form-bg.png) 0 0;
+  border: 1px solid #9BABB0;
+  color: #666;
+  padding: 2px;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+}
+
+/* Remove backgrounds and border on radios and checkboxes */
+.form-item .form-radio,
+.form-item .form-checkbox {
+  background: none;
+  border: none !important;
+}
+
+/* Fieldset wrapper around groups of form elements -- add border here */
+fieldset {
+  border: 1px solid #D6DDB9;
+  margin: 15px 0;
+  padding: 10px;
+}
+
+/* Typography and spacing for legend of fieldsets */
+fieldset legend {
+  font-weight: bold;
+}
+
+/* Link style for legend of fieldsets */
+fieldset legend,
+legend.collapse-processed,
+legend.collapse-processed a:link,
+legend.collapse-processed a:visited {
+  font-weight: bold;
+}
+
+
+/* Tables
+-------------------------------------------------------------- */
+/* Body of tables */
+tbody {
+  border-top: 1px solid #ccc;
+}
+
+/* Header of tables */
+thead th,
+th {
+  border-bottom: 3px solid #ccc;
+}
+
+tbody th {
+  border-bottom: 1px solid #ccc;
+}
+
+/* Alternating row background styles */
+tr.even,
+tr.even td {
+  background-color: #E3ECC0;
+  border-bottom: 1px solid #ccc;
+}
+
+tr.odd,
+tr.odd td {
+  background-color: #FDFFEF;
+  border-bottom: 1px solid #ccc;
+}
+
+tr.drag td,
+tr.drag-previous td {
+  color: #000;
+}
+
+td {
+  padding: 3px;
+}
+
+
+/*--------------------------------------------------------------*/
+/* Module styles
+/-------------------------------------------------------------- */
+
+
+/* Book
+/-------------------------------------------------------------- */
+.book-navigation .menu {
+  border-top: 1px solid #ccc;
+}
+
+.book-navigation .page-links {
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+}
+
+
+/* Comments
+/-------------------------------------------------------------- */
+#comments .inner {
+  margin: 0;
+}
+
+#comments .marina-rounded-corners .inner-wrapper {
+  padding: 0;
+}
+
+#comments .marina-rounded-corners .inner-wrapper .inner-inner {
+  background: none;
+  padding-top: 3px;
+}
+
+#comments .block-icon {
+  height: 48px;
+  left: 6px;
+  position: absolute;
+  top: 0;
+  width: 48px;
+  z-index: 100;
+}
+
+#comments h2.comments-header {
+  background: #94CE18;
+  color: #fff;
+  font-family: "Myriad Pro", "Myriad Web Pro Regular", "Lucida Grande", Geneva, Trebuchet MS, sans-serif;
+  font-size: 133.3%; /* 16px/12px */
+  font-weight: bold;
+  padding: 6px 14px 6px 50px;
+  text-shadow: #545454 1px 1px;
+  text-transform: uppercase;
+}
+
+#comments .content {
+  background: transparent;
+  border: none;
+}
+
+#main-wrapper #comments a.active {
+  color: #27638C;
+  text-decoration: none;
+}
+
+.box {
+  padding: 10px;
+}
+
+#comment-form {
+  margin: 0 0 20px;
+  padding: 0 20px;
+}
+
+.comment {
+  border: none;
+  margin: 6px 0 0;
+  padding: 10px;
+}
+
+.comment h3.title {
+  font-weight: bold;
+  margin: 0 0 5px 0;
+}
+
+.comment .links a {
+  font-size: 100%; /* 12px/12px */
+  text-align: right;    /* LTR */
+}
+
+#comments .odd {
+  background: #F4F7E7;
+  border: 1px solid #ddd;
+}
+
+#comments .even {
+  background: #fff;
+}
+
+#comments .comment-by-author {
+  background: #FFFFEA;
+}
+
+.comment ul.links {
+  text-align: right;    /* LTR */
+  clear: right;
+}
+
+#content-content .comment ul.links li {
+  background: transparent;
+  margin: 0 10px 0 0;    /* LTR */
+  padding: 0;
+}
+
+.signature {
+  border-top: 1px solid #d6ddb9;
+  font-family: serif;
+  font-size: 100%; /* 12px/12px */
+  margin: 10px 0;
+  padding: 0;
+}
+
+#comments .new {
+  float: right;
+  font-weight: bold;
+  text-transform: uppercase;  
+}
+
+
+/* Forum
+/-------------------------------------------------------------- */
+.forum-topic-navigation {
+  border-top: 1px solid #D6DDB9;
+  border-bottom: 1px solid #D6DDB9;
+}
+
+
+/* Poll
+/-------------------------------------------------------------- */
+div.poll div.bar {
+  background-color: #ddd;
+}
+
+div.poll div.bar div.foreground {
+  background-color: #999;
+}
+
+
+/* Profiles
+/-------------------------------------------------------------- */
+/* Styles for sub-headings on user profiles */
+.profile .picture {
+  float: none;
+}
+
+.profile dt {
+  background-color: #ccc;
+}
+
+
+/* Tab Menus
+/-------------------------------------------------------------- */
+#content-tabs {
+  background-color: transparent;
+  float: left;
+  margin: 20px 0;
+  padding: 0;
+}
+
+#content-tabs ul.primary,
+#content-tabs ul.secondary {
+  border-bottom: 1px solid #bbb;
+  clear: both;
+  float: left;
+  margin: 0;
+  padding: 0 10px;
+}
+
+#content-tabs ul.secondary {
+  border-bottom: 1px solid #555;
+  margin-top: 10px;
+  text-transform: lowercase;
+}
+
+#content-tabs ul.primary li,
+#content-tabs ul.secondary li {
+  border-style: none;
+  display: inline;
+  float: left;
+  list-style: none;
+  margin: 0 10px;
+  padding: 0;
+}
+
+#content-tabs ul.primary li a:link,
+#content-tabs ul.primary li a:visited,
+#content-tabs ul.secondary li a:link,
+#content-tabs ul.secondary li a:visited {
+  background-color: transparent;
+  border: none;
+  color: #000;
+  float: left;
+  font-weight: bold;
+  margin: 0;
+  padding: 0 0 6px 0;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+#content-tabs ul.primary li a:link,
+#content-tabs ul.primary li a:visited {
+  color: #27638C;
+  font-size: 108.3%; /* 13px/12px */
+  text-transform: uppercase;
+}
+
+#content-tabs ul.secondary li a:link,
+#content-tabs ul.secondary li a:visited {
+  color: #555;
+}
+
+#content-tabs ul.primary li a.active:link,
+#content-tabs ul.primary li a.active:visited {
+  border-bottom: 4px solid #94CE18;
+  color: #4A95C8;
+  padding-bottom: 2px;
+}
+
+#content-tabs ul.secondary li a.active:link,
+#content-tabs ul.secondary li a.active:visited {
+  border-bottom: 4px solid #555;
+  color: #777;
+  padding-bottom: 2px;
+}
+
+#content-tabs ul.primary li a:hover,
+#content-tabs ul.primary li a:focus,
+#content-tabs ul.secondary li a:hover,
+#content-tabs ul.secondary li a:focus {
+  border-bottom: 4px solid #777;
+  color: #777;
+  padding-bottom: 2px;
+}
+
+#content-tabs ul.primary li a:hover,
+#content-tabs ul.primary li a:focus {
+  border-bottom: 4px solid #94CE18;
+  color: #4A95C8;
+}
+
+
+/* Skinr styles
+/-------------------------------------------------------------- */
+/* List with bottom border
+    Fixes a common issue when list items have bottom borders and appear to be
+    doubled when lists end and begin. This removes the extra border-bottom
+ */
+.list-bottom-border ul li {
+  padding: 0 0 0 10px;
+  border-bottom: 1px solid #ccc;
+  line-height: 216.7%; /* 26px */
+  font-weight: bold;
+  list-style: none;
+  list-style-type: none;
+  list-style-image: none;
+}
+
+.list-bottom-border ul {
+  margin: 0;
+}
+
+.list-bottom-border ul li ul {
+  border-top: 1px solid #ccc;
+}
+
+.list-bottom-border ul li ul li.last {
+  border-top: 1px solid #ccc;
+  margin-bottom: -1px;
+  margin-top: -1px;
+}
+
+/* Superfish vertical menus */
+.superfish-vertical {
+  position: relative;
+  z-index: 10;
+}
+
+ul.sf-vertical {
+  background: #fafafa;
+  margin: 0;
+}
+
+ul.sf-vertical li {
+  padding: 0;
+  border-bottom: 1px solid #ccc;
+  line-height: 200%; /* 24px */
+  font-weight: bold;
+  list-style: none;
+  list-style-type: none;
+  list-style-image: none;
+}
+
+ul.sf-vertical li a:link,
+ul.sf-vertical li a:visited,
+ul.sf-vertical li .nolink {
+  margin-left: 10px;
+  padding: 2px;
+}
+
+ul.sf-vertical li a:hover,
+ul.sf-vertical li a.active {
+  text-decoration: underline;
+}
+
+ul.sf-vertical li ul {
+  background: #fafafa;
+  border-top: 1px solid #ccc;
+  margin-left: 0;
+}
+
+ul.sf-vertical li ul li.last {
+  border-top: 1px solid #ccc;
+  margin-bottom: -1px;
+  margin-top: -1px;
+}
+
+ul.sf-vertical li ul {
+  border-top: none;
+  padding: 4px 0;
+}
+
+ul.sf-vertical li ul li {
+  border-bottom: none;
+  line-height: 150%; /* 24px */
+}
+
+ul.sf-vertical li ul li.last {
+  border-top: none;
+}
+
+ul.sf-vertical li ul li ul {
+  margin-top: -4px;
+}
+
+/* Marina - Title - Rounded Blue */
+.marina-title-rounded-blue h2.block-title {
+  background: #4183AF;
+}
+
+/* Marina - Title - Rounded Green */
+.marina-title-rounded-green h2.block-title {
+  background: #94CE18;
+}
+
+/* Marina - Title - Green */
+.marina-title-green h2.block-title {
+  color: #94CE18;
+}
+
+.marina-title-rounded-blue h2.block-title,
+.marina-title-rounded-green h2.block-title {
+  color: #fff;
+  margin: 0 0 8px 0;
+  padding: 8px 8px 6px 50px;
+  text-align: right;
+  text-shadow: 1px 1px #545454;
+}
+
+.marina-rounded-corners.marina-title-rounded-blue h2.block-title,
+.marina-rounded-corners.marina-title-rounded-green h2.block-title {
+  margin: -8px -8px 8px -8px;
+}
+
+/* Marina - List - Raquo */
+.marina-list-raquo ul {
+  margin-left: 0;
+}
+
+.marina-list-raquo ul li {
+  background: url(../images/raquo.png) no-repeat 0 8px;
+  display: block;
+  font-weight: bold;
+  list-style: none;
+  list-style-image: none;
+  margin: 0;
+  padding-left: 15px;
+}
+
+.marina-list-raquo ul li a.active {
+  color: #144A6E;
+  text-decoration: underline;
+}
+
+.marina-list-raquo ul li ul {
+  margin-left: 15px;
+}
+
+/* Marina - List - Green arrow */
+.marina-list-arrow-green ul li {
+  background: url(../images/green-checkmark.png) no-repeat 0 5px;
+  font-family: "Myriad Pro", "Myriad Web Pro Regular", "Lucida Grande", Geneva, Trebuchet MS, sans-serif;
+  font-size: 150%; /* 18px/12px */
+  line-height: 100%;
+  list-style-image: none;
+  list-style-type: none;
+  padding: 10px 0 15px 40px;
+}
+
+/* Marina - Icons */
+.title-icon .block-icon {
+  height: 48px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 48px;
+  z-index: 100;
+}
+
+.icon-bubble .block-icon {
+  background: url(../images/icons/icon-bubble.png) no-repeat 0 50%;
+}
+
+.icon-calendar .block-icon {
+  background: url(../images/icons/icon-calendar.png) no-repeat 0 50%;
+}
+
+.icon-chalkboard .block-icon {
+  background: url(../images/icons/icon-chalkboard.png) no-repeat 0 50%;
+}
+
+.icon-chatbubbles .block-icon,
+.comment-icon-chatbubbles {
+  background: url(../images/icons/icon-chatbubbles.png) no-repeat 0 50%;
+}
+
+.icon-colorchart .block-icon {
+  background: url(../images/icons/icon-colorchart.png) no-repeat 0 50%;
+}
+
+.icon-flag .block-icon {
+  background: url(../images/icons/icon-flag.png) no-repeat 0 50%;
+}
+
+.icon-gears .block-icon {
+  background: url(../images/icons/icon-gears.png) no-repeat 0 50%;
+}
+
+.icon-home .block-icon {
+  background: url(../images/icons/icon-home.png) no-repeat 0 50%;
+}
+
+.icon-keys .block-icon {
+  background: url(../images/icons/icon-keys.png) no-repeat 0 50%;
+}
+
+.icon-newspaper .block-icon {
+  background: url(../images/icons/icon-newspaper.png) no-repeat 0 50%;
+}
+
+.icon-notepad .block-icon {
+  background: url(../images/icons/icon-notepad.png) no-repeat 0 50%;
+}
+
+.icon-photo .block-icon {
+  background: url(../images/icons/icon-photo.png) no-repeat 0 50%;
+}
+
+.icon-rss .block-icon {
+  background: url(../images/icons/icon-rss.png) no-repeat 0 50%;
+}
+
+.icon-search .block-icon {
+  background: url(../images/icons/icon-search.png) no-repeat 0 50%;
+}
+
+.icon-star .block-icon {
+  background: url(../images/icons/icon-star.png) no-repeat 0 50%;
+}
+
+/* Marina Rounded corners */
+.marina-rounded-corners .corner {
+  display: block;
+  height: 8px;
+  position: relative;
+  width: 8px;
+  z-index: 10;
+}
+
+.marina-rounded-corners .corner-top-left {
+  left: 0;
+  top: 0;
+}
+
+.marina-rounded-corners .corner-top-right {
+  float: right;
+  right: 0;
+  top: 0;
+}
+
+.marina-rounded-corners .corner-bottom-left {
+  bottom: 0;
+  left: 0;
+}
+
+.marina-rounded-corners .corner-bottom-right {
+  bottom: 0;
+  float: right;
+  right: 0;
+}
+
+/* Marina - Rounded Corners */
+.marina-rounded-corners .corner-top-left {
+  background: url(../images/rounded-corner.png) no-repeat 0 0;
+}
+
+.marina-rounded-corners .corner-top-right {
+  background: url(../images/rounded-corner.png) no-repeat 100% 0;
+}
+
+.marina-rounded-corners .corner-bottom-left {
+  background: url(../images/rounded-corner.png) no-repeat 0 100%;
+}
+
+.marina-rounded-corners .corner-bottom-right {
+  background: url(../images/rounded-corner.png) no-repeat 100% 100%;
+}
+
+.marina-rounded-corners .inner {
+  background: #fff url(../images/rounded-corner-left-right.png) repeat-y 100% 0;
+}
+
+.marina-rounded-corners .inner .inner {
+  background: #fff;
+}
+
+.marina-rounded-corners .inner-wrapper {
+  background: url(../images/rounded-corner-left-right.png) repeat-y 0 0;
+  color: #666;
+  padding: 0 6px 0 6px;
+}
+
+.marina-rounded-corners .inner-wrapper .inner-inner {
+  background: url(../images/block-gradient.png) repeat-x 50% 100%;
+  padding: 8px;  
+}
+
+.marina-rounded-corners .corner-top {
+  background: url(../images/rounded-corner.png) no-repeat 0 0;
+  display: block;
+  height: 8px;
+  margin-bottom: -3px;
+  overflow: hidden;
+}
+
+.marina-rounded-corners .corner-bottom {
+  background: url(../images/rounded-corner.png) no-repeat 0 100%;
+  display: block;
+  height: 8px;
+  margin-top: -3px;
+  overflow: hidden;
+}
+
+/* Horizontal user login bar */
+.fusion-horiz-login form input.form-submit {
+  font-size: 83.3%; /* 10px/12px */
+}
+
+.fusion-horiz-login #user-login-form {
+  padding-top: 1px;
+}
+
+
+/* Views admin links
+/-------------------------------------------------------------- */
+.block div.view div.views-admin-links {
+  margin-top: 0;
+}

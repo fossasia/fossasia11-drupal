@@ -1,0 +1,11 @@
+; $Id$
+name = Read More link
+description = Customize the "Read more" link shown in node teasers.
+core = 6.x
+
+; Information added by drupal.org packaging script on 2011-10-11
+version = "6.x-5.0"
+core = "6.x"
+project = "ed_readmore"
+datestamp = "1318374704"
+

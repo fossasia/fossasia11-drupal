@@ -1,0 +1,179 @@
+<?php
+
+/**
+ * Implements hook_xmlsitemap_link_info().
+ */
+function xmlsitemap_user_xmlsitemap_link_info() {
+  $types['user'] = array(
+    'label' => t('Users'),
+    'bundle label' => t('User'),
+    'base table' => 'users',
+    'entity keys' => array(
+      'id' => 'uid',
+    ),
+    'bundles' => array(
+      'user' => array(
+        'label' => t('User'),
+        'admin' => array(
+          'path' => 'admin/user/settings',
+          'access arguments' => array('administer users'),
+        ),
+      ),
+    ),
+    'uri callback' => 'xmlsitemap_user_uri',
+    'load hook' => 'user_load',
+    'xmlsitemap' => array(
+      'process callback' => 'xmlsitemap_user_xmlsitemap_process_user_links',
+    ),
+  );
+  return $types;
+}
+
+/**
+ * Entity URI callback.
+ */
+function xmlsitemap_user_uri($account) {
+  return array(
+    'path' => 'user/' . $account->uid,
+  );
+}
+
+/**
+ * Implements hook_cron().
+ *
+ * Process old users not found in the {xmlsitemap} table.
+ */
+function xmlsitemap_user_cron() {
+  xmlsitemap_user_xmlsitemap_index_links(xmlsitemap_var('batch_limit'));
+}
+
+/**
+ * Implements hook_xmlsitemap_index_links().
+ */
+function xmlsitemap_user_xmlsitemap_index_links($limit) {
+  $query = db_query_range("SELECT u.uid FROM {users} u LEFT JOIN {xmlsitemap} x ON x.type = 'user' AND u.uid = x.id WHERE x.id IS NULL AND u.uid > 0 ORDER BY u.uid DESC", array(), 0, $limit);
+  $uids = xmlsitemap_db_fetch_col($query);
+  xmlsitemap_user_xmlsitemap_process_user_links($uids);
+}
+
+/**
+ * Process user sitemap links.
+ *
+ * @param $uids
+ *   An array of user IDs.
+ */
+function xmlsitemap_user_xmlsitemap_process_user_links(array $uids) {
+  foreach ($uids as $uid) {
+    if ($account = user_load($uid)) {
+      $link = xmlsitemap_user_create_link($account);
+      xmlsitemap_link_save($link);
+    }
+  }
+}
+
+/**
+ * Implements hook_user().
+ */
+function xmlsitemap_user_user($op, &$edit, $account, $category = NULL) {
+  switch ($op) {
+    case 'insert':
+    case 'update':
+    case 'after_update':
+      // We need to check both update and after update since the user hooks
+      // won't have an updated $account object until after_update.
+      $link = xmlsitemap_user_create_link($account);
+      if (isset($edit['xmlsitemap'])) {
+        $link = $edit['xmlsitemap'] + $link;
+        // Unset since we don't want this saved to $user->data.
+        unset($edit['xmlsitemap']);
+      }
+      xmlsitemap_link_save($link);
+      break;
+    case 'delete':
+      xmlsitemap_link_delete('user', $account->uid);
+      break;
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * @see user_register()
+ * @see xmlsitemap_add_form_link_options()
+ */
+function xmlsitemap_user_form_user_register_alter(&$form, $form_state) {
+  // Add the link options.
+  module_load_include('inc', 'xmlsitemap', 'xmlsitemap.admin');
+  xmlsitemap_add_form_link_options($form, 'user', 'user', $form['#uid']);
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * @see user_admin_settings()
+ * @see xmlsitemap_add_form_link_options()
+ */
+function xmlsitemap_user_form_user_profile_form_alter(&$form, $form_state) {
+  // Add the link options.
+  module_load_include('inc', 'xmlsitemap', 'xmlsitemap.admin');
+  xmlsitemap_add_form_link_options($form, 'user', 'user', $form['#uid']);
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * @see user_admin_settings()
+ * @see xmlsitemap_add_link_bundle_settings()
+ */
+function xmlsitemap_user_form_user_admin_settings_alter(&$form, $form_state) {
+  module_load_include('inc', 'xmlsitemap', 'xmlsitemap.admin');
+  xmlsitemap_add_link_bundle_settings($form, $form_state, 'user', 'user');
+  $form['buttons'] += array('#weight' => 100);
+}
+
+/**
+ * Create a sitemap link from a user.
+ *
+ * The link will be saved as $account->xmlsitemap.
+ *
+ * @param $account
+ *   A user object.
+ */
+function xmlsitemap_user_create_link(stdClass &$account) {
+  if (!isset($account->xmlsitemap)) {
+    $account->xmlsitemap = array();
+    if ($account->uid && $link = xmlsitemap_link_load('user', $account->uid)) {
+      $account->xmlsitemap = $link;
+    }
+  }
+
+  $settings = xmlsitemap_link_bundle_load('user', 'user');
+  $uri = xmlsitemap_entity_uri('user', $account);
+
+  $account->xmlsitemap += array(
+    'type' => 'user',
+    'id' => $account->uid,
+    'subtype' => 'user',
+    'status' => $settings['status'],
+    'status_default' => $settings['status'],
+    'status_override' => 0,
+    'priority' => $settings['priority'],
+    'priority_default' => $settings['priority'],
+    'priority_override' => 0,
+  );
+
+  // The following values must always be checked because they are volatile.
+  $account->xmlsitemap['loc'] = $uri['path'];
+  $account->xmlsitemap['access'] = $account->uid && $account->status && $account->login && $account->access;
+  $account->xmlsitemap['language'] = !empty($account->language) ? $account->language : '';
+
+  return $account->xmlsitemap;
+}
+
+/**
+ * Implementation of hook_variables().
+ */
+function xmlsitemap_user_variables() {
+  $defaults = array();
+  return $defaults;
+}

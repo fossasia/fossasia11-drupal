@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<title>jQuery UI Draggable Test Suite</title>
+
+	<script type="text/javascript" src="../../../jquery-1.3.2.js"></script>
+	<script type="text/javascript" src="../../../ui/ui.core.js"></script>
+	<script type="text/javascript" src="../../../ui/ui.draggable.js"></script>
+
+	<link   type="text/css"       href="../testsuite.css" rel="stylesheet" />
+	<script type="text/javascript" src="../testsuite.js"></script>
+	<script type="text/javascript" src="../../../external/qunit/testrunner.js"></script>
+	<script type="text/javascript" src="../../../external/simulate/jquery.simulate.js"></script>
+
+	<script type="text/javascript" src="draggable_core.js"></script>
+	<script type="text/javascript" src="draggable_defaults.js"></script>
+	<script type="text/javascript" src="draggable_events.js"></script>
+	<script type="text/javascript" src="draggable_methods.js"></script>
+	<script type="text/javascript" src="draggable_options.js"></script>
+	<script type="text/javascript" src="draggable_tickets.js"></script>
+</head>
+<body>
+
+<div id="main">
+	<div id="draggable1" style="background: green; width: 200px; height: 100px;">Relative</div>
+	<div id="draggable2" style="background: green; width: 200px; height: 100px; position: absolute; top: 10px; left: 10px;"><span>Absolute</span></div>
+	<div style='width: 1px; height: 1000px;'></div>
+</div>
+
+<div style="width: 1px; height: 2000px;"></div>
+
+</body>
+</html>

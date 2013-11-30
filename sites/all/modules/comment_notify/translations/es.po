@@ -1,0 +1,336 @@
+# $Id: es.po,v 1.1.2.1 2009/11/26 20:15:11 marvil07 Exp $
+#
+# Spanish translation of Drupal (general)
+# Copyright 2009 Marco Antonio Villegas Vega <marvil07@gmail.com>
+# Generated from files:
+#  comment_notify.module,v 1.73 2009/11/17 15:20:10 greggles
+#  comment_notify.install,v 1.16 2009/04/08 01:52:02 greggles
+#  comment_notify.info,v 1.3 2008/08/06 23:27:08 greggles
+#
+# Marco Antonio Villegas Vega <marvil07@gmail.com>, 2009.
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2009-11-26 11:52-0500\n"
+"PO-Revision-Date: 2009-11-26 15:11-0500\n"
+"Last-Translator: Marco Antonio Villegas Vega <marvil07@gmail.com>\n"
+"Language-Team: Spanish <>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=\n"
+"Content-Transfer-Encoding: UTF-8\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: comment_notify.module:60;615
+msgid "All comments"
+msgstr "Todos los comentarios"
+
+#: comment_notify.module:61;616
+msgid "Replies to my comment"
+msgstr "Respuestas a mi comentario"
+
+#: comment_notify.module:116
+msgid "Notify me when new comments are posted"
+msgstr "Notificarme cuando se envíen nuevos comentarios"
+
+#: comment_notify.module:204
+#, fuzzy
+msgid "Your comment follow-up notification for this post was disabled. Thanks."
+msgstr "Su notificación de seguimiento para este envío a sido deshabilitada. Gracias."
+
+#: comment_notify.module:221
+msgid ""
+"If you want to subscribe to comments you must supply a valid e-mail address."
+msgstr "Si quiere suscribirse a los comentarios debe brindar un correo-e válido."
+
+#: comment_notify.module:282
+msgid "Comment follow-up notification settings"
+msgstr "Opciones de seguimiento de comentarios"
+
+#: comment_notify.module:298
+msgid "Receive node follow-up notification e-mails"
+msgstr "Recibir correos de notificaciones de seguimiento"
+
+#: comment_notify.module:300
+msgid ""
+"Check this box to receive an e-mail notification for follow-ups on your "
+"nodes (pages, forum topics, etc). You can not disable notifications for "
+"individual threads."
+msgstr "Marque esta casilla para recibir un correo-e de notificación para seguimiento en sus nodos(páginas, temas de foro, etc). No puede deshabilitar notificaciones para hilos de manera individual."
+
+#: comment_notify.module:310;620
+#, fuzzy
+msgid "No notifications"
+msgstr "Sin notificaciones"
+
+#: comment_notify.module:314
+msgid "Receive comment follow-up notification e-mails"
+msgstr "Recibir correo-e para notificar seguimiento de comentarios"
+
+#: comment_notify.module:317
+msgid ""
+"Check this box to receive e-mail notification for follow-up comments to "
+"comments you posted. You can later disable this on a post-by-post basis... "
+"so if you leave this to YES, you can still disable follow-up notifications "
+"for comments you don't want follow-up mails anymore - i.e. for very popular "
+"posts."
+msgstr "Seleccione esta casilla para recibir notificaciones por correo-e  de seguimiento a los comentarios que ha ingresado. Luego puede deshabilitarlo basado en envíos... así que si deja esto en SÍ, podrá aún deshabilitar las notificaciones seguimiento para comentarios que ya no quiere seguir más - por ejemplo para un envío muy popular."
+
+#: comment_notify.module:410;470
+msgid "!site :: new comment for your post."
+msgstr "!site :: nuevo comentario para su envío."
+
+#: comment_notify.module:511
+#, fuzzy
+msgid "source comment"
+msgstr "comentario original"
+
+#: comment_notify.module:540
+msgid "Email to unsubscribe"
+msgstr "Correo para desuscribirse"
+
+#: comment_notify.module:544
+msgid "Unsubscribe this e-mail"
+msgstr "De-suscribir este correo-e"
+
+#: comment_notify.module:566
+msgid "There were no active comment notifications for that email."
+msgstr "No hubo notificaciones de comentarios para ese correo."
+
+#: comment_notify.module:591
+msgid "@content-type"
+msgstr "@content-type"
+
+#: comment_notify.module:597
+msgid ""
+"Anonymous commenters have the permission to subscribe to comments but cannot "
+"leave their contact infromation on the following content types: !types.  You "
+"should either disable subscriptions on those types here, revoke the "
+"permission for anonymous users, or enable anonymous users to leave their "
+"contact information in the comment settings."
+msgstr "Quienes comenten de manera anónima tiene el permiso para suscribirse a los comentarios, pero no pueden dejar su información de contacto  en los siguientes tipos de contenido: !types. Debería deshabilitar las suscripciones en estos tipos aquí, revocar los permisos para usuarios anónimos, o habilitar a los usuarios dejar su información de contacto en las opciones de comentarios."
+
+#: comment_notify.module:602
+msgid "Content types to enable for comment notification"
+msgstr "Tipos de contenido para habilitar las notificaciones de comentarios"
+
+#: comment_notify.module:605
+msgid ""
+"Comments on content types enabled here will have the option of comment "
+"notification."
+msgstr "Los comentarios en los tipos de contenido habilitados aquí tendrán la opción de notificación de comentarios."
+
+#: comment_notify.module:610
+msgid "Available subscription modes"
+msgstr "Modos de suscripción disponibles"
+
+#: comment_notify.module:613
+msgid "Choose which notification subscription styles are available for users"
+msgstr "Elegir qué estilos de suscripción a notificaciones estarán disponibles para los usuarios"
+
+#: comment_notify.module:624
+msgid "Default state for the notification selection box for anonymous users"
+msgstr "Estado por defecto para la casilla de verificación de notificación para usuarios anónimos"
+
+#: comment_notify.module:632
+msgid "Default state for the notification selection box for registered users"
+msgstr "Estado por defecto para la casilla de verificación de notificación para usuarios registrados"
+
+#: comment_notify.module:635
+msgid ""
+"This flag presets the flag for the follow-up notification on the form that "
+"anon users will see when posting a comment"
+msgstr "Esta bandera preestablece la bandera de notificación de seguimiento en el formulario que verán los usuarios anónimos cuando envíen un comentario"
+
+#: comment_notify.module:641
+msgid "Subscribe users to their node follow-up notification emails by default"
+msgstr "Suscribir usuarios a la notificación de seguimiento de sus nodos por defecto"
+
+#: comment_notify.module:643
+msgid ""
+"If this is checked, new users will receive e-mail notifications for follow-"
+"ups on their nodes by default until they individually disable the feature."
+msgstr "Si esto está seleccionado, los nuevo usuarios recibirán un notificaciones por correo para seguimiento en sus nodos por defecto hasta que ellos deshabiliten individualmente esta característica"
+
+#: comment_notify.module:649
+msgid "Default mail text for sending out notifications to commenters"
+msgstr "Texto por defecto del correo a enviar como notificación a quienes comentan"
+
+#: comment_notify.module:650
+msgid ""
+"You can use the following variables to be replaced:\n"
+"      <ul>\n"
+"      <li>!cid = the comment id for the comment\n"
+"      <li>!commname = the username who posted the comment\n"
+"      <li>!commtext = the text of the posted comment\n"
+"      <li>!commsubj = the subject of the posted comment\n"
+"      <li>!comment_url = the full url of the post and comment - note: if you "
+"have paging enabled, this does not work correct - set your max comments per "
+"page so that all fit on one page or reverse order them\n"
+"      <li>!nid = the node id the comment was posted on\n"
+"      <li>!node_title = the title of the node that was commented on\n"
+"      <li>!node_teaser = the teaser of the node that was commented on\n"
+"      <li>!node_body = the body of the node that was commented on\n"
+"      <li>!mission = site_mission text\n"
+"      <li>!name = username receiving the alert\n"
+"      <li>!site = your site\n"
+"      <li>!uri = base_url of site\n"
+"      <li>!uri_brief = base_url of site w/o http\n"
+"      <li>!date = the current time\n"
+"      <li>!login_uri  uri to login the user\n"
+"      <li>!edit_uri = uri to edit user profile\n"
+"      <li>!link1 the QUICKLINK to disable future follow-up notifications for "
+"the user\n"
+"      </ul>"
+msgstr ""
+"Puede usar las siguientes variables a ser reemplazadas:\n"
+"      <ul>\n"
+"      <li>!cid = el id del comentario\n"
+"      <li>!commname = el nombre de usuario que envió el comentario\n"
+"      <li>!commtext = el texto enviado en el comentario\n"
+"      <li>!commsubj = el asunto del comentario enviado\n"
+"      <li>!comment_url = la url completa del envío y comentario - nota: si tiene habilitada la paginación, esto no funcionará de manera correcta - establezca el máximo de comentarios por página que encaje en una página o ordénelos en orden reverso\n"
+"      <li>!nid = id del nodo donde el comentario fue enviado\n"
+"      <li>!node_title = título del node que fue comentado\n"
+"      <li>!node_teaser = avance del nodo que fue comentado\n"
+"      <li>!node_body = cuerpo del nodo que fue comentado\n"
+"      <li>!mission = texto de misión del sitio\n"
+"      <li>!name = usuario que recibe la alerta\n"
+"      <li>!site = su sitio\n"
+"      <li>!uri = base_url del sitio\n"
+"      <li>!uri_brief = base_url del sitio sin http\n"
+"      <li>!date = el momento actual\n"
+"      <li>!login_uri  uri para autenticar al usuario\n"
+"      <li>!edit_uri = uri para editar el perfil de usuario\n"
+"      <li>!link1 el ENLACE RÁPIDO para deshabilitar futuras notificaciones de seguimiento para el usuario\n"
+"      </ul>"
+
+#: comment_notify.module:681
+msgid "Default mail text for sending out the notifications to node authors"
+msgstr "Texto por defecto del correo a enviar como notificación a los autores del nodo"
+
+#: comment_notify.module:682
+msgid ""
+"You can use the following variables to be replaced:\n"
+"      <ul>\n"
+"      <li>!cid = the comment id for the comment\n"
+"      <li>!commname = the username who posted the comment\n"
+"      <li>!commtext = the text of the posted comment\n"
+"      <li>!commsubj = the subject of the posted comment\n"
+"      <li>!comment_url = the full url of the post and comment - note: if you "
+"have paging enabled, this does not work correct - set your max comments per "
+"page so that all fit on one page or reverse order them\n"
+"      <li>!nid = the node id the comment was posted on\n"
+"      <li>!node_title = the title of the node that was commented on\n"
+"      <li>!node_teaser = the teaser of the node that was commented on\n"
+"      <li>!node_body = the body of the node that was commented on\n"
+"      <li>!mission = site_mission text\n"
+"      <li>!name = username receiving the alert\n"
+"      <li>!site = your site\n"
+"      <li>!uri = base_url of site\n"
+"      <li>!uri_brief = base_url of site w/o http\n"
+"      <li>!date = the current time\n"
+"      <li>!login_uri  uri to login the user\n"
+"      <li>!edit_uri = uri to edit user profile\n"
+"      </ul>"
+msgstr ""
+"Puede usar las siguientes variables a ser reemplazadas:\n"
+"      <ul>\n"
+"      <li>!cid = el id del comentario\n"
+"      <li>!commname = el nombre de usuario que envió el comentario\n"
+"      <li>!commtext = el texto enviado en el comentario\n"
+"      <li>!commsubj = el asunto del comentario enviado\n"
+"      <li>!comment_url = la url completa del envío y comentario - nota: si tiene habilitada la paginación, esto no funcionará de manera correcta - establezca el máximo de comentarios por página que encaje en una página o ordénelos en orden reverso\n"
+"      <li>!nid = id del nodo donde el comentario fue enviado\n"
+"      <li>!node_title = título del node que fue comentado\n"
+"      <li>!node_teaser = avance del nodo que fue comentado\n"
+"      <li>!node_body = cuerpo del nodo que fue comentado\n"
+"      <li>!mission = texto de misión del sitio\n"
+"      <li>!name = usuario que recibe la alerta\n"
+"      <li>!site = su sitio\n"
+"      <li>!uri = base_url del sitio\n"
+"      <li>!uri_brief = base_url del sitio sin http\n"
+"      <li>!date = el momento actual\n"
+"      <li>!login_uri  uri para autenticar al usuario\n"
+"      <li>!edit_uri = uri para editar el perfil de usuario\n"
+"      </ul>"
+
+#: comment_notify.module:506
+msgid "comment_notify"
+msgstr "comment_notify"
+
+#: comment_notify.module:506
+msgid "Notified: !user_mail"
+msgstr "Notificado: !user_mail"
+
+#: comment_notify.module:569
+msgid "Email unsubscribed from 1 comment notification."
+msgid_plural "Email unsubscribed from @count comment notifications."
+msgstr[0] "Correo des-suscrito de 1 notificación de comentarios."
+msgstr[1] "Correo des-suscrito de @count notificaciones de comentarios."
+
+#: comment_notify.module:153
+msgid "administer comment notify"
+msgstr "administrar las notificaciones de comentarios"
+
+#: comment_notify.module:153
+msgid "subscribe to comments"
+msgstr "suscribirse a los comentarios"
+
+#: comment_notify.module:162
+msgid "Comment notify"
+msgstr "Notificación de comentarios"
+
+#: comment_notify.module:163;171
+msgid "Configure settings for e-mails about new comments."
+msgstr "Opciones de configuración para mensajes de correo. sobre nuevos comentarios."
+
+#: comment_notify.module:170
+msgid "Settings"
+msgstr "Opciones"
+
+#: comment_notify.module:179
+msgid "Unsubscribe"
+msgstr "De-suscribir"
+
+#: comment_notify.module:180
+msgid "Unsubscribe an email from all notifications."
+msgstr "De-suscribir un correo-e de todas las notificaciones."
+
+#: comment_notify.module:188
+msgid "Disable comment notification"
+msgstr "Deshabilitar notificación de comentarios"
+
+#: comment_notify.install:41
+msgid ""
+"Stores information about which commenters on the site have subscriped to "
+"followup emails."
+msgstr "Almacena información acerca de qué personas que comentan en el sitio se han suscrito a mensajes de correo de seguimiento."
+
+#: comment_notify.install:199
+#, fuzzy
+msgid ""
+"For some reason the {comment_notify_user_settings} table was not properly "
+"created, and so per-user comment_notify settings could not be copied from "
+"{users}.data.  You will need to run this update again."
+msgstr "Por alguna razón la tabla {comment_notify_user_settings} no se ha creado correctamente, y por eso comment_notify settings por usuario no se ha podido copiar desde la información en de {users}.  Necesitará ejecutar esta actualización nuevamente."
+
+#: comment_notify.install:250
+msgid ""
+"Moved comment_notify user settings data from the {users} table into the "
+"{comment_notify_user_settings} table."
+msgstr "Información de comment_notify user settings de la tabla {users} se ha movido a la tabla {comment_notify_user_settings}."
+
+#: comment_notify.install:255
+msgid "Something is maybe not right."
+msgstr "Tal vez algo no está bien."
+
+#: comment_notify.info:0
+msgid "Comment Notify"
+msgstr "Notificación de comentario"
+
+#: comment_notify.info:0
+msgid ""
+"Comment follow-up e-mail notification for anonymous as well as registered "
+"users."
+msgstr "Notificaciones de seguimiento de comentarios para usuarios anónimos y registrados."

@@ -1,0 +1,101 @@
+<?php
+
+/**
+ * @file
+ * Views Slideshow: ThumbnailHover has options for working with node views.
+ *
+ * The ThumbnailHover mode adds two parts to the view: the first part is a
+ * series of items displayed as a list, the second part is either a full node
+ * or a node teaser. The slideshow will synchronize the two, so that the
+ * 'active' item will correspond to the single full/teaser item. The slide show
+ * can be set to advance automatically or on mouse hover/click.
+ */
+
+/**
+ * Implements hook_init();
+ */
+function views_slideshow_thumbnailhover_init() {
+  // If the jQ module is installed, use that to add the jQuery Cycle plugin.
+  // This allows different versions of the plugin to be used.
+  $js = FALSE;
+  if (module_exists('jq')) {
+    $loaded_plugins = jq_plugins();
+    if (!empty($loaded_plugins['cycle'])) {
+      $js = jq_add('cycle');
+    }
+  }
+
+  // Otherwise, we'll add the version included with this module.
+  if (!$js) {
+    drupal_add_js(drupal_get_path('module', 'views_slideshow') . '/js/jquery.cycle.all.min.js');
+  }
+
+  $module_path = drupal_get_path('module', 'views_slideshow_thumbnailhover');
+  drupal_add_js($module_path . '/views_slideshow.js', 'module');
+  drupal_add_css($module_path . '/views_slideshow.css', 'module');
+}
+
+/**
+ * Implements hook_theme().
+ */
+function views_slideshow_thumbnailhover_theme($existing, $type, $theme, $path) {
+  return array(
+    'views_slideshow_thumbnailhover' => array(
+      'arguments' => array('view' => NULL, 'options' => array(), 'rows' => array(), 'title' => ''),
+      'template' => 'views-slideshow-thumbnailhover',
+      'file' => 'views_slideshow_thumbnailhover.theme.inc',
+    ),
+    'views_slideshow_thumbnailhover_controls' =>array(
+      'arguments' => array('vss_id' => '', 'view' => NULL, 'options' => array()),
+      'file' => 'views_slideshow_thumbnailhover.theme.inc',
+    ),
+    'views_slideshow_thumbnailhover_control_previous' =>array(
+      'arguments' => array('vss_id' => '', 'view' => NULL, 'options' => array()),
+      'file' => 'views_slideshow_thumbnailhover.theme.inc',
+    ),
+    'views_slideshow_thumbnailhover_control_pause' =>array(
+      'arguments' => array('vss_id' => '', 'view' => NULL, 'options' => array()),
+      'file' => 'views_slideshow_thumbnailhover.theme.inc',
+    ),
+    'views_slideshow_thumbnailhover_control_next' =>array(
+      'arguments' => array('vss_id' => '', 'view' => NULL, 'options' => array()),
+      'file' => 'views_slideshow_thumbnailhover.theme.inc',
+    ),
+    'views_slideshow_thumbnailhover_image_count' => array(
+      'arguments' => array('vss_id' => '', 'view' => NULL, 'options' => array()),
+      'file' => 'views_slideshow_thumbnailhover.theme.inc',
+    ),
+    'views_slideshow_thumbnailhover_breakout_teaser' => array(
+      'arguments' => array('item' => NULL, 'vss_id' => NULL, 'count' => NULL),
+      'file' => 'views_slideshow_thumbnailhover.theme.inc',
+    ),
+    'views_slideshow_thumbnailhover_no_display_section' => array(
+      'arguments' => array('view' => NULL, 'rows' => NULL, 'vss_id' => NULL, 'mode' => NULL, 'teaser' => TRUE),
+      'file' => 'views_slideshow_thumbnailhover.theme.inc',
+    ),
+    'views_slideshow_thumbnailhover_no_display_teaser' => array(
+      'arguments' => array('item' => NULL, 'vss_id' => NULL, 'count' => NULL),
+      'file' => 'views_slideshow_thumbnailhover.theme.inc',
+    ),
+    'views_slideshow_thumbnailhover_breakout_teasers' => array(
+      'arguments' => array('items' => NULL, 'vss_id' => NULL),
+      'file' => 'views_slideshow_thumbnailhover.theme.inc',
+    ),
+  );
+}
+
+/**
+ * Implements hook_help().
+ */
+function views_slideshow_thumbnailhover_help($path, $arg) {
+  switch ($path) {
+    case 'admin/help#views_slideshow_thumbnailhover':
+      if (module_exists('advanced_help')) {
+        $output = '<p>' . l(t('Click here to view the documentation for Views Slideshow Thumbnailhover'),  'admin/advanced_help/views_slideshow_thumbnailhover') . '</p>';
+      }
+      else {
+        $output = '<p>' . t('Views Slideshow Thumbnailhover help can be found by installing and enabling the !advanced_help.',  array('!advanced_help' => l(t('Advanced Help module'), 'http://drupal.org/project/advanced_help'))) . '</p>';
+      }
+      return $output;
+  }
+}

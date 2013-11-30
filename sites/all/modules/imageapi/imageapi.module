@@ -1,0 +1,463 @@
+<?php
+
+/**
+ * @file
+ *
+ * An ImageAPI supporting additional image plugins as modules.
+ * Images are treated as objects, and images are not written per
+ * manipulation as Drupal's core image handling works.
+ *
+ *
+ * imageapi image api workflow...
+ * $image = imageapi_image_open($path) to get an image object for $path...
+ * image_X($image, $arg1, $arg2)  to manipulate image object...
+ * imageapi_image_close($image) to overwrite original image.
+ *
+ */
+
+/**
+ * Implementation of hook_perm().
+ */
+function imageapi_perm() {
+  return array('administer imageapi');
+}
+
+/**
+ * Implementation of hook_menu().
+ */
+function imageapi_menu() {
+  $items = array();
+  $items['admin/settings/imageapi'] = array(
+    'title' => 'ImageAPI',
+    'description' => 'Configure ImageAPI.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('imageapi_settings'),
+    'access arguments' => array('administer imageapi'),
+  );
+
+  $toolkits = imageapi_get_available_toolkits();
+  if ($toolkits) {
+    $items['admin/settings/imageapi/list'] = array(
+      'title' => 'List',
+      'type' => MENU_DEFAULT_LOCAL_TASK,
+      'weight' => -1,
+    );
+    $items['admin/settings/imageapi/config'] = array(
+      'title' => 'Configure',
+      'type' => MENU_LOCAL_TASK,
+      'page callback' => 'drupal_get_form',
+      'page arguments' => array(imageapi_default_toolkit() .'_settings_form'),
+      'access arguments' => array('administer imageapi'),
+    );
+    foreach ($toolkits as $module => $info) {
+      if (function_exists($module .'_settings_form')) {
+        $items['admin/settings/imageapi/config/'. $module] = array(
+          'title' => '@name',
+          'title arguments' => array('@name' => $info['name']),
+          'page callback' => 'drupal_get_form',
+          'page arguments' => array($module .'_settings_form'),
+          'access arguments' => array('administer imageapi'),
+          'type' => $module == imageapi_default_toolkit() ? MENU_DEFAULT_LOCAL_TASK : MENU_LOCAL_TASK,
+        );
+      }
+      else {
+        drupal_set_message(t('ImageAPI toolkit missing settings form'), 'error');
+      }
+    }
+  }
+  return $items;
+}
+
+function imageapi_settings() {
+  $form = array();
+
+  $toolkits = imageapi_get_available_toolkits();
+
+  switch (count($toolkits)) {
+    case 0:
+      $form['imageapi_toolkits']['#value'] = t('There are no image toolkit modules enabled. Toolkit modules can be enabled from the <a href="!admin-build-modules">module configuration page</a>.', array('!admin-build-modules' => url('admin/build/modules')));
+      return $form;
+
+    case 1:
+      $toolkit = key($toolkits);
+      // The variable needs to be manually set. Otherwise, if a user has two
+      // toolkits and disables the selected one they won't be able to select the
+      // remaing toolkit.
+      variable_set('imageapi_image_toolkit', $toolkit);
+      $form['imageapi_image_toolkit']['#value'] = t('The %toolkit module is the only enabled image toolkit. Drupal will use it for resizing, cropping and other image manipulations.', array('%toolkit' => $toolkits[$toolkit]['name']));
+      return $form;
+
+    default:
+      $options = array();
+      foreach ($toolkits as $module => $info) {
+        $options[$module] = $info['name'];
+      }
+      $form['imageapi_image_toolkit'] = array(
+        '#type' => 'radios',
+        '#title' => t('Select a default image processing toolkit'),
+        '#default_value' => imageapi_default_toolkit(),
+        '#options' => $options,
+        '#description' => t('This setting lets you choose which toolkit Drupal uses resizing, cropping and other image manipulations.'),
+      );
+  }
+
+  return system_settings_form($form);
+}
+
+/**
+ * Return a list of available toolkits.
+ *
+ * @return
+ *   An array of the enabled image toolkit modules. The module name is the key
+ *   and the value is a sub-array with the module's 'name' and 'description'.
+ */
+function imageapi_get_available_toolkits() {
+  static $toolkits;
+
+  if (!isset($toolkits)) {
+    $toolkits = array();
+    foreach (module_implements('imageapi_toolkit', TRUE) as $module) {
+      $info = drupal_parse_info_file(drupal_get_path('module', $module) .'/'. $module .'.info');
+      $toolkits[$module] = array('name' => $info['name'], 'description' => $info['description']);
+    }
+  }
+
+  return $toolkits;
+}
+
+/**
+ * Retrieve the name of the currently used toolkit.
+ *
+ * @return
+ *   String containing the name of the toolkit, or FALSE if none is available.
+ */
+function imageapi_default_toolkit() {
+  $toolkit = variable_get('imageapi_image_toolkit', 'imageapi_gd');
+  // Verify that the image toolkit is available.
+  if (isset($toolkit) && module_exists($toolkit)) {
+    return $toolkit;
+  }
+  // If it's not fall back to first available toolist.
+  foreach (imageapi_get_available_toolkits() as $toolkit => $info) {
+    return $toolkit;
+  }
+  return FALSE;
+}
+
+
+/**
+ * Invokes the given method using the currently selected toolkit.
+ *
+ * @param $method
+ *   A string containing the method to invoke.
+ * @param $image
+ *   An image object returned by imageapi_image_open().
+ * @param $params
+ *   An optional array of parameters to pass to the toolkit method.
+ * @return
+ *   Mixed values (typically Boolean indicating successful operation).
+ */
+function imageapi_toolkit_invoke($method, &$image, array $params = array()) {
+  $function = $image->toolkit . '_image_' . $method;
+  if (function_exists($function)) {
+    array_unshift($params, $image);
+    $params[0] = &$image;
+    return call_user_func_array($function, $params);
+  }
+  watchdog('imageapi', 'The selected image handling toolkit %toolkit can not correctly process %function.', array('%toolkit' => $image->toolkit, '%function' => $function), WATCHDOG_ERROR);
+  return FALSE;
+}
+
+/**
+ * Scales an image to the exact width and height given.
+ *
+ * This function achieves the target aspect ratio by cropping the original image
+ * equally on both sides, or equally on the top and bottom. This function is
+ * useful to create uniform sized avatars from larger images.
+ *
+ * The resulting image always has the exact target dimensions.
+ *
+ * @param $image
+ *   An image object returned by imageapi_image_open().
+ * @param $width
+ *   The target width, in pixels.
+ * @param $height
+ *   The target height, in pixels.
+ * @return
+ *   TRUE or FALSE, based on success.
+ */
+function imageapi_image_scale_and_crop(&$image, $width, $height) {
+  $scale = max($width / $image->info['width'], $height / $image->info['height']);
+  $x = ($image->info['width'] * $scale - $width) / 2;
+  $y = ($image->info['height'] * $scale - $height) / 2;
+
+  if (imageapi_image_resize($image, $image->info['width'] * $scale, $image->info['height'] * $scale)) {
+    return imageapi_image_crop($image, $x, $y, $width, $height);
+  }
+  return FALSE;
+}
+
+/**
+ * Scales an image to the given width and height while maintaining aspect
+ * ratio.
+ *
+ * The resulting image can be smaller for one or both target dimensions.
+ *
+ * @param $image
+ *   An image object returned by imageapi_image_open().
+ * @param $width
+ *   The target width, in pixels. This value is omitted then the scaling will
+ *   based only on the height value.
+ * @param $height
+ *   The target height, in pixels. This value is omitted then the scaling will
+ *   based only on the width value.
+ * @param $upscale
+ *   Boolean indicating that files smaller than the dimensions will be scalled
+ *   up. This generally results in a low quality image.
+ * @return
+ *   TRUE or FALSE, based on success.
+ */
+function imageapi_image_scale(&$image, $width = NULL, $height = NULL, $upscale = FALSE) {
+  $aspect = $image->info['height'] / $image->info['width'];
+
+  if ($upscale) {
+    // Set width/height according to aspect ratio if either is empty.
+    $width = !empty($width) ? $width : $height / $aspect;
+    $height = !empty($height) ? $height : $width / $aspect;
+  }
+  else {
+    // Set impossibly large values if the width and height aren't set.
+    $width = !empty($width) ? $width : 9999999;
+    $height = !empty($height) ? $height : 9999999;
+
+    // Don't scale up.
+    if (round($width) >= $image->info['width'] && round($height) >= $image->info['height']) {
+      return TRUE;
+    }
+  }
+
+  if ($aspect < $height / $width) {
+    $height = $width * $aspect;
+  }
+  else {
+    $width = $height / $aspect;
+  }
+
+  return imageapi_image_resize($image, $width, $height);
+}
+
+/**
+ * Resize an image to the given dimensions (ignoring aspect ratio).
+ *
+ * @param $image
+ *   An image object returned by imageapi_image_open().
+ * @param $width
+ *   The target width, in pixels.
+ * @param $height
+ *   The target height, in pixels.
+ * @return
+ *   TRUE or FALSE, based on success.
+ */
+function imageapi_image_resize(&$image, $width, $height) {
+  $width = (int) round($width);
+  $height = (int) round($height);
+
+  return imageapi_toolkit_invoke('resize', $image, array($width, $height));
+}
+
+/**
+ * Rotate an image by the given number of degrees.
+ *
+ * @param $image
+ *   An image object returned by imageapi_image_open().
+ * @param $degrees
+ *   The number of (clockwise) degrees to rotate the image.
+ * @param $background
+ *   An hexadecimal integer specifying the background color to use for the
+ *   uncovered area of the image after the rotation. E.g. 0x000000 for black,
+ *   0xff00ff for magenta, and 0xffffff for white. For images that support
+ *   transparency, this will default to transparent. Otherwise it will
+ *   be white.
+ * @return
+ *   TRUE or FALSE, based on success.
+ */
+function imageapi_image_rotate(&$image, $degrees, $background = NULL) {
+  return imageapi_toolkit_invoke('rotate', $image, array($degrees, $background));
+}
+
+/**
+ * Sharpen an image given some sharpening parameters.
+ *
+ * NOTE: These parameters only have an effect when Imagemagick is used.
+ *       GD will used a fixed convolution matrix as described in imageapi_gd.module
+ *
+ * @param $image
+ *   An imageapi image object returned by imageapi_image_open().
+ * @param $radius
+ *   The radius of the gaussian, in pixels, not counting the center pixel. (default 0.5)
+ * @param $sigma
+ *   The standard deviation of the gaussian, in pixels. (default 0.5)
+ * @param $amount
+ *   The percentage of the difference between the original and the blur image that is
+ *   added back into the original. (default 100)
+ * @param $threshold
+ *   The threshold, as a fraction of max RGB levels, needed to apply the difference
+ *   amount. (default 0.05)
+ * @return
+ *   True or FALSE, based on success.
+ */
+function imageapi_image_sharpen(&$image, $radius, $sigma, $amount, $threshold) {
+  return imageapi_toolkit_invoke('sharpen', $image, array($radius, $sigma, $amount, $threshold));
+}
+
+/**
+ * Crop an image to the rectangle specified by the given rectangle.
+ *
+ * @param $image
+ *   An image object returned by imageapi_image_open().
+ * @param $x
+ *   The top left coordinate, in pixels, of the crop area (x axis value).
+ * @param $y
+ *   The top left coordinate, in pixels, of the crop area (y axis value).
+ * @param $width
+ *   The target width, in pixels.
+ * @param $height
+ *   The target height, in pixels.
+ * @return
+ *   TRUE or FALSE, based on success.
+ */
+function imageapi_image_crop(&$image, $x, $y, $width, $height) {
+  $aspect = $image->info['height'] / $image->info['width'];
+  if (empty($height)) $height = $width / $aspect;
+  if (empty($width)) $width = $height * $aspect;
+
+  $width = (int) round($width);
+  $height = (int) round($height);
+
+  return imageapi_toolkit_invoke('crop', $image, array($x, $y, $width, $height));
+}
+
+/**
+ * Convert an image to grayscale.
+ *
+ * @param $image
+ *   An image object returned by imageapi_image_open().
+ * @return
+ *   TRUE or FALSE, based on success.
+ */
+function imageapi_image_desaturate(&$image) {
+  return imageapi_toolkit_invoke('desaturate', $image);
+}
+
+/**
+ * Open an image file and return an image object.
+ *
+ * Any changes to the file are not saved until imageapi_image_close() is called.
+ *
+ * @param $file
+ *   Path to an image file.
+ * @param $toolkit
+ *   An optional, image toolkit name to override the default.
+ * @return
+ *   An image object or FALSE if there was a problem loading the file. The
+ *   image object has the following properties:
+ *    - 'source' - The original file path.
+ *    - 'info' - The array of information returned by image_get_info()
+ *    - 'toolkit' - The name of the image toolkit requested when the image was
+ *      loaded.
+ *   Image tookits may add additional properties. The caller is advised not to
+ *   monkey about with them.
+ */
+function imageapi_image_open($file, $toolkit = FALSE) {
+  if (!$toolkit) {
+    $toolkit = imageapi_default_toolkit();
+  }
+  if ($toolkit) {
+    $image = new stdClass();
+    $image->source = $file;
+    $image->info = image_get_info($file);
+    $image->toolkit = $toolkit;
+    if (imageapi_toolkit_invoke('open', $image)) {
+      return $image;
+    }
+  }
+  return FALSE;
+}
+
+/**
+ * Close the image and save the changes to a file.
+ *
+ * @param $image
+ *   An image object returned by imageapi_image_open(). The object's 'info'
+ *   property will be updated if the file is saved successfully.
+ * @param $destination
+ *   Destination path where the image should be saved. If it is empty the
+ *   original image file will be overwritten.
+ * @return
+ *   TRUE or FALSE, based on success.
+ */
+function imageapi_image_close($image, $destination = NULL) {
+  if (empty($destination)) {
+    $destination = $image->source;
+  }
+  if ($return = imageapi_toolkit_invoke('close', $image, array($destination))) {
+    // Clear the cached file size and refresh the image information.
+    clearstatcache();
+    $image->info = image_get_info($destination);
+
+    if (@chmod($destination, 0664)) {
+      return $return;
+    }
+    watchdog('imageapi', 'Could not set permissions on destination file: %file', array('%file' => $destination));
+  }
+  return FALSE;
+}
+
+
+/**
+ * Convert a hex string to its RGBA (Red, Green, Blue, Alpha) integer
+ * components.
+ *
+ * @param $hex
+ *   A string specifing an RGB color in the formats:
+ *   '#ABC','ABC','#ABCD','ABCD','#AABBCC','AABBCC','#AABBCCDD','AABBCCDD'
+ * @return
+ *   An array with four elements for red, green, blue, and alpha.
+ */
+function imageapi_hex2rgba($hex) {
+  $hex = ltrim($hex, '#');
+  if (preg_match('/^[0-9a-f]{3}$/i', $hex)) {
+    // 'FA3' is the same as 'FFAA33' so r=FF, g=AA, b=33
+    $r = str_repeat($hex{0}, 2);
+    $g = str_repeat($hex{1}, 2);
+    $b = str_repeat($hex{2}, 2);
+    $a = '0';
+  }
+  elseif (preg_match('/^[0-9a-f]{6}$/i', $hex)) {
+    // #FFAA33 or r=FF, g=AA, b=33
+    list($r, $g, $b) = str_split($hex, 2);
+    $a = '0';
+  }
+  elseif (preg_match('/^[0-9a-f]{8}$/i', $hex)) {
+    // #FFAA33 or r=FF, g=AA, b=33
+    list($r, $g, $b, $a) = str_split($hex, 2);
+  }
+  elseif (preg_match('/^[0-9a-f]{4}$/i', $hex)) {
+    // 'FA37' is the same as 'FFAA3377' so r=FF, g=AA, b=33, a=77
+    $r = str_repeat($hex{0}, 2);
+    $g = str_repeat($hex{1}, 2);
+    $b = str_repeat($hex{2}, 2);
+    $a = str_repeat($hex{3}, 2);
+  }
+  else {
+    //error: invalide hex string, TODO: set form error..
+    return FALSE;
+  }
+
+  $r = hexdec($r);
+  $g = hexdec($g);
+  $b = hexdec($b);
+  $a = hexdec($a);
+  return array($r, $g, $b, $a);
+}
+

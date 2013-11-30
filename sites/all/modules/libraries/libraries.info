@@ -1,0 +1,11 @@
+; $Id: libraries.info,v 1.1.2.1 2011/01/27 02:07:03 sun Exp $
+name = Libraries
+description = Allows version dependent and shared usage of external libraries.
+core = 6.x
+
+; Information added by drupal.org packaging script on January 1, 1970 - 00:00
+version = "6.x-1.0"
+core = "6.x"
+project = "libraries"
+datestamp = "1296096157"
+

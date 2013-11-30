@@ -1,0 +1,1370 @@
+# $Id: ja.po,v 1.1.2.3 2009/10/02 03:43:11 pineray Exp $
+# -----------------------------------------------------------------------------
+# Japanese translation of Drupal (modules-lightbox2)
+#
+# Copyright (c) 2006-2008  Drupal Japan  ( http://drupal.jp/ )  /
+#                          Takafumi      ( jp.drupal@imagine **reverse order**)
+#                          PineRay       ( com.gmail@matsudaterutaka **reverse order**)
+#
+# Generated from file:
+#  lightbox2.module,v 1.16.2.16.2.154 2009/09/13 23:34:49 snpower
+#  lightbox2.info,v 1.1.6.4 2008/07/14 11:51:34 snpower
+#
+# -----------------------------------------------------------------------------
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2008-04-05 14:45+0900\n"
+"Last-Translator: Takafumi <jp.drupal@imagine **reverse order**>\n"
+"Language-Team: Drupal Japan\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+
+#: lightbox2.admin.inc:26
+msgid "View Image Details"
+msgstr "イメージの詳細を表示"
+
+#: lightbox2.admin.inc:26
+msgid "Image !current of !total"
+msgstr "イメージ  !current / !total"
+
+#: lightbox2.admin.inc:26
+msgid "Page !current of !total"
+msgstr "ページ !current / !total"
+
+#: lightbox2.admin.inc:26
+msgid "Video !current of !total"
+msgstr "ビデオ !current / !total"
+
+#: lightbox2.admin.inc:26
+msgid "Download Original"
+msgstr "オリジナルのダウンロード"
+
+#: lightbox2.admin.inc:32
+msgid "Layout settings"
+msgstr "レイアウトの設定"
+
+#: lightbox2.admin.inc:42
+msgid "Lightbox2 lite"
+msgstr ""
+
+#: lightbox2.admin.inc:50
+msgid "Use lightbox2 lite"
+msgstr "lightbox2 lite を使用"
+
+#: lightbox2.admin.inc:51
+msgid "Checking this box will enable Lightbox2 Lite and will disable all of the automatic image URL re-formatting features.  It also disables all grouping features."
+msgstr "このチェックボックスにチェックを入れると、Lightbox2 Liteが有効となり、画像のフォーマットを自動的に変更する機能がすべて無効となります。また、グループ化の機能も無効となります。"
+
+#: lightbox2.admin.inc:59
+msgid "Use alternative layout"
+msgstr "代替レイアウトを使用"
+
+#: lightbox2.admin.inc:60
+msgid "Enabling this option alters the layout of the lightbox elements. In the alternative layout the navigational links appear under the image with the caption text, instead of being overlayed on the image itself.  This doesn't apply when using Lightbox Lite."
+msgstr "このオプションを有効にすると、lightboxエレメントのレイアウトが変わります。代替レイアウトでは、ナビゲーションリンクが画像にかぶさる形ではなく、画像とキャプションの下に表示されます。Lightbox Liteを使用している場合は影響がありません。"
+
+#: lightbox2.admin.inc:67
+msgid "Force visibility of navigation links"
+msgstr "強制的にナビゲーションリンクを表示"
+
+#: lightbox2.admin.inc:68
+msgid "When viewing grouped images, the navigational links to the next and previous images are only displayed when you hover over the image.  Checking this box forces these links to be displayed all the time."
+msgstr "グループ化された画像を表示する際、常にナビゲーションリンクを表示するかどうかを指定してください。 ここにチェックを入れると、通常は画像にマウスカーソルを重ねた際にのみ表示される前後へのリンクを、強制的に表示します。"
+
+#: lightbox2.admin.inc:75
+msgid "Continuous galleries"
+msgstr "連続したギャラリー"
+
+#: lightbox2.admin.inc:76
+msgid "When viewing grouped images, the Next button on the last image will display the first image, while the Previous button on the first image will display the last image."
+msgstr "グループ化された画像を表示しているとき、最後の画像の次へボタンを押すと最初の画像が表示され、最初の画像の前へボタンを押すと最後の画像が表示されます。"
+
+#: lightbox2.admin.inc:83
+msgid "Open image page in new window"
+msgstr "イメージページを新しいウィンドウで開く"
+
+#: lightbox2.admin.inc:84
+msgid "This controls whether the link to the image page underneath the image is opened in a new window or the current window."
+msgstr "イメージページを新しいウィンドウで開くかどうかを指定してください。 チェックを入れない場合、イメージページは現在のページで開かれます。"
+
+#: lightbox2.admin.inc:92
+msgid "Text for image page link"
+msgstr "イメージページへのリンクの文字列"
+
+#: lightbox2.admin.inc:93
+msgid "This is the text that will appear as the link to the image page underneath the image in the lightbox.  Leave this blank for the link not to appear."
+msgstr "lightboxで画像の下に表示されるイメージページへのリンクの文字列です。空欄にすると、リンクが表示されません。"
+
+#: lightbox2.admin.inc:100
+msgid "Text for image original link"
+msgstr "オリジナルの画像へのリンクの文字列"
+
+#: lightbox2.admin.inc:101
+msgid "This is the text that will appear as the link to the original file underneath the image in the lightbox.  Leave this blank for the link not to appear.  It will only appear for images uploaded via the \"image\" or \"imagefield\" modules.  Users will need the \"download original image\" permission, but also the \"view original images\" permission if using the \"image\" module."
+msgstr "lightboxで画像の下に表示されるオリジナルの画像へのリンクの文字列です。空欄にすると、リンクが表示されません。「image」または「imagefield」モジュールによってアップロードされた画像にのみ表示されます。ユーザーには「オリジナルの画像をダウンロード」権限が必要で、「image」モジュールを使用している場合には「オリジナルの画像を表示」権限も必要となります。"
+
+#: lightbox2.admin.inc:109
+msgid "Image count text"
+msgstr "画像のカウントテキスト"
+
+#: lightbox2.admin.inc:110
+msgid "This text is used to display the image count underneath the image in the lightbox when image grouping is enabled.  Use !current as a placeholder for the number of the current image and !total for the total number of images in the group.  For example, \"Image !current of !total\".  Leave blank for text not to appear."
+msgstr "画像のグループ化が有効である場合に、lightboxの画像の下にあるカウントでこのテキストを使用します。現在の画像の番号を表すプレースホルダーとして !current を使用し、グループにある画像の総数を表すのに !total を使用します。例) 「イメージ !current / !total」。空欄にすると文字列が非表示となります。"
+
+#: lightbox2.admin.inc:117
+msgid "Page count text"
+msgstr "ページのカウントテキスト"
+
+#: lightbox2.admin.inc:118
+msgid "This text is used to display the page count underneath HTML content displayed in the lightbox when using groups.  Use !current as a placeholder for the number of the current page and !total for the total number of pages in the group.  For example, \"Page !current of !total\".  Leave blank for text not to appear."
+msgstr "グループ化している場合に、lightboxのHTMLコンテンツの下にあるページカウントでこのテキストを使用します。現在のページの番号を表すプレースホルダーとして !current を使用し、グループにあるページの総数を表すのに !total を使用します。例) 「ページ !current / !total」。空欄にすると文字列が非表示となります。"
+
+#: lightbox2.admin.inc:125
+msgid "Video count text"
+msgstr "ビデオのカウントテキスト"
+
+#: lightbox2.admin.inc:126
+msgid "This text is used to display the count underneath video content displayed in the lightbox when using groups.  Use !current as a placeholder for the number of the current video and !total for the total number of videos in the group.  For example, \"Video !current of !total\".  Leave blank for text not to appear."
+msgstr "グループ化している場合に、lightboxのビデオの下にあるカウントでこのテキストを使用します。現在のビデオの番号を表すプレースホルダーとして !current を使用し、グループにあるビデオの総数を表すのに !total を使用します。例) 「ビデオ !current / !total」。空欄にすると文字列が非表示となります。"
+
+#: lightbox2.admin.inc:134
+msgid "Image resize settings"
+msgstr "画像リサイズの設定"
+
+#: lightbox2.admin.inc:142
+msgid "Disable resizing feature"
+msgstr "リサイズ機能を無効化"
+
+#: lightbox2.admin.inc:143
+msgid "By default, when the image being displayed in the lightbox is larger than the browser window, it is resized to fit within the window and a zoom button is provided for users who wish to view the image in its original size.  Checking this box will disable this feature and all images will be displayed without any resizing."
+msgstr "ズーム機能を無効にするかどうかを指定してください。 デフォルトでは、ブラウザウィンドウより大きなイメージがlightboxで表示される際、ウィンドウに収まるようにリサイズされ、オリジナルイメージが表示できるズームボタンが提供されます。 ここにチェックを入れると、この機能が無効となり、すべてのイメージはリサイズされずに表示されます。"
+
+#: lightbox2.admin.inc:150
+msgid "Disable zoom in / out feature"
+msgstr "ズームイン / アウト機能を無効化"
+
+#: lightbox2.admin.inc:151
+msgid "When the image being displayed in the lightbox is resized to fit in the browser window, a \"zoom in\" button is shown.  This allows the user to zoom in to see the original full size image.  They will then see a \"zoom out\" button which will allow them to see the smaller resized version.  Checking this box will prevent these buttons from appearing."
+msgstr "lightboxに表示される画像がブラウザーウィンドウに合わせてリサイズされるとき、「ズームイン」ボタンが表示されます。このボタンを押すと、オリジナルイメージがフルサイズで表示されます。その際、リサイズされた小さなバージョンを表示するための「ズームアウト」ボタンが表示されます。このチェックボックスが有効であれば、これらのボタンが表示されなくなります。"
+
+#: lightbox2.admin.inc:159
+msgid "Modal form settings"
+msgstr "モーダルフォームの設定"
+
+#: lightbox2.admin.inc:167
+msgid "Enable login support"
+msgstr "ログインのサポートを有効化"
+
+#: lightbox2.admin.inc:168
+msgid "Enabling this option will modify all login links so that the login form appears in a lightbox."
+msgstr "このオプションを有効にすると、すべてのログインリンクが変更され、ログインフォームがlightboxで表示されるようになります。"
+
+#: lightbox2.admin.inc:175
+msgid "Enable contact form support"
+msgstr "コンタクトフォームのサポートを有効化"
+
+#: lightbox2.admin.inc:176
+msgid "Enabling this option will modify all contact links so that the contact form appears in a lightbox."
+msgstr "このオプションを有効にすると、すべてのコンタクトリンクが変更され、コンタクトフォームがlightboxで表示されるようになります。"
+
+#: lightbox2.admin.inc:184
+msgid "Video settings"
+msgstr "ビデオの設定"
+
+#: lightbox2.admin.inc:192
+msgid "Enable video support"
+msgstr "ビデオのサポートを有効化"
+
+#: lightbox2.admin.inc:193
+msgid "By default, video support is disabled in order to reduce the amount of javascript needed.  Checking this box will enable it."
+msgstr "デフォルトでは、読み込むjavascriptの量を減らすためにビデオのサポートは無効となっています。チェックボックスにチェックを入れると有効となります。"
+
+#: lightbox2.admin.inc:200
+msgid "Path to FLV Player"
+msgstr "FLVプレイヤーへのパス"
+
+#: lightbox2.admin.inc:201
+msgid "The path to the FLV player, relative to Drupal root directory."
+msgstr "FLVプレイヤーへのパスを、Drupalのルートディレクトリからの相対パスで入力してください。"
+
+#: lightbox2.admin.inc:208
+msgid "FLV Player flashvars"
+msgstr "FLVプレイヤーへ渡すFlashVars"
+
+#: lightbox2.admin.inc:209
+msgid "Flashvars for the FLV Player where supported, e.g. \"autoplay=1&playerMode=normal\"."
+msgstr "FLVプレイヤーへ渡すFlashVarsを入力してください。例) \"autoplay=1&playerMode=normal\""
+
+#: lightbox2.admin.inc:216
+msgid "Page specific lightbox2 settings"
+msgstr "ページ指定の設定"
+
+#: lightbox2.admin.inc:223
+msgid "Load only on the listed pages."
+msgstr "リストに記載したページでのみ読み込む"
+
+#: lightbox2.admin.inc:224
+msgid "Load on every page except the listed pages."
+msgstr "リストに記載したページ以外のすべてのページで読み込む"
+
+#: lightbox2.admin.inc:229
+msgid "Enable lightbox2 on specific pages"
+msgstr "指定のページでlightbox2を有効化"
+
+#: lightbox2.admin.inc:235
+msgid "Pages"
+msgstr "ページ"
+
+#: lightbox2.admin.inc:236
+msgid "List one page per line as Drupal paths.  The * character is a wildcard.  Example paths are \"node/add/page\" and \"node/add/*\".  Use &lt;front&gt; to match the front page."
+msgstr "1行に1ページとして、Drupalパスを入力してください。 * はワイルドカードとして使えます。例えば「node/add/page」や「node/add/*」と入力してください。また、フロントページを指定するには &lt;front&gt; と入力してください。"
+
+#: lightbox2.admin.inc:245
+msgid "CCK display settings"
+msgstr "CCKの表示設定"
+
+#: lightbox2.admin.inc:251
+msgid "No grouping"
+msgstr "グループ化なし"
+
+#: lightbox2.admin.inc:252
+msgid "Group by field name"
+msgstr "フィールド名でグループ化"
+
+#: lightbox2.admin.inc:253
+msgid "Group by node id"
+msgstr "ノードIDでグループ化"
+
+#: lightbox2.admin.inc:254
+msgid "Group by field name and node id"
+msgstr "フィールド名とノードIDでグループ化"
+
+#: lightbox2.admin.inc:261
+msgid "Select Emfield Image grouping in Views"
+msgstr "Viewsでグループ化するEmfield Imageを選択"
+
+#: lightbox2.admin.inc:262
+msgid "By default, emfield images in views are grouped by the field name they appear in the view in.  You can override that grouping here."
+msgstr "デフォルトでは、ビューに表示されるフィールド名でemfieldイメージはグループ化されます。ここでグループ分けを変更することができます。"
+
+#: lightbox2.admin.inc:272
+msgid "Select Imagefield grouping in Views"
+msgstr "Viewsでグループ化するImagefieldを選択"
+
+#: lightbox2.admin.inc:273
+msgid "By default, imagefields in views are grouped by the field name they appear in the view in.  You can override that grouping here."
+msgstr "デフォルトでは、ビューに表示されるフィールド名でimagefieldはグループ化されています。ここでグループ分けを変更することができます。"
+
+#: lightbox2.admin.inc:279
+msgid "Use node title as caption"
+msgstr "ノードのタイトルをキャプションとして使用"
+
+#: lightbox2.admin.inc:280
+msgid "By default, the caption for imagefields is the image title text configured.  If no title is configured, then the alt text will be used.  This option allows you to override that and always display the node title as the image caption."
+msgstr "デフォルトでは、imagefieldのキャプションは画像のタイトルテキストで、タイトルが設定されていない場合にはaltテキストが用いられます。このオプションによって、その動作を上書きし、ノードのタイトルを画像のキャプションとして常に表示することができます。"
+
+#: lightbox2.admin.inc:291
+msgid "Advanced settings"
+msgstr "拡張設定"
+
+#: lightbox2.admin.inc:301
+msgid "Location of javscript"
+msgstr "javascriptの位置"
+
+#: lightbox2.admin.inc:302
+msgid "Header"
+msgstr "ヘッダ"
+
+#: lightbox2.admin.inc:302
+msgid "Footer"
+msgstr "フッタ"
+
+#: lightbox2.admin.inc:303
+msgid "By default, the lightbox javascript files are loaded in the HTML header.  However, for sites using SWFObject to load their Flash content, the footer setting is recommended to prevent \"Operation Aborted\" errors in IE.  If using the footer setting, please note that not all themes correctly implement the footer region and may require a small change."
+msgstr "HTML内でjavascriptが読み込まれる位置を指定してください。 デフォルトでは、lightboxのjavascriptファイルはHTMLヘッダで読み込まれます。 しかし、Flashコンテンツを読み込むためにサイトで SWFObject を使用している場合、IEの \"Operation Aborted\" エラーを防ぐためにフッタに設定することを推奨します。 フッタに設定する場合、すべてのテーマがフッタ領域を正しく実装しているとは限らず、若干の変更が必要になるかもしれないことに注意してください。"
+
+#: lightbox2.admin.inc:309
+msgid "Click on overlay or lightbox to close it"
+msgstr "オーバーレイまたはlightboxをクリックして閉じる"
+
+#: lightbox2.admin.inc:310
+msgid "Enable user to close lightbox by clicking on the lightbox itself or the overlay background."
+msgstr "lightboxそのものやオーバーレイの背景をクリックしてlightboxを閉じることができるようになります。"
+
+#: lightbox2.admin.inc:318
+msgid "Keyboard shortcuts"
+msgstr "キーボードショートカット"
+
+#: lightbox2.admin.inc:319
+msgid "Configure the keyboard shortcuts for controlling the lightbox.  These options do not apply to the Lightbox2 Lite version, which uses the default \"Close keys\" (c, x and esc) to close the lightbox."
+msgstr "lightboxを操作するキーボードショートカットを設定します。Lightbox2 Lite はこれらのオプションに影響されず、lightboxを閉じるデフォルトの「閉じるキー」 (c、x、esc) だけが使用できます。"
+
+#: lightbox2.admin.inc:326
+msgid "Close keys"
+msgstr "閉じる キー"
+
+#: lightbox2.admin.inc:327
+msgid "A list of keys (or key codes) that a user may use to close the lightbox. Values should be separated by a space. Defaults to 'c x 27' (c, x, or esc)."
+msgstr "lightboxを閉じるキー (またはキーコード) の一覧。各キーは半角スペースで区切ってください。デフォルトは「c x 27」 (c、x、または esc) です。"
+
+#: lightbox2.admin.inc:333
+msgid "Previous keys"
+msgstr "前へ キー"
+
+#: lightbox2.admin.inc:334
+msgid "A list of keys (or key codes) that a user may use to navigate to the previous item in the lightbox. Values should be separated by a space. Defaults to 'p 37' (p or left arrow)."
+msgstr "lightboxの前のアイテムへ移動するキー (またはキーコード) の一覧。各キーは半角スペースで区切ってください。デフォルトは「p 37」 (p、または左) です。"
+
+#: lightbox2.admin.inc:340
+msgid "Next keys"
+msgstr "次へ キー"
+
+#: lightbox2.admin.inc:341
+msgid "A list of keys (or key codes) that a user may use to navigate to the next item in the lightbox. Values should be separated by a space. Defaults to 'n 39' (n or right arrow)."
+msgstr "lightboxの次のアイテムへ移動するキー (またはキーコード) の一覧。各キーは半角スペースで区切ってください。デフォルトは「n 39」 (n、または右) です。"
+
+#: lightbox2.admin.inc:347
+msgid "Zoom keys"
+msgstr "ズーム　キー"
+
+#: lightbox2.admin.inc:348
+msgid "A list of keys (or key codes) that a user may use to zoom in / out of images in the lightbox. Values should be separated by a space. Defaults to 'z'."
+msgstr "lightboxで表示されている画像をズームイン / アウトするキー (またはキーコード) の一覧。各キーは半角スペースで区切ってください。デフォルトは「z」です。"
+
+#: lightbox2.admin.inc:354
+msgid "Pause / play keys"
+msgstr "停止 / 再生 キー"
+
+#: lightbox2.admin.inc:355
+msgid "A list of keys (or key codes) that a user may use to pause / play the lightbox. Values should be separated by a space. Defaults to '32' (spacebar)."
+msgstr "lightboxを停止 / 再生するキー (またはキーコード) の一覧。各キーは半角スペースで区切ってください。デフォルトは「32」 (スペースバー) です。"
+
+#: lightbox2.admin.inc:366
+msgid "Skin settings"
+msgstr "スキンの設定"
+
+#: lightbox2.admin.inc:373
+msgid "Border size"
+msgstr "線の太さ"
+
+#: lightbox2.admin.inc:376
+msgid "Enter the size of the border in pixels to display around the image."
+msgstr "画像の周りに表示する線の太さをピクセル単位で入力してください。"
+
+#: lightbox2.admin.inc:382
+msgid "Lightbox color"
+msgstr "Lightboxのカラー"
+
+#: lightbox2.admin.inc:386
+msgid "Enter a hexadecimal color value for the border.  For example <code>fff</code> or <code>ffffff</code> for white)."
+msgstr "線の色を16進数で入力してください。例） 白なら <code>fff</code> または <code>ffffff</code>"
+
+#: lightbox2.admin.inc:392
+msgid "Font color"
+msgstr "フォントのカラー"
+
+#: lightbox2.admin.inc:396
+msgid "Enter a hexadecimal color value for the font.  For example <code>000</code> or <code>000000</code> for black)."
+msgstr "フォントの色を16進数で入力してください。例） 黒なら <code>000</code> または <code>000000</code>"
+
+#: lightbox2.admin.inc:402
+msgid "Distance from top"
+msgstr "トップからの距離"
+
+#: lightbox2.admin.inc:405
+msgid "Enter the position of the top of the lightbox in pixels.  Leave blank for automatic calculation."
+msgstr "lightboxのトップの位置をピクセルで入力します。自動的に計算する場合は空欄にします。"
+
+#: lightbox2.admin.inc:415
+msgid "Overlay settings"
+msgstr "オーバーレイの設定"
+
+#: lightbox2.admin.inc:426
+msgid "Overlay opacity"
+msgstr "オーバーレイの透明度"
+
+#: lightbox2.admin.inc:428
+msgid "The overlay opacity setting determines how visible the background page is behind the lightbox.  The opacity value can range from 0.0 to 1.0 where 0.0 is 100% transparent and 1.0 is 100% opaque."
+msgstr "オーバーレイの透明度の設定によって、lightboxの背景ページがどれくらい見えるのか決定されます。透明度は 0.0 から 1.0 までの範囲で、0.0 であれば完全に透明となり、1.0 であれば完全に不透明となります。"
+
+#: lightbox2.admin.inc:434
+msgid "Overlay color"
+msgstr "オーバーレイのカラー"
+
+#: lightbox2.admin.inc:438
+msgid "Enter a hexadecimal color value for the overlay.  For example <code>000</code> or <code>000000</code> for black)."
+msgstr "オーバーレイの色を16進数で入力してください。例） 黒なら <code>000</code> または <code>000000</code>"
+
+#: lightbox2.admin.inc:447
+msgid "Animation settings"
+msgstr "アニメーションの設定"
+
+#: lightbox2.admin.inc:453
+msgid "These options aren't available when using Lightbox2 Lite."
+msgstr "Lightbox2 Lite 使用時は、これらのオプションを利用できません。"
+
+#: lightbox2.admin.inc:456
+msgid "Simultaneous"
+msgstr "同時"
+
+#: lightbox2.admin.inc:457
+msgid "Width then height"
+msgstr "横幅の後に高さ"
+
+#: lightbox2.admin.inc:458
+msgid "Height then width"
+msgstr "高さの後に横幅"
+
+#: lightbox2.admin.inc:462
+msgid "Resize sequence"
+msgstr "リサイズの順序"
+
+#: lightbox2.admin.inc:464
+msgid "The sequence to use for the resizing animation."
+msgstr "リサイズアニメーションで使用する順序。"
+
+#: lightbox2.admin.inc:469
+msgid "Resize duration"
+msgstr "リサイズの時間"
+
+#: lightbox2.admin.inc:472
+msgid "The duration (in seconds) of the resizing animation.  Enter a value between 0 and 10."
+msgstr "リサイズアニメーションの時間（秒）。0 から 10 までの値を入力してください。"
+
+#: lightbox2.admin.inc:477
+msgid "Appearance duration"
+msgstr "出現時間"
+
+#: lightbox2.admin.inc:480
+msgid "The duration (in seconds) of the lightbox appearance animation.  Enter a value between 0 and 10."
+msgstr "lightboxの出現アニメーションの時間（秒）。0 から 10 までの値を入力してください。"
+
+#: lightbox2.admin.inc:487
+msgid "Caption slide down duration"
+msgstr "キャプションのスライドダウンの時間"
+
+#: lightbox2.admin.inc:490
+msgid "The duration (in seconds) of the caption sliding-down animation.  Enter a value between 0 and 10."
+msgstr "キャプションのスライドダウンアニメーションの時間（秒）。0 から 10 までの値を入力してください。"
+
+#: lightbox2.admin.inc:520
+msgid "FLV player path doesn't exist."
+msgstr "FLVプレイヤーのパスが存在しません。"
+
+#: lightbox2.admin.inc:526;535;539
+msgid "You must enter a properly formed hex value."
+msgstr "16進数の値を正しい書式で入力してください。"
+
+#: lightbox2.admin.inc:531
+msgid "You must enter a size greater than 0 pixels."
+msgstr "サイズには0ピクセルより大きな値を入力してください。"
+
+#: lightbox2.admin.inc:543
+msgid "You must enter a size greater than 0 pixels.  Leave blank for default positioning."
+msgstr "0ピクセルより大きな値を入力してください。デフォルトのポジショニングを使用する場合は空欄にします。"
+
+#: lightbox2.admin.inc:547;551;555
+msgid "You must enter a duration between 0 and 10 seconds."
+msgstr "0 から 10 秒までの間で時間を入力してください。"
+
+#: lightbox2.admin.inc:586
+msgid "Interval seconds"
+msgstr "間隔"
+
+#: lightbox2.admin.inc:587
+msgid "The slideshow interval is the length of time in seconds an image is visible before the slideshow shows the next image."
+msgstr "スライドショーの間隔は、スライドショーが次の画像を表示するまでの秒数です。"
+
+#: lightbox2.admin.inc:595
+msgid "Automatically start slideshow"
+msgstr "スライドショーを自動的に開始"
+
+#: lightbox2.admin.inc:596
+msgid "When enabled the slideshow will automatically start."
+msgstr "有効であれば、スライドショーが自動的に開始されます。"
+
+#: lightbox2.admin.inc:603
+msgid "Automatically exit slideshow"
+msgstr "スライドショーを自動的に終了"
+
+#: lightbox2.admin.inc:604
+msgid "When enabled the lightbox will automatically close after displaying the last image."
+msgstr "有効であれば、最後の画像を表示した後にlightboxが自動的に閉じます。"
+
+#: lightbox2.admin.inc:611
+msgid "Show play / pause button"
+msgstr "再生 / 停止ボタンを表示"
+
+#: lightbox2.admin.inc:612
+msgid "When enabled, a play / pause button will be shown in the slideshow allowing the user more control over their viewing experience."
+msgstr "有効であれば、再生 / 停止ボタンがスライドショーに表示され、表示をコントロールできるようになります。"
+
+#: lightbox2.admin.inc:619
+msgid "Pause slideshow on \"Next Image\" click"
+msgstr "「次の画像」クリックでスライドショーを停止"
+
+#: lightbox2.admin.inc:620
+msgid "When enabled the slideshow is automatically paused, and the following image shown, when the \"Next\" button is clicked."
+msgstr "スライドショーの自動停止が有効であれば、「次へ」ボタンをクリックすると次の画像が表示されます。"
+
+#: lightbox2.admin.inc:627
+msgid "Pause slideshow on \"Previous Image\" click"
+msgstr "「前の画像」クリックでスライドショーを停止"
+
+#: lightbox2.admin.inc:628
+msgid "When enabled the slideshow is automatically paused, and the previous image shown, when the \"Previous\" button is clicked."
+msgstr "スライドショーの自動停止が有効であれば、「前へ」ボタンをクリックすると前の画像が表示されます。"
+
+#: lightbox2.admin.inc:635
+msgid "Continuous loop"
+msgstr "連続ループ"
+
+#: lightbox2.admin.inc:636
+msgid "When enabled the slideshow will automatically start over after displaying the last slide.  This prevents the slideshow from automatically exiting when enabled."
+msgstr "最後のスライドショーを表示した後で自動的にスライドショーを再スタートする場合。このオプションが有効であれば、自動的に終了しなくなります。"
+
+#: lightbox2.admin.inc:650
+msgid "The \"interval seconds\" value must be numeric."
+msgstr "「間隔」には数字を入力してください。"
+
+#: lightbox2.admin.inc:672
+msgid "Default width"
+msgstr "デフォルトの横幅"
+
+#: lightbox2.admin.inc:673
+msgid "The default width of the iframe in pixels."
+msgstr "iframeのデフォルトの横幅をピクセル単位で指定してください。"
+
+#: lightbox2.admin.inc:681
+msgid "Default height"
+msgstr "デフォルトの高さ"
+
+#: lightbox2.admin.inc:682
+msgid "The default height of the iframe in pixels."
+msgstr "iframeのデフォルトの高さをピクセル単位で指定してください。"
+
+#: lightbox2.admin.inc:690
+msgid "Enable border"
+msgstr "線を有効化"
+
+#: lightbox2.admin.inc:691
+msgid "Enable iframe border.  You can modify the border style in your theme's css file using the iframe's id \"lightboxFrame\"."
+msgstr "iframeの線を有効にします。テーマのCSSファイルでiframeのID「lightboxFrame」を指定して線のスタイルを変更することができます。"
+
+#: lightbox2.admin.inc:705
+msgid "The \"default width\" value must be numeric."
+msgstr "「デフォルトの横幅」には数字を入力してください。"
+
+#: lightbox2.admin.inc:708
+msgid "The \"default height\" value must be numeric."
+msgstr "「デフォルトの高さ」には数字を入力してください。"
+
+#: lightbox2.admin.inc:728
+msgid "Disabled"
+msgstr "無効"
+
+#: lightbox2.admin.inc:729
+#: lightbox2.views.inc:14;21
+msgid "Lightbox"
+msgstr ""
+
+#: lightbox2.admin.inc:730
+msgid "Lightbox grouped"
+msgstr "グループ化されたLightbox"
+
+#: lightbox2.admin.inc:731
+#: lightbox2.module:72;176
+msgid "Slideshow"
+msgstr "スライドショー"
+
+#: lightbox2.admin.inc:732
+msgid "HTML content"
+msgstr "HTMLコンテンツ"
+
+#: lightbox2.admin.inc:733
+msgid "HTML content grouped"
+msgstr "グループ化されたHTMLコンテンツ"
+
+#: lightbox2.admin.inc:738
+msgid "These options allow automatic URL re-formatting of images.  This removes the need for you to add 'rel=\"lightbox\"' to each image link throughout your site.  You can select which image sizes will trigger the lightbox and configure a list of image CSS classes which should also have their URLs automatically re-formatted.  This feature is not available when using Lightbox2 Lite."
+msgstr "これらのオプションで、画像のURLを自動変換することができます。サイト全体の画像リンクすべてに「rel=\"lightbox\"」と追加する必要がなくなります。どの画像サイズでlightboxが起動するか選択でき、自動変換するURLに含ませるCSSクラスのリストを設定することができます。Lightbox2 Liteを使用している場合は、この機能を利用できません。"
+
+#: lightbox2.admin.inc:745
+msgid "Automatic handlers"
+msgstr "自動ハンドラー"
+
+#: lightbox2.admin.inc:754
+msgid "Image node settings"
+msgstr "Imageノードの設定"
+
+#: lightbox2.admin.inc:762
+msgid "Automatic handler for image nodes"
+msgstr "Imageノードに適用する自動ハンドラー"
+
+#: lightbox2.admin.inc:764
+msgid "Choose how URLs for image nodes will be automatically handled."
+msgstr "ImageノードのURLへ自動で追加するハンドラーを選択してください。"
+
+#: lightbox2.admin.inc:779
+msgid "Lightbox image display size"
+msgstr "Lightboxイメージの表示サイズ"
+
+#: lightbox2.admin.inc:782
+msgid "Select which image size will be loaded in the lightbox.  This only applies to images uploaded with the Image module."
+msgstr "lightboxに読み込まれるイメージサイズを指定してください。 これはImageモジュールでアップロードされたイメージにのみ適用されます。"
+
+#: lightbox2.admin.inc:788
+msgid "Image trigger size"
+msgstr "イメージのトリガサイズ"
+
+#: lightbox2.admin.inc:791
+msgid "Select which image size, when clicked on, will automatically trigger the lightbox.  This only applies to images uploaded with the Image module."
+msgstr "クリックしたときにlightboxのトリガとなる、イメージサイズを指定してください。 これはImageモジュールでアップロードされたイメージにのみ適用されます。"
+
+#: lightbox2.admin.inc:799
+msgid "Disable lightbox for gallery lists"
+msgstr "ギャラリーリストでlightboxを無効化"
+
+#: lightbox2.admin.inc:800
+msgid "Checking this box will disable the lightbox for images in gallery lists.  This means it is possible to open a gallery by clicking on the teaser image, but the lightbox will still appear when viewing images within the gallery.  This only applies to image galleries created with the \"image gallery\" module."
+msgstr "ギャラリーリストのイメージでlightboxを無効にするかどうかを指定してください。 ここにチェックを入れると無効となり、ティーザーのイメージをクリックしてギャラリーを開くことが可能になります。 ただし、ギャラリー内のイメージを表示する際にはlightboxが現れます。 これはimage galleryモジュールで作られたイメージギャラリーにのみ適用されます。"
+
+#: lightbox2.admin.inc:808
+msgid "Flickr images"
+msgstr "Flickrイメージ"
+
+#: lightbox2.admin.inc:815
+msgid "Automatic handler for Flickr images"
+msgstr "Flickrイメージに適用する自動ハンドラー"
+
+#: lightbox2.admin.inc:817
+msgid "Choose how URLs for Flickr images will be automatically handled."
+msgstr "FlickrイメージのURLへ自動で追加するハンドラーを選択してください。"
+
+#: lightbox2.admin.inc:825
+msgid "Gallery2 images"
+msgstr "Galley2イメージ"
+
+#: lightbox2.admin.inc:832
+msgid "Automatic handler for Gallery2 block images"
+msgstr "Gallery2ブロックのイメージに適用する自動ハンドラー"
+
+#: lightbox2.admin.inc:834
+msgid "Choose how URLs for images, contained within Gallery2 image blocks, will be automatically handled."
+msgstr "Gallery2イメージブロックに含まれるイメージのURLへ自動で追加するハンドラーを選択してください。"
+
+#: lightbox2.admin.inc:842
+msgid "Inline images"
+msgstr "Inlineイメージ"
+
+#: lightbox2.admin.inc:849
+msgid "Automatic handler for Inline images"
+msgstr "Inlineイメージに適用する自動ハンドラー"
+
+#: lightbox2.admin.inc:851
+msgid "Choose how URLs for Inline images will be automatically handled."
+msgstr "InlineイメージのURLへ自動で追加するハンドラーを選択してください。"
+
+#: lightbox2.admin.inc:859
+msgid "Image Assist images"
+msgstr "Image Assistイメージ"
+
+#: lightbox2.admin.inc:866
+msgid "Automatic handler for Image Assist custom size images"
+msgstr "Image Assistのカスタムサイズイメージに適用する自動ハンドラー"
+
+#: lightbox2.admin.inc:868
+msgid "Choose how URLs for custom size images, displayed by the Image Assist module, will be automatically handled."
+msgstr "Image Assistモジュールによって表示されるカスタムサイズイメージのURLに自動で追加するハンドラーを選択してください。"
+
+#: lightbox2.admin.inc:876
+msgid "Custom class images"
+msgstr "カスタムクラスのイメージ"
+
+#: lightbox2.admin.inc:883
+msgid "Automatic handler for custom class images"
+msgstr "カスタムクラスのイメージに適用する自動ハンドラー"
+
+#: lightbox2.admin.inc:885
+msgid "Choose how URLs for custom class images will be automatically handled."
+msgstr "カスタムクラスのイメージに自動で追加するハンドラーを選択してください。"
+
+#: lightbox2.admin.inc:891
+msgid "Custom image trigger classes"
+msgstr "カスタムイメージトリガclass"
+
+#: lightbox2.admin.inc:892
+msgid "List the image classes which should trigger the lightbox when clicked on.  Put each class on a separate line."
+msgstr "クリックした際にlightboxのトリガとするべき、イメージクラスのリストを行単位で入力してください。"
+
+#: lightbox2.admin.inc:902
+msgid "Acidfree settings"
+msgstr "Acidfreeの設定"
+
+#: lightbox2.admin.inc:908
+msgid "Disable lightbox for Acidfree gallery lists"
+msgstr "Acidfreeギャラリーリストでlightboxを無効化"
+
+#: lightbox2.admin.inc:909
+msgid "Checking this box will disable the lightbox for images in gallery lists.  This means it is possible to open a gallery by clicking on the teaser image, but the lightbox will still appear when viewing images within the gallery.  This only applies to image galleries created with the \"acidfree\" module."
+msgstr "ギャラリーリストのイメージでlightboxを無効にするかどうかを指定してください。 ここにチェックを入れると無効となり、ティーザーのイメージをクリックしてギャラリーを開くことが可能になります。 ただし、ギャラリー内のイメージを表示する際にはlightboxが現れます。 これはacidfreeモジュールで作られたイメージギャラリーにのみ適用されます。"
+
+#: lightbox2.admin.inc:916
+msgid "Enable lightbox for Acidfree videos"
+msgstr "Acidfreeビデオでlightboxを有効化"
+
+#: lightbox2.admin.inc:917
+msgid "Checking this box will enable the display of acidfree videos in a lightbox.  This only applies to videos created by the \"video\" module and which appear in an acidfree gallery."
+msgstr "このチェックボックスにチェックを入れると、acidfreeビデオをlightboxに表示できるようになります。この機能は「video」モジュールによって作成されたビデオにのみ適用され、acidfreeギャラリーに表示されます。"
+
+#: lightbox2.views.inc:23
+msgid "Lightbox trigger"
+msgstr "Lightboxのトリガー"
+
+#: lightbox2.views.inc:24
+msgid "Provide custom text or link."
+msgstr "カスタムテキストまたはリンクを提供します。"
+
+#: lightbox2_handler_field_lightbox2.inc:29
+msgid "<None>"
+msgstr "<なし>"
+
+#: lightbox2_handler_field_lightbox2.inc:42
+msgid "Trigger field"
+msgstr "トリガフィールド"
+
+#: lightbox2_handler_field_lightbox2.inc:43
+msgid "Select the field that should be turned into the trigger for the lightbox.  Only fields that appear before this one in the field list may be used."
+msgstr "lightboxのトリガーとするフィールドを選択してください。フィールドリストでこのフィールドの前に表示されているフィールドだけが利用可能です。"
+
+#: lightbox2_handler_field_lightbox2.inc:51
+msgid "Popup"
+msgstr "ポップアップ"
+
+#: lightbox2_handler_field_lightbox2.inc:52
+msgid "Combine tokens from the \"Replacement patterns\" below and html to create what the lightbox popup will become."
+msgstr "下記「置換パターン」のトークンとlightboxのポップアップを定義しているHTMLを組み合わせます。"
+
+#: lightbox2_handler_field_lightbox2.inc:59
+msgid "Enable Lightbox grouping"
+msgstr "Lightboxのグループ化を有効化"
+
+#: lightbox2_handler_field_lightbox2.inc:66
+msgid "Height"
+msgstr "高さ"
+
+#: lightbox2_handler_field_lightbox2.inc:67
+msgid "Specify the height of the lightbox2 popup window.  Because the content is dynamic, we cannot detect this value automatically."
+msgstr "lightbox2ポップアップウィンドウの高さを指定します。コンテンツが動的なので、この値を自動で判別することができません。"
+
+#: lightbox2_handler_field_lightbox2.inc:74
+msgid "Width"
+msgstr "横幅"
+
+#: lightbox2_handler_field_lightbox2.inc:75
+msgid "Specify the width of the lightbox2 popup window.  Because the content is dynamic, we cannot detect this value automatically."
+msgstr "lightbox2ポップアップウィンドウの横幅を指定します。コンテンツが動的なので、この値を自動で判別することができません。"
+
+#: lightbox2.module:25
+#: lightbox2.info:0
+msgid "Enables Lightbox2 for Drupal"
+msgstr "DrupalでLightbox2を有効化"
+
+#: lightbox2.module:28
+msgid "Overview"
+msgstr "概観"
+
+#: lightbox2.module:29
+msgid "Lightbox2 JS is a simple, unobtrusive script used to overlay images on the current page. It's a snap to setup and works on all modern browsers. The module comes with a Lightbox2 Lite option which does not use the JQuery libraries; it is therefore less likely to conflict with anything else."
+msgstr "Lightbox2 JSはシンプルで控えめなスクリプトで、ページの上に画像を重ねて表示するのに使用されます。セットアップは簡単で、すべてのモダンブラウザーで動作します。Lightbox2 Liteオプションを選択すると、モジュールはJQueryライブラリを使用しません。そのため、他とほとんど衝突しないでしょう。"
+
+#: lightbox2.module:30
+msgid "Places images above your current page, not within. This frees you from the constraints of the layout, particularly column widths. Keeps users on the same page. Clicking to view an image and then having to click the back button to return to your site is bad for continuity (and no fun!)."
+msgstr "ページの中にではなく上に画像を配置します。これにより、あなたはレイアウトの制約（特にカラム幅）から解放されます。ユーザーは同じページに留まります。クリックして画像を閲覧した後、サイトへ戻るのに戻るボタンをクリックしなければならないのは、つながりの面で良くありません（そして、楽しくない！）。"
+
+#: lightbox2.module:32
+msgid "Features"
+msgstr "特徴"
+
+#: lightbox2.module:33
+msgid "The version 2 module has several benefits over the plain Lightbox module. Note, not all of these features are available when the \"Lightbox2 Lite\" option is enabled."
+msgstr "バージョン2のモジュールは、簡素なLightboxモジュールに対していくつかの利点があります。「Lightbox2 Lite」オプションが有効であれば、これらの特徴がすべて利用できるわけではないことに注意してください。"
+
+#: lightbox2.module:35
+msgid "Image Sets: group related images and navigate through them with ease - ideal for your image galleries."
+msgstr "画像セット: 関連する画像をグループ化し、それらの紹介を簡単にします。イメージギャラリーの理想です。"
+
+#: lightbox2.module:36
+msgid "Slideshow Capability: automatically transition between grouped images, includes play/pause and previous and next buttons."
+msgstr "スライドショーが可能: グループ化されたイメージが自動的に移り変わり、再生 / 停止や前へ次へのボタンも表示されます。"
+
+#: lightbox2.module:37
+msgid "HTML Content Support: ability to show websites or other HTML content in a lightbox."
+msgstr "HTMLコンテンツのサポート: ウェブサイトやその他のHTMLコンテンツをlightboxに表示することが可能。"
+
+#: lightbox2.module:38
+msgid "Video Content Support: ability to show videos in a lightbox."
+msgstr "ビデオコンテンツのサポート: ビデオをlightboxに表示することが可能。"
+
+#: lightbox2.module:39
+msgid "Visual Effects: fancy pre-loader and transition when you click on the image."
+msgstr "ビジュアルエフェクト: 画像をクリックしてロードしている画面の装飾。"
+
+#: lightbox2.module:40
+msgid "Keyboard Shortcuts: useful <a href=\"http://drupal.org/node/249827\">keyboard shortcuts</a> for switching between images, toggling play / pause, etc."
+msgstr "キーボードショートカット: 画像や再生/停止を切り替えるのに便利な<a href=\"http://drupal.org/node/249827\">キーボードショートカット</a>。"
+
+#: lightbox2.module:41
+msgid "Zoom Capability: larger images are reduced in size so they fit snugly inside the browser window.  A zoom button can then be clicked on to see it in its original size."
+msgstr "ズームが可能: 大きい画像はブラウザウィンドウに収まる大きさに縮められます。その際、ズームボタンをクリックすると、オリジナルのサイズで表示されます。"
+
+#: lightbox2.module:42
+msgid "Automatic Image Detection: configurable automatic re-formatting of image thumbnails, so there is no need to add 'rel=\"lightbox\"' to each image link on your site. "
+msgstr "画像を自動判別: 画像リンクの自動再フォーマットを設定できるので、サイトの画像リンクすべてに「rel=\"lightbox\"」を追加しなくても良いのです。"
+
+#: lightbox2.module:43
+msgid "<a href=\"!image\">Image</a>, <a href=\"!inline\">Inline</a>, <a href=\"!flickr\">Flickr</a>, <a href=\"!img_assist\">Image Assist</a> and <a href=\"!imagefield\">CCK Imagefield</a> modules are all supported. "
+msgstr "<a href=\"!image\">Image</a>、<a href=\"!inline\">Inline</a>、<a href=\"!flickr\">Flickr</a>、<a href=\"!img_assist\">Image Assist</a>、<a href=\"!imagefield\">CCK Imagefield</a>モジュールをすべてサポートしています。"
+
+#: lightbox2.module:44
+msgid "It's also possible to configure a custom list of image classes which should trigger the lightbox functionality."
+msgstr "lightboxのトリガーとなるクラスのリストを設定することも可能です。"
+
+#: lightbox2.module:46
+msgid "<a href=\"!imagecache\">Imagecache</a> Support: adds a Lightbox2 field formatter for <a href=\"!imagefield\">CCK imagefields</a> for your custom <a href=\"!views\">views</a>."
+msgstr "<a href=\"!imagecache\">Imagecache</a>のサポート: カスタム<a href=\"!views\">ビュー</a>の<a href=\"!imagefield\">CCK imagefield</a>にLightbox2のフィールドフォーマッターを追加します。"
+
+#: lightbox2.module:47
+msgid "Image Page Link: a link to the image node can be provided within the lightbox itself."
+msgstr "イメージページのリンク: Imageノードへのリンクをlightboxで表示するようにできます。"
+
+#: lightbox2.module:48
+msgid "Page Exclusion Capability: exclude certain pages on your site from having the lightbox2 functionality."
+msgstr "ページ除外設定: 特定のページをlightbox2の対象から除外することができます。"
+
+#: lightbox2.module:49
+msgid "Login Support: ability to modify all user/login links so the login form appears in a lightbox."
+msgstr "ログインのサポート: ユーザー/ログインのリンクをすべて変更して、lightboxにログインフォームを表示可能。"
+
+#: lightbox2.module:50
+msgid "Skin and Animation Configuration: configure the order and speed of the lightbox animations, along with the lightbox colors, border size and overlay opacity."
+msgstr "スキンとアニメーションの設定: lightboxのカラーや線の太さ、オーバーレイの透明度に加え、lightboxアニメーションの順序やスピードを設定可能。"
+
+#: lightbox2.module:51
+msgid "Gallery 2 Support: support for Gallery 2 images via the <a href=\"!gallery\">Gallery</a> module (beta)."
+msgstr "Gallery 2のサポート: <a href=\"!gallery\">Gallery</a>モジュール (ベータ) を介してGallery 2イメージをサポートしています。"
+
+#: lightbox2.module:54
+msgid "Usage"
+msgstr "使用方法"
+
+#: lightbox2.module:55
+msgid "Adding a Basic Lightbox"
+msgstr "基本的なlightboxを追加する"
+
+#: lightbox2.module:56
+msgid "Add rel=&quot;lightbox&quot; attribute to any link tag to activate the lightbox. For example:"
+msgstr "lightboxを有効にするには rel=&quot;lightbox&quot; 属性を追加します。例:"
+
+#: lightbox2.module:57
+msgid ""
+"&lt;a href=&quot;image-1.jpg&quot; rel=&quot;lightbox&quot;&gt;image #1&lt;/a&gt;<br />\n"
+"                              &lt;a href=&quot;image-1.jpg&quot; rel=&quot;lightbox[][my caption]&quot;&gt;image #1&lt;/a&gt;"
+msgstr ""
+"&lt;a href=&quot;image-1.jpg&quot; rel=&quot;lightbox&quot;&gt;画像 #1&lt;/a&gt;<br />\n"
+"                              &lt;a href=&quot;image-1.jpg&quot; rel=&quot;lightbox[][my caption]&quot;&gt;画像 #1&lt;/a&gt;"
+
+#: lightbox2.module:59
+msgid "Optional: To show a caption either use the title attribute or put in the second set of [] of the rel attribute."
+msgstr "任意: キャプションを表示するには、タイトル属性を利用するか、またはrel属性に二つ目の [] を記述します。"
+
+#: lightbox2.module:61
+msgid "Grouping Images"
+msgstr "画像のグループ化"
+
+#: lightbox2.module:62
+msgid "If you have a set of related images that you would like to group, follow step one but additionally include a group name between square brackets in the rel attribute. For example:"
+msgstr "グループ化したい関連する画像があれば、ステップ1を行いつつrel属性の角括弧 ([]) の中にグループ名を含ませます。例:"
+
+#: lightbox2.module:63
+msgid ""
+"&lt;a href=\"images/image-1.jpg\" rel=\"lightbox[roadtrip]\"&gt;image #1&lt;/a&gt;<br />\n"
+"                              &lt;a href=\"images/image-2.jpg\" rel=\"lightbox[roadtrip][caption 2]\"&gt;image#2&lt;/a&gt;<br />\n"
+"                              &lt;a href=\"images/image-3.jpg\" rel=\"lightbox[roadtrip][caption 3]\"&gt;image#3&lt;/a&gt;"
+msgstr ""
+"&lt;a href=\"images/image-1.jpg\" rel=\"lightbox[roadtrip]\"&gt;画像 #1&lt;/a&gt;<br />\n"
+"                              &lt;a href=\"images/image-2.jpg\" rel=\"lightbox[roadtrip][caption 2]\"&gt;画像 #2&lt;/a&gt;<br />\n"
+"                              &lt;a href=\"images/image-3.jpg\" rel=\"lightbox[roadtrip][caption 3]\"&gt;画像 #3&lt;/a&gt;"
+
+#: lightbox2.module:66
+msgid "No limits to the number of image sets per page or how many images are allowed in each set."
+msgstr "1ページあたりのイメージセットの数と、各イメージセットに含まれる画像の数に制限はありません。"
+
+#: lightbox2.module:67
+msgid "If you have a set of images that you would like to group together in a lightbox, but only wish for one of these images to be visible on your page, you can assign the \"lightbox_hide_image\" class to hide the additional images. For example:"
+msgstr "グループ化してlightboxで一緒に表示したい画像のセットがあるけれども、ページにはそれらのうちの一枚だけを表示したい場合、隠すほうの画像に「lightbox_hide_image」クラスを指定することができます。例:"
+
+#: lightbox2.module:68
+msgid ""
+"&lt;a href=\"images/image-1.jpg\" rel=\"lightbox[roadtrip]\"&gt;image #1&lt;/a&gt;<br />\n"
+"                              &lt;a href=\"images/image-2.jpg\" rel=\"lightbox[roadtrip]\" class=\"lightbox_hide_image\"&gt;image #2&lt;/a&gt;<br />\n"
+"                              &lt;a href=\"images/image-3.jpg\" rel=\"lightbox[roadtrip][caption 3]\" class=\"lightbox_hide_image\"&gt;image #3&lt;/a&gt;"
+msgstr ""
+"&lt;a href=\"images/image-1.jpg\" rel=\"lightbox[roadtrip]\"&gt;画像 #1&lt;/a&gt;<br />\n"
+"                              &lt;a href=\"images/image-2.jpg\" rel=\"lightbox[roadtrip]\" class=\"lightbox_hide_image\"&gt;画像 #2&lt;/a&gt;<br />\n"
+"                              &lt;a href=\"images/image-3.jpg\" rel=\"lightbox[roadtrip][caption 3]\" class=\"lightbox_hide_image\"&gt;画像 #3&lt;/a&gt;"
+
+#: lightbox2.module:73
+msgid "This is very similar to the grouping functionality described above. The only difference is that \"rel\" attribute should be set to \"lightshow\" instead of \"lightbox\". Using the same example as above, we could launch the images in a slideshow by doing:"
+msgstr "上記のグループ化機能とよく似ています。唯一の違いは、「rel」属性が「lightbox」ではなく「lightshow」であることです。上記と同じ例を使って、画像をスライドショーで表示することができます:"
+
+#: lightbox2.module:74
+msgid ""
+"&lt;a href=\"images/image-1.jpg\" rel=\"lightshow[roadtrip]\"&gt;image #1&lt;/a&gt;<br />\n"
+"                              &lt;a href=\"images/image-2.jpg\" rel=\"lightshow[roadtrip][caption 2]\"&gt;image #2&lt;/a&gt;<br />\n"
+"                              &lt;a href=\"images/image-3.jpg\" rel=\"lightshow[roadtrip][caption 3]\"&gt;image #3&lt;/a&gt;"
+msgstr ""
+"&lt;a href=\"images/image-1.jpg\" rel=\"lightshow[roadtrip]\"&gt;画像 #1&lt;/a&gt;<br />\n"
+"                              &lt;a href=\"images/image-2.jpg\" rel=\"lightshow[roadtrip][caption 2]\"&gt;画像 #2&lt;/a&gt;<br />\n"
+"                              &lt;a href=\"images/image-3.jpg\" rel=\"lightshow[roadtrip][caption 3]\"&gt;画像 #3&lt;/a&gt;"
+
+#: lightbox2.module:78
+msgid "Video Content"
+msgstr "ビデオコンテンツ"
+
+#: lightbox2.module:79
+msgid "It's possible to show video content in the lightbox. In this case the \"rel\" attribute should be set to <code>lightvideo</code>. It's possible to group videos and to control the size of the lightbox by setting the 'width' and 'height' properties. The properties can be configured like <code>lightvideo[group|width:300px; height: 200px;]</code> and <code>lightvideo[|width:300px; height: 200px;][my caption]</code>. The properties should all be of the format \"property: value;\" - note the closing semi-colon. If no properties are set, then the default width and height of 400px will be used. See below for more detailed examples."
+msgstr "lightboxでビデオコンテンツを表示することができます。その場合、「rel」属性は <code>lightvideo</code> としなくてはなりません。ビデオをグループ化したり、「横幅」や「高さ」のプロパティ―でlightboxのサイズを制御することができます。プロパティ―は <code>lightvideo[group|width:300px; height: 200px;]</code> または <code>lightvideo[|width:300px; height: 200px;][my caption]</code> といった具合に設定します。プロパティ―はすべて「プロパティ―: 値;」の書式で記述し、セミコロンで閉じるのに注意してください。プロパティ―を何も設定しなければ、デフォルトの横幅や高さである400pxが使用されます。より詳細な例は下記を参照してください。"
+
+#: lightbox2.module:80;94;107;295;314;328
+msgid "Basic example:"
+msgstr "基本的な例:"
+
+#: lightbox2.module:81
+msgid "&lt;a href=\"http://video.google.com/videoplay?docid=1811233136844420765\" rel=\"lightvideo\"&gt;Google video example - default size&lt;/a&gt;"
+msgstr "&lt;a href=\"http://video.google.com/videoplay?docid=1811233136844420765\" rel=\"lightvideo\"&gt;Google video の例 - デフォルトサイズ&lt;/a&gt;"
+
+#: lightbox2.module:82;109
+msgid "Basic example with caption:"
+msgstr "キャプション付きの基本的な例:"
+
+#: lightbox2.module:83
+msgid "&lt;a href=\"http://video.google.com/videoplay?docid=1811233136844420765\" rel=\"lightvideo[][my caption]\"&gt;Google video example - default size&lt;/a&gt;"
+msgstr "&lt;a href=\"http://video.google.com/videoplay?docid=1811233136844420765\" rel=\"lightvideo[][my caption]\"&gt;Google video の例 - デフォルトサイズ&lt;/a&gt;"
+
+#: lightbox2.module:84;96;111;297;330
+msgid "Grouped example:"
+msgstr "グループ化の例:"
+
+#: lightbox2.module:85
+msgid ""
+"&lt;a href=\"http://video.google.com/videoplay?docid=29023498723974239479\" rel=\"lightvideo[group][my caption]\"&gt;Grouped example 1&lt;/a&gt;<br />\n"
+"                              &lt;a href=\"http://video.google.com/videoplay?docid=1811233136844420765\" rel=\"lightvideo[group][my caption]\"&gt;Grouped example 2&lt;/a&gt;"
+msgstr ""
+"&lt;a href=\"http://video.google.com/videoplay?docid=29023498723974239479\" rel=\"lightvideo[group][my caption]\"&gt;グループ化の例 1&lt;/a&gt;<br />\n"
+"                              &lt;a href=\"http://video.google.com/videoplay?docid=1811233136844420765\" rel=\"lightvideo[group][my caption]\"&gt;グループ化の例 2&lt;/a&gt;"
+
+#: lightbox2.module:87;316
+msgid "Controlling lightbox size example:"
+msgstr "lightboxのサイズを制御する例:"
+
+#: lightbox2.module:88
+msgid "&lt;a href=\"http://video.google.com/videoplay?docid=1811233136844420765\" rel=\"lightvideo[|width:400px; height:300px;][my caption]\"&gt;Google video example - custom size&lt;/a&gt;"
+msgstr "&lt;a href=\"http://video.google.com/videoplay?docid=1811233136844420765\" rel=\"lightvideo[|width:400px; height:300px;][my caption]\"&gt;Google video の例 - サイズのカスタマイズ&lt;/a&gt;"
+
+#: lightbox2.module:89
+msgid "Supported Video Formats:"
+msgstr "サポートしているビデオ形式:"
+
+#: lightbox2.module:90
+msgid "asx, wmv, mov and swf videos should all be supported. A number of video providers are also supported, for example YouTube and Google Video. For full details on how to integrate these with lightbox, please see the online documentation."
+msgstr "asxおよびwmv、mov、swf形式のビデオはすべてサポートしています。YouTubeやGoogle Videoといった多くのビデオプロバイダーもまたサポートしています。これらとlightboxを組み合わせるための完全な情報は、オンラインのドキュメントを参照してください。"
+
+#: lightbox2.module:92;187
+msgid "HTML Content"
+msgstr "HTMLコンテンツ"
+
+#: lightbox2.module:93
+msgid "It's possible to show webpage content in the lightbox, using iframes. In this case the \"rel\" attribute should be set to <code>lightframe</code>. Again it's possible to group the items, (e.g. <code>lightframe[search]</code>) but in addition to that, it's possible to control some of the iframe properties. It's possible to set the 'width', 'height' and 'scrolling' properties of the iframe. The properties are separated from the group name by a <code>|</code>, for example <code>lightframe[search|width:100px;]</code> and <code>lightframe[search|width:120px][my caption]</code>. If no grouping is being used, then the <code>|</code> is still used and the format would be <code>lightframe[|width:100px;]</code>. The properties should all be of the format \"property: value;\" - note the closing semi-colon.  If no iframe properties are set, then the default width and height of 400px will be used.  See below for more detailed examples."
+msgstr "iframeを使って、lightboxでウェブページを表示することができます。その場合、「rel」属性は <code>lightframe</code> としなくてはなりません。また、アイテムをグループ化することができ（例: <code>lightframe[search]</code>）、それに加えてiframeのプロパティ―をいくつか制御することができます。iframeのプロパティ―は「横幅」「高さ」「スクロール」を設定可能です。プロパティ―とグループ名をパイプ（ <code>|</code> ）で区切ります（例: <code>lightframe[search|width:100px;]</code>、<code>lightframe[search|width:120px;][my caption]</code> ）。グループ化していなくても、パイプは残り、<code>lightframe[|width:100px;]</code> といった具合になります。プロパティ―はすべて「プロパティ―: 値;」の書式で記述しなければならず、セミコロンで閉じる事に注意してください。何もプロパティ―が設定されなければ、横幅と高さにはデフォルトの400pxが用いられます。より詳細な例は下記を参照してください。"
+
+#: lightbox2.module:95
+msgid "&lt;a href=\"http://www.google.com\" rel=\"lightframe[][Search Google]\"&gt;Search google&lt;/a&gt;"
+msgstr "&lt;a href=\"http://www.google.com\" rel=\"lightframe[][Search Google]\"&gt;Google検索&lt;/a&gt;"
+
+#: lightbox2.module:97
+msgid ""
+"&lt;a href=\"http://www.google.com\" rel=\"lightframe[search]\"&gt;Search google&lt;/a&gt;<br />\n"
+"                              &lt;a href=\"http://www.yahoo.com\" rel=\"lightframe[search][Search Yahoo]\"&gt;Search yahoo&lt;/a&gt;"
+msgstr ""
+"&lt;a href=\"http://www.google.com\" rel=\"lightframe[search]\"&gt;Google検索&lt;/a&gt;<br />\n"
+"                              &lt;a href=\"http://www.yahoo.com\" rel=\"lightframe[search][Search Yahoo]\"&gt;Yahoo検索&lt;/a&gt;"
+
+#: lightbox2.module:99;300
+msgid "Controlling iframe property example:"
+msgstr "iframeのプロパティ―を制御する例:"
+
+#: lightbox2.module:100
+msgid "&lt;a href=\"http://www.google.com\" rel=\"lightframe[|width:400px; height:300px; scrolling: auto;]\"&gt;Search google&lt;/a&gt;"
+msgstr "&lt;a href=\"http://www.google.com\" rel=\"lightframe[|width:400px; height:300px; scrolling: auto;]\"&gt;Google検索&lt;/a&gt;"
+
+#: lightbox2.module:101;302
+msgid "Controlling iframe property when grouped example:"
+msgstr "グループ化時にiframeのプロパティ―を制御する例:"
+
+#: lightbox2.module:102
+msgid ""
+"&lt;a href=\"http://www.google.com\" rel=\"lightframe[search|width:400px; height:300px; scrolling: auto;]\"&gt;Search google&lt;/a&gt;<br />\n"
+"                              &lt;a href=\"http://www.yahoo.com\" rel=\"lightframe[search|width:400px; height:300px;][Search Yahoo]\"&gt;Search yahoo&lt;/a&gt;"
+msgstr ""
+"&lt;a href=\"http://www.google.com\" rel=\"lightframe[search|width:400px; height:300px; scrolling: auto;]\"&gt;Google検索&lt;/a&gt;<br />\n"
+"                              &lt;a href=\"http://www.yahoo.com\" rel=\"lightframe[search|width:400px; height:300px;][Search Yahoo]\"&gt;Yahoo検索&lt;/a&gt;"
+
+#: lightbox2.module:105
+msgid "Inline Content Support"
+msgstr "インラインコンテンツのサポート"
+
+#: lightbox2.module:106
+msgid "It's possible to show HTML snippets in the lightbox, that is on the same domain. In this case the \"rel\" attribute should be set to <code>lightmodal</code>. Again it's possible to group the content, (e.g. <code>lightmodal[search]</code>) but in addition to that, it's possible to control some of the inline / modal properties. It's possible to set the 'width', 'height' and 'scrolling' properties of the inline content. The properties are separated from the group name by a <code>|</code>, for example <code>lightmodal[search|width:100px;]</code> and <code>lightmodal[search|width:100px;][my caption]</code>. If no grouping is being used, then the <code>|</code> is still used and the format would be <code>lightmodal[|width:100px;]</code>. The properties should all be of the format \"property: value;\" - note the closing semi-colon. If no properties are set, then the default width and height of 400px will be used. See below for more detailed examples."
+msgstr "同じドメイン上のHTMLスニペットをlightboxで表示することができます。その場合、「rel」属性は <code>lightmodal</code> としなくてはなりません。また、コンテンツをグループ化することができ（例: <code>lightmodal[search]</code>）、それに加えてインラインまたはモーダルプロパティ―のいくつかを制御することができます。インラインプロパティ―は「横幅」「高さ」「スクロール」を設定可能です。プロパティ―とグループ名をパイプ（ <code>|</code> ）で区切ります（例: <code>lightmodal[search|width:100px;]</code>、<code>lightmodal[search|width:100px;][my caption]</code> ）。グループ化していなくても、パイプは残り、<code>lightmodal[|width:100px;]</code> といった具合になります。プロパティ―はすべて「プロパティ―: 値;」の書式で記述しなければならず、セミコロンで閉じる事に注意してください。何もプロパティ―が設定されなければ、横幅と高さにはデフォルトの400pxが用いられます。より詳細な例は下記を参照してください。"
+
+#: lightbox2.module:108
+msgid "&lt;a href=\"search.php\" rel=\"lightmodal\"&gt;Search&lt;/a&gt;"
+msgstr "&lt;a href=\"search.php\" rel=\"lightmodal\"&gt;検索&lt;/a&gt;"
+
+#: lightbox2.module:110
+msgid "&lt;a href=\"search.php\" rel=\"lightmodal[][my caption]\"&gt;Search&lt;/a&gt;"
+msgstr "&lt;a href=\"search.php\" rel=\"lightmodal[][my caption]\"&gt;検索&lt;/a&gt;"
+
+#: lightbox2.module:112
+msgid ""
+"&lt;a href=\"search.php\" rel=\"lightmodal[search]\"&gt;Search&lt;/a&gt;<br />\n"
+"                              &lt;a href=\"search.php?status=1\" rel=\"lightmodal[search][published]\"&gt;Search published content&lt;/a&gt;"
+msgstr ""
+"&lt;a href=\"search.php\" rel=\"lightmodal[search]\"&gt;検索&lt;/a&gt;<br />\n"
+"                              &lt;a href=\"search.php?status=1\" rel=\"lightmodal[search][published]\"&gt;掲載済みコンテンツを検索&lt;/a&gt;"
+
+#: lightbox2.module:114;333
+msgid "Controlling modal property example:"
+msgstr "モーダルのプロパティ―を制御する例:"
+
+#: lightbox2.module:115
+msgid "&lt;a href=\"search.php\" rel=\"lightmodal[|width:400px; height:300px; scrolling: auto;]\"&gt;Search&lt;/a&gt;"
+msgstr "&lt;a href=\"search.php\" rel=\"lightmodal[|width:400px; height:300px; scrolling: auto;]\"&gt;検索&lt;/a&gt;"
+
+#: lightbox2.module:116;335
+msgid "Controlling modal property when grouped example:"
+msgstr "グループ化時にモーダルのプロパティ―を制御する例:"
+
+#: lightbox2.module:117
+msgid ""
+"&lt;a href=\"search.php\" rel=\"lightmodal[search|width:400px; height:300px; scrolling: auto;]\"&gt;Search&lt;/a&gt;<br />\n"
+"                              &lt;a href=\"search.php?status=1\" rel=\"lightmodal[search|width:400px; height:300px;][Search published]\"&gt;Search published content&lt;/a&gt;<br />\n"
+"                              &lt;a href=\"search.php?status=0\" rel=\"lightmodal[search|width:400px; height:300px;][Search Unpublished]\"&gt;Search unpublished content&lt;/a&gt;"
+msgstr ""
+"&lt;a href=\"search.php\" rel=\"lightmodal[search|width:400px; height:300px; scrolling: auto;]\"&gt;検索&lt;/a&gt;<br />\n"
+"                              &lt;a href=\"search.php?status=1\" rel=\"lightmodal[search|width:400px; height:300px;][Search published]\"&gt;掲載済みコンテンツを検索&lt;/a&gt;<br />\n"
+"                              &lt;a href=\"search.php?status=0\" rel=\"lightmodal[search|width:400px; height:300px;][Search Unpublished]\"&gt;未掲載のコンテンツを検索&lt;/a&gt;"
+
+#: lightbox2.module:121
+msgid "Keyboard Shortcuts"
+msgstr "キーボードショートカット"
+
+#: lightbox2.module:122
+msgid "The default keyboard shortcuts are listed below. You can override these on the admin page."
+msgstr "デフォルトのキーボードショートカットは下記の通りです。管理セクションでこれらを上書きすることができます。"
+
+#: lightbox2.module:124
+msgid "Close Lightbox"
+msgstr "Lightboxを閉じる"
+
+#: lightbox2.module:128
+msgid "Previous Image"
+msgstr "前の画像"
+
+#: lightbox2.module:129
+msgid "Left Arrow"
+msgstr "左"
+
+#: lightbox2.module:130
+msgid "Next Image"
+msgstr "次の画像"
+
+#: lightbox2.module:131
+msgid "Right Arrow"
+msgstr "右"
+
+#: lightbox2.module:132
+msgid "Toggle Zoom"
+msgstr "ズーム切り替え"
+
+#: lightbox2.module:132
+msgid "z (not available in slideshow)"
+msgstr "z (スライドショーでは利用不可)"
+
+#: lightbox2.module:133
+msgid "Toggle Play / Pause"
+msgstr "再生 / 停止 切り替え"
+
+#: lightbox2.module:133
+msgid "Spacebar (slideshow only)"
+msgstr "スペースバー (スライドショーのみ)"
+
+#: lightbox2.module:135
+msgid "Not all of the keyboard shortcuts work in the Opera browser, for example \"z\" for toggling the zoom and \"spacebar\" for toggling play / pause in slideshows. This can be overcome by updating your shortcut settings in the Opera preferences editor."
+msgstr "Operaブラウザーでは動作しないキーボードショートカットがあり、例えばズームを切り替える「z」やスライドショーの再生/停止を切り替える「スペースバー」が動作しません。OperaのPreferences Editorでショートカットの設定を変更することにより不具合を回避することができます。"
+
+#: lightbox2.module:257;361
+msgid "Image links with 'rel=\"lightbox\"' in the &lt;a&gt; tag will appear in a Lightbox when clicked on."
+msgstr "&lt;a&gt; タグに 'rel=\"lightbox\"' があるイメージリンクをクリックしたとき、Lightboxで表示されます"
+
+#: lightbox2.module:260
+msgid "To add a lightbox to your images, add rel=\"lightbox\" attribute to any link tag to activate the lightbox. For example:"
+msgstr "イメージにlightboxを加えるには、lightboxを有効にするために任意のリンクタグに rel=\"lightbox\" 属性を加えてください。<br />例："
+
+#: lightbox2.module:261
+msgid "<code>&lt;a href=\"image-1.jpg\" rel=\"lightbox\"&gt;image #1&lt;/a&gt;</code>"
+msgstr "<code>&lt;a href=\"image-1.jpg\" rel=\"lightbox\"&gt;画像 #1&lt;/a&gt;</code>"
+
+#: lightbox2.module:262
+msgid "<code>&lt;a href=\"image-1.jpg\" rel=\"lightbox[][my caption]\"&gt;image #1&lt;/a&gt;</code>"
+msgstr "<code>&lt;a href=\"image-1.jpg\" rel=\"lightbox[][my caption]\"&gt;画像 #1&lt;/a&gt;</code>"
+
+#: lightbox2.module:263
+msgid "To show a caption either use the title attribute or put in the second set of square brackets of the rel attribute."
+msgstr "キャプションを表示するには、タイトル属性を使用するか、または二つ目のrel属性の角括弧セット ([]) を追加します。"
+
+#: lightbox2.module:264
+msgid "If you have a set of related images that you would like to group, then you will need to include a group name between square brackets in the rel attribute. For example:"
+msgstr "グループ化したい関連するイメージのセットがある場合、rel 属性に [] で囲んだグループ名を含める必要があります。<br />例："
+
+#: lightbox2.module:265
+msgid "<code>&lt;a href=\"image-1.jpg\" rel=\"lightbox[roadtrip]\"&gt;image #1&lt;/a&gt;<br /> &lt;a href=\"image-2.jpg\" rel=\"lightbox[roadtrip][caption 2]\"&gt;image #2&lt;/a&gt;<br /> &lt;a href=\"image-3.jpg\" rel=\"lightbox[roadtrip][caption 3]\"&gt;image #3&lt;/a&gt;<br /> </code>"
+msgstr "<code>&lt;a href=\"image-1.jpg\" rel=\"lightbox[roadtrip]\"&gt;画像 #1&lt;/a&gt;<br /> &lt;a href=\"image-2.jpg\" rel=\"lightbox[roadtrip][caption 2]\"&gt;画像 #2&lt;/a&gt;<br /> &lt;a href=\"image-3.jpg\" rel=\"lightbox[roadtrip][caption 3]\"&gt;画像 #3&lt;/a&gt;<br /> </code>"
+
+#: lightbox2.module:266
+msgid "There are no limits to the number of image sets per page or how many images are allowed in each set."
+msgstr "ページごとのイメージセット数や、各セット内のイメージ数に制限はありません。"
+
+#: lightbox2.module:267;284
+msgid "If you wish to turn the caption into a link, format your caption in the following way:"
+msgstr "キャプションをリンクに変えたい場合は、次の方法でキャプションを書式化してください："
+
+#: lightbox2.module:268
+msgid "<code>&lt;a href=\"image-1.jpg\" rel='lightbox[][&lt;a href=\"http://www.yourlink.com\"&gt;View Image Details&lt;/a&gt;]' &gt;image #1&lt;/a&gt;</code>"
+msgstr "<code>&lt;a href=\"image-1.jpg\" rel='lightbox[][&lt;a href=\"http://www.yourlink.com\"&gt;詳細画像を表示&lt;/a&gt;]' &gt;画像 #1&lt;/a&gt;</code>"
+
+#: lightbox2.module:273
+msgid "Image links from G2 are formatted for use with Lightbox2"
+msgstr "G2の画像リンクをLightbox2で表示する形に変換"
+
+#: lightbox2.module:277;367
+msgid "Image links with 'rel=\"lightshow\"' in the &lt;a&gt; tag will appear in a Lightbox slideshow when clicked on."
+msgstr " &lt;a&gt; タグの中に「rel=\"lightshow\"」という記述のあるイメージリンクをクリックすると、Lightboxスライドショーで表示されます。"
+
+#: lightbox2.module:280
+msgid "To add a lightbox slideshow to your images, add rel=\"lightshow[slideshowname][slide caption]\" attribute to any link tag to activate the slideshow. For example:"
+msgstr "画像にlightboxのスライドショーを追加するには、スライドショーを有効にしたいリンクタグのすべてに rel=\"lightshow[slideshowname][slide caption]\" 属性を追加します。例:"
+
+#: lightbox2.module:281
+msgid "<code>&lt;a href=\"image-1.jpg\" rel=\"lightshow[show1]\"&gt;image #1&lt;/a&gt;<br /> &lt;a href=\"image-2.jpg\" rel=\"lightshow[show1]\"&gt;image #2&lt;/a&gt;<br /> &lt;a href=\"image-3.jpg\" rel=\"lightshow[show1]\"&gt;image #3&lt;/a&gt;<br /> </code>"
+msgstr "<code>&lt;a href=\"image-1.jpg\" rel=\"lightshow[show1]\"&gt;画像 #1&lt;/a&gt;<br /> &lt;a href=\"image-2.jpg\" rel=\"lightshow[show1]\"&gt;画像 #2&lt;/a&gt;<br /> &lt;a href=\"image-3.jpg\" rel=\"lightshow[show1]\"&gt;画像 #3&lt;/a&gt;<br /> </code>"
+
+#: lightbox2.module:282
+msgid "The title attribute in the link tag is optional. The addition of this attribute enables the display of a caption with the image displayed in the lightbox."
+msgstr "リンクタグの title 属性は任意です。 この属性を付加することで、lightboxに表示されたイメージでキャプションが表示できるようになります。"
+
+#: lightbox2.module:283
+msgid "There are no limits to the number of slideshow image sets per page or how many images are allowed in each slideshow."
+msgstr "1ページあたりのスライドショーの数と、各スライドショーに含まれる画像の数に制限はありません。"
+
+#: lightbox2.module:285
+msgid "<code>&lt;a href=\"image-1.jpg\" rel='lightshow[show1][&lt;a href=\"http://www.yourlink.com\"&gt;View Image Details&lt;/a&gt;]'&gt;image #1&lt;/a&gt;</code>"
+msgstr "<code>&lt;a href=\"image-1.jpg\" rel='lightshow[show1][&lt;a href=\"http://www.yourlink.com\"&gt;詳細画像を表示&lt;/a&gt;]'&gt;画像 #1&lt;/a&gt;</code>"
+
+#: lightbox2.module:291;370
+msgid "Links to HTML content with 'rel=\"lightframe\"' in the &lt;a&gt; tag will appear in a Lightbox when clicked on."
+msgstr "&lt;a&gt; タグの中に「rel=\"lightframe\"」という記述のあるHTMLコンテンツへのリンクをクリックすると、Lightboxの中にそのコンテンツが表示されます。"
+
+#: lightbox2.module:294
+msgid "It's possible to show webpage content in the lightbox, using iframes.  In this case the \"rel\" attribute should be set to \"lightframe\".  Again it's possible to group the content, (e.g. <code>lightframe[search][caption]</code>) but in addition to that, it's possible to control some of the iframe properties.  It's possible to set the \"width\", \"height\" and \"scrolling\" properties of the iframe.  The properties are separated from the group name by a <code>|</code>, for example <code>lightframe[search|width:100px;][caption]</code>.  If no grouping is being used, then the <code>|</code> is still used and the format would be <code>lightframe[|width:100px;]</code>.  The properties should all be of the format \"property: value;\" - note the closing semi-colon.  If no iframe properties are set, then the default width and height of 400px will be used.  See below for more detailed examples."
+msgstr "iframeを使って、lightboxでウェブページを表示することができます。その場合、「rel」属性は <code>lightframe</code> としなくてはなりません。また、アイテムをグループ化することができ（例: <code>lightframe[search][caption]</code>）、それに加えてiframeのプロパティ―をいくつか制御することができます。iframeのプロパティ―は「横幅」「高さ」「スクロール」を設定可能です。プロパティ―とグループ名をパイプ（ <code>|</code> ）で区切ります（例: <code>lightframe[search|width:100px;][caption]</code> ）。グループ化していなくても、パイプは残り、<code>lightframe[|width:100px;]</code> といった具合になります。プロパティ―はすべて「プロパティ―: 値;」の書式で記述しなければならず、セミコロンで閉じる事に注意してください。何もプロパティ―が設定されなければ、横幅と高さにはデフォルトの400pxが用いられます。より詳細な例は下記を参照してください。"
+
+#: lightbox2.module:296
+msgid "<code>&lt;a href=&quot;http://www.google.com&quot; rel=&quot;lightframe&quot;&gt;Search google&lt;/a&gt;</code>"
+msgstr "<code>&lt;a href=&quot;http://www.google.com&quot; rel=&quot;lightframe&quot;&gt;Google検索&lt;/a&gt;</code>"
+
+#: lightbox2.module:298
+msgid "<code>&lt;a href=&quot;http://www.google.com&quot; rel=&quot;lightframe[search][caption]&quot;&gt;Search google&lt;/a&gt;<br />&lt;a href=&quot;http://www.yahoo.com&quot; rel=&quot;lightframe[search]&quot;&gt;Search yahoo&lt;/a&gt;</code>"
+msgstr "<code>&lt;a href=&quot;http://www.google.com&quot; rel=&quot;lightframe[search][caption]&quot;&gt;Google検索&lt;/a&gt;<br />&lt;a href=&quot;http://www.yahoo.com&quot; rel=&quot;lightframe[search]&quot;&gt;Yahoo検索&lt;/a&gt;</code>"
+
+#: lightbox2.module:301
+msgid "<code>&lt;a href=&quot;http://www.google.com&quot; rel=&quot;lightframe[|width:400px; height:300px; scrolling: auto;][caption]&quot;&gt;Search google&lt;/a&gt;</code>"
+msgstr "<code>&lt;a href=&quot;http://www.google.com&quot; rel=&quot;lightframe[|width:400px; height:300px; scrolling: auto;][caption]&quot;&gt;Google検索&lt;/a&gt;</code>"
+
+#: lightbox2.module:303
+msgid "<code>&lt;a href=&quot;http://www.google.com&quot; rel=&quot;lightframe[search|width:400px; height:300px; scrolling: auto;]&quot;&gt;Search google&lt;/a&gt;<br />&lt;a href=&quot;http://www.yahoo.com&quot; rel=&quot;lightframe[search|width:400px; height:300px;]&quot;&gt;Search yahoo&lt;/a&gt;</code>"
+msgstr "<code>&lt;a href=&quot;http://www.google.com&quot; rel=&quot;lightframe[search|width:400px; height:300px; scrolling: auto;]&quot;&gt;Google検索&lt;/a&gt;<br />&lt;a href=&quot;http://www.yahoo.com&quot; rel=&quot;lightframe[search|width:400px; height:300px;]&quot;&gt;Yahoo検索&lt;/a&gt;</code>"
+
+#: lightbox2.module:310;373
+msgid "Links to video content with 'rel=\"lightvideo\"' in the &lt;a&gt; tag will appear in a Lightbox when clicked on."
+msgstr "&lt;a&gt; タグの中に「rel=\"lightvideo\"」という記述のあるビデオコンテンツへのリンクをクリックすると、Lightboxの中にそのビデオが表示されます。"
+
+#: lightbox2.module:313
+msgid "It's possible to show video content in the lightbox.  In this case the \"rel\" attribute should be set to <code>lightvideo</code>.  It's possible to group videos and to control the size of the lightbox by setting the \"width\" and \"height\" properties.  The properties can be configured like <code>lightvideo[group|width:300px; height: 200px;][caption]</code>.  The properties should all be of the format \"property: value;\" - note the closing semi-colon.  If no properties are set, then the default width and height of 400px will be used.  See below for more detailed examples."
+msgstr "lightboxでビデオを表示することができます。その場合、「rel」属性は <code>lightvideo</code> としなくてはなりません。ビデオをグループ化することができ、「横幅」と「高さ」のプロパティ―を設定してlightboxのサイズを制御することができます。プロパティ―は  <code>lightvideo[group|width:300px; height: 200px;][caption]</code> といった具合に記述します。プロパティ―はすべて「プロパティ―: 値;」の書式で記述しなければならず、セミコロンで閉じる事に注意してください。何もプロパティ―が設定されなければ、横幅と高さにはデフォルトの400pxが用いられます。より詳細な例は下記を参照してください。"
+
+#: lightbox2.module:315
+msgid "<code>&lt;a href=&quot;http://video.google.com/videoplay?docid=1811233136844420765&quot; rel=&quot;lightvideo&quot;&gt;Google video example - default size&lt;/a&gt;</code>"
+msgstr "<code>&lt;a href=&quot;http://video.google.com/videoplay?docid=1811233136844420765&quot; rel=&quot;lightvideo&quot;&gt;Google video の例 - デフォルトサイズ&lt;/a&gt;</code>"
+
+#: lightbox2.module:317
+msgid "<code>&lt;a href=&quot;http://video.google.com/videoplay?docid=1811233136844420765&quot; rel=&quot;lightvideo[group|width:400px; height:300px;][caption]&quot;&gt;Google video example - custom size&lt;/a&gt;</code>"
+msgstr "<code>&lt;a href=&quot;http://video.google.com/videoplay?docid=1811233136844420765&quot; rel=&quot;lightvideo[group|width:400px; height:300px;][caption]&quot;&gt;Google video の例 - カスタムサイズ&lt;/a&gt;</code>"
+
+#: lightbox2.module:318
+msgid "Supported video formats include asx, wmv, mov and swf.  A number of online video providers are also supported, including YouTube and Google Video.  For a full list of the current supported video providers please see the documentation on drupal.org."
+msgstr "サポートしているビデオの形式はasxおよびwmv、mov、swfです。YouTubeやGoogle Videoといった多くのビデオプロバイダーもまたサポートしています。現在サポートしているビデオプロバイダーの完全なリストは drupal.org のドキュメントを参照してください。"
+
+#: lightbox2.module:324;376
+msgid "Links to inline or modal content with 'rel=\"lightmodal\"' in the &lt;a&gt; tag will appear in a Lightbox when clicked on."
+msgstr "&lt;a&gt; タグの中に「rel=\"lightmodal\"」という記述のあるインラインまたはモーダルコンテンツへのリンクをクリックすると、Lightboxの中にそのコンテンツが表示されます。"
+
+#: lightbox2.module:327
+msgid "It's possible to show HTML snippets in the lightbox, that is on the same domain.  In this case the \"rel\" attribute should be set to \"lightmodal\".  Again it's possible to group the content, (e.g. <code>lightmodal[group][caption]</code>) but in addition to that, it's possible to control some of the modal properties.  It's possible to set the \"width\", \"height\" and \"scrolling\" properties of the modal.  The properties are separated from the group name by a <code>|</code>, for example <code>lightmodal[group|width:100px;][caption]</code>.  If no grouping is being used, then the <code>|</code> is still used and the format would be <code>lightmodal[|width:100px;]</code>.  The properties should all be of the format \"property: value;\" - note the closing semi-colon.  If no modal properties are set, then the default width and height of 400px will be used.  See below for more detailed examples."
+msgstr "同じドメイン上のHTMLスニペットをlightboxで表示することができます。その場合、「rel」属性は <code>lightmodal</code> としなくてはなりません。また、コンテンツをグループ化することができ（例: <code>lightmodal[group][caption]</code>）、それに加えてモーダルプロパティ―のいくつかを制御することができます。モーダルプロパティ―は「横幅」「高さ」「スクロール」を設定可能です。プロパティ―とグループ名をパイプ（ <code>|</code> ）で区切ります（例: <code>lightmodal[group|width:100px;][caption]</code> ）。グループ化していなくても、パイプは残り、<code>lightmodal[|width:100px;]</code> といった具合になります。プロパティ―はすべて「プロパティ―: 値;」の書式で記述しなければならず、セミコロンで閉じる事に注意してください。何もプロパティ―が設定されなければ、横幅と高さにはデフォルトの400pxが用いられます。より詳細な例は下記を参照してください。"
+
+#: lightbox2.module:329
+msgid "<code>&lt;a href=&quot;search.php&quot; rel=&quot;lightmodal&quot;&gt;Search&lt;/a&gt;</code>"
+msgstr "<code>&lt;a href=&quot;search.php&quot; rel=&quot;lightmodal&quot;&gt;検索&lt;/a&gt;</code>"
+
+#: lightbox2.module:331
+msgid "<code>&lt;a href=&quot;search.php&quot; rel=&quot;lightmodal[search][caption 1]&quot;&gt;Search&lt;/a&gt;<br />&lt;a href=&quot;search.php?status=1&quot; rel=&quot;lightmodal[search]&quot;&gt;Search published&lt;/a&gt;</code>"
+msgstr "<code>&lt;a href=&quot;search.php&quot; rel=&quot;lightmodal[search][caption 1]&quot;&gt;検索&lt;/a&gt;<br />&lt;a href=&quot;search.php?status=1&quot; rel=&quot;lightmodal[search]&quot;&gt;掲載済みを検索&lt;/a&gt;</code>"
+
+#: lightbox2.module:334
+msgid "<code>&lt;a href=&quot;search.php&quot; rel=&quot;lightmodal[|width:400px; height:300px; scrolling: auto;][caption]&quot;&gt;Search&lt;/a&gt;</code>"
+msgstr "<code>&lt;a href=&quot;search.php&quot; rel=&quot;lightmodal[|width:400px; height:300px; scrolling: auto;][caption]&quot;&gt;検索&lt;/a&gt;</code>"
+
+#: lightbox2.module:336
+msgid "<code>&lt;a href=&quot;search.php&quot; rel=&quot;lightmodal[search|width:400px; height:300px; scrolling: auto;]&quot;&gt;Search&lt;/a&gt;<br />&lt;a href=&quot;search.php?status=1&quot; rel=&quot;lightmodal[search|width:400px; height:300px;]&quot;&gt;Search published&lt;/a&gt;</code>"
+msgstr "<code>&lt;a href=&quot;search.php&quot; rel=&quot;lightmodal[search|width:400px; height:300px; scrolling: auto;]&quot;&gt;検索&lt;/a&gt;<br />&lt;a href=&quot;search.php?status=1&quot; rel=&quot;lightmodal[search|width:400px; height:300px;]&quot;&gt;掲載済みを検索&lt;/a&gt;</code>"
+
+#: lightbox2.module:350
+msgid "Lightbox filter"
+msgstr "Lightboxフィルタ"
+
+#: lightbox2.module:351
+msgid "Lightbox G2 filter"
+msgstr "Lightbox G2フィルタ"
+
+#: lightbox2.module:352
+msgid "Lightbox slideshow filter"
+msgstr "Lightbox スライドショーフィルター"
+
+#: lightbox2.module:353
+msgid "Lightbox iframe filter"
+msgstr "Lightbox iframe フィルター"
+
+#: lightbox2.module:354
+msgid "Lightbox video filter"
+msgstr "Lightbox ビデオフィルター"
+
+#: lightbox2.module:355
+msgid "Lightbox modal filter"
+msgstr "Lightbox モーダルフィルター"
+
+#: lightbox2.module:356
+msgid "Disable Lightbox iframe filter"
+msgstr "Lightbox iframe フィルターを無効化"
+
+#: lightbox2.module:364
+msgid "Turns g2_filter links into Lightbox2 appropriate links"
+msgstr "g2_filterのリンクをLightbox2に適した形式のリンクへ変換"
+
+#: lightbox2.module:379
+msgid "It's possible to show webpage content in the lightbox, using iframes.  In this case the \"rel\" attribute should be set to \"lightframe\".  However, users can do this without any filters to be enabled.  To prevent users from adding iframes to the site in this manner, then please enable this option."
+msgstr "iframeを使用して、ウェブページのコンテンツをlightboxに表示することができます。その場合、「rel」属性は「lightframe」に設定しなくてはなりません。しかしながら、ユーザーはフィルタが有効でなくても行うことができます。ユーザーがこの方法でサイトにiframeを追加できないようにするには、このオプションを有効にしてください。"
+
+#: lightbox2.module:612
+msgid "press !x to close"
+msgstr "!x を押すと閉じます"
+
+#: lightbox2.module:757
+msgid "Lightbox2: Image Thumbnail -> Original"
+msgstr "Lightbox2: サムネイル画像 -> オリジナル"
+
+#: lightbox2.module:761
+msgid "Lightbox2 slideshow: Image Thumbnail -> Original"
+msgstr "Lightbox2 スライドショー: サムネイル画像 -> オリジナル"
+
+#: lightbox2.module:765
+msgid "Lightbox2 iframe: Image Thumbnail -> Content"
+msgstr "Lightbox2 iframe: サムネイル画像 -> コンテンツ"
+
+#: lightbox2.module:771
+msgid "Lightbox2: Image Thumbnail -> Full Size Video"
+msgstr "Lightbox2: サムネイル画像 -> フルサイズのビデオ"
+
+#: lightbox2.module:777;1100
+msgid "Lightbox2 iframe"
+msgstr ""
+
+#: lightbox2.module:1101
+msgid "Displays all kinds of files in a popup lightbox in an iframe."
+msgstr "すべての種類のファイルを、ポップアップのlightboxにあるiframeで表示します。"
+
+#: lightbox2.module:1105
+msgid "Lightbox2 image"
+msgstr "Lightbox2 画像"
+
+#: lightbox2.module:1106
+msgid "Displays image files in a popup lightbox."
+msgstr "画像ファイルをlightboxのポップアップで表示します。"
+
+#: lightbox2.module:146
+msgid "administer lightbox2"
+msgstr "Lightbox2の管理"
+
+#: lightbox2.module:146
+msgid "download original image"
+msgstr "オリジナルの画像をダウンロード"
+
+#: lightbox2.module:157
+#: lightbox2.info:0
+msgid "Lightbox2"
+msgstr "Lightbox2"
+
+#: lightbox2.module:158;166
+msgid "Allows the user to configure the lightbox2 settings"
+msgstr "Lightbox2の設定を行います。"
+
+#: lightbox2.module:165
+msgid "General"
+msgstr "全般"
+
+#: lightbox2.module:177
+msgid "Allows the user to configure the lightbox2 slideshow functionality"
+msgstr "lightbox2のスライドショー機能を設定できるようになります。"
+
+#: lightbox2.module:193
+msgid "Allows the user to configure the lightbox2 HTML content functionality."
+msgstr "lightbox2のHTMLコンテンツ機能を設定できるようになります。"
+
+#: lightbox2.module:198
+msgid "Automatic image handling"
+msgstr "自動イメージ処理"
+
+#: lightbox2.module:199
+msgid "Allows the user to configure the lightbox2 automatic image handling settings"
+msgstr "lightbox2の自動イメージ処理の設定を行います"
+
+#: lightbox2.module:226
+msgid "Login"
+msgstr "ログイン"
+
+#: lightbox2.module:232
+msgid "Contact"
+msgstr "コンタクト"

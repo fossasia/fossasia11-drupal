@@ -1,0 +1,224 @@
+/* $Id: fusion-acquia-marina-style-rtl.css 7703 2010-07-14 22:42:55Z jeremy $ */
+
+/* Logo
+/-------------------------------------------------------------- */
+#logo {
+  float: right;
+  margin: 0 0 0 15px;
+}
+
+
+/* Primary Menu
+/-------------------------------------------------------------- */
+#primary-menu.block .inner {
+  float: left;
+}
+
+#primary-menu ul.menu li {
+  float: right;
+}
+
+/* Second level */
+#primary-menu ul.menu li:hover ul.menu,
+#primary-menu ul.menu li.hover ul.menu,
+#primary-menu ul.menu li.sfHover ul.menu {
+  text-align: right;
+}
+
+#primary-menu ul.menu li ul.menu li {
+  float: left;
+}
+
+/* Third level */
+#primary-menu ul.menu li:hover ul.menu li ul.menu,
+#primary-menu ul.menu li.hover ul.menu li ul.menu {
+  margin-right: 34px;
+}
+
+
+/* Secondary Menu
+/-------------------------------------------------------------- */
+#secondary-menu.block {
+  float: left;
+}
+
+.secondary-menu-inner ul.links li {
+  float: right;
+}
+
+.secondary-menu-inner ul.links li a:link,
+.secondary-menu-inner ul.links li a:visited {
+  border-left: none;
+  border-right: 1px solid #ccc;
+}
+
+.secondary-menu-inner ul.links li.first a:link,
+.secondary-menu-inner ul.links li.first a:visited {
+  border-left: none;
+  border-right: none;
+  padding-left: 10px;
+}
+
+.secondary-menu-inner ul.links li.last a:link,
+.secondary-menu-inner ul.links li.last a:visited {
+  padding-right: 10px;
+}
+
+
+/* Header - Search
+-------------------------------------------------------------- */
+#search-box {
+  float: left;
+}
+
+#search-box .corner-bottom-left {
+  float: left;
+}
+
+
+/* Default node styles
+/-------------------------------------------------------------- */
+.node ul.links li,
+.node ul.inline li,
+.node .links a:link,
+.node .links a:visited {
+  padding: 0 0 0 14px;
+}
+
+#content-content .node ul.links li.comment_forbidden a {
+  padding-left: 4px;
+  padding-right: 0;
+}
+
+.picture {
+  float: left;
+  margin: 0 4px 2px 0;
+}
+
+blockquote {
+  background: url(../images/rtl/close-quote.png) no-repeat 0 100%;
+  padding-left: 10px;
+}
+
+blockquote p:first-child {
+  background: url(../images/rtl/open-quote.png) no-repeat 100% 0;
+  padding: 0 20px 0 0;
+}
+
+/* Lists */
+.content-region .content-inner .content-inner-inner .content ul,
+.content-region .content-inner .content-inner-inner .content ol {
+  margin: 0 40px 10px 0;
+}
+
+.content-region .content-inner .content-inner-inner .content ul ul,
+.content-region .content-inner .content-inner-inner .content ol ol {
+  margin: 0 20px 10px 0;
+}
+
+.content-region .content-inner .content-inner-inner .content ul li {
+  background: url(../images/rtl/green-bullet.png) no-repeat 100% 3px;
+  list-style: none;
+  list-style-image: none;
+  padding-right: 20px;
+}
+
+/* Pagers */
+.content-region .content-inner .content-inner-inner ul.pager li {
+  background: none;
+  padding-right: 0;
+}
+
+.content-region .content-inner .content-inner-inner ul.pager li.pager-current {
+  padding-right: 5px;
+}
+
+
+/* Block titles
+/-------------------------------------------------------------- */
+.marina-title-rounded-blue h2.block-title,
+.marina-title-rounded-green h2.block-title {
+  padding: 8px 50px 6px 8px;
+  text-align: left;
+}
+
+
+/* Comments
+/-------------------------------------------------------------- */
+#comments h2.comments-header {
+  padding: 6px 50px 6px 14px;
+}
+
+.comment .links a {
+  text-align: left;
+}
+
+.comment ul.links {
+  text-align: left;
+}
+
+#content-content .comment ul.links li {
+  margin: 0 0 0 10px;
+}
+
+
+/* Rounded Corners
+/-------------------------------------------------------------- */
+.marina-rounded-corners .corner-top-left {
+  background-position: top right;
+}
+
+.marina-rounded-corners .corner-bottom-left {
+  background-position: bottom right;
+}
+
+
+/* Skinr
+/-------------------------------------------------------------- */
+/* Marina - List - Green arrow */
+.marina-list-arrow-green ul li {
+  background: url(../images/rtl/green-checkmark.png) no-repeat 100% 5px;
+  padding: 10px 40px 15px 0;
+}
+
+/* Marina - List - Raquo */
+.marina-list-raquo ul {
+  margin-right: 0;
+}
+
+.marina-list-raquo ul li {
+  background: url(../images/rtl/raquo.png) no-repeat 100% 8px;
+  padding-left: 0;
+  padding-right: 15px;
+}
+
+
+/* Icons
+/-------------------------------------------------------------- */
+.title-icon .block-icon,
+#comments .block-icon {
+  right: 0;
+}
+
+.icon-bubble .block-icon,
+.icon-calendar .block-icon,
+.icon-chalkboard .block-icon,
+.icon-chatbubbles .block-icon,
+.comment-icon-chatbubbles,
+.icon-colorchart .block-icon,
+.icon-flag .block-icon,
+.icon-gears .block-icon,
+.icon-home .block-icon,
+.icon-keys .block-icon,
+.icon-newspaper .block-icon,
+.icon-notepad .block-icon,
+.icon-photo .block-icon,
+.icon-rss .block-icon,
+.icon-search .block-icon,
+.icon-star .block-icon {
+  background-position: 100% 50%;
+}
+
+.icon-search .block-icon {
+  background: url(../images/rtl/icons/icon-search.png) no-repeat 0 50%;
+}

@@ -1,0 +1,33 @@
+$Id: INSTALL.txt,v 1.6.4.17 2009/12/30 22:28:50 boombatower Exp $
+
+AUTHOR
+------
+Jimmy Berry ("boombatower", http://drupal.org/user/214218)
+
+REQUIREMENTS
+------------
+The php-curl library is required for SimpleTest to function.
+
+INSTALLATION
+------------
+1. Apply the D6-core-simpletest.patch file to the Drupal 6 core.
+
+2. (Optional)
+   Apply the "Show fatal errors in tests" patch to misc/drupal.js if you want
+   the reason for test failure to be displayed on the batch API screen. The
+   patch can be found at:
+   http://drupal.org/files/issues/simpletest_drupal.js_.patch.
+
+3. (Optional)
+   Move/Copy the run-tests.sh file into the Drupal scripts folder. The script
+   allows the tests to be run from the command line.
+
+4. Go to Administer >> Site building >> Modules (admin/build/modules) and
+   enable the SimpleTest module.
+
+5. Go to Administer >> Site building >> Testing (admin/build/testing) to
+   begin using the module.
+
+6. (Optional)
+   Go to Administer >> Help >> SimpleTest (admin/help/simpletest)
+   for more information on how to use the SimpleTest module.

@@ -1,0 +1,283 @@
+# $Id: uk.po,v 1.1.2.2 2009/05/21 17:33:40 podarok Exp $
+#
+# Ukrainian translation of Drupal (general)
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# Generated from files:
+#  gravatar.admin.inc,v 1.1.2.8 2008/11/08 21:22:20 narno
+#  gravatar.module,v 1.6.2.11 2008/11/08 21:22:20 narno
+#  gravatar.info,v 1.1.2.6 2008/11/09 00:08:21 narno
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gravatar uk Ukrainian Translation\n"
+"POT-Creation-Date: 2009-05-21 19:27+0300\n"
+"PO-Revision-Date: 2009-05-21 20:27+0200\n"
+"Last-Translator: podarok <podarok@ua.fm>\n"
+"Language-Team: uk <podarok@ua.fm>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=((((n%10)==1)&&((n%100)!=11))?(0):(((((n%10)>=2)&&((n%10)<=4))&&(((n%100)<10)||((n%100)>=20)))?(1):2));\n"
+"X-Poedit-Language: Ukrainian\n"
+"X-Poedit-Country: UKRAINE\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+#: gravatar.admin.inc:18
+msgid "Enable Gravatar integration"
+msgstr "Дозволити інтеграцію Gravatar"
+
+#: gravatar.admin.inc:19
+msgid "Enable or disable integration of Gravatar for this site."
+msgstr "Вмикає або вимикає можлівисть використання Gravatar для цього сайту"
+
+#: gravatar.admin.inc:21;32
+#: gravatar.module:200
+msgid "Disable"
+msgstr "Вимкнути"
+
+#: gravatar.admin.inc:22;33
+#: gravatar.module:201
+msgid "Enable"
+msgstr "Увімкнути"
+
+#: gravatar.admin.inc:29
+msgid "Users can enable (and disable) Gravatar"
+msgstr "Користувачі можуть вмикати-вимикати Gravatar"
+
+#: gravatar.admin.inc:30
+msgid "Authenticated users can disable their own Gravatar in their profile and own contents."
+msgstr "Зареєстровані користувачі можуть вимкнути власні Gravatar в своїх профілях і матеріалах"
+
+#: gravatar.admin.inc:40
+msgid "settings"
+msgstr "налаштування"
+
+#: gravatar.admin.inc:42
+msgid "empty, go settings to change that"
+msgstr "пусто, перейдіть до налагодження: щоб змінити"
+
+#: gravatar.admin.inc:46
+msgid "Display preferences"
+msgstr "Параметри відображення"
+
+#: gravatar.admin.inc:47
+msgid "Control how Gravatars are displayed"
+msgstr "Керування тим, як відображаються Gravatar-и"
+
+#: gravatar.admin.inc:53
+msgid "Image size"
+msgstr "Розмір фото"
+
+#: gravatar.admin.inc:54
+msgid "Select your preferred gravatar image size (max. 80x80)"
+msgstr "Оберіть максимальний розмір gravatar"
+
+#: gravatar.admin.inc:61
+msgid "Maturity filter"
+msgstr "Віковий фільтр"
+
+#: gravatar.admin.inc:62
+msgid "An optional maturity rating parameter with a value (MPAA nomenclatura) that determines the highest rating (inclusive) that will be returned."
+msgstr "Спеціальний параметр вікового рейтингу із значенням (номенклатура MPAA), що визначає найвищий рейтинг, що буде віддаватись."
+
+#: gravatar.admin.inc:69
+msgid "Default avatar image"
+msgstr "Базове фото"
+
+#: gravatar.admin.inc:70
+msgid "Specifies an image that should be returned if either the requested email address has no associated Gravatar, or that Gravatar has a rating higher than is allowed by the \"rating\" parameter."
+msgstr "Визначає фото, що буде віддаватись в випадках, якщо наявній адресі електронної пошти не назначено Gravatar, або якщо рейтинг Gravatar вищий, чим дозволено в параметрах \"rating\""
+
+#: gravatar.admin.inc:73
+msgid "Drupal default user image (!user_picture_default_setting)"
+msgstr "Базова Друпалівська юзерпика  (!user_picture_default_setting)"
+
+#: gravatar.admin.inc:74
+msgid "Module default user image"
+msgstr "Базове фото користувача від модуля"
+
+#: gravatar.admin.inc:75
+msgid "Image provided by Gravatar.com"
+msgstr "Фото, надане Gravatar.com"
+
+#: gravatar.admin.inc:84
+msgid "Generated default gravatar type"
+msgstr "Генерований базовий тип gravatar"
+
+#: gravatar.admin.inc:85
+msgid "By selecting a type of avatar, each user will have associated an static automatically generated gravatar of that type which will be his/her identity"
+msgstr ""
+
+#: gravatar.admin.inc:106
+msgid "Advanced options"
+msgstr "Додаткові налаштування"
+
+#: gravatar.admin.inc:110
+msgid "Gravatar URL"
+msgstr "Посилання Gravatar"
+
+#: gravatar.admin.inc:112
+msgid "If you are not sure don't modify this !"
+msgstr "Не впевнений - не змінюй!"
+
+#: gravatar.admin.inc:122
+msgid "Email"
+msgstr "Пошта"
+
+#: gravatar.admin.inc:127
+msgid "Check !"
+msgstr "Перевірка!"
+
+#: gravatar.admin.inc:134
+#: gravatar.module:228
+msgid "Please enter a valid email address."
+msgstr "Прохання ввести коректну адресу електронної пошти"
+
+#: gravatar.admin.inc:187;187
+msgid "Default gravatar preview"
+msgstr "Базовий перегляд gravatar"
+
+#: gravatar.module:38
+msgid "Make sure !user_picture_support is enabled to enable Gravatar integration"
+msgstr ""
+
+#: gravatar.module:38
+msgid "user picture support"
+msgstr "підтримка користувацьких фото"
+
+#: gravatar.module:44
+msgid "Make sure !user_access is enabled for appropriate role(s)"
+msgstr ""
+
+#: gravatar.module:44
+msgid "user access"
+msgstr "доступ користувача"
+
+#: gravatar.module:49
+msgid "Make sure !user_picture_in_comments is enabled to use gravatar in comments"
+msgstr ""
+
+#: gravatar.module:49
+msgid "user picture in comments"
+msgstr "фото користувачів в відгуках"
+
+#: gravatar.module:54
+msgid "Make sure !user_picture_in_nodes is enabled to use gravatar in nodes"
+msgstr ""
+
+#: gravatar.module:54
+msgid "user picture in nodes"
+msgstr "фото користувача в матеріалах"
+
+#: gravatar.module:64
+msgid "Please note that !gravatar_module_page integration is enabled."
+msgstr ""
+
+#: gravatar.module:64;86
+msgid "Gravatar"
+msgstr "Gravatar"
+
+#: gravatar.module:69
+msgid "Global settings"
+msgstr "Глобальні настройки"
+
+#: gravatar.module:70
+msgid "Go to the !gravatar_integration_settings and enable gravatar integration. "
+msgstr ""
+
+#: gravatar.module:70
+msgid "gravatar integration settings"
+msgstr "параметри інтегрування gravatar"
+
+#: gravatar.module:71
+msgid "If enabled, all user images will be replaced with gravatars. If disabled, the site's default user picture settings are used."
+msgstr ""
+
+#: gravatar.module:72
+msgid "The site administrator may set a default image width, the maximum allowed maturity level, and select the site's default user image, the default user image provided by this module, or the image provided by gravatar.com, for the case no avatar could be retrieved."
+msgstr ""
+
+#: gravatar.module:73
+msgid "Per user settings"
+msgstr "Параметри для кожного користувача"
+
+#: gravatar.module:74
+msgid "In the user profile page, each authenticated user can choose to use his or her gravatar, or the uploaded user image. There the user may also enter an alternative email address for which to retrieve the registered gravatar."
+msgstr ""
+
+#: gravatar.module:87
+msgid "Administer how gravatars are used."
+msgstr "Керування використання gravatar-ів."
+
+#: gravatar.module:130
+msgid "@user's picture"
+msgstr "Зображення користувача @user."
+
+#: gravatar.module:130
+msgid "Anonymous"
+msgstr "Гість"
+
+#: gravatar.module:172
+msgid "View user profile."
+msgstr "Переглянути дані користувача."
+
+#: gravatar.module:177
+msgid "View user homepage."
+msgstr "Перегляд вебсторінки користувача"
+
+#: gravatar.module:196
+msgid "Enable Gravatar"
+msgstr "Вмикання Gravatar"
+
+#: gravatar.module:197
+msgid "If enabled, replaces your user image with the avatar submitted to your gravatar.com account."
+msgstr ""
+
+#: gravatar.module:210
+msgid "Gravatar email address"
+msgstr "Електронна адреса Gravatar"
+
+#: gravatar.module:211
+msgid "Enter the email address under which you registered your avatar at !gravatar_website. Leave blank to use your user account email setting."
+msgstr ""
+
+#: gravatar.module:242
+msgid "If you have a <noindex><a rel=\"nofollow\" href=\"@gravatar-website\">Gravatar</a> account, used to display your avatar."
+msgstr "Якщо у Вас є <a rel=\"nofollow\" href=\"@gravatar-website\">Gravatar</a> реєстрація, буде відображено ваш аватар."
+
+#: gravatar.module:23
+msgid "administer gravatar"
+msgstr "адмініструвати gravatar"
+
+#: gravatar.module:23
+msgid "use gravatar"
+msgstr "використовувати gravatar"
+
+#: gravatar.module:95
+msgid "Settings"
+msgstr "Налаштування"
+
+#: gravatar.module:100
+msgid "Advanced settings"
+msgstr "Розширені налагодження"
+
+#: gravatar.module:109
+msgid "Tools"
+msgstr "Утиліти"
+
+#: gravatar.module:0
+msgid "gravatar"
+msgstr "gravatar"
+
+#: gravatar.info:0
+msgid "Gravatar integration"
+msgstr "Інтеграція з Gravatar"
+
+#: gravatar.info:0
+msgid "Integrate Gravatar pictures registered at Gravatar.com in Drupal sites"
+msgstr "Вмикає фото Gravatar, зареєстровані на сайти Gravatar.com для сайтів Друпал."
+
+#: gravatar.info:0
+msgid "3rd party integration"
+msgstr "додаткова інтеграція"
+

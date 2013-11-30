@@ -1,0 +1,110 @@
+<?php
+// $Id: inactive_user.install,v 1.2 2009/05/29 17:47:52 deekayen Exp $
+
+/**
+ * @file
+ * The inactive user module controls inactive users.
+ *
+ * The inactive user module sends mails to inactive users.
+ * The user can configure the time after Drupal sends mails.
+ */
+
+/**
+ * Implementation of hook_install().
+ */
+function inactive_user_install() {
+  drupal_install_schema('inactive_user');
+}
+
+function inactive_user_schema() {
+  $schema['inactive_users'] = array(
+    'description' => t('The base table for inactive_users.'),
+      'fields' => array(
+        'uid' => array(
+          'description' => t('The primary identifier for a user.'),
+          'type' => 'int',
+          'unsigned' => TRUE,
+          'not null' => TRUE,
+          'default' => 0),
+        'notified_admin' => array(
+          'description' => t('Admin notifier.'),
+          'type' => 'int',
+          'size' => 'tiny',
+          'unsigned' => TRUE,
+          'not null' => TRUE,
+          'default' => 0),
+        'notified_user' => array(
+          'description' => t('User notifier.'),
+          'type' => 'int',
+          'size' => 'tiny',
+          'unsigned' => TRUE,
+          'not null' => TRUE,
+          'default' => 0),
+        'warned_user_block_timestamp' => array(
+          'description' => t('Timestamp warning.'),
+          'type' => 'int',
+          'unsigned' => TRUE,
+          'not null' => TRUE,
+          'default' => 0),
+        'notified_user_block' => array(
+          'description' => t('User block warning.'),
+          'type' => 'int',
+          'size' => 'tiny',
+          'unsigned' => TRUE,
+          'not null' => TRUE,
+          'default' => 0),
+        'notified_admin_block' => array(
+          'description' => t('Timestamp warning.'),
+          'type' => 'int',
+          'size' => 'tiny',
+          'unsigned' => TRUE,
+          'not null' => TRUE,
+          'default' => 0),
+        'warned_user_delete_timestamp' => array(
+          'description' => t('Timestamp warning.'),
+          'type' => 'int',
+          'unsigned' => TRUE,
+          'not null' => TRUE,
+          'default' => 0),
+        'protected' => array(
+          'description' => t('Timestamp warning.'),
+          'type' => 'int',
+          'size' => 'tiny',
+          'unsigned' => TRUE,
+          'not null' => TRUE,
+          'default' => 0),
+      ),
+      'primary key' => array('uid'),
+    );
+  return $schema;
+}
+
+/**
+ * Implementation of hook_uninstall().
+ */
+function inactive_user_uninstall() {
+  drupal_uninstall_schema('inactive_user');
+  variable_del('inactive_user_admin_email');
+  variable_del('inactive_user_auto_block');
+  variable_del('inactive_user_auto_block_warn');
+  variable_del('inactive_user_auto_delete');
+  variable_del('inactive_user_auto_delete_warn');
+  variable_del('inactive_user_block_notify_text');
+  variable_del('inactive_user_block_warn_text');
+  variable_del('inactive_user_delete_notify_text');
+  variable_del('inactive_user_delete_warn_text');
+  variable_del('inactive_user_notify');
+  variable_del('inactive_user_notify_admin');
+  variable_del('inactive_user_notify_block');
+  variable_del('inactive_user_notify_block_admin');
+  variable_del('inactive_user_notify_delete');
+  variable_del('inactive_user_notify_delete_admin');
+  variable_del('inactive_user_notify_text');
+  variable_del('inactive_user_preserve_content');
+  variable_del('inactive_user_timestamp');
+  $settings = db_query("SELECT name FROM {variable} WHERE name LIKE 'inactive_user_%'");
+  while ($row = db_fetch_object($settings)) {
+    variable_del($row->name);
+  }
+  drupal_set_message(t('Inactive user has been uninstalled.'));
+}

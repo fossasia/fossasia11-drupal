@@ -1,0 +1,110 @@
+<?php
+
+/**
+ * @file
+ * Views Slideshow: jcarouselthumbs has options for working with node views.
+ *
+ * The jcarouselthumbs mode adds two parts to the view: the first part is a
+ * series of items displayed as a list, the second part is either a full node
+ * or a node teaser. The slideshow will synchronize the two, so that the
+ * 'active' item will correspond to the single full/teaser item. The slide show
+ * can be set to advance automatically or on mouse hover/click.
+ */
+
+/**
+ * Implements hook_init();
+ */
+function views_slideshow_jcarouselthumbs_init() {
+  // If the jQ module is installed, use that to add the jQuery Cycle plugin.
+  // This allows different versions of the plugin to be used.
+  $js1 = FALSE;
+  $js2 = FALSE;
+  if (module_exists('jq')) {
+    $loaded_plugins = jq_plugins();
+    if (!empty($loaded_plugins['cycle'])) {
+      $js1 = jq_add('cycle');
+    }
+    if (!empty($loaded_plugins['jcarousel'])) {
+      $js2 = jq_add('jcarousel');
+    }
+  }
+
+  // Otherwise, we'll add the version included with this module.
+  if (!$js1) {
+    drupal_add_js(drupal_get_path('module', 'views_slideshow') . '/js/jquery.cycle.all.min.js');
+  }
+
+  $module_path = drupal_get_path('module', 'views_slideshow_jcarouselthumbs');
+
+  if (!$js2) {
+    drupal_add_js($module_path . '/jcarousel/lib/jquery.jcarousel.js');
+  }
+
+  drupal_add_js($module_path . '/views_slideshow.js', 'module');
+  drupal_add_css($module_path . '/views_slideshow.css', 'module');
+}
+
+/**
+ * Implements hook_theme().
+ */
+function views_slideshow_jcarouselthumbs_theme($existing, $type, $theme, $path) {
+  return array(
+    'views_slideshow_jcarouselthumbs' => array(
+      'arguments' => array('view' => NULL, 'options' => array(), 'rows' => array(), 'title' => ''),
+      'template' => 'views-slideshow-jcarouselthumbs',
+      'file' => 'views_slideshow_jcarouselthumbs.theme.inc',
+    ),
+    'views_slideshow_jcarouselthumbs_controls' =>array(
+      'arguments' => array('id' => '', 'view' => NULL, 'options' => array()),
+      'file' => 'views_slideshow_jcarouselthumbs.theme.inc',
+    ),
+    'views_slideshow_jcarouselthumbs_control_previous' =>array(
+      'arguments' => array('id' => '', 'view' => NULL, 'options' => array()),
+      'file' => 'views_slideshow_jcarouselthumbs.theme.inc',
+    ),
+    'views_slideshow_jcarouselthumbs_control_pause' =>array(
+      'arguments' => array('id' => '', 'view' => NULL, 'options' => array()),
+      'file' => 'views_slideshow_jcarouselthumbs.theme.inc',
+    ),
+    'views_slideshow_jcarouselthumbs_control_next' =>array(
+      'arguments' => array('id' => '', 'view' => NULL, 'options' => array()),
+      'file' => 'views_slideshow_jcarouselthumbs.theme.inc',
+    ),
+    'views_slideshow_jcarouselthumbs_image_count' => array(
+      'arguments' => array('id' => '', 'view' => NULL, 'options' => array()),
+      'file' => 'views_slideshow_jcarouselthumbs.theme.inc',
+    ),
+    'views_slideshow_jcarouselthumbs_breakout_teaser' => array(
+      'arguments' => array('item' => NULL, 'id' => NULL, 'count' => NULL),
+      'file' => 'views_slideshow_jcarouselthumbs.theme.inc',
+    ),
+    'views_slideshow_jcarouselthumbs_no_display_section' => array(
+      'arguments' => array('view' => NULL, 'rows' => NULL, 'id' => NULL, 'mode' => NULL, 'teaser' => TRUE),
+      'file' => 'views_slideshow_jcarouselthumbs.theme.inc',
+    ),
+    'views_slideshow_jcarouselthumbs_no_display_teaser' => array(
+      'arguments' => array('item' => NULL, 'id' => NULL, 'count' => NULL),
+      'file' => 'views_slideshow_jcarouselthumbs.theme.inc',
+    ),
+    'views_slideshow_jcarouselthumbs_breakout_teasers' => array(
+      'arguments' => array('items' => NULL, 'id' => NULL),
+      'file' => 'views_slideshow_jcarouselthumbs.theme.inc',
+    ),
+  );
+}
+
+/**
+ * Implements hook_help().
+ */
+function views_slideshow_jcarouselthumbs_help($path, $arg) {
+  switch ($path) {
+    case 'admin/help#views_slideshow_jcarouselthumbs':
+      if (module_exists('advanced_help')) {
+        $output = '<p>' . l(t('Click here to view the documentation for Views Slideshow JCarouselThumbs'),  'admin/advanced_help/views_slideshow_jcarouselthumbs') . '</p>';
+      }
+      else {
+        $output = '<p>' . t('Views Slideshow JCarouselThumbs help can be found by installing and enabling the !advanced_help.',  array('!advanced_help' => l(t('Advanced Help module'), 'http://drupal.org/project/advanced_help'))) . '</p>';
+      }
+      return $output;
+  }
+}

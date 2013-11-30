@@ -1,0 +1,35 @@
+<?php
+
+/**
+ * Implements hook_autoload_info().
+ */
+function autoloadtest_autoload_info() {
+  $classes['AutoloadTestClass'] = array(
+    'file' => 'autoloadtest.classes.incorrect.inc',
+  );
+}
+
+/**
+ * Implements hook_autoload_info_alter().
+ */
+function autoloadtest_autoload_info_alter(&$classes) {
+  $classes['AutoloadTestClass']['file'] = 'autoload.classes.inc';
+}
+
+/**
+ * Implements hook_autoload_menu().
+ */
+function autoloadtest_menu() {
+  $items['autoloadtest'] = array(
+    'title' => 'Autoload test',
+    'type' => MENU_NORMAL_ITEM,
+    'access arguments' => array('access content'),
+    'page callback' => 'autoloadtest_page',
+  );
+  return $items;
+}
+
+function autoloadtest_page() {
+  $test = new AutoloadTestClass();
+  return $test->test();
+}

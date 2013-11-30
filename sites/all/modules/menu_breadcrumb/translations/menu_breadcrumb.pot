@@ -1,0 +1,146 @@
+# $Id: menu_breadcrumb.pot,v 1.5 2009/12/01 22:55:43 xuriz Exp $
+#
+# LANGUAGE translation of Drupal (general)
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# Generated from files:
+#  menu_breadcrumb.module,v 1.7 2009/10/05 22:01:27 xuriz
+#  menu_breadcrumb.info,v 1.3 2008/02/20 18:51:40 gdevlugt
+#  menu_breadcrumb.install: n/a
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2009-11-01 07:42+1300\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: menu_breadcrumb.module:28 menu_breadcrumb.info:0
+msgid "Allows you to use the menu the current page belongs to for the breadcrumb."
+msgstr ""
+
+#: menu_breadcrumb.module:31
+msgid "<p>By default, Drupal 6 will use the Navigation menu for the breadcrumb. This module allows you to use the menu the current page belongs to for the breadcrumb.</p><p>As an added bonus, it also allows you to append the page title to the breadcrumb (either as a clickable url or not) and hide the breadcrumb if it only contains the link to the front page.</p>"
+msgstr ""
+
+#: menu_breadcrumb.module:366
+msgid "Use menu the page belongs to for the breadcrumb."
+msgstr ""
+
+#: menu_breadcrumb.module:367
+msgid "By default, Drupal 6 will use the Navigation menu for the breadcrumb. If you want to use the menu the active page belongs to for the breadcrumb, enable this option."
+msgstr ""
+
+#: menu_breadcrumb.module:373
+msgid "Append page title to breadcrumb"
+msgstr ""
+
+#: menu_breadcrumb.module:374
+msgid "Choose whether or not the page title should be included in the breadcrumb."
+msgstr ""
+
+#: menu_breadcrumb.module:380
+msgid "Appended page title as an URL."
+msgstr ""
+
+#: menu_breadcrumb.module:381
+msgid "Choose whether or not the appended page title should be an URL."
+msgstr ""
+
+#: menu_breadcrumb.module:387
+msgid "Hide the breadcrumb if the breadcrumb only contains the link to the front page."
+msgstr ""
+
+#: menu_breadcrumb.module:388
+msgid "Choose whether or not the breadcrumb should be hidden if the breadcrumb only contains a link to the front page (<em>Home</em>.)."
+msgstr ""
+
+#: menu_breadcrumb.module:394
+msgid "Enable / Disable Menus"
+msgstr ""
+
+#: menu_breadcrumb.module:395
+msgid "The breadcrumb will be generated from the first \"enabled\" menu that contains a menu item for the page. Re-order the list to change the priority of each menu."
+msgstr ""
+
+#: menu_breadcrumb.module:402
+msgid "Note: If none of the enabled menus contain an item for a given page, Drupal will look in the 'Navigation' menu by default, even if it is 'disabled' here."
+msgstr ""
+
+#: menu_breadcrumb.module:461
+msgid "<span title=\"@title\">@name <em>(@hint)</em></span>"
+msgstr ""
+
+#: menu_breadcrumb.module:464
+msgid "See 'Advanced' settings below."
+msgstr ""
+
+#: menu_breadcrumb.module:466
+msgid "pattern"
+msgstr ""
+
+#: menu_breadcrumb.module:471
+msgid "<em><span title=\"@title\">@text</span></em>"
+msgstr ""
+
+#: menu_breadcrumb.module:474
+msgid "Default setting for future menus."
+msgstr ""
+
+#: menu_breadcrumb.module:475
+msgid "Default setting (see below)"
+msgstr ""
+
+#: menu_breadcrumb.module:485
+msgid "<strong>Default setting</strong> is not a real menu - it defines the default position and enabled status for future menus. If it is \"enabled\", Menu Breadcrumb will automatically consider newly-added menus when establishing breadcrumbs. If it is disabled, new menus will not be used for breadcrumbs until they have explicitly been enabled here."
+msgstr ""
+
+#: menu_breadcrumb.module:490
+msgid "Advanced"
+msgstr ""
+
+#: menu_breadcrumb.module:499
+msgid "Enter regular expressions (one per line) to aggregate matching menu names into a single replacement title in the above list."
+msgstr ""
+
+#: menu_breadcrumb.module:504
+msgid "Patterns"
+msgstr ""
+
+#: menu_breadcrumb.module:506
+msgid "Syntax: /regex/title/<br/>e.g.: /^book-toc-d+$/Books/"
+msgstr ""
+
+#: menu_breadcrumb.module:528
+msgid "Invalid pattern syntax."
+msgstr ""
+
+#: menu_breadcrumb.module:561
+msgid "Menu"
+msgstr ""
+
+#: menu_breadcrumb.module:562
+msgid "Enabled"
+msgstr ""
+
+#: menu_breadcrumb.module:563
+msgid "Weight"
+msgstr ""
+
+#: menu_breadcrumb.module:45 menu_breadcrumb.info:0
+msgid "Menu breadcrumb"
+msgstr ""
+
+#: menu_breadcrumb.module:46
+msgid "Configure menu breadcrumb."
+msgstr ""
+
+#: menu_breadcrumb.install:37
+msgid "Menu Breadcrumb's menu selection settings have changed recently. Please review the !settings and check that the correct menus are selected."
+msgstr ""
+

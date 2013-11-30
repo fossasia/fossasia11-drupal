@@ -1,0 +1,7 @@
+/* $Id: ie8-fixes.css 7703 2010-07-14 22:42:55Z jeremy $ */
+
+/* Marina - Icons */
+.title-icon .block-icon,
+#comments .block-icon {
+  top: 0;
+}

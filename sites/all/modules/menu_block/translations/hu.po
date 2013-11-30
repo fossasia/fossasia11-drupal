@@ -1,0 +1,478 @@
+# Hungarian translation of Menu block (6.x-2.2)
+# Copyright (c) 2009 by the Hungarian translation team
+# Generated from files:
+#  menu_block.admin.inc,v 1.27 2008/12/01 21:49:48 johnalbin
+#  menu_block.pages.inc,v 1.15 2008/12/04 04:35:34 johnalbin
+#  menu_block.info,v 1.6 2008/08/05 03:45:10 johnalbin
+#  menu_block.install,v 1.15 2008/12/01 09:56:56 johnalbin
+#  menu_block.module,v 1.48 2008/12/04 04:35:34 johnalbin
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Menu block (6.x-2.2)\n"
+"POT-Creation-Date: 2009-10-05 13:55+0000\n"
+"PO-Revision-Date: 2009-10-05 13:33+0000\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+
+#: menu_block.admin.inc:55
+msgid "delete"
+msgstr "törlés"
+
+#: menu_block.admin.inc:67
+msgid "Delete"
+msgstr "Törlés"
+
+#: menu_block.admin.inc:195
+msgid "Item"
+msgstr "Elem"
+
+#: menu_block.admin.inc:67,67
+msgid "Cancel"
+msgstr "Mégsem"
+
+#: menu_block.pages.inc:36
+msgid "Block title"
+msgstr "Blokk címe"
+
+#: menu_block.admin.inc:182
+msgid "Menu"
+msgstr "Menü"
+
+#: menu_block.admin.inc:209; menu_block.pages.inc:39
+msgid "Parent item"
+msgstr "Szülő menüpont"
+
+#: menu_block.info:0
+msgid "Menu Block"
+msgstr "Menu Block"
+
+#: menu_block.admin.inc:268
+msgid "Unlimited"
+msgstr "Korlátlan"
+
+#: menu_block.admin.inc:43
+msgid "The block has been created."
+msgstr "A blokk létrejött."
+
+#: menu_block.pages.inc:48
+msgid "All sub-menus of this menu will be expanded."
+msgstr "Ennek a menünek az összes gyermeke nyitott lesz."
+
+#: menu_block.admin.inc:121
+msgid "Unconfigured menu block"
+msgstr "Beállításra váró menüblokk"
+
+#: menu_block.admin.inc:138
+msgid "@menu_name (level @level1)"
+msgstr "@menu_name (szint @level1)"
+
+#: menu_block.admin.inc:145
+msgid "@menu_name (levels @level1-@level2)"
+msgstr "@menu_name (szint @level1-@level2)"
+
+#: menu_block.admin.inc:153
+msgid "@menu_name (levels @level1+)"
+msgstr "@menu_name (szint @level1+)"
+
+#: menu_block.admin.inc:219
+msgid "1st level (primary)"
+msgstr "Első szint (elsőfokú)"
+
+#: menu_block.admin.inc:220
+msgid "2nd level (secondary)"
+msgstr "Második szint (másodfokú)"
+
+#: menu_block.admin.inc:221
+msgid "3rd level (tertiary)"
+msgstr "Harmadik szint (harmadfokú)"
+
+#: menu_block.admin.inc:222
+msgid "4th level"
+msgstr "Negyedik szint"
+
+#: menu_block.admin.inc:223
+msgid "5th level"
+msgstr "Ötödik szint"
+
+#: menu_block.admin.inc:224
+msgid "6th level"
+msgstr "Hatodik szint"
+
+#: menu_block.admin.inc:225
+msgid "7th level"
+msgstr "Hetedik szint"
+
+#: menu_block.admin.inc:226
+msgid "8th level"
+msgstr "Nyolcadik szint"
+
+#: menu_block.admin.inc:227
+msgid "9th level"
+msgstr "Kilencedik szint"
+
+#: menu_block.install:70
+msgid ""
+"A pre-release version of Menu block has been detected. All menu blocks "
+"from the pre-release version have been given a new delta and are no "
+"longer placed in any block regions; their block placement should be "
+"re-configured immediately."
+msgstr ""
+"A <em>Menu block</em> modulnak volt előzetes változata telepítve. "
+"Az előzetes változat menüblokkjai új delta értéket kaptak és a "
+"blokk régiókból el lettek távolítva. Az elemek blokk "
+"megjelenését mielőbb újra be kell állítani."
+
+#: menu_block.admin.inc:281; menu_block.pages.inc:49
+msgid "Sort"
+msgstr "Sorbarendezés"
+
+#: menu_block.admin.inc:256; menu_block.pages.inc:45
+msgid "Maximum depth"
+msgstr "Maximális mélység"
+
+#: menu_block.admin.inc:67
+msgid "Are you sure you want to delete the \"%name\" block?"
+msgstr "„%name” blokk biztosan törölhető?"
+
+#: menu_block.admin.inc:89
+msgid "The \"%name\" block has been removed."
+msgstr "„%name” blokk törölve lett."
+
+#: menu_block.admin.inc:142
+msgid "@menu_name (expanded levels @level1-@level2)"
+msgstr "@menu_name (nyitott szintek @level1-@level2)"
+
+#: menu_block.admin.inc:150
+msgid "@menu_name (expanded levels @level1+)"
+msgstr "@menu_name (nyitott szintek @level1+)"
+
+#: menu_block.pages.inc:25
+msgid ""
+"To learn more about configuring menu blocks, see <a href=\"@url\">menu "
+"block’s detailed help</a>."
+msgstr ""
+"A menüblokk elemek beállításairól a <a href=\"@url\">menüblokk "
+"részletes súgójában</a> lehet bővebben olvasni."
+
+#: menu_block.admin.inc:229; menu_block.pages.inc:42
+msgid ""
+"Blocks that start with the 1st level will always be visible. Blocks "
+"that start with the 2nd level or deeper will only be visible when the "
+"trail to the active menu item is in the block’s tree."
+msgstr ""
+"Az első szinttel kezdődő blokkok mindig látszódni fognak. A "
+"második, vagy mélyebb szinten kezdődő blokkok csak akkor "
+"látszanak, ha az aktív menüútvonal ebben a blokk fában "
+"megtalálható."
+
+#: menu_block.pages.inc:16
+msgid ""
+"Use the <a href=\"@url\">add menu block page</a> to create a "
+"customizable menu block. You will then be able to configure your menu "
+"block before adding it."
+msgstr ""
+"A <a href=\"@url\">menüblokk hozzáadása oldal</a> szolgál egyéni "
+"menüblokk hozzádására. Mentés előtt a menüblokk paramétereit "
+"be lehet állítani."
+
+#: menu_block.pages.inc:31
+msgid "Adding menu blocks"
+msgstr "Menüblokkok hozzáadása"
+
+#: menu_block.pages.inc:32
+msgid ""
+"To add new menu blocks, use the \"Add menu block\" tab (or button) on "
+"the <a href=\"@url\">administer blocks page</a>. You will then be able "
+"to configure your menu block before adding it."
+msgstr ""
+"Új menüblokk készítéséhez a „Menüblokk hozzáadása” fül "
+"(vagy nyomógomb) használható a <a href=\"@url\">blokkok "
+"adminisztrációja oldalon</a>. Mentés előtt a menüblokk "
+"paramétereit be lehet állítani."
+
+#: menu_block.pages.inc:33
+msgid "Configuring menu blocks"
+msgstr "Menüblokk beállítások"
+
+#: menu_block.pages.inc:34
+msgid ""
+"When adding or configuring a menu block, several configuration options "
+"are available:"
+msgstr ""
+"Menüblokk hozzáadása vagy szerkesztése során az alábbi "
+"beállítási lehetőségek vannak:"
+
+#: menu_block.pages.inc:37
+msgid ""
+"For menu trees that start with the 1st level, the default block title "
+"will be the menu name. For menu trees that start with the 2nd level or "
+"deeper, the default block title will be the title for the parent menu "
+"item of the specified level."
+msgstr ""
+"Az első szinten kezdődő menüfa blokkcíme alapértelmezés szerint "
+"a menü neve lesz. A második, vagy mélyebb szinten kezdődő "
+"menüfák alapértelmezés szerinti blokkcíme az adott szint szülő "
+"menüpontjának a neve lesz."
+
+#: menu_block.pages.inc:38
+msgid ""
+"For example, if the active menu trail for the Navigation menu is: "
+"Administer › Site building › Menus › Primary links, then a menu "
+"block configured to start with the 1st level of the Navigation will "
+"display a block title of “Navigation”. And a menu block configured "
+"to start with the 3rd level of the Navigation menu will display a "
+"block title of “Site building”."
+msgstr ""
+"Például, ha a menüútvonal a Navigáció menühöz "
+"<em>Adminisztráció › Webhely építés › Menük › Elsődleges "
+"hivatkozások</em>, és a menüblokk a Navigáció menü első "
+"szintjén kezdődik, akkor a blokk címe „Navigáció” lesz. "
+"Ellenben, ha a menüblokk a Navigáció menü harmadik szintjén "
+"kezdődik, akkor a blokk címe „Webhely építés” lesz."
+
+#: menu_block.pages.inc:52
+msgid "Styling menu blocks"
+msgstr "A menüblokk kinézetének formázása"
+
+#: menu_block.pages.inc:53
+msgid ""
+"Themers should look at the myriad of classes added to the %div, %li "
+"and %a elements."
+msgstr ""
+"A sminkkészítők számtalan stílusosztályt találnak a %div, %li "
+"és %a elemeknél."
+
+#: menu_block.pages.inc:63
+msgid "Menu block API"
+msgstr "Menüblokk API"
+
+#: menu_block.pages.inc:64
+msgid ""
+"Developers can use the API of this module to create their own menu "
+"trees outside the confines of blocks. All of the publicly available "
+"API functions are documented in the menu_block.module file."
+msgstr ""
+"A fejlesztők ennek az API-nak a segítségével, a blokkok keretein "
+"kívül elkészíthetik saját menüfájukat. Minden nyilvánosan "
+"elérhető API függvény a <em>menu_block.module</em> fájlban "
+"dokumentálva van."
+
+#: menu_block.module:18
+msgid "Add menu block"
+msgstr "Menüblokk hozzáadása"
+
+#: menu_block.module:19
+msgid "Add a new menu block."
+msgstr "Új menüblokk hozzáadása."
+
+#: menu_block.module:27
+msgid "Delete menu block"
+msgstr "Menüblokk törlése"
+
+#: menu_block.install:33
+msgid ""
+"To use menu blocks, find the \"Add menu block\" tab (or button) on the "
+"<a href=\"@url\">administer blocks page</a>."
+msgstr ""
+"A menüblokkok használatát a „Menüblokk hozzáadása” füllel "
+"(vagy nyomógombbal) kell megkezdeni a <a href=\"@url\">blokkok "
+"adminisztrációja oldalon</a>."
+
+#: menu_block.info:0
+msgid "Provides configurable blocks of menu items."
+msgstr "Testreszabható menüblokkokat szolgáltat."
+
+#: menu_block.admin.inc:135
+msgid "@menu_name (active menu item)"
+msgstr "@menu_name (aktív menüpont)"
+
+#: menu_block.admin.inc:177
+msgid "root of @menu_name"
+msgstr "@menu_name gyökér eleme"
+
+#: menu_block.admin.inc:212
+msgid ""
+"The tree of links will only contain children of the selected parent "
+"item."
+msgstr ""
+"A hivatkozások fában csak a kiválasztott szülő elem gyermekei "
+"lesznek."
+
+#: menu_block.admin.inc:216; menu_block.pages.inc:41
+msgid "Starting level"
+msgstr "Kezdőszint"
+
+#: menu_block.admin.inc:240
+msgid "Make the starting level follow the active menu item."
+msgstr "A kezdő elem kövesse az aktív menüpontot."
+
+#: menu_block.admin.inc:242; menu_block.pages.inc:44
+msgid ""
+"If the active menu item is deeper than the level specified above, the "
+"starting level will follow the active menu item. Otherwise, the "
+"starting level of the tree will remain fixed."
+msgstr ""
+"Ha az aktív menüpont mélyebb szinten van, mint a fenn beállított "
+"szint, akkor a kezdőszint követni fogja az aktív menüpontot. Ha "
+"nem, akkor a fa kezdőszintje mindig ugyanaz marad."
+
+#: menu_block.admin.inc:246
+msgid "Starting level will be"
+msgstr "A kezdőszint legyen"
+
+#: menu_block.admin.inc:249
+msgid "Active menu item"
+msgstr "Az aktív menüpont"
+
+#: menu_block.admin.inc:250
+msgid "Children of active menu item"
+msgstr "Az aktív menüpont gyermeke"
+
+#: menu_block.admin.inc:252
+msgid ""
+"When following the active menu item, specify if the starting level "
+"should be the active menu item or its children."
+msgstr ""
+"Meg kell határozni, hogy az aktív elem követése során a "
+"kezdőszint az aktív menüpont legyen-e, vagy annak a gyermekei."
+
+#: menu_block.admin.inc:270
+msgid "From the starting level, specify the maximum depth of the menu tree."
+msgstr ""
+"A menüfa maximális mélységének beállítása a kezdőszinttől "
+"kezdve."
+
+#: menu_block.admin.inc:274; menu_block.pages.inc:47
+msgid "Expand children"
+msgstr "Gyermek elemek nyitva"
+
+#: menu_block.admin.inc:276
+msgid "Expand all the sub-menus of this tree."
+msgstr "A fa összes almenüje nyitott legyen."
+
+#: menu_block.admin.inc:283
+msgid "Sort menu tree by the active menu item’s trail."
+msgstr "A menüfa rendezése igazodjon az aktív elemek útvonalához"
+
+#: menu_block.admin.inc:285; menu_block.pages.inc:50
+msgid ""
+"Sort each item in the active trail to the top of its level. When used "
+"on a deep or wide menu tree, the active menu item’s children will be "
+"easier to see when the page is reloaded."
+msgstr ""
+"A sorbarendezés során az összes aktív útvonalú menüpont a "
+"saját szintjén a lista elejére fog kerülni. Mély vagy kiterjedt "
+"menüfa használata során az aktív menüpontokat könnyebb lesz "
+"megtalálni az oldal újratöltése esetén."
+
+#: menu_block.pages.inc:40
+msgid ""
+"First select the menu. Then select the parent item from that menu. The "
+"tree of links will only contain children of the selected parent item."
+msgstr ""
+"Először a menüt kell kiválasztani, utána a szülő elemet a "
+"kiválasztott menüből. A hivatkozások fája csak a kiválasztott "
+"szülő elem gyermek elemeit fogja tartalmazni."
+
+#: menu_block.pages.inc:43
+msgid "Make the starting level follow the active menu item"
+msgstr "A kezdőelem kövesse az aktív menüpontot."
+
+#: menu_block.pages.inc:46
+msgid ""
+"From the starting level, specify the maximum depth of the tree. Blocks "
+"with a maximum depth of 1 will just be a single un-nested list of "
+"links with none of those links’ children displayed."
+msgstr ""
+"Be kell állítani a menüfa maximális mélységét a kezdőszinttől "
+"kezdve. Ha a maximális mélység egyre van állítva akkor az "
+"egyszintű listát fog eredményezni a gyermek elemek megmutatása "
+"nélkül."
+
+#: menu_block.pages.inc:56
+msgid ""
+"The %div wrapped around the menu tree has a class for several of the "
+"configurable options of the block: %class."
+msgstr ""
+"A menüfát körülvevő %div elemnek van néhány, a "
+"beállításokkal összefüggő CSS osztálya, mint például: %class."
+
+#: menu_block.pages.inc:58
+msgid ""
+"The %li elements of the menu tree can have an extended list of classes "
+"(compared to standard menu trees): %class."
+msgstr ""
+"A menü %li elemeinek, a szokásos menüfához viszonyítva sokkal "
+"bővebb CSS osztály listája van, mint például: %class."
+
+#: menu_block.pages.inc:60
+msgid "The %a elements of the menu tree can have: %class."
+msgstr "Az %a elemekhez hozzérendelt CSS osztályok a menüfában: %class."
+
+#: menu_block.pages.inc:62
+msgid ""
+"In addition, the wrapper %div for the block is generated using the "
+"%template_default template. And Menu block provides template "
+"suggestions of the form %template_suggestion. For example, a file in "
+"your theme called %template_example can be used to override the %div "
+"for just the primary-links menu blocks."
+msgstr ""
+"Mindazonátal, a blokkot befoglaló %div elemet a %template_default "
+"sablon készíti el. A <em>Menu block</em> modul által szolgáltatott "
+"sablon javaslatok formája: %template_suggestion. Például, a smink "
+"%template_example nevű állománya használható a %div elem "
+"felülírására az elsődleges menüblokkjában."
+
+#: menu_block.pages.inc:65
+msgid ""
+"In addition, Menu block implements HOOK_get_menus() to retrieve menu "
+"names and titles of menus created by a module. See book_get_menus() in "
+"menu_block.book.inc for an example of this hook."
+msgstr ""
+"Mindazonátal, a <em>Menu block</em> biztosítja a "
+"<em>HOOK_get_menus()</em> függvényt a modul által elkészített "
+"menüpontok nevének és címének lekérdezéséhez. További "
+"példák találhatók a <em>menu_block.book.inc</em> fájlban a "
+"<em>book_get_menus()</em> függvénynél."
+
+#: menu_block.install:108
+msgid ""
+"A 5.x-1.x version of Menu block has been detected and an attempt was "
+"made to upgrade it. Unfortunately, you should have upgraded to Menu "
+"block 5.x-2.x before your upgrade to Drupal 6. You may need to "
+"re-configure all your menu blocks. To use menu blocks in Drupal 6, "
+"find the \"Add menu block\" tab (or button) on the <a "
+"href=\"@url\">administer blocks page</a>."
+msgstr ""
+"A <em>Menu block</em> 5.x-1.x változata már telepítve volt és "
+"próbálkozás történt a frissítésére. Sajnos, a Drupal 6 "
+"szintjére történő frissítéshez a <em>Menu block</em> modult "
+"először az 5.x-2.x modul változatra kell frissíteni. Ehhez az "
+"összes saját menüblokk újra beállítasa szükséges lehet."
+
+#: menu_block.install:128
+msgid ""
+"The 5.x-2.x version of Menu block has been upgraded. To use menu "
+"blocks in Drupal 6, find the \"Add menu block\" tab (or button) on the "
+"<a href=\"@url\">administer blocks page</a>."
+msgstr ""
+"Az 5.x-2.x változatú <em>Menu block</em> modul frissítése "
+"megtörtént. A menüblokkok használatát Drupal 6 alatt a "
+"„Menüblokk hozzáadása” füllel (vagy nyomógombbal) kell "
+"megkezdeni a <a href=\"@url\">blokkok adminisztrációja oldalon</a>."
+
+#: menu_block.install:142
+msgid ""
+"The 6.x-2.0 version of Menu block has been upgraded. To use menu "
+"blocks in Drupal 6, find the \"Add menu block\" tab (or button) on the "
+"<a href=\"@url\">administer blocks page</a>."
+msgstr ""
+"Az 5.x-2.x változatú <em>Menu block</em> modul frissítése "
+"megtörtént. A menüblokkok használatát Drupal 6 alatt a "
+"„Menüblokk hozzáadása” füllel (vagy nyomógombbal) kell "
+"megkezdeni a <a href=\"@url\">blokkok adminisztrációja oldalon</a>."
+

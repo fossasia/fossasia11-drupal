@@ -1,0 +1,30 @@
+<?php
+// $Id: curl.install,v 1.1.4.1 2009/04/17 19:58:41 doq Exp $
+
+/**
+ * Implementation of hook_requirements().
+ */
+function curl_requirements($phase) {
+  $requirements = array();
+
+  if ($phase == 'runtime') {
+    // Check cURL library.
+    if (function_exists('curl_init')) {
+      /// @todo Use "curl_" (not "curl") because simpletest module provides "curl" also.
+      $requirements['curl_']['severity'] = REQUIREMENT_OK;
+      $info = curl_version();
+      /// @todo libcurlemu provides libraries that implement curl_version() as a function that returns version string.
+      $requirements['curl_']['value'] = is_array($info) ? $info['version'] : $info;
+    }
+    else {
+      $requirements['curl_'] = array(
+        'value' => t('Not installed'),
+        'severity' => REQUIREMENT_ERROR,
+        'description' => t('The cURL library for PHP is missing or outdated. Please check the <a href="@url">PHP cURL documentation</a> for information on how to correct this.', array('@url' => 'http://www.php.net/manual/en/ref.curl.php')),
+      );
+    }
+    $requirements['curl_']['title'] = t('cURL library');
+  }
+
+  return $requirements;
+}

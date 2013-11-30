@@ -1,0 +1,15 @@
+
+/* Layout - 16 column grid, fluid width, 20px gutters
+-------------------------------------------------------------- */
+/* block indents */
+.grid12-indent-1 {margin-right: 8.33%;}
+.grid12-indent-2 {margin-right: 16.67%;}
+.grid12-indent-3 {margin-right: 25%;}
+.grid12-indent-4 {margin-right: 33.33%;}
+.grid12-indent-5 {margin-right: 41.67%;}
+.grid12-indent-6 {margin-right: 50%;}
+.grid12-indent-7 {margin-right: 58.33%;}
+.grid12-indent-8 {margin-right: 66.67%;}
+.grid12-indent-9 {margin-right: 75%;}
+.grid12-indent-10 {margin-right: 83.33%;}
+.grid12-indent-11 {margin-right: 91.67%;}

@@ -1,0 +1,115 @@
+<?php
+/**
+ * @file
+ * Install, update and uninstall functions for the SexyBookmarks module.
+ */
+
+/**
+ * Implements hook_schema().
+ */
+function sexybookmarks_schema() {
+  $schema = array();
+
+  $schema['sexybookmarks_profiles'] = array(
+    'export' => array(
+      'key' => 'name',
+      'key name' => 'Name',
+      'primary key' => 'name',
+      'identifier' => 'profile',
+      'default hook' => 'default_sexybookmarks_profile',
+      'api' => array(
+        'owner' => 'sexybookmarks',
+        'api' => 'default_sexybookmarks_profiles',
+        'minimum_version' => 2,
+        'current_version' => 2,
+      ),
+    ),
+    'fields' => array(
+      'name' => array(
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+        'description' => '', // @TODO
+      ),
+      'config' => array(
+        'type' => 'text',
+        'size' => 'medium',
+        'not null' => TRUE,
+        'serialize' => TRUE,
+        'description' => '', // @TODO
+      ),
+    ),
+    'unique keys' => array(
+      'name' => array('name')
+    ),
+    'primary key' => array('name'),
+  );
+
+  return $schema;
+}
+
+/**
+ * Implements hook_install().
+ */
+function sexybookmarks_install() {
+  drupal_install_schema('sexybookmarks');
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function sexybookmarks_uninstall() {
+  drupal_uninstall_schema('sexybookmarks');
+  db_query('DELETE FROM {variable} WHERE name LIKE "%%%s%"', 'sexybookmarks');
+}
+
+/**
+ * Implements hook_update_N().
+ */
+function sexybookmarks_update_6100() {
+  $settings = _sexybookmarks_get_settings();
+  if (!is_array($settings['display']['location'])) {
+    $settings['display']['location'] = array($settings['display']['location'] => $settings['display']['location']);
+  }
+  variable_set('sexybookmarks', serialize($settings));
+  return array();
+}
+
+function sexybookmarks_update_6200() {
+  $ret = array();
+
+  db_create_table($ret, 'sexybookmarks_profiles', array(
+    'fields' => array(
+      'name' => array(
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+        'description' => '', // @TODO
+      ),
+      'config' => array(
+        'type' => 'text',
+        'size' => 'medium',
+        'not null' => TRUE,
+        'serialize' => TRUE,
+        'description' => '', // @TODO
+      ),
+    ),
+    'unique keys' => array(
+      'name' => array('name')
+    ),
+    'primary key' => array('name'),
+  ));
+  variable_del('sexybookmarks');
+
+  return $ret;
+}
+
+function sexybookmarks_update_6201() {
+  $ret = array();
+
+  $ret[] = update_sql("UPDATE {blocks} SET cache = -1 WHERE module = 'sexybookmarks'");
+
+  return $ret;
+}

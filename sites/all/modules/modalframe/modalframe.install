@@ -1,0 +1,30 @@
+<?php
+// $Id: modalframe.install,v 1.1.2.1 2010/05/14 03:42:36 markuspetrux Exp $
+
+/**
+ * @file
+ * Installation file for Modal Frame API module.
+ */
+
+/**
+ * Implementation of hook_requirements().
+ */
+function modalframe_requirements($phase) {
+  $requirements = array();
+  $t = get_t();
+  $jquery_ui_version = jquery_ui_get_version();
+
+  if (version_compare($jquery_ui_version, '1.7') < 0) {
+    $requirements['modalframe'] = array(
+      'title' => $t('Modal Frame API'),
+      'value' => $jquery_ui_version,
+      'severity' => ($phase == 'runtime' ? REQUIREMENT_WARNING : REQUIREMENT_ERROR),
+      'description' => $t('The version of the <a href="@jqueryui">jQuery UI</a> library installed on this site is not compatible with <a href="@modalframe">Modal Frame API</a>. Please, upgrade to jQuery UI 1.7.x or higher.', array(
+        '@jqueryui' => 'http://drupal.org/project/jquery_ui',
+        '@modalframe' => 'http://drupal.org/project/modalframe',
+      )),
+    );
+  }
+
+  return $requirements;
+}

@@ -1,0 +1,134 @@
+<?php
+
+/**
+ * @file
+ * Installation file for installing views slideshow ddblock example slideshows
+ */
+
+/**
+ * Implementation of hook_install().
+ */
+function vsd_if_examples_install() {
+
+  // batch API is compatible with drupal_execute()
+  if (version_compare(VERSION, '6.11', 'ge')) {
+
+    // get all content types
+    $types = node_get_types('names');
+  
+    // Create ddblock_image_field_example_item content type if it does not already exist,
+    // either because of a previous install/uninstall or because it was added some other way.
+    if (!array_key_exists('ddblock_image_field_example_item', $types)) {
+    
+      global $user;
+    
+      // Create ddblock_image_field_example_item content type
+      _vsd_if_examples_install_cck_node();
+      
+      // include field_file.inc for field_file_save_file()
+      module_load_include('inc', 'filefield', 'field_file');
+      
+      // create node functions
+      require_once(dirname(__FILE__) . '/includes/vsd_if_examples.nodedata.inc'); 
+      
+      $files = array();                                        // files array for image_field files
+      $field_name = 'field_ddblock_if_image';                  // cck image_field field name
+      $node_type = 'ddblock_image_field_example_item';         // cck node type
+
+      $slides = _vsd_if_examples_get_slides();
+
+      // Loop over all the slides, from field/filepath pairs, create files objects and create nodes.
+      foreach ($slides as $key => $slide) {
+        
+        // return information array of the field within the context of this content type.
+        // $field = array(
+        //   'field types' => array(),
+        //   'widget types' => array(),
+        //   'fields' => array(),
+        //   'content types' => array(),
+        // )
+        $field = content_fields($field_name, $node_type);
+
+        // Get the upload validators for a file field.
+        // Get the additional upload validators for an image field.
+        // Merge both arrays
+        $validators = array_merge(filefield_widget_upload_validators($field), imagefield_widget_upload_validators($field));
+        
+        // Determine the widget's files directory where files are stored
+        $files_path = _vsd_if_examples_import_widget_files_directory($field);
+
+        // Save a file into a file node after running all the associated validators.
+        if (!$file = field_file_save_file($slide['image_path'], $validators, $files_path, $user->uid)) {
+          drupal_set_message(st('Image file could not be inserted.'));
+          return FALSE;
+        }
+        
+        $files[$field_name] = $file;
+        
+        // Create the node object.
+        $node = _vsd_if_examples_import_create_node(
+          $node_type,
+          $files,
+          $slide
+        );
+        drupal_set_message(st('node => @node_title inserted', array('@node_title' => var_export($node->title, TRUE))));
+      } // end foreach
+      
+      drupal_set_message(st("The nodes which are inserted are published. You can unpublish the nodes at  !link manually.", array('!link' => l(st('Administer > Content management > Content'), 'admin/content/node'))));
+      drupal_set_message(st("You can delete the content type, view and example content by disabling and uninstalling this module."));
+      
+      
+    }
+    else {
+          drupal_set_message(st("Content type: 'ddblock_image_field_example_item' allready exist."));
+    }
+  }
+  else {
+    drupal_set_message(st('Upgrade your drupal installation to at least Drupal 6.12 for installing the content type: ddblock_image_field_example_item automatically.'), 'error');
+  }
+}
+
+/**
+ * Implementation of hook_uninstall().
+ */
+function vsd_if_examples_uninstall() {
+  
+  // get nodes of content type: ddblock_image_field_example_item
+  $result = db_query("SELECT n.nid, n.title FROM {node} n WHERE type='%s'", 'ddblock_image_field_example_item');
+
+  // delete nodes of content type: ddblock_image_field_example_item
+  while ($node = db_fetch_object($result)) {
+    node_delete($node->nid);
+  }
+  
+  //Delete content type: ddblock image field example  
+  node_type_delete('ddblock_image_field_example_item');
+  drupal_set_message(st("Content type: ddblock image field example item, deleted successfully."));
+  
+  // delete the view from database when view is updated, 
+  // otherwise the code view will allready be deleted by disabling the example module 
+  $view = views_get_view('ddblock_if_example_slideshows');
+  if (!empty($view)) {
+    $view->delete();
+    views_object_cache_clear('view', $view->name);
+    drupal_set_message(st('The view: ddblock_if_example_slideshows, deleted successfully.'));
+  }
+}
+
+function _vsd_if_examples_install_cck_node() {
+  // get the CCK node types to be created.  
+  require_once(dirname(__FILE__) . '/includes/vsd_if_examples.ccknodedef.inc'); 
+  $content = _vsd_if_examples_cck_export();  // in vsd_if_examples.ccknodedef.inc
+
+  // CCK content_copy.module may not be enabled, so make sure it is included
+  require_once './' . drupal_get_path('module', 'content') 
+      . '/modules/content_copy/content_copy.module';
+
+  $form_state['values']['type_name'] = '<create>';
+  $form_state['values']['macro'] = '$content = ' . var_export($content, TRUE) . ';';
+
+  // form provided by content_copy.module  
+  drupal_execute('content_copy_import_form', $form_state);
+  content_clear_type_cache();
+}
+

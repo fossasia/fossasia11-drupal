@@ -1,0 +1,302 @@
+<?php
+// $Id: comment_notify.install,v 1.16 2009/04/08 01:52:02 greggles Exp $
+/**
+ * @file
+ * comment_notify.install.
+ */
+
+/**
+ * Implementation of hook_install().
+ */
+function comment_notify_install() {
+  // Create the table.
+  drupal_install_schema('comment_notify');
+
+  // Insert a record for each existing comment.
+  if ( $GLOBALS['db_type']=='pgsql') {
+    db_query("INSERT INTO {comment_notify} (cid, notify, notify_hash) SELECT c.cid, 0, md5(c.mail || coalesce(u.mail, u.init) || c.uid || c.name || c.nid) FROM {comments} c LEFT OUTER JOIN {users} u on c.uid = u.uid");
+  }
+  else {
+    db_query("INSERT INTO {comment_notify} (cid, notify, notify_hash) SELECT c.cid, 0, md5(concat(c.mail, ifnull(u.mail, u.init), c.uid, c.name, c.nid)) FROM {comments} c LEFT OUTER JOIN {users} u on c.uid = u.uid");
+  }
+
+  // Set module weight low so that other modules act on the comment first.
+  db_query("UPDATE {system} SET weight = 10 WHERE name = 'comment_notify'");
+}
+
+/**
+ * Implementation of hook_uninstall().
+ */
+function comment_notify_uninstall() {
+  drupal_uninstall_schema('comment_notify');
+  variable_del('node_notify_default_mailtext');
+  db_query("DELETE FROM {variable} WHERE name LIKE 'comment_notify_%'");
+}
+
+/**
+ * Implementation of hook_schema().
+ */
+function comment_notify_schema() {
+  $schema['comment_notify'] = array(
+    'description' => t('Stores information about which commenters on the site have subscriped to followup emails.'),
+    'fields' => array(
+      'cid' => array(
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'description' => 'The comment id from {comments}.cid',
+        'not null' => TRUE,
+        'disp-width' => '11'),
+      'notify' => array(
+        'type' => 'int',
+        'description' => 'A boolean indicator for whether or not they subscribed: 1 means subscribed, 0 means not subscribed.',
+        'size' => 'tiny',
+        'not null' => TRUE,
+        'disp-width' => '11'),
+      'notify_hash' => array(
+        'type' => 'varchar',
+        'description' => 'An md5 hash of unique information about the commenter.  Used for unsubscribing users.',
+        'length' => '32',
+        'not null' => TRUE,
+        'default' => ''),
+      'notified' => array(
+        'type' => 'int',
+        'description' => 'A boolean indicator for whether or not a notification for the comment has been sent: 1 means yes, 0 means no.',
+        'size' => 'tiny',
+        'not null' => TRUE,
+        'default' => 0,
+        'disp-width' => '11'),
+    ),
+    'primary key' => array('cid'),
+    'indexes' => array(
+      'notify_hash' => array('notify_hash')),
+  );
+  $schema['comment_notify_user_settings'] = array(
+    'fields' => array(
+        'uid' => array(
+          'type' => 'int',
+          'unsigned' => TRUE,
+          'description' => 'The user id from {users}.cid',
+          'not null' => TRUE,
+          'disp-width' => '11'),
+        'node_notify' => array(
+          'type' => 'int',
+          'size' => 'tiny',
+          'not null' => TRUE,
+          'default' => 0,
+          'disp-width' => '11'),
+        'comment_notify' => array(
+          'type' => 'int',
+          'size' => 'tiny',
+          'not null' => TRUE,
+          'default' => 0,
+          'disp-width' => '11'),
+    ),
+    'primary key' => array('uid'),
+  );
+
+  return $schema;
+}
+
+/**
+ * Sync up the two tables after as part of http://drupal.org/node/297791
+ */
+function comment_notify_update_6000() {
+  $return[] = update_sql("DELETE FROM {comment_notify} WHERE cid NOT IN (SELECT cid FROM {comments})");
+  return $return;
+}
+
+/**
+ * Permissions got renamed, update them.
+ */
+function comment_notify_update_6001() {
+  $ret = array();
+  $result = db_query("SELECT pid, perm FROM {permission}");
+  while ($row = db_fetch_object($result)) {
+    $permissions = explode(', ', $row->perm);
+    if (in_array('Subscribe to comments', $permissions) && !in_array('subscribe to comments', $permissions)) {
+      $permissions[] = 'subscribe to comments';
+    }
+    if (in_array('Administer comment notify', $permissions) && !in_array('administer comment notify', $permissions)) {
+      $permissions[] = 'administer comment notify';
+    }
+
+    $permissions = implode(', ', $permissions);
+    $ret[] = update_sql("UPDATE {permission} SET perm = '%s' WHERE pid = %d", $permissions, $row->pid);
+  }
+  return $ret;
+}
+
+/**
+ * Drop the notify column from the {comments} table.  This column will only exist
+ * if the 5.x-1.x version of comment_notify was installed at some point.  Since
+ * the 5.x-2.x version of the module {comment_notify}.notify has been used instead.
+ */
+function comment_notify_update_6002() {
+  $ret = array();
+  if (db_column_exists('comments', 'notify')) {
+    db_drop_field($ret, 'comments', 'notify');
+  }
+  return $ret;
+}
+
+/**
+ * Create a new table to store user preferences and move the $user->data there.
+ */
+function comment_notify_update_6003() {
+  $ret = array();
+  // This determines how many users will be processed in each batch run.
+  $num_users_per_batch = 100;
+
+  // Multi-part update.
+  if (!isset($_SESSION['comment_notify_update_6003'])) {
+    // We need to start at uid 1, so initialize our variable
+    // to the value below that.
+    $_SESSION['comment_notify_update_6003'] = 1;
+    $_SESSION['comment_notify_update_6003_max'] = db_result(db_query("SELECT MAX(uid) FROM {users}"));
+
+    // Create the table.
+    $schema['comment_notify_user_settings'] = array(
+      'fields' => array(
+          'uid' => array(
+            'type' => 'serial',
+            'unsigned' => TRUE,
+            'description' => 'The user id from {users}.cid',
+            'not null' => TRUE,
+            'disp-width' => '11'),
+          'node_notify' => array(
+            'type' => 'int',
+            'size' => 'tiny',
+            'not null' => TRUE,
+            'default' => 0,
+            'disp-width' => '11'),
+          'comment_notify' => array(
+            'type' => 'int',
+            'size' => 'tiny',
+            'not null' => TRUE,
+            'default' => 0,
+            'disp-width' => '11'),
+      ),
+      'primary key' => array('uid'),
+    );
+
+    db_create_table($ret, 'comment_notify_user_settings', $schema['comment_notify_user_settings']);
+  }
+  // Do the next batch of the deed.
+
+  // Find the next N records to update, or do the final batch.
+  $next = min($_SESSION['comment_notify_update_6003'] + $num_users_per_batch, $_SESSION['comment_notify_update_6003_max']);
+
+  // Check to make sure that the {comment_notify_user_settings} table exists.
+  // If for some reason it was not created above, we might lose data when
+  // we delete the comment_notify data that is currently in {users}.data.
+  // If the table doesn't exist, then alert the user and don't allow any
+  // more batches to be processed.
+  if (!db_table_exists('comment_notify_user_settings')) {
+    unset($_SESSION['comment_notify_update_6003']);
+    unset($_SESSION['comment_notify_update_6003_max']);
+
+    // Alert the user that there was an error.
+    $ret[] = array('success' => FALSE, 'query' => t('For some reason the {comment_notify_user_settings} table was not properly created, and so per-user comment_notify settings could not be copied from {users}.data.  You will need to run this update again.'));
+    return $ret;
+  }
+
+  // Transfer the data in our specified range of uid values.
+  $uid = $_SESSION['comment_notify_update_6003'];
+  while ($uid <= $next) {
+    // Get the value of {users}.data.
+    $data = db_result(db_query('SELECT data FROM {users} WHERE uid = %d', $uid));
+    $settings = array('uid' => $uid);
+    if (!empty($data)) {
+      $data = unserialize($data);
+      if (isset($data['node_notify_mailalert'])) {
+        $settings['node_notify'] = $data['node_notify_mailalert'];
+        unset($data['node_notify_mailalert']);
+      }
+      if (isset($data['comment_notify_mailalert'])) {
+        $settings['comment_notify'] = $data['comment_notify_mailalert'];
+        unset($data['comment_notify_mailalert']);
+      }
+      $fields_sql = '';
+      $values_sql = '';
+      foreach ($settings as $field => $value) {
+        $fields_sql .= "$field, ";
+        $values_sql .= '%d, ';
+      }
+      // Trim off any trailing commas and spaces.
+      $fields_sql = rtrim($fields_sql, ', ');
+      $values_sql = rtrim($values_sql, ', ');
+
+      // Add this user and settings to {comment_notify_user_settings} only if
+      // at least one setting was found in {users}.data for this user.
+      if (count($settings) > 1) {
+        db_query("INSERT INTO {comment_notify_user_settings} ($fields_sql) VALUES ($values_sql)", $settings);
+
+        // Remove this comment_notify data from {users}.data.
+        db_query("UPDATE {users} SET data = '%s' WHERE uid = %d", serialize($data), $uid);
+      }
+    }
+    $uid++;
+  }
+
+  // Remember where we left off.
+  $_SESSION['comment_notify_update_6003'] = $next;
+
+  if ($_SESSION['comment_notify_update_6003'] == $_SESSION['comment_notify_update_6003_max']) {
+    // We're done, clear these out.
+    unset($_SESSION['comment_notify_update_6003']);
+    unset($_SESSION['comment_notify_update_6003_max']);
+
+    // Provide an explaination of what we did.
+    $ret[] = array('success' => TRUE, 'query' => t('Moved comment_notify user settings data from the {users} table into the {comment_notify_user_settings} table.'));
+  }
+  elseif ($uid == $next) {
+    unset($_SESSION['comment_notify_update_6003']);
+    unset($_SESSION['comment_notify_update_6003_max']);
+    $ret[] = array('success' => FALSE, 'query' => t('Something is maybe not right.'));
+  }
+  else {
+    // Report how much is left to complete.
+    $ret['#finished'] = $_SESSION['comment_notify_update_6003'] / $_SESSION['comment_notify_update_6003_max'];
+  }
+
+  return $ret;
+}
+
+/**
+ * Add a "notified" column to {comment_notify} to keep track of whether
+ * notifications have already been sent out for a given comment.  This
+ * prevents new notifications from being sent when a comment is edited.
+ */
+function comment_notify_update_6004() {
+  $ret = array();
+
+  db_add_field($ret, 'comment_notify', 'notified', array('type' => 'int', 'size' => 'small', 'unsigned' => TRUE, 'not null' => TRUE, 'default' => 0));
+
+  // Set the value in the notified column to 1 for all existing records.
+  $ret[] = update_sql('UPDATE {comment_notify} SET notified = 1');
+
+  return $ret;
+}
+
+/**
+ * Having our foreign keys auto_increment could lead to unexpected results.
+ */
+function comment_notify_update_6005() {
+  $ret = array();
+
+  db_change_field($ret, 'comment_notify', 'cid', 'cid',
+    array('type' => 'int',
+      'unsigned' => TRUE,
+      'description' => 'The comment id from {comments}.cid',
+      'not null' => TRUE,
+      'disp-width' => '11'));
+
+  db_change_field($ret, 'comment_notify_user_settings', 'uid', 'uid',
+    array('type' => 'int',
+      'unsigned' => TRUE,
+      'description' => 'The user id from {users}.cid',
+      'not null' => TRUE,
+      'disp-width' => '11'));
+
+  return $ret;
+}

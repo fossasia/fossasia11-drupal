@@ -1,0 +1,240 @@
+<style type="text/css">
+  .advanced-help-topic img {
+    border: 1px solid;
+  }
+</style>
+<h3>How to Create a SingleFrame Slideshow of Images</h3>
+<p>
+  This tutorial requires these modules to be enabled:
+  <ul>
+    <li><a href="http://drupal.org/project/views_slideshow">Views Slideshow and Views Slideshow Singleframe</a></li>
+    <li><a href="http://drupal.org/project/cck">cck (content)</a></li>
+    <li><a href="http://drupal.org/project/filefield">FileField</a></li>
+    <li><a href="http://drupal.org/project/imagefield">ImageField</a></li>
+  </ul>
+</p>
+
+<h4>Create the content type</h4>
+<ol>
+  <li>
+    Go to http://yoursite.com/admin/content/types
+  </li>
+  <li>
+    Click "Add Content Type"<br />
+    <img src="&path&images/admin/content/types/add-content-type-link.png" />
+  </li>
+  <li>
+    Enter a name. "Slideshow Item"<br />
+    <img src="&path&images/admin/content/node-type/x/name.png" />
+  </li>
+  <li>
+    Enter a type. "slideshow_item"<br />
+    <img src="&path&images/admin/content/node-type/x/type.png" />
+  </li>
+  <li>
+    Click the "Submission form settings" fieldset<br />
+    <img src="&path&images/admin/content/node-type/x/submission-form-settings-fieldset.png" />
+  </li>
+  <li>
+    Clear the "Body" text from the "Body field label" field<br />
+    <img src="&path&images/admin/content/node-type/x/body-field.png" />
+  </li>
+  <li>
+    Click the "Workflow settings" fieldset<br />
+    <img src="&path&images/admin/content/node-type/x/workflow-settings-fieldset.png" />
+  </li>
+  <li>
+    Uncheck "Promote to frontpage"<br />
+    <img src="&path&images/admin/content/node-type/x/promoted-front-page.png" />
+  </li>
+  <li>
+    Click the "Comment settings" fieldset<br />
+    <img src="&path&images/admin/content/node-type/x/comment-settings-fieldset.png" />
+  </li>
+  <li>
+    Set "Default comment setting" to disabled<br />
+    <img src="&path&images/admin/content/node-type/x/default-comment.png" />
+  </li>
+  <li>
+    Click "Save Content Type"<br />
+    <img src="&path&images/buttons/save-content-type.png" />
+  </li>
+  <li>
+    Next to your new content type click "manage fields"<br />
+    <img src="&path&images/admin/content/types/manage-fields-link-slideshow-item.png" />
+  </li>
+  <li>
+    Under "New Field" enter a label. "Slideshow Image"
+  </li>
+  <li>
+    Enter a field name. "field_slideshow_image"
+  </li>
+  <li>
+    Select the "File" field type.
+  </li>
+  <li>
+    Select the "Image" form element.<br />
+    <img src="&path&images/admin/content/node-type/x/fields/field_slideshow_image/new-field-slideshow-image.png" />
+  </li>
+  <li>
+    Drag the new field using the cross handle to below the "Title" field.<br />
+    <img src="&path&images/admin/content/node-type/x/fields/field_slideshow_image/move-new-field-slideshow-image.png" />
+  </li>
+  <li>
+    Click "Save"<br />
+    <img src="&path&images/buttons/save.png" />
+  </li>
+  <li>
+    Under "Global Settings" check "Required"<br />
+    <img src="&path&images/admin/content/node-type/x/fields/x/check-required.png" />
+  </li>
+  <li>
+    Click "Save field settings"<br />
+    <img src="&path&images/buttons/save-field-settings.png" />
+  </li>
+  <li>
+    Create some Slideshow Items
+  </li>
+</ol>
+
+<h4>Create the View</h4>
+<ol>
+  <li>
+    Go to http://yoursite.com/admin/build/views
+  </li>
+  <li>
+    Click "Add"<br />
+    <img src="&path&images/admin/build/views/add-link.png" />
+  </li>
+  <li>
+    Enter in the view name. "slideshow"<br />
+    <img src="&path&images/admin/build/views/add/view-name.png" />
+  </li>
+  <li>
+    Click "Next"<br />
+    <img src="&path&images/buttons/next.png" />
+  </li>
+  <li>
+    Select the page display<br />
+    <img src="&path&images/admin/build/views/edit/x/display-type.png" />
+  </li>
+  <li>
+    Click "Add Display"<br />
+    <img src="&path&images/buttons/add-display.png" />
+  </li>
+  <li>
+    Click the + next to "Fields"<br />
+    <img src="&path&images/admin/build/views/edit/x/fields-add.png" />
+  </li>
+  <li>
+    Under "Groups" choose "Content"<br />
+    <img src="&path&images/admin/build/views/edit/x/fields-groups-content.png" />
+  </li>
+  <li>
+    Select the image field you created. "Content: Slideshow Image"<br />
+    <img src="&path&images/admin/build/views/edit/x/fields-content-slideshow-image.png" />
+  </li>
+  <li>
+    Click "Add"<br />
+    <img src="&path&images/buttons/add.png" />
+  </li>
+  <li>
+    Under "Label" choose "None"<br />
+    <img src="&path&images/admin/build/views/edit/x/fields-label-none.png" />
+  </li>
+  <li>
+    Under "Format" choose "Image"<br />
+    <img src="&path&images/admin/build/views/edit/x/fields-content-slideshow-image.png" />
+  </li>
+  <li>
+    Click "Update Default Display"<br />
+    <img src="&path&images/buttons/update-default-display.png" />
+  </li>
+  <li>
+    Click the + next to "Filters"<br />
+    <img src="&path&images/admin/build/views/edit/x/filters-add.png" />
+  </li>
+  <li>
+    Under "Groups" choose "Node"<br />
+    <img src="&path&images/admin/build/views/edit/x/filters-groups-node.png" />
+  </li>
+  <li>
+    Select "Node: Published" and "Node: Type"<br />
+    <img src="&path&images/admin/build/views/edit/x/filters-published-type.png" />
+  </li>
+  <li>
+    Click "Add"<br />
+    <img src="&path&images/buttons/add.png" />
+  </li>
+  <li>
+    Select "Yes" for published<br />
+    <img src="&path&images/admin/build/views/edit/x/filters-published-yes.png" />
+  </li>
+  <li>
+    Click "Update Default Display"<br />
+    <img src="&path&images/buttons/update-default-display.png" />
+  </li>
+  <li>
+    Under "Node Type" select the content type you created "Slideshow Item"<br />
+    <img src="&path&images/admin/build/views/edit/x/filters-node-type-slideshow-item.png" />
+  </li>
+  <li>
+    Click "Update Default Display"<br />
+    <img src="&path&images/buttons/update-default-display.png" />
+  </li>
+  <li>
+    Click "None" next to "Path" under "Page settings"<br />
+    <img src="&path&images/admin/build/views/edit/x/page-settings-path.png" />
+  </li>
+  <li>
+    Add a path.  "slideshow"<br />
+    <img src="&path&images/admin/build/views/edit/x/page-settings-path-page.png" />
+  </li>
+  <li>
+    Click "Update"<br />
+    <img src="&path&images/buttons/update.png" />
+  </li>
+  <li>
+    Click "Save"<br />
+    <img src="&path&images/buttons/save.png" />
+  </li>
+  <li>
+    Click "View Page" and verify it is listing out the images correctly<br />
+    <img src="&path&images/admin/build/views/edit/x/view-page-link.png" />
+  </li>
+</ol>
+
+<h4>Set up the slideshow</h4>
+<ol>
+  <li>
+    Edit the View
+  </li>
+  <li>
+    Under "Basic Settings" click "Unformatted" next to "Style".<br />
+    <img src="&path&images/admin/build/views/edit/x/basic-settings-style.png" />
+  </li>
+  <li>
+    Choose "Slideshow"<br />
+    <img src="&path&images/admin/build/views/edit/x/basic-settings-style-slideshow.png" />
+  </li>
+  <li>
+    Click "Update Default Display"<br />
+    <img src="&path&images/buttons/update-default-display.png" />
+  </li>
+  <li>
+    Under "Slideshow mode" choose "SingleFrame"<br />
+    <img src="&path&images/admin/build/views/edit/x/basic-settings-style-slideshow-mode-singleframe.png" />
+  </li>
+  <li>
+    Click "Update Default Display"<br />
+    <img src="&path&images/buttons/update-default-display.png" />
+  </li>
+  <li>
+    Click "Save"<br />
+    <img src="&path&images/buttons/save.png" />
+  </li>
+  <li>
+    View the page and verify the slideshow is working.<br />
+    <img src="&path&images/admin/build/views/edit/x/view-page-link.png" />
+  </li>
+</ol>

@@ -1,0 +1,7 @@
+name = Forum
+description = Enables threaded discussions about general topics.
+dependencies[] = taxonomy
+dependencies[] = comment
+package = Core - optional
+version = VERSION
+core = 6.x

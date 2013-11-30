@@ -1,0 +1,11 @@
+name = Profile Checkboxes
+description = Change single list selection to multi-select or replace options with equivalent number of checkboxes or radio buttons.
+dependencies[] = profile
+core = 6.x
+
+; Information added by drupal.org packaging script on 2011-11-07
+version = "6.x-2.2"
+core = "6.x"
+project = "profile_checkboxes"
+datestamp = "1320707735"
+

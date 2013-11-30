@@ -1,0 +1,12 @@
+; $Id: comment_notify.info,v 1.3 2008/08/06 23:27:08 greggles Exp $
+name = Comment Notify
+description = "Comment follow-up e-mail notification for anonymous as well as registered users."
+dependencies[] = comment
+core = 6.x
+
+; Information added by drupal.org packaging script on 2010-03-10
+version = "6.x-1.4"
+core = "6.x"
+project = "comment_notify"
+datestamp = "1268261105"
+

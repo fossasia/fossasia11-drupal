@@ -1,0 +1,351 @@
+<?php
+
+/**
+ * Implements hook_xmlsitemap_link_info().
+ */
+function xmlsitemap_node_xmlsitemap_link_info() {
+  $types['node'] = array(
+    'label' => t('Content'),
+    'bundle label' => t('Content type'),
+    'base table' => 'node',
+    'entity keys' => array(
+      'id' => 'nid',
+      'bundle' => 'type',
+    ),
+    'uri callback' => 'xmlsitemap_node_uri',
+    'load hook' => 'node_load',
+    'xmlsitemap' => array(
+      'process callback' => 'xmlsitemap_node_xmlsitemap_process_node_links',
+    ),
+  );
+  foreach (node_get_types('names') as $type => $name) {
+    $types['node']['bundles'][$type] = array(
+      'label' => $name,
+      'admin' => array(
+        'real path' => 'admin/content/node-type/' . str_replace('_', '-', $type),
+        'access arguments' => array('administer content types'),
+      ),
+    );
+  }
+  return $types;
+}
+
+/**
+ * Entity URI callback.
+ */
+function xmlsitemap_node_uri($node) {
+  return array(
+    'path' => 'node/' . $node->nid,
+  );
+}
+
+/**
+ * Implements hook_cron().
+ *
+ * Process old nodes not found in the {xmlsitemap} table.
+ */
+function xmlsitemap_node_cron() {
+  xmlsitemap_node_xmlsitemap_index_links(xmlsitemap_var('batch_limit'));
+}
+
+/**
+ * Implements hook_xmlsitemap_index_links().
+ */
+function xmlsitemap_node_xmlsitemap_index_links($limit) {
+  if ($types = xmlsitemap_get_link_type_enabled_bundles('node')) {
+    $query = db_query_range("SELECT n.nid FROM {node} n LEFT JOIN {xmlsitemap} x ON x.type = 'node' AND n.nid = x.id WHERE x.id IS NULL AND n.type IN (" . db_placeholders($types, 'varchar') . ") ORDER BY n.nid DESC", $types, 0, $limit);
+    $nids = xmlsitemap_db_fetch_col($query);
+    xmlsitemap_node_xmlsitemap_process_node_links($nids);
+  }
+}
+
+/**
+ * Process node sitemap links.
+ *
+ * @param $nids
+ *   An array of node IDs.
+ */
+function xmlsitemap_node_xmlsitemap_process_node_links(array $nids) {
+  foreach ($nids as $nid) {
+    if ($node = node_load($nid, NULL, TRUE)) {
+      $link = xmlsitemap_node_create_link($node);
+      xmlsitemap_link_save($link);
+    }
+  }
+}
+
+/**
+ * Implements hook_nodeapi().
+ */
+function xmlsitemap_node_nodeapi(stdClass &$node, $op, $a3 = NULL, $a4 = NULL) {
+  switch ($op) {
+    case 'insert':
+    case 'update':
+      $link = xmlsitemap_node_create_link($node);
+      xmlsitemap_link_save($link);
+      break;
+    case 'delete':
+      xmlsitemap_link_delete('node', $node->nid);
+      break;
+  }
+}
+
+/**
+ * Implements hook_comment().
+ */
+function xmlsitemap_node_comment($comment, $op) {
+  switch ($op) {
+    case 'update':
+    case 'publish':
+    case 'unpublish':
+    case 'delete':
+      $comment = (object) $comment;
+      if ($node = node_load($comment->nid, NULL, TRUE)) {
+        $link = xmlsitemap_node_create_link($node);
+        xmlsitemap_link_save($link);
+      }
+      break;
+  }
+}
+
+/**
+ * Implements hook_node_type().
+ */
+function xmlsitemap_node_node_type($op, stdClass $info) {
+  if ($op == 'update') {
+    // Cannot perform xmlsitemap_link_bundle_settings_save() here since
+    // node_type_form_submit() strips all non-essential data from $info.
+    if (!empty($info->old_type) && $info->old_type != $info->type) {
+      xmlsitemap_link_bundle_rename('node', $info->old_type, $info->type);
+    }
+  }
+  if ($op == 'delete') {
+    xmlsitemap_link_bundle_delete('node', $info->type);
+  }
+}
+
+/**
+ * Implements hook_content_extra_fields().
+ *
+ * This is so that the XML sitemap fieldset is sortable on the node edit form.
+ */
+function xmlsitemap_node_content_extra_fields() {
+  $extras['xmlsitemap'] = array(
+    'label' => t('XML sitemap'),
+    'description' => t('XML sitemap module form'),
+    'weight' => 30,
+  );
+  return $extras;
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * @see node_type_form()
+ * @see xmlsitemap_add_link_bundle_settings()
+ */
+function xmlsitemap_node_form_node_type_form_alter(array &$form, array $form_state) {
+  $node_type = isset($form['#node_type']->type) ? $form['#node_type']->type : '';
+  module_load_include('inc', 'xmlsitemap', 'xmlsitemap.admin');
+  xmlsitemap_add_link_bundle_settings($form, $form_state, 'node', $node_type);
+}
+
+/**
+ * Implements hook_form_alter().
+ *
+ * Add the XML sitemap individual link options for a node.
+ *
+ * @see xmlsitemap_add_form_link_options()
+ */
+function xmlsitemap_node_form_alter(array &$form, array &$form_state, $form_id) {
+  if (isset($form['type']) && isset($form['#node']) && $form['type']['#value'] .'_node_form' == $form_id) {
+    // Add the link options.
+    module_load_include('inc', 'xmlsitemap', 'xmlsitemap.admin');
+    xmlsitemap_add_form_link_options($form, 'node', $form['type']['#value'], $form['nid']['#value']);
+    $form['xmlsitemap']['#weight'] = 30;
+  }
+}
+
+/**
+ * Fetch all the timestamps for when a node was changed.
+ *
+ * @param $node
+ *   A node object.
+ * @return
+ *   An array of UNIX timestamp integers.
+ */
+function xmlsitemap_node_get_timestamps(stdClass $node) {
+  static $timestamps = array();
+
+  if (!isset($timestamps[$node->nid])) {
+    $query = db_query("SELECT nr.timestamp FROM {node_revisions} nr WHERE nr.nid = %d", $node->nid);
+    $timestamps[$node->nid] = xmlsitemap_db_fetch_col($query);
+    if (module_exists('comment')) {
+      $query = db_query("SELECT c.timestamp FROM {comments} c WHERE c.nid = %d AND c.status = %d", $node->nid, COMMENT_PUBLISHED);
+      $comment_timestamps = xmlsitemap_db_fetch_col($query);
+      $timestamps[$node->nid] = array_merge($timestamps[$node->nid], $comment_timestamps);
+    }
+  }
+
+  return $timestamps[$node->nid];
+}
+
+/**
+ * Create a sitemap link from a node.
+ *
+ * The link will be saved as $node->xmlsitemap.
+ *
+ * @param $node
+ *   A node object.
+ */
+function xmlsitemap_node_create_link(stdClass $node) {
+  if (!isset($node->xmlsitemap) || !is_array($node->xmlsitemap)) {
+    $node->xmlsitemap = array();
+    if ($node->nid && $link = xmlsitemap_link_load('node', $node->nid)) {
+      $node->xmlsitemap = $link;
+    }
+  }
+
+  $settings = xmlsitemap_link_bundle_load('node', $node->type);
+  $uri = xmlsitemap_entity_uri('node', $node);
+
+  $node->xmlsitemap += array(
+    'type' => 'node',
+    'id' => $node->nid,
+    'subtype' => $node->type,
+    'status' => $settings['status'],
+    'status_default' => $settings['status'],
+    'status_override' => 0,
+    'priority' => $settings['priority'],
+    'priority_default' => $settings['priority'],
+    'priority_override' => 0,
+  );
+
+  // Always recalculate changefreq and changecount.
+  $timestamps = xmlsitemap_node_get_timestamps($node);
+  $node->xmlsitemap['changefreq'] = $node->nid ? xmlsitemap_calculate_changefreq($timestamps) : 0;
+  $node->xmlsitemap['changecount'] = $node->nid ? count($timestamps) - 1 : 0;
+
+  // The following values must always be checked because they are volatile.
+  $node->xmlsitemap['loc'] = $uri['path'];
+  $node->xmlsitemap['lastmod'] = count($timestamps) ? max($timestamps) : 0;
+  $node->xmlsitemap['access'] = $node->nid ? xmlsitemap_node_view_access($node, drupal_anonymous_user()) : 1;
+  $node->xmlsitemap['language'] = isset($node->language) ? $node->language : '';
+
+  return $node->xmlsitemap;
+}
+
+/**
+ * Determine whether a user may view the specified node.
+ *
+ * @param $node
+ *   The node object on which the operation is to be performed, or node type
+ *   (e.g. 'forum') for "create" operation.
+ * @param $account
+ *   Optional, a user object representing the user for whom the operation is to
+ *   be performed. Determines access for a user other than the current user.
+ * @return
+ *   TRUE if the operation may be performed, FALSE otherwise.
+ *
+ * This is for all intesive purposes a copy of Drupal 7's node_access() function.
+ * It invokes a backport of Drupal 7's hook_node_grants_alter() specifically
+ * for use with XML sitemap.
+ */
+function xmlsitemap_node_view_access($node, $account = NULL) {
+  global $user;
+
+  $op = 'view';
+  $rights = &xmlsitemap_static(__FUNCTION__, array());
+
+  if (!$node || !in_array($op, array('view', 'update', 'delete', 'create'), TRUE)) {
+    // If there was no node to check against, or the $op was not one of the
+    // supported ones, we return access denied.
+    return FALSE;
+  }
+  // If no user object is supplied, the access check is for the current user.
+  if (empty($account)) {
+    $account = $user;
+  }
+
+  // $node may be either an object or a node type. Since node types cannot be
+  // an integer, use either nid or type as the static cache id.
+  //$cid = is_object($node) ? $node->nid : $node;
+
+  // If we've already checked access for this node, user and op, return from
+  // cache.
+  if (isset($rights[$account->uid][$node->nid])) {
+    return $rights[$account->uid][$node->nid];
+  }
+
+  if (user_access('administer nodes', $account)) {
+    $rights[$account->uid][$node->nid] = TRUE;
+    return TRUE;
+  }
+
+  if (!user_access('access content', $account)) {
+    $rights[$account->uid][$node->nid] = FALSE;
+    return FALSE;
+  }
+
+  // Can't use node_invoke(), because the access hook takes the $op parameter
+  // before the $node parameter.
+  $module = node_get_types('module', $node);
+  if ($module == 'node') {
+    $module = 'node_content'; // Avoid function name collisions.
+  }
+  $access = module_invoke($module, 'access', $op, $node, $account);
+  if (!is_null($access)) {
+    $rights[$account->uid][$node->nid] = $access;
+    return $access;
+  }
+
+  // If the module did not override the access rights, use those set in the
+  // node_access table.
+  if ($op != 'create' && $node->nid && $node->status) {
+    if (module_implements('node_grants')) {
+      // Fetch the node grants and allow other modules to alter them (D7 backport).
+      $grants = &xmlsitemap_static(__FUNCTION__ . ':grants', array());
+      if (!isset($grants[$account->uid][$op])) {
+        // Indicate that this is our special function in the grants.
+        $account->xmlsitemap_node_access = TRUE;
+        $grants[$account->uid][$op] = node_access_grants($op, $account);
+        // Call hook_node_grants_alter(). This is a backport from Drupal 7.
+        drupal_alter('node_grants', $grants[$account->uid][$op], $account, $op);
+        // Remove the special indicator.
+        unset($account->xmlsitemap_node_access);
+      }
+
+      $grant_condition = array();
+      foreach ($grants[$account->uid][$op] as $realm => $gids) {
+        foreach ($gids as $gid) {
+          $grant_condition[] = "(gid = $gid AND realm = '$realm')";
+        }
+      }
+      if (count($grant_condition)) {
+        $grant_condition = 'AND ('. implode(' OR ', $grant_condition) .')';
+      }
+      else {
+        $grant_condition = '';
+      }
+
+      $sql = "SELECT 1 FROM {node_access} WHERE (nid = 0 OR nid = %d) $grant_condition AND grant_$op >= 1";
+      $result = (bool) db_result(db_query_range($sql, $node->nid, 0, 1));
+      $rights[$account->uid][$node->nid] = $result;
+      return $result;
+    }
+    elseif ($op == 'view') {
+      // If no modules implement hook_node_grants(), the default behaviour is to
+      // allow all users to view published nodes, so reflect that here.
+      $rights[$account->uid][$op] = TRUE;
+      return TRUE;
+    }
+  }
+
+  // Let authors view their own nodes.
+  if ($op == 'view' && $account->uid == $node->uid && $account->uid) {
+    $rights[$account->uid][$op] = TRUE;
+    return TRUE;
+  }
+
+  return FALSE;
+}

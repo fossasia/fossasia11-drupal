@@ -1,0 +1,25 @@
+For ImageCache to work properly it needs to be able to make use fou clean URLs.
+This requires some webserver specific setup.
+
+Apache2 + mod_rewrite
+  Works out of the box.
+
+LightHTTPD pre-1.4.24:
+  http://nordisch.org/2007/2/6/drupal-on-lighttpd-with-clean-urls
+  
+LightHTTPD 1.4.24 and later:
+  https://veracium.com/content/imagecache-lighttpd-witho
+
+IIS 6:
+  add an error404.asp that passed everything to drupal.
+
+  <%
+    Response.Expires=0
+    strQString=Request.ServerVariables("QUERY_STRING")
+    If (InStr(strQString,"/d5/")) Then
+    pos=Instr(strQString,"/d5/")+3
+    Id=Right(strQString,Len(strQString)-pos) 
+    Response.Redirect("/d5/index.php?q=" & Id)
+    End If
+    Response.Redirect("index.htm")
+  %>

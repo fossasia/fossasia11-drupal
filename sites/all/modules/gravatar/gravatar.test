@@ -1,0 +1,68 @@
+<?php
+// $Id: gravatar.test,v 1.1.2.3 2009/04/25 20:53:33 davereid Exp $
+
+/**
+ * @file
+ * Tests for the Gravatar module.
+ */
+
+/**
+ * Test basic functionality.
+ */
+class GravatarUnitTest extends DrupalWebTestCase {
+  public static function getInfo() {
+    return array(
+      'name' => t('Gravatar functionality'),
+      'description' => t('Test basic Gravatar functionality.'),
+      'group' => t('Gravatar'),
+    );
+  }
+
+  function setUp() {
+    parent::setUp('gravatar', 'comment');
+
+    // Enable user pictures.
+    variable_set('user_pictures', 1);
+  }
+
+  function testGravatar() {
+    $variables = array();
+    $images = $this->drupalGetTestFiles('image');
+
+    $user = $this->drupalCreateUser();
+    $user->picture = $images[0];
+    $variables['account'] = $user;
+    $gravatar = gravatar_preprocess_user_picture($variables);
+
+    $variables['account'] = $this->drupalCreateNode();
+    $gravatar = gravatar_preprocess_user_picture($variables);
+
+    //$variables['account'] = comment_save()
+
+  }
+
+  function testNodeGravatar() {
+
+  }
+
+  function testCommentGravatar() {
+
+  }
+}
+
+/**
+ * Test administration functionality.
+ */
+class GravatarFunctionalTest extends DrupalWebTestCase {
+  public static function getInfo() {
+    return array(
+      'name' => t('Gravatar administration'),
+      'description' => t('Test Gravatar administration.'),
+      'group' => t('Gravatar'),
+    );
+  }
+
+  function setUp() {
+    parent::setUp('gravatar');
+  }
+}

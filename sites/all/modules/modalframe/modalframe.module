@@ -1,0 +1,291 @@
+<?php
+// $Id: modalframe.module,v 1.1.2.12 2010/04/23 07:32:15 markuspetrux Exp $
+
+/**
+ * @file
+ * Provides an API to render an iframe within a modal dialog based
+ * on the jQuery UI Dialog plugin.
+ */
+
+/**
+ * Implementation of hook_theme_registry_alter().
+ *
+ * Prepend our module path to the theme registry entry for theme('page').
+ *
+ * When we need to render a modal frame, modalframe_child_js() defines the
+ * variable $GLOBALS['modalframe_page_template']. Then, when theme('page') is
+ * executed, Drupal invokes all template preprocess functions related to the
+ * page template. When modalframe_preprocess_page() is invoked, it looks for
+ * this global variable, and if it exists, then the name of the template file
+ * 'page' is replaced by 'modalframe-page'.
+ *
+ * This technique allows us to use a particular version of the template used
+ * to generate the output of theme('page') with a different layout (ie. no
+ * header, no left/right blocks, etc.), while still keeping all the features
+ * related to theme('page') implemented by core, themes and contrib modules
+ * such us jquery_update at no additional cost. Also, themers can provide their
+ * own custom versions of page.tpl.php and modalframe-page.tpl.php.
+ *
+ * There is no additional performance impact during normal site operation,
+ * when using theme('page') without further alterations. No additional lookup
+ * will be made for page.tpl.php. This is it:
+ *
+ * 1) Active theme directory (it may or may not exist, often will).
+ * 2) Drupal's modules/system/page.tpl.php (default).
+ * 3) modalframe module directory (this lookup will be never reached).
+ *
+ * On the other hand, when the file name for page template is altered, the
+ * lookups for file modalframe-page.tpl.php will proceed like this:
+ *
+ * 1) Active theme directory (it may or may not exist, often won't).
+ * 2) modules/system/modalframe-page.tpl.php (this lookup will always fail).
+ * 3) modalframe module directory (default).
+ *
+ * @see modalframe_child_js()
+ * @see modalframe_preprocess_page()
+ * @see _theme_build_registry()
+ * @see theme_get_registry()
+ * @see theme()
+ *
+ * @ingroup themeable
+ */
+function modalframe_theme_registry_alter(&$theme_registry) {
+  if (isset($theme_registry['page']) && isset($theme_registry['page']['theme paths'])) {
+    $module_path = drupal_get_path('module', 'modalframe');
+    array_unshift($theme_registry['page']['theme paths'], $module_path);
+    array_unshift($theme_registry['page']['preprocess functions'], 'modalframe_pre_preprocess_page');
+  }
+}
+
+/**
+ * Preprocess template variables for page.tpl.php - step 1.
+ *
+ * Performance enhancement: prevent template_preprocess_page() from generating
+ * sidebar blocks when a modal frame has been requested.
+ */
+function modalframe_pre_preprocess_page(&$variables) {
+  if (!empty($GLOBALS['modalframe_page_template'])) {
+    $variables['show_blocks'] = FALSE;
+  }
+}
+
+/**
+ * Preprocess template variables for page.tpl.php - step 2.
+ *
+ * Now that we have altered the registry entry for theme('page'), we can tell
+ * theme() to use a different template file name when we need to render a child
+ * window.
+ *
+ * @see modalframe_child_js()
+ * @see modalframe_theme_registry_alter()
+ * @see template_preprocess_page()
+ * @see template_preprocess()
+ * @see theme()
+ *
+ * @ingroup themeable
+ */
+function modalframe_preprocess_page(&$variables) {
+  if (!empty($GLOBALS['modalframe_page_template'])) {
+    if (!isset($variables['template_files'])) {
+      $variables['template_files'] = array();
+    }
+    $variables['template_files'][] = 'modalframe-page';
+  }
+}
+
+/**
+ * Implementation of hook_form_alter().
+ *
+ * The main goal of this function is to set $form_state['redirect'] to FALSE
+ * when a submitted form performs a request to close the modal dialog where
+ * it's been processed.
+ *
+ * A few notes on the workflow we're using here:
+ *
+ * - Form API is requested to build a form. Then invokes all hook_form_alter()
+ *   implementations.
+ * - Here we install an after_build callback because still, there may be other
+ *   modules that can add submit handlers from their own hook_form_alter().
+ * - Ok, form API processes all hook_form_alter() implementations, then invokes
+ *   our after_build callback where we can scan the whole form structure in
+ *   search for elements that have submit handlers. We want to append our own
+ *   submit handler so that we can catch requests to close the active child
+ *   dialog performed by other modules using the API modalframe_close_dialog()
+ *   from their submit handlers.
+ * - Our submit handler has been installed using an after_build callback because
+ *   this is kind of low level technique, which is not often used by contributed
+ *   modules, and chances are that our submit handler is executed after all
+ *   potential places from where modalframe_close_dialog() can be used by a
+ *   external module using the "Modal Frame API". Also, this way our module does
+ *   not depend on the order module hooks are being invoked by Drupal.
+ *
+ * @see modalframe_close_dialog()
+ * @see drupal_process_form()
+ * @see drupal_redirect_form()
+ * @see drupal_get_form()
+ *
+ * @ingroup forms
+ */
+function modalframe_form_alter(&$form, $form_state, $form_id) {
+  // Here we simply want to install a form after_build callback.
+  if (!isset($form['#after_build'])) {
+    $form['#after_build'] = array();
+  }
+  $form['#after_build'][] = 'modalframe_form_after_build';
+}
+
+/**
+ * Form after build callback.
+ *
+ * Ok, all hook_form_alter() have been processed. Now, if someone has enabled
+ * the global variable $GLOBALS['modalframe_page_template'], then we want to
+ * scan the form structure in search of elements with submit handlers.
+ *
+ * @see _form_builder_handle_input_element()
+ * @see _form_builder_ie_cleanup()
+ * @see form_execute_handlers()
+ * @see form_builder()
+ *
+ * @ingroup forms
+ */
+function modalframe_form_after_build($form, &$form_state) {
+  if (!empty($GLOBALS['modalframe_page_template'])) {
+    // Form API may have already captured submit handlers from the submitted
+    // button before after_build callback is invoked. This may have been done
+    // by _form_builder_handle_input_element().
+    // If so, the list of submit handlers is stored in the $form_state array
+    // which is something we can also alter from here, luckily. :)
+    // Remember: our goal here is to make sure $form_state['redirect'] is set
+    // to FALSE when the modalframe_close_dialog() API is invoked, and that's
+    // because we want to tell the parent window to close the modal frame.
+    if (!empty($form_state['submit_handlers']) && !in_array('modalframe_form_submit', $form_state['submit_handlers'])) {
+      $form_state['submit_handlers'][] = 'modalframe_form_submit';
+    }
+
+    // Find form elements with submit handlers recursively.
+    modalframe_form_after_build_recursive($form, $form_state);
+  }
+  return $form;
+}
+
+/**
+ * Find form elements with submit handlers recursively.
+ *
+ * @ingroup forms
+ */
+function modalframe_form_after_build_recursive(&$elements, &$form_state) {
+  // Recurse through all children elements.
+  foreach (element_children($elements) as $key) {
+    if (isset($elements[$key]) && $elements[$key]) {
+      modalframe_form_after_build_recursive($elements[$key], $form_state);
+    }
+  }
+  // If this element has submit handlers, then append our own.
+  if (isset($elements['#submit'])) {
+    $elements['#submit'][] = 'modalframe_form_submit';
+  }
+}
+
+/**
+ * Generic form submit handler.
+ *
+ * When we are requested to close a modal dialog, we don't want Form API to
+ * perform any redirection once the submitted form has been processed.
+ *
+ * When $form_state['redirect'] is set to FALSE, then Form API will simply
+ * re-render the form with the values still in its fields. And this is all
+ * we need to output the javascript that will tell the parent window to close
+ * the child dialog.
+ *
+ * @ingroup forms
+ */
+function modalframe_form_submit($form, &$form_state) {
+  if (!empty($GLOBALS['modalframe_close_dialog'])) {
+    $form_state['redirect'] = FALSE;
+  }
+}
+
+/**
+ * API: Add javascript and stylesheets to the parent page.
+ *
+ * @ingroup modalframe_api
+ */
+function modalframe_parent_js() {
+  static $processed;
+  // Make sure external resources are not included more than once.
+  if (isset($processed)) {
+    return;
+  }
+  $processed = TRUE;
+
+  jquery_ui_add(array('ui.dialog', 'ui.draggable'));
+  $module_path = drupal_get_path('module', 'modalframe');
+  drupal_add_css($module_path .'/css/modalframe.parent.css');
+  drupal_add_js($module_path .'/js/parent.js');
+}
+
+/**
+ * API: Add javascript and stylesheets to the child page.
+ *
+ * @ingroup modalframe_api
+ */
+function modalframe_child_js() {
+  static $processed;
+  // Make sure external resources are not included more than once.
+  if (isset($processed)) {
+    return;
+  }
+  $processed = TRUE;
+
+  // Disable admin_menu, admin module output and similar modules, which
+  // is something child windows don't need.
+  module_invoke_all('suppress');
+
+  // This is required to get access to jQuery UI extensions to jQuery itself,
+  // such as the ':focusable' and ':tabbable' selectors.
+  jquery_ui_add(array('ui.core'));
+
+  // Add javascript and stylesheets to the child page.
+  $module_path = drupal_get_path('module', 'modalframe');
+  drupal_add_css($module_path .'/css/modalframe.child.css');
+  drupal_add_js($module_path .'/js/child.js');
+  if (module_exists('onbeforeunload')) {
+    onbeforeunload_add_js();
+  }
+
+  // Tell Drupal's theme system to use the Modal Frame template.
+  $GLOBALS['modalframe_page_template'] = TRUE;
+}
+
+/**
+ * API: Close a client side dialog.
+ *
+ * This function should be used on form submit handlers to trigger the
+ * action that will close the modal frame on the client side.
+ *
+ * @param $args
+ *   An optional array of arguments that will be forwarded to the client
+ *   side onSubmit callback.
+ *
+ * @ingroup modalframe_api
+ */
+function modalframe_close_dialog($args = NULL) {
+  // Make sure this action is not processed more than once.
+  if (isset($GLOBALS['modalframe_close_dialog'])) {
+    return;
+  }
+
+  // Build the javascript settings that will close the modal frame on the
+  // client side.
+  $child_js_settings = array(
+    'closeModal' => 1,
+    'statusMessages' => theme('status_messages'),
+    'args' => (isset($args) && is_array($args) ? $args : array()),
+  );
+  drupal_add_js(array('modalFrameChild' => $child_js_settings), 'setting');
+
+  // Tell Drupal's Form API that we are requested to close the modal dialog,
+  // so we do not wish to perform redirections after submitted form has been
+  // processed.
+  $GLOBALS['modalframe_close_dialog'] = TRUE;
+}

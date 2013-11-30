@@ -1,0 +1,32 @@
+name = Magazeen lite
+description = Magazeen lite is  based on the famous Wordpress Magazeen theme. It's a port of WP theme with the addition of a slideshow. Created by <a href="http://www.drupalizing.com">drupalizing.com</a> based on <a href="http://www.smashingmagazine.com/2009/02/23/magazeen-free-magazine-look-wordpress-theme/">Smashing Magazine wordpress theme release</a>.
+core = "6.x"
+project = "magazeen_lite"
+engine = phptemplate
+
+regions[header] = Header
+regions[right] = Right sidebar
+regions[footer_left] = Footer Left
+regions[footer_right] = Footer Right
+
+features[] = logo
+features[] = name
+features[] = slogan
+features[] = mission
+features[] = node_user_picture
+features[] = comment_user_picture
+features[] = search
+features[] = favicon
+features[] = primary_links
+features[] = secondary_links
+
+stylesheets[all][] = style.css
+
+
+
+; Information added by drupal.org packaging script on 2010-12-19
+version = "6.x-1.0"
+core = "6.x"
+project = "magazeen_lite"
+datestamp = "1292767550"
+

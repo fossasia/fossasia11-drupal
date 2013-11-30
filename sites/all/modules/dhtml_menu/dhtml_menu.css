@@ -1,0 +1,11 @@
+.fake-leaf 
+{
+  font-size:8pt;
+  font-style:italic;
+}
+
+li.start-collapsed ul 
+{
+  display:none;
+}
+

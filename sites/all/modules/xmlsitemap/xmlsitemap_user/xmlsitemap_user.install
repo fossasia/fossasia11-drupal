@@ -1,0 +1,130 @@
+<?php
+
+/**
+ * @file
+ * Install and uninstall schema and functions for the xmlsitemap_user module.
+ */
+
+/**
+ * Implements hook_requirements().
+ */
+function xmlsitemap_user_requirements($phase) {
+  $requirements = array();
+  $t = get_t();
+
+  if ($phase == 'runtime') {
+    if (!user_access('access user profiles', drupal_anonymous_user())) {
+      $requirements['xmlsitemap_user_anonymous_permission'] = array(
+        'title' => $t('XML sitemap user'),
+        'value' => $t('Anonymous access to user profiles'),
+        'description' => $t('In order to list user profile links in the sitemap, the anonymous user must have the <a href="@perm-link"><em>access user profiles</em> permission</a>.', array('@perm-link' => url('admin/user/permissions', array('fragment' => 'module-user')))),
+        'severity' => REQUIREMENT_ERROR,
+      );
+    }
+  }
+
+  return $requirements;
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function xmlsitemap_user_uninstall() {
+  drupal_load('module', 'user');
+  drupal_load('module', 'xmlsitemap');
+  xmlsitemap_link_bundle_delete('user', 'user');
+}
+
+/**
+ * Migrate 6.x-1.x user variables.
+ */
+function xmlsitemap_user_update_6200() {
+  drupal_load('module', 'user');
+  $status = 0;
+  $priority = variable_get('xmlsitemap_user_default_priority', 0.5);
+  if ($priority == -1) {
+    $priority = 0.5;
+  }
+  else {
+    $status = 1;
+  }
+  variable_set('xmlsitemap_settings_user_user', array('status' => $status, 'priority' => $priority));
+
+  if (db_table_exists('xmlsitemap_user_role')) {
+    $query = db_query("SELECT rid, priority FROM {xmlsitemap_user_role}");
+    while ($role = db_fetch_object($query)) {
+      $status = 0;
+      if ($role->priority == -1) {
+        $role->priority = 0.5;
+      }
+      else {
+        $status = 1;
+      }
+      variable_set('xmlsitemap_settings_user_' . $role->rid, array('status' => $status, 'priority' => $role->priority));
+    }
+  }
+
+  return array();
+}
+
+/**
+ * Migrate 6.x-1.x user data.
+ */
+function xmlsitemap_user_update_6201(&$context) {
+  $ret = array();
+
+  if (!db_table_exists('xmlsitemap_user')) {
+    // Skip if the 6.x-1.x table doesn't exist.
+    return $ret;
+  }
+  elseif (db_column_exists('xmlsitemap', 'sid')) {
+    // Skip if the main {xmlsitemap} table hasn't been upgraded yet.
+    $ret['#abort'] = array('success' => FALSE, 'query' => 'The primary xmlsitemap table upgrade has not yet been completed. Re-run the upgrade script.');
+    return $ret;
+  }
+
+  if (!isset($context['progress'])) {
+    $context['progress'] = $context['last'] = 0;
+    $context['count'] = db_result(db_query("SELECT COUNT(uid) FROM {xmlsitemap_user} WHERE priority_override <> -2 AND uid > %d", $context['last']));
+  }
+
+  drupal_load('module', 'xmlsitemap_user');
+  drupal_load('module', 'xmlsitemap');
+
+  $query = db_query_range("SELECT uid, priority_override FROM {xmlsitemap_user} WHERE priority_override <> -2 AND uid > %d ORDER BY uid", $context['last'], 0, 10);
+  while ($record = db_fetch_object($query)) {
+    if ($account = user_load($record->uid)) {
+      $link = xmlsitemap_user_create_link($account);
+      if ($record->priority_override == -1) {
+        $link['status'] = 0;
+        $link['status_override'] = 1;
+      }
+      elseif ($record->priority_override != -2) {
+        $link['priority'] = $record->priority_override;
+        $link['priority_override'] = 1;
+      }
+      xmlsitemap_link_save($link);
+    }
+    $context['last'] = $record->uid;
+    $context['progress']++;
+  }
+
+  $ret['#finished'] = empty($context['count']) ? 1 : ($context['progress'] / $context['count']);
+  return $ret;
+}
+
+/**
+ * Cleanup any remaining 6.x-1.x tables, variables or weights.
+ */
+function xmlsitemap_user_update_6202() {
+  $ret = array();
+  if (db_table_exists('xmlsitemap_user')) {
+    db_drop_table($ret, 'xmlsitemap_user');
+  }
+  if (db_table_exists('xmlsitemap_user_role')) {
+    db_drop_table($ret, 'xmlsitemap_user_role');
+  }
+  variable_del('xmlsitemap_user_default_priority');
+  $ret[] = update_sql("UPDATE {system} SET weight = 0 WHERE type = 'module' AND name = 'xmlsitemap_user'");
+  return $ret;
+}

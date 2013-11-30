@@ -1,0 +1,86 @@
+<?php
+
+/**
+ * @file
+ * PHPMailer tests.
+ */
+
+class PHPMailerUnitTestCase extends DrupalUnitTestCase {
+  /**
+   * Implementation of getInfo().
+   */
+  public static function getInfo() {
+    return array(
+      'name' => t('E-mail address parser'),
+      'description' => t('Validates e-mail address extraction.'),
+      'group' => t('PHPMailer'),
+    );
+  }
+
+  /**
+   * Test e-mail address extraction using phpmailer_parse_address().
+   */
+  function testAddressParser() {
+    // Set up various test addresses according to RFC 5322.
+    $addresses = array(
+      // addr-spec.
+      array(
+        'mail' => 'user-1@domain.tld',
+        'name' => ''
+      ),
+      // Invalid but supported angle-addr without preceding display-name.
+      '<user-2@domain.tld>' => array(
+        'mail' => 'user-2@domain.tld',
+        'name' => ''
+      ),
+      // Unquoted atom name-addr.
+      'John Doe <user-3@domain.tld>' => array(
+        'mail' => 'user-3@domain.tld',
+        'name' => 'John Doe'
+      ),
+      // Quoted atom name-addr.
+      '"John Doe" <user-4@domain.tld>' => array(
+        'mail' => 'user-4@domain.tld',
+        'name' => 'John Doe'
+      ),
+      // name-addr with a quoted-string in display-name.
+      array(
+        'mail' => 'user-5@domain.tld',
+        'name' => 'John "The Dude" Doe'
+      ),
+      // name-addr with a quoted-string and comma in display-name.
+      array(
+        'mail' => 'user-6@domain.tld',
+        'name' => 'John "The Dude" Doe (Foo, Bar)'
+      ),
+      // name-addr containing non-ASCII chars in display-name.
+      array(
+        'mail' => 'user-7@domain.tld',
+        'name' => 'Jöhn "The Düde" Döe'
+      ),
+    );
+    $all = array();
+
+    // Validate each address format is correctly parsed.
+    foreach ($addresses as $test => $address) {
+      if (is_numeric($test)) {
+        if ($address['name'] != '') {
+          // Create a valid encoded email address.
+          $test = '"' . addslashes(mime_header_encode($address['name'])) . '" <' . $address['mail'] . '>';
+        }
+        else {
+          $test = $address['mail'];
+        }
+      }
+      $result = phpmailer_parse_address($test);
+      $this->assertEqual($result[0], $address, t('Successfully extracted %email, %name from %address.', array('%email' => $result[0]['mail'], '%name' => $result[0]['name'] ? $result[0]['name'] : '(blank)', '%address' => $test)), 'PHPMailer');
+      $all[] = $test;
+    }
+
+    // One final test with all addresses concatenated.
+    $result = phpmailer_parse_address(implode(', ', $all));
+    $expected_result = array_values($addresses);
+    $this->assertEqual($result, $expected_result, t('All concatenated e-mail addresses could be extracted.'), 'PHPMailer');
+  }
+}
+

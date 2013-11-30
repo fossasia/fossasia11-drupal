@@ -1,0 +1,14 @@
+name = Content type translation
+description = Add multilingual options for content and translate related strings: name, description, help text...
+dependencies[] = i18nstrings
+package = Multilanguage
+core = 6.x
+
+
+
+; Information added by drupal.org packaging script on 2011-10-11
+version = "6.x-1.10"
+core = "6.x"
+project = "i18n"
+datestamp = "1318336004"
+

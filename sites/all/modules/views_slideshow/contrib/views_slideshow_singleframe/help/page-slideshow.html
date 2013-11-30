@@ -1,0 +1,164 @@
+<style type="text/css">
+  .advanced-help-topic img {
+    border: 1px solid;
+  }
+</style>
+<h3>How to Create a SingleFrame Slideshow of Page Nodes</h3>
+<p>
+  This tutorial requires Views Slideshow and Views Slideshow Singleframe
+  modules to be enabled. It also assumes you already have some page nodes.
+</p>
+
+<h4>Create the View</h4>
+<ol>
+  <li>
+    Go to http://yoursite.com/admin/build/views
+  </li>
+  <li>
+    Click "Add"<br />
+    <img src="&path&images/admin/build/views/add-link.png" />
+  </li>
+  <li>
+    Enter in the view name. "slideshow"<br />
+    <img src="&path&images/admin/build/views/add/view-name.png" />
+  </li>
+  <li>
+    Click "Next"<br />
+    <img src="&path&images/buttons/next.png" />
+  </li>
+  <li>
+    Select the "page" display<br />
+    <img src="&path&images/admin/build/views/edit/x/display-type.png" />
+  </li>
+  <li>
+    Click "Add Display"<br />
+    <img src="&path&images/buttons/add-display.png" />
+  </li>
+  <li>
+    Click the + next to "Fields"<br />
+    <img src="&path&images/admin/build/views/edit/x/fields-add.png" />
+  </li>
+  <li>
+    Under "Groups" choose "Node"<br />
+    <img src="&path&images/admin/build/views/edit/x/fields-groups-node.png" />
+  </li>
+  <li>
+    Select "Node: Body" and "Node: Title"<br />
+    <img src="&path&images/admin/build/views/edit/x/fields-node-body.png" /><br />
+    <img src="&path&images/admin/build/views/edit/x/fields-node-title.png" />
+  </li>
+  <li>
+    Click "Add"<br />
+    <img src="&path&images/buttons/add.png" />
+  </li>
+  <li>
+    Select "Trim this field to a maximum length"
+  </li>
+  <li>
+    Under "Maximum length" enter 100<br />
+    <img src="&path&images/admin/build/views/edit/x/fields-node-body-trim-maximum-length.png" />
+  </li>
+  <li>
+    Click "Update Default Display" twice<br />
+    <img src="&path&images/buttons/update-default-display.png" />
+  </li>
+  <li>
+    Click the up/down arrows next to "Fields"<br />
+    <img src="&path&images/admin/build/views/edit/x/fields-sort.png" />
+  </li>
+  <li>
+    Move "Node: Title" to the top<br />
+    <img src="&path&images/admin/build/views/edit/x/fields-sort-node-title-node-body.png" />
+  </li>
+  <li>
+    Click "Update"<br />
+    <img src="&path&images/buttons/update.png" />
+  </li>
+  <li>
+    Click the + next to "Filters"<br />
+    <img src="&path&images/admin/build/views/edit/x/filters-add.png" />
+  </li>
+  <li>
+    Under "Groups" choose "Node"<br />
+    <img src="&path&images/admin/build/views/edit/x/filters-groups-node.png" />
+  </li>
+  <li>
+    Select "Node: Published" and "Node: Type"<br />
+    <img src="&path&images/admin/build/views/edit/x/filters-published-type.png" />
+  </li>
+  <li>
+    Click "Add"<br />
+    <img src="&path&images/buttons/add.png" />
+  </li>
+  <li>
+    Select "Yes" for published<br />
+    <img src="&path&images/admin/build/views/edit/x/filters-published-yes.png" />
+  </li>
+  <li>
+    Click "Update Default Display"<br />
+    <img src="&path&images/buttons/update-default-display.png" />
+  </li>
+  <li>
+    Under "Node Type" select "Page"<br />
+    <img src="&path&images/admin/build/views/edit/x/filters-node-type-page.png" />
+  </li>
+  <li>
+    Click "Update Default Display"<br />
+    <img src="&path&images/buttons/update-default-display.png" />
+  </li>
+  <li>
+    Click "None" next to "Path" under "Page settings"<br />
+    <img src="&path&images/admin/build/views/edit/x/page-settings-path.png" />
+  </li>
+  <li>
+    Add a path.  "slideshow"<br />
+    <img src="&path&images/admin/build/views/edit/x/page-settings-path-page.png" />
+  </li>
+  <li>
+    Click "Update"<br />
+    <img src="&path&images/buttons/update.png" />
+  </li>
+  <li>
+    Click "Save"<br />
+    <img src="&path&images/buttons/save.png" />
+  </li>
+  <li>
+    Click "View Page" and verify it is listing out the images correctly<br />
+    <img src="&path&images/admin/build/views/edit/x/view-page-link.png" />
+  </li>
+</ol>
+
+<h4>Set up the slideshow</h4>
+<ol>
+  <li>
+    Edit the View
+  </li>
+  <li>
+    Under "Basic Settings" click "Unformatted" next to "Style".<br />
+    <img src="&path&images/admin/build/views/edit/x/basic-settings-style.png" />
+  </li>
+  <li>
+    Choose "Slideshow"<br />
+    <img src="&path&images/admin/build/views/edit/x/basic-settings-style-slideshow.png" />
+  </li>
+  <li>
+    Click "Update Default Display"<br />
+    <img src="&path&images/buttons/update-default-display.png" />
+  </li>
+  <li>
+    Under "Slideshow mode" choose "SingleFrame"<br />
+    <img src="&path&images/admin/build/views/edit/x/basic-settings-style-slideshow-mode-singleframe.png" />
+  </li>
+  <li>
+    Click "Update Default Display"<br />
+    <img src="&path&images/buttons/update-default-display.png" />
+  </li>
+  <li>
+    Click "Save"<br />
+    <img src="&path&images/buttons/save.png" />
+  </li>
+  <li>
+    View the page and verify the slideshow is working.<br />
+    <img src="&path&images/admin/build/views/edit/x/view-page-link.png" />
+  </li>
+</ol>

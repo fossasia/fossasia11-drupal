@@ -1,0 +1,280 @@
+<?php
+// $Id: views_attach.module,v 1.1.2.9.2.8 2009/06/26 20:58:13 eaton Exp $
+
+/**
+ *  Implementation of hook_views_api().
+ */
+function views_attach_views_api() {
+  return array(
+    'api' => 2.0,
+  );
+}
+
+/**
+ * Implementation of hook_content_extra_fields.
+ */
+function views_attach_content_extra_fields($type_name) {
+  $extras = array();
+  $items = array();
+
+  // Build a list of just the views/displays that are relevant for this node type.
+  $views = views_attach_get_node_views($type_name);
+  foreach ($views as $mode => $info) {
+    foreach ($info as $entry) {
+      $items[] = $entry;
+    }
+  }
+
+  // Now add a weight field for each view/display.
+  foreach ($items as $item) {
+    if (!$item['title']) {
+      $item['title'] = t('None');
+    }
+    $extras[$item['name'] .'_'. $item['display']] = array(
+      'label' => $item['title'],
+      'description' => t('Attached view: !view - !display', array('!view' => $item['name'], '!display' => $item['display'])),
+      'weight' => 10,
+    );
+
+    if (user_access('administer views')) {
+      $link = l(t('Configure'), 'admin/build/views/edit/' . $item['name'],
+        array(
+          'query' => drupal_get_destination(),
+          'fragment' => 'views-tab-' . $item['display'],
+        )
+      );
+      $extras[$item['name'] .'_'. $item['display']]['configure'] = $link;
+    }
+  }
+
+  return $extras;
+}
+
+/**
+ * Implementation of hook_user().
+ */
+function views_attach_user($op, &$edit, &$account, $category = NULL) {
+  switch ($op) {
+    case 'view':
+      $views = views_attach_get_user_views($category);
+      foreach ($views as $info) {
+        $view = views_get_view($info['name']);
+        $view->set_display($info['display']);
+        
+        if ($view->access($info['display'])) {
+          $view->current_account = $account;
+          $result = $view->execute_display($info['display']);
+          if (!empty($result)) {
+            $account->content[$view->name . '_' . $info['display']] = array(
+              '#type' => 'user_profile_category',
+              '#weight' => $view->display_handler->get_option('weight'),
+              '#title' => $view->get_title(),
+            );
+            $account->content[$view->name . '_' . $info['display']]['content'] = array(
+              '#type' => 'markup',
+              '#value' => $result,
+            );
+          }
+        }
+      }
+  }
+}
+
+/**
+ * Implementation of hook_nodeapi().
+ */
+function views_attach_nodeapi(&$node, $op, $teaser, $page) {
+  switch ($op) {
+    case 'view':
+      // A side effect of defining it this way is that if we're called for an
+      // embedded node, with no teaser or page, we use the full version's settings.
+      // That is by design.
+
+      if (isset($node->build_mode)) {
+        $mode = $node->build_mode;
+        if ($mode === NODE_BUILD_NORMAL) {
+          $mode = $teaser ? 'teaser' : 'full';
+        }
+      }
+      else {
+        $mode = 'full';
+      }
+
+      $views = views_attach_get_node_views($node->type, $mode);
+      foreach ($views as $info) {
+        $view = views_get_view($info['name']);
+        $view->set_display($info['display']);
+        
+        if ($view->access($info['display'])) {
+          $view->current_node = $node;
+          $result = $view->execute_display($info['display']);
+          if (!empty($result)) {
+            $node->content[$view->name . '_' . $info['display']] = array(
+              '#weight' => module_exists('content') ? content_extra_field_weight($node->type, $view->name . '_' . $info['display']) : 10,
+              '#value' => $result,
+            );
+          }
+        }
+      }
+      break;
+  }
+}
+
+/**
+ * Get a list of views and displays attached to the specified category.
+ *
+ * This function will cache its results into the views cache, so it gets
+ * cleared by Views appropriately.
+ *
+ * @param $category
+ *   The category of profile information we want to display.  If NULL is
+ *   specified, we use an internal keyword of "Default".
+ * @return
+ *   An array of view name/display name values, or an empty array().
+ */
+function views_attach_get_user_views($category) {
+
+  static $used_views = array();
+
+  if (is_null($category)) {
+    $category = 'Default';
+  }
+
+  if (empty($used_views)) {
+    views_include('cache');
+    $cache = views_cache_get("views_attach:profile");
+    if (isset($cache->data)) {
+      $used_views = $cache->data;
+    }
+    else {
+      // Build and cache the data, both in the DB and statically.
+      $views = views_get_applicable_views('uses hook user');
+      foreach ($views as $data) {
+        list($view, $display_id) = $data;
+        $view_category = $view->display_handler->get_option('category');
+        if (empty($view_category)) {
+          $view_category = 'Default';
+        }
+        $used_views[$view_category][] = array('name' => $view->name, 'display' => $display_id);
+        $view->destroy();
+      }
+      views_cache_set("views_attach:profile", $used_views);
+    }
+  }
+
+  return isset($used_views[$category]) ? $used_views[$category] : array();
+}
+
+
+/**
+ * Get a list of views and displays attached to the specified category.
+ *
+ * This function will cache its results into the views cache, so it gets
+ * cleared by Views appropriately.
+ *
+ * @param $type
+ *   The node type for which we want a list of view information.
+ * @param $mode
+ *   The display mode to check for.  Possible values are "full" and "teaser".
+ *   If NULL, return information for all modes.
+ * @return
+ *   An array of view name/display name values, or an empty array().
+ */
+function views_attach_get_node_views($type, $mode = NULL) {
+
+  static $used_views = array();
+
+  if (empty($used_views)) {
+    views_include('cache');
+    $cache = views_cache_get("views_attach:nodes");
+    if (isset($cache->data)) {
+      $used_views = $cache->data;
+    }
+    else {
+      // Build and cache the data, both in the DB and statically.
+      $views = views_get_applicable_views('uses hook nodeapi');
+      foreach ($views as $data) {
+        list($view, $display_id) = $data;
+        foreach ($view->display_handler->get_option('types') as $type_to_use) {
+          $modes = $view->display_handler->get_option('modes');
+          foreach ($modes as $value) {
+            $used_views[$type_to_use][$value][] = array('name' => $view->name, 'display' => $display_id, 'title' => $view->get_title());
+          }
+        }
+        $view->destroy();
+      }
+      views_cache_set("views_attach:nodes", $used_views);
+    }
+  }
+
+  if (is_null($mode)) {
+    return isset($used_views[$type]) ? $used_views[$type] : array();
+  }
+  else {
+    return isset($used_views[$type][$mode]) ? $used_views[$type][$mode] : array();
+  }
+}
+
+function views_attach_build_modes() {
+  $modes = array();
+  if (module_exists('content')) {
+    foreach (content_build_modes() as $mode => $value) {
+      $modes[$mode] = $value['title'];
+    }
+  }
+  else {
+    $modes = array(
+      'full' => 'Full node',
+      'teaser'  => 'Teaser',
+    );
+  }
+  $modes['edit'] = 'Edit page';
+  return $modes;
+}
+
+/**
+ * Get view arguments array from string that contains tokens
+ *
+ * @param $string
+ *   The token string defined by the view.
+ * @param $type
+ *   The token type.
+ * @param $object
+ *   The object being used for replacement data (typically a node).
+ * @return
+ *   An array of argument values.
+ *
+ * @todo: security?
+ */
+function views_attach_get_arguments_from_token_string($string, $type, $object) {
+  $args = trim($string);
+
+  if (empty($args)) {
+    return array();
+  }
+
+  $args = token_replace($args, $type, $object);
+  return explode('/', $args);
+}
+
+/**
+* Implementation of hook_form_alter().
+*/
+function views_attach_form_alter(&$form, $form_state, $form_id) {
+  if($form['#id'] == 'node-form') {
+    $views = views_attach_get_node_views($form['type']['#value'], 'edit');
+    foreach ($views as $info) {
+      $view = views_get_view($info['name']);
+      $view->set_display($info['display']);
+      $result = $view->execute_display($info['display'], array($form['#node']->nid));
+      if (!empty($result)) {
+        $form[$view->name . '_' . $info['display']] = array(
+          '#title' => $view->display_handler->get_option('show_title') ? $view->get_title() : '',
+          '#type' => 'item',
+          '#weight' => module_exists('content') ? content_extra_field_weight($form['type']['#value'], $view->name . '_' . $info['display']) : 10,
+          '#value' => $result,
+        );
+      }
+    }
+  }
+}

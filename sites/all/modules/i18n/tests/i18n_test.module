@@ -1,0 +1,48 @@
+<?php
+
+/**
+ * @file
+ *   Helper module for testing i18n
+ */
+
+// Add some multilingual variables, override existing ones from settings so
+// we have a known list and we don't need any addition to the settings file for testing i18n
+_i18n_test_variable_init();
+
+/**
+ * Implementation of hook_init()
+ */
+function i18n_test_init() {
+  // We just implement this hook so this one is loaded always on bootstap
+}
+
+/**
+ * Set default multilingual variables and add any others defined by testing scripts
+ *
+ * More variables can be added using 'i18n_variables_test';
+ */
+function _i18n_test_variable_init() {
+  global $conf;
+  $conf['i18n_variables'] = array_merge(array('site_name', 'site_frontpage'), variable_get('i18n_variables_test', array()));
+}
+
+/**
+ * Implementation of hook_locale()
+ */
+function i18n_test_locale() {
+  switch ($op) {
+    case 'groups':
+      return array('test' => t('Test'));
+    case 'info':
+      $info['test']['refresh callback'] = 'i18n_test_locale_refresh';
+      $info['test']['format'] = FALSE;
+      return $info;
+  }
+}
+
+/**
+ * Locale refresh
+ */
+function i18n_test_locale_refresh() {
+  return TRUE;
+}

@@ -1,0 +1,12 @@
+/* $Id$ */
+body, input, textarea, select {
+  color: #333;
+  background: none;
+}
+body {
+  width: 900px;
+}
+.sidebar, #header_top, #topMenu, #searchBox, #header-region, #menuLeft, 
+#primaryMenu, #menuRight, #breadcrumb, #preface_top, #footer_bottom  {
+  display: none;
+}

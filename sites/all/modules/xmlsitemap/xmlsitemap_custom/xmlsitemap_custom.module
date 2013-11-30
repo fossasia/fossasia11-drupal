@@ -1,0 +1,65 @@
+<?php
+
+/**
+ * Implements hook_menu().
+ */
+function xmlsitemap_custom_menu() {
+  $items['admin/settings/xmlsitemap/custom'] = array(
+    'title' => 'Custom links',
+    'page callback' => 'xmlsitemap_custom_list_links',
+    'access arguments' => array('administer xmlsitemap'),
+    'type' => MENU_LOCAL_TASK,
+    'file' => 'xmlsitemap_custom.admin.inc',
+  );
+  $items['admin/settings/xmlsitemap/custom/add'] = array(
+    'title' => 'Add custom link',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('xmlsitemap_custom_edit_link_form'),
+    'access arguments' => array('administer xmlsitemap'),
+    'type' => MENU_CALLBACK,
+    'file' => 'xmlsitemap_custom.admin.inc',
+    'modal' => TRUE,
+  );
+  $items['admin/settings/xmlsitemap/custom/edit/%xmlsitemap_custom'] = array(
+    'title' => 'Edit custom link',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('xmlsitemap_custom_edit_link_form', 5),
+    'access arguments' => array('administer xmlsitemap'),
+    'type' => MENU_CALLBACK,
+    'file' => 'xmlsitemap_custom.admin.inc',
+    'modal' => TRUE,
+  );
+  $items['admin/settings/xmlsitemap/custom/delete/%xmlsitemap_custom'] = array(
+    'title' => 'Delete custom link',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('xmlsitemap_custom_delete_link_form', 5),
+    'access arguments' => array('administer xmlsitemap'),
+    'type' => MENU_CALLBACK,
+    'file' => 'xmlsitemap_custom.admin.inc',
+    'modal' => TRUE,
+  );
+  return $items;
+}
+
+/**
+ * Menu load callback; load a custom sitemap link from the {xmlsitemap} table.
+ *
+ * @param $id
+ *   The sitemap link ID of the custom link to load.
+ *
+ * @see xmlsitemap_link_load()
+ */
+function xmlsitemap_custom_load($id) {
+  return xmlsitemap_link_load('custom', $id);
+}
+
+/**
+ * Implements hook_xmlsitemap_link_info().
+ */
+function xmlsitemap_custom_xmlsitemap_link_info() {
+  return array(
+    'custom' => array(
+      'label' => t('Custom links'),
+    ),
+  );
+}

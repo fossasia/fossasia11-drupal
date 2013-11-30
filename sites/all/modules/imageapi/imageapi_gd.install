@@ -1,0 +1,84 @@
+<?php
+
+function imageapi_gd_requirements($phase) {
+  $requirements = array();
+  $t = get_t();
+
+  $gd = function_exists('imagegd2');
+
+  if (!$gd) {
+    $requirements['imageapi_gd'] = array(
+      'title' =>  $t('GD library'),
+      'value' => $t('Not installed'),
+      'severity' => REQUIREMENT_ERROR,
+      'description' => $t('The GD library for PHP is missing or outdated. Please check the <a href="@url">PHP image documentation</a> for information on how to correct this.', array('@url' => 'http://www.php.net/manual/en/image.setup.php')),
+    );
+    return $requirements;
+  }
+
+  // If color module hasn't already do so, report the version.
+  if (!module_exists('color')) {
+    $info = gd_info();
+    $requirements['imageapi_gd'] = array(
+      'title' =>  $t('GD library'),
+      'value' => $info['GD Version'],
+      'severity' => REQUIREMENT_OK,
+    );
+  }
+
+  // Check image format support
+  foreach (array('gif', 'jpeg', 'png') as $format) {
+    if (function_exists('imagecreatefrom'. $format)) continue;
+    $requirements['imageapi_gd_'. $format] = array(
+      'title' => $t('GD !format Support', array('!format' => drupal_ucfirst($format))),
+      'value' => $t('Not installed'),
+      'severity' => REQUIREMENT_ERROR,
+      'description' => $t('PHP GD was not compiled with %format support.', array('%format' => $format)),
+    );
+  }
+
+
+  // check non required stuff aka not installation blockers.
+  if ($phase == 'runtime') {
+    if (!function_exists('imagerotate')) {
+      $requirements['imageapi_gd_imagerotate'] = array(
+        'title' => $t('GD Image Rotation'),
+        'value' => $t('Low Quality / Poor Performance'),
+        'severity' => REQUIREMENT_WARNING,
+        'description' => $t('The installed version of PHP GD does not support image rotations. It was probably compiled using the official GD libraries from <a href="http://www.libgd.org">http://www.libgd.org</a> instead of the GD library bundled with PHP. You should recompile PHP --with-gd using the bundled GD library. See <a href="http://www.php.net/manual/en/image.setup.php">PHP Manual</a> for more information. A slower implementation of imagerotate() written in PHP will used in the interim.'),
+      );
+    }
+
+    if (!function_exists('imagefilter')) {
+      $requirements['imageapi_gd_imagefilter'] = array(
+        'title' => $t('GD Image Filtering'),
+        'value' => $t('Low Quality / Poor Performance'),
+        'severity' => REQUIREMENT_WARNING,
+        'description' => $t('The installed version of PHP GD does not support image filtering(desaturate, blur, negate, etc). It was probably compiled using the official GD libraries from <a href="http://www.libgd.org">http://www.libgd.org</a> instead of the GD library bundled with PHP. You should recompile PHP --with-gd using the bundled GD library. See <a href="http://www.php.net/manual/en/image.setup.php">PHP Manual</a> for more information. A slower implementation of imagefilter() written in PHP will be used in the interim.'),
+      );
+    }
+
+    // Test the 'memory_limit' PHP configuration directive
+    $memory_limit = ini_get('memory_limit');
+
+    // If $memory_limit contains a value of -1, the PHP runtime
+    // doesn't impose a limit on memory used by PHP scripts
+    if ($memory_limit && $memory_limit != -1 && parse_size($memory_limit) < parse_size('96M')) {
+      $requirements['imagecache_memory_limit'] = array(
+        'title' => $t('ImageAPI GD Memory Limit'),
+        'value' => $memory_limit,
+        'severity' => REQUIREMENT_WARNING,
+        'description' => $t('It is highly recommended that you set you PHP memory_limit to 96M to use ImageAPI GD. A 1600x1200 images consumes ~45M of memory when decompressed and there are instances where ImageAPI GD is operating on two decompressed images at once.'),
+      );
+    }
+
+  }
+  return $requirements;
+}
+
+/**
+ * Implementation of hook_uninstall().
+ */
+function imageapi_gd_uninstall() {
+  variable_del('imageapi_jpeg_quality');
+}

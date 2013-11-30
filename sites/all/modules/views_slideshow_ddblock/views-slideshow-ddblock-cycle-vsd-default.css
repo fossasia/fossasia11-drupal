@@ -1,0 +1,49 @@
+/*!
+ * Dynamic display block module template: vsd-default - Cascading Style Sheet 
+ */ 
+div.views-slideshow-ddblock-cycle-vsd-default div.container{background-color:#fff;width:478px;}
+div.views-slideshow-ddblock-cycle-vsd-default div.container-inner{height:318px;position:relative;z-index:0;}
+div.views-slideshow-ddblock-cycle-vsd-default div.slider{float:left;width:478px;}
+div.views-slideshow-ddblock-cycle-vsd-default div.slider-inner{background:transparent url(images/transparent_bg.png) repeat scroll 0 0!important;height:303px;overflow:hidden;position:relative;visibility:hidden;}
+div.views-slideshow-ddblock-cycle-vsd-default div.slide{display:none;height:100%;left:0;position:absolute;top:0;}
+div.views-slideshow-ddblock-cycle-vsd-default div.slide-inner img{height:303px;margin:0 !important;padding:0 !important;width:478px;}
+div.views-slideshow-ddblock-cycle-vsd-default div.slide-text{background:transparent url(images/transparent_bg.png) repeat scroll 0 0!important;position:absolute;}
+div.views-slideshow-ddblock-cycle-vsd-default div.slide-text-horizontal{height:85px;left:0;width:478px;}
+div.views-slideshow-ddblock-cycle-vsd-default div.slide-text-vertical{height:303px;width:140px;}
+div.views-slideshow-ddblock-cycle-vsd-default div.slide-text-top{top:7px;}
+div.views-slideshow-ddblock-cycle-vsd-default div.slide-text-right{bottom:0;right:30px;}
+div.views-slideshow-ddblock-cycle-vsd-default div.slide-text-bottom{bottom:7px;}
+div.views-slideshow-ddblock-cycle-vsd-default div.slide-text-left{bottom:0;left:30px;}
+div.views-slideshow-ddblock-cycle-vsd-default div.slide-text-inner{padding:10px;}
+div.views-slideshow-ddblock-cycle-vsd-default div.slide-title{float:left;}
+div.views-slideshow-ddblock-cycle-vsd-default div.slide-title-vertical{width:130px;}
+div.views-slideshow-ddblock-cycle-vsd-default div.slide-title-horizontal{float:left;width:100px;}
+div.views-slideshow-ddblock-cycle-vsd-default div.slide-title h2{margin:-5px 0 0 0;padding:0;}
+div.views-slideshow-ddblock-cycle-vsd-default div.slide-title-inner{color:white;font-weight:bold;}
+div.views-slideshow-ddblock-cycle-vsd-default div.slide-body-vertical{width:132px;}
+div.views-slideshow-ddblock-cycle-vsd-default div.slide-body-horizontal{float:left;width:355px;}
+div.views-slideshow-ddblock-cycle-vsd-default div.slide-body-inner{font-weight:bold;font-size:.8em;color:white;}
+div.views-slideshow-ddblock-cycle-vsd-default div.slide-body-inner p{margin:0 8px 0 0;padding:0;}
+div.views-slideshow-ddblock-cycle-vsd-default div.slide-body-inner li{float:left;}
+div.views-slideshow-ddblock-cycle-vsd-default div.slide-body-inner a{color:#ffffff;}
+
+div.views-slideshow-ddblock-cycle-vsd-default div.slide-read-more{width:110px;}
+div.views-slideshow-ddblock-cycle-vsd-default div.slide-read-more p{padding:0;margin:0;}
+div.views-slideshow-ddblock-cycle-vsd-default div.slide-read-more a{background:url(images/readmore.png) no-repeat;border:none;bottom:5px;color:#fff;font-size:14px;font-family:times New Roman;margin:0;padding:4px 0 4px 19px;position:absolute;text-decoration:none !important;text-align:left;width:100px;}
+div.views-slideshow-ddblock-cycle-vsd-default div.slide-read-more-horizontal a{right:-17px;}
+div.views-slideshow-ddblock-cycle-vsd-default div.slide-read-more-vertical a{right:5px;}
+div.views-slideshow-ddblock-cycle-vsd-default div.slide-read-more a:hover{background:url(images/readmore-hover.png) no-repeat !important;text-decoration:underline;}
+div.views-slideshow-ddblock-cycle-vsd-default div.slide-read-more-horizontal a:hover{right:-17px;}
+div.views-slideshow-ddblock-cycle-vsd-default div.slide-read-more-vertical a:hover{right:5px;}
+
+/*previous next pager on the slide*/
+div.views-slideshow-ddblock-cycle-vsd-default div.views-slideshow-ddblock-prev-next-slide {left:0;position: absolute;top:110px;width:475px;z-index: 50;}
+div.views-slideshow-ddblock-cycle-vsd-default div.views-slideshow-ddblock-prev-next-slide a {color:#fff;display:block;height:50px;margin:0;padding:0;width:50px;}
+div.views-slideshow-ddblock-cycle-vsd-default div.views-slideshow-ddblock-prev-next-slide a:focus{outline:none;}
+div.views-slideshow-ddblock-cycle-vsd-default div.next-container{float: right;height: 50px;opacity: 0.7;position: relative;width: 50px;}
+div.views-slideshow-ddblock-cycle-vsd-default div.prev-container{float: left;height: 50px;opacity: 0.7;position: relative;width: 50px;}
+div.views-slideshow-ddblock-cycle-vsd-default div.views-slideshow-ddblock-prev-next-slide a.next{background: url(images/next.png) no-repeat;margin-left:-10px;}
+div.views-slideshow-ddblock-cycle-vsd-default div.views-slideshow-ddblock-prev-next-slide a.prev{background: url(images/prev.png) no-repeat;margin-left:10px;}
+
+div.views-slideshow-ddblock-cycle-vsd-default div.spacer-vertical{display:block;float:left;height:50px;width:5px;background-color:#ccc;}
+div.views-slideshow-ddblock-cycle-vsd-default div.spacer-horizontal{clear:both;}

@@ -1,0 +1,71 @@
+/* $Id: noderelationships.node_form.css,v 1.1.2.2 2010/05/16 17:03:20 markuspetrux Exp $ */
+
+/**
+ * Search/Create and reference buttons.
+ */
+.form-item .noderelationships-nodereference-autocomplete,
+.content-add-more .noderelationships-nodereference-add-more {
+  display: inline-block;
+  margin-right: 4px;
+}
+.noderelationships-nodereference-buttons-wrapper {
+  display: inline-block;
+}
+.noderelationships-nodereference-add-more {
+  display: block;
+  float: left;
+}
+.noderelationships-nodereference-view-button,
+.noderelationships-nodereference-view-disabled,
+.noderelationships-nodereference-edit-button,
+.noderelationships-nodereference-edit-disabled,
+.noderelationships-nodereference-search-button,
+.noderelationships-nodereference-create-button,
+.noderelationships-nodereference-multi-button {
+  display: inline-block;
+  margin-right: 4px;
+  padding: 0;
+  width: 20px;
+  height: 18px;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #cecece #606060 #606060 #cecece;
+  background: #e8e8e8 url(../images/noderef-sprites.png) no-repeat 0 0;
+}
+.noderelationships-nodereference-view-button {
+  background-position: 0 0;
+}
+.noderelationships-nodereference-view-disabled {
+  background-position: -20px 0;
+}
+.noderelationships-nodereference-edit-button {
+  background-position: 0 -20px;
+}
+.noderelationships-nodereference-edit-disabled {
+  background-position: -20px -20px;
+}
+.noderelationships-nodereference-search-button {
+  background-position: -40px 0;
+}
+.noderelationships-nodereference-create-button {
+  background-position: -60px 0;
+}
+.noderelationships-nodereference-multi-button {
+  margin-left: 4px;
+  background-position: -80px 0;
+}
+.noderelationships-nodereference-view-button:hover,
+.noderelationships-nodereference-edit-button:hover,
+.noderelationships-nodereference-search-button:hover,
+.noderelationships-nodereference-create-button:hover,
+.noderelationships-nodereference-multi-button:hover {
+  background-color: #ffffff;
+}
+.noderelationships-nodereference-view-disabled,
+.noderelationships-nodereference-view-disabled:hover,
+.noderelationships-nodereference-edit-disabled,
+.noderelationships-nodereference-edit-disabled:hover {
+  cursor: default;
+  border-color: #606060 #cecece #cecece #606060;
+  background-color: #e0e0e0;
+}

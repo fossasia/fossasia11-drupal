@@ -1,0 +1,1621 @@
+
+/* Margin, Padding, Border Resets
+-------------------------------------------------------------- */
+html, body, div, span, p,
+dl, dt, dd, ul, ol, li,
+h1, h2, h3, h4, h5, h6,
+form, fieldset, input, textarea {
+  margin: 0;
+  padding: 0;
+}
+
+img, abbr, acronym {
+  border: 0;
+}
+
+
+/* HTML Elements
+-------------------------------------------------------------- */
+p {
+  margin: 1em 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 0 0 0.5em 0;
+}
+
+ul, ol, dd {
+  margin-bottom: 1.5em;
+  margin-left: 2em; /* LTR */
+}
+
+li ul, li ol {
+  margin-bottom: 0;
+}
+
+ul {
+  list-style-type: disc;
+}
+
+ol {
+  list-style-type: decimal;
+}
+
+a {
+  margin: 0;
+  padding: 0;
+  text-decoration: none;
+}
+
+a:link,
+a:visited {
+}
+
+a:hover,
+a:focus,
+a:active {
+  text-decoration: underline;
+}
+
+blockquote {
+}
+
+hr {
+  height: 1px;
+  border: 1px solid gray;
+}
+
+/* tables */
+table {
+  border-spacing: 0;
+  width: 100%;
+}
+
+caption {
+  text-align: left;
+}
+
+th {
+  margin: 0;
+  padding: 0 10px 0 0;
+}
+
+th.active img {
+  display: inline;
+}
+
+thead th {
+  padding-right: 10px;
+}
+
+td {
+  margin: 0;
+  padding: 3px;
+}
+
+/* Remove grid block styles from Drupal's table ".block" class */
+td.block {
+  border: none;
+  float: none;
+  margin: 0;
+}
+
+/* Maintain light background/dark text on dragged table rows */
+tr.drag td,
+tr.drag-previous td {
+  background: #FFFFDD;
+  color: #000;
+}
+
+
+/* Accessibility
+/-------------------------------------------------------------- */
+/* skip-link to main content, hide offscreen */
+#skip a,
+#skip a:hover,
+#skip a:visited {
+  height: 1px;
+  left: 0px;
+  overflow: hidden;
+  position: absolute;
+  top: -500px;
+  width: 1px;
+}
+
+/* make skip link visible when selected */
+#skip a:active,
+#skip a:focus {
+  background-color: #fff;
+  color: #000;
+  height: auto;
+  padding: 5px 10px;
+  position: absolute;
+  top: 0;
+  width: auto;
+  z-index: 99;
+}
+
+#skip a:hover {
+  text-decoration: none;
+}
+
+
+/* Helper Classes
+/-------------------------------------------------------------- */
+.hide {
+  display: none;
+  visibility: hidden;
+}
+
+.left {
+  float: left;
+}
+
+.right {
+  float: right;
+}
+
+.clear {
+  clear: both;
+}
+
+/* clear floats after an element */
+/* (also in ie6-fixes.css, ie7-fixes.css) */
+.clearfix:after,
+.clearfix .inner:after {
+  clear: both;
+  content: ".";
+  display: block;
+  font-size: 0;
+  height: 0;
+  line-height: 0;
+  overflow: auto;
+  visibility: hidden;
+}
+
+
+/* Grid Layout Basics (specifics in 'gridnn_x.css')
+-------------------------------------------------------------- */
+/* center page and full rows: override this for left-aligned page */
+.page,
+.row {
+  margin: 0 auto;
+}
+
+/* fix layout/background display on floated elements */
+.row,
+.nested,
+.block {
+  overflow: hidden;
+}
+
+/* full-width row wrapper */
+div.full-width {
+  width: 100%;
+}
+
+/* float, un-center & expand nested rows */
+.nested {
+  float: left; /* LTR */
+  margin: 0;
+  width: 100%;
+}
+
+/* allow Superfish menus to overflow */
+#sidebar-first.nested,
+#sidebar-last.nested,
+div.superfish {
+  overflow: visible;
+}
+
+/* sidebar layouts */
+.sidebars-both-first .content-group {
+  float: right; /* LTR */
+}
+
+.sidebars-both-last .sidebar-first {
+  float: right; /* LTR */
+}
+
+/* Grid Mask Overlay
+-------------------------------------------------------------- */
+#grid-mask-overlay {
+  display: none;
+  left: 0;
+  opacity: 0.75;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: 997;
+}
+
+#grid-mask-overlay .row {
+  margin: 0 auto;
+}
+
+#grid-mask-overlay .block .inner {
+  background-color: #e3fffc;
+  outline: none;
+}
+
+.grid-mask #grid-mask-overlay {
+  display: block;
+}
+
+.grid-mask .block {
+  overflow: visible;
+}
+
+.grid-mask .block .inner {
+  outline: #f00 dashed 1px;
+}
+
+#grid-mask-toggle {
+  background-color: #777;
+  border: 2px outset #fff;
+  color: #fff;
+  cursor: pointer;
+  font-variant: small-caps;
+  font-weight: normal;
+  left: 0;
+  -moz-border-radius: 5px;
+  padding: 0 5px 2px 5px;
+  position: absolute;
+  text-align: center;
+  top: 22px;
+  -webkit-border-radius: 5px;
+  z-index: 998;
+}
+
+#grid-mask-toggle.grid-on {
+  border-style: inset;
+  font-weight: bold;
+}
+
+
+/* Site Info
+-------------------------------------------------------------- */
+#header-site-info {
+  width: auto;
+}
+
+#site-name-wrapper {
+  float: left;   /* LTR */
+}
+
+#site-name,
+#slogan {
+  display: block;
+}
+
+#site-name a:link,
+#site-name a:visited,
+#site-name a:hover,
+#site-name a:active {
+  text-decoration: none;
+}
+
+#site-name a {
+  outline: 0;
+}
+
+
+/* Regions
+-------------------------------------------------------------- */
+
+/* Header Regions
+-------------------------------------------------------------- */
+#header-group {
+  overflow: visible;
+}
+
+/* Content Regions (Main)
+-------------------------------------------------------------- */
+.node-bottom {
+  margin: 1.5em 0 0 0;
+}
+
+/*  Clear floats on regions
+-------------------------------------------------------------- */
+#header-top-wrapper,
+#header-group-wrapper,
+#preface-top-wrapper,
+#main-wrapper,
+#preface-bottom,
+#content-top,
+#content-region,
+#content-bottom,
+#postscript-top,
+#postscript-bottom-wrapper,
+#footer-wrapper,
+#footer-message-wrapper {
+  clear: both;
+}
+
+
+/* Drupal Core
+/-------------------------------------------------------------- */
+
+/* Lists
+/-------------------------------------------------------------- */
+.item-list ul li {
+  margin: 0;
+}
+
+.block ul,
+.block ol {
+  margin-left: 2em; /* LTR */
+  padding: 0;
+}
+
+.content-inner ul,
+.content-inner ol {
+  margin-bottom: 1.5em;
+}
+
+.content-inner li ul,
+.content-inner li ol {
+  margin-bottom: 0;
+}
+
+.block ul.links {
+  margin-left: 0; /* LTR */
+}
+
+/* Menus
+/-------------------------------------------------------------- */
+ul.menu li,
+ul.links li {
+  margin: 0;
+  padding: 0;
+}
+
+/* Primary Menu
+/-------------------------------------------------------------- */
+/* use ID to override overflow: hidden for .block, dropdowns should always be visible */
+#primary-menu {
+  overflow: visible;
+}
+
+/* remove left margin from primary menu list */
+#primary-menu.block ul {
+  margin-left: 0; /* LTR */
+}
+
+/* remove bullets, float left */
+.primary-menu ul li {
+  float: left; /* LTR */
+  list-style: none;
+  position: relative;
+}
+
+/* style links, and unlinked parent items (via Special Menu Items module) */
+.primary-menu ul li a,
+.primary-menu ul li .nolink {
+  display: block;
+  padding: 0.75em 1em;
+  text-decoration: none;
+}
+
+/* Add cursor style for unlinked parent menu items */
+.primary-menu ul li .nolink {
+  cursor: default;
+}
+
+/* remove outline */
+.primary-menu ul li:hover,
+.primary-menu ul li.sfHover,
+.primary-menu ul a:focus,
+.primary-menu ul a:hover,
+.primary-menu ul a:active {
+  outline: 0;
+}
+
+/* Secondary Menu
+/-------------------------------------------------------------- */
+.secondary-menu-inner ul.links {
+  margin-left: 0; /* LTR */
+}
+
+
+/* Skinr styles
+/-------------------------------------------------------------- */
+
+/* Skinr selectable helper classes */
+.fusion-clear {
+  clear: both;
+}
+
+div.fusion-right {
+  float: right; /* LTR */
+}
+
+div.fusion-center {
+  float: none;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.fusion-center-content .inner {
+  text-align: center;
+}
+
+.fusion-center-content .inner ul.menu {
+  display: inline-block;
+  text-align: center;
+}
+
+/* required to override drupal core */
+.fusion-center-content #user-login-form {
+  text-align: center;
+}
+
+.fusion-right-content .inner {
+  text-align: right; /* LTR */
+}
+
+/* required to override drupal core */
+.fusion-right-content #user-login-form {
+  text-align: right; /* LTR */
+}
+
+/* Large, bold callout text style */
+.fusion-callout .inner {
+  font-weight: bold;
+}
+
+/* Extra padding on block */
+.fusion-padding .inner {
+  padding: 30px;
+}
+
+/* Adds 1px border and padding */
+.fusion-border .inner {
+  border-width: 1px;
+  border-style: solid;
+  padding: 10px;
+}
+
+/* Single line menu with separators */
+.fusion-inline-menu .inner ul.menu {
+  margin-left: 0; /* LTR */
+}
+
+.fusion-inline-menu .inner ul.menu li {
+  border-right-style: solid;
+  border-right-width: 1px;
+  display: inline;
+  margin: 0;
+  padding: 0;
+  white-space: nowrap;
+}
+
+.fusion-inline-menu .inner ul.menu li a {
+  padding: 0 8px 0 5px; /* LTR */
+}
+
+.fusion-inline-menu .inner ul li.last {
+  border: none;
+}
+
+/* Hide second level (and beyond) menu items */
+.fusion-inline-menu .inner ul li.expanded ul {
+  display: none;
+}
+
+/* Multi-column menu style with bolded top level menu items */
+.fusion-multicol-menu .inner ul {
+  margin-left: 0; /* LTR */
+  text-align: left; /* LTR */
+}
+
+.fusion-multicol-menu .inner ul li {
+  border-right: none;
+  display: block;
+  font-weight: bold;
+}
+
+.fusion-multicol-menu .inner ul li.last {
+  border-right: none;
+}
+
+.fusion-multicol-menu .inner ul li.last a {
+  padding-right: 0; /* LTR */
+}
+
+.fusion-multicol-menu .inner ul li.expanded,
+.fusion-multicol-menu .inner ul li.leaf {
+  float: left; /* LTR */
+  list-style-image: none;
+  margin-left: 50px; /* LTR */
+}
+
+.fusion-multicol-menu .inner ul.menu li.first {
+  margin-left: 0; /* LTR */
+}
+
+.fusion-multicol-menu .inner ul li.expanded li.leaf {
+  float: none;
+  margin-left: 0; /* LTR */
+}
+
+.fusion-multicol-menu .inner ul li.expanded ul {
+  display: block;
+  margin-left: 0; /* LTR */
+}
+
+.fusion-multicol-menu .inner ul li.expanded ul li {
+  border: none;
+  margin-left: 0; /* LTR */
+  text-align: left; /* LTR */
+}
+
+.fusion-multicol-menu .inner ul.menu li ul.menu li {
+  font-weight: normal;
+}
+
+/* Split list across multiple columns */
+.fusion-2-col-list .inner .item-list ul li,
+.fusion-2-col-list .inner ul.menu li {
+  float: left; /* LTR */
+  width: 50%;
+}
+
+.fusion-3-col-list .inner .item-list ul li,
+.fusion-3-col-list .inner ul.menu li {
+  float: left; /* LTR */
+  width: 33%;
+}
+
+.fusion-2-col-list .inner .item-list ul.pager li,
+.fusion-3-col-list .inner .item-list ul.pager li {
+  float: none;
+  width: auto;
+}
+
+/* List with bottom border
+    Fixes a common issue when list items have bottom borders and appear to be
+    doubled when nested lists end and begin. This removes the extra border-bottom
+ */
+.fusion-list-bottom-border .inner ul li {
+  list-style: none;
+  list-style-type: none;
+  list-style-image: none;
+}
+
+.fusion-list-bottom-border .inner ul li,
+.fusion-list-bottom-border .view-content div.views-row {
+  padding: 0 0 0 10px; /* LTR */
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  line-height: 216.7%; /* 26px */
+}
+
+.fusion-list-bottom-border .inner ul {
+  margin: 0;
+}
+
+.fusion-list-bottom-border .inner ul li ul {
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+}
+
+.fusion-list-bottom-border .inner ul li ul li.last {
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  margin-bottom: -1px;
+  margin-top: -1px;
+}
+
+/* List with no bullet and extra padding
+    This is a common style for menus, which removes the bullet and adds more
+    vertical padding for a simple list style
+ */
+.fusion-list-vertical-spacing .inner ul,
+.fusion-list-vertical-spacing div.views-row-first {
+  margin-left: 0;
+  margin-top: 10px;
+}
+
+.fusion-list-vertical-spacing .inner ul li,
+.fusion-list-vertical-spacing div.views-row {
+  line-height: 133.3%; /* 16px/12px */
+  margin-bottom: 10px;
+  padding: 0;
+}
+
+.fusion-list-vertical-spacing .inner ul li {
+  list-style: none;
+  list-style-image: none;
+  list-style-type: none;
+}
+
+.fusion-list-vertical-spacing .inner ul li ul {
+  margin-left: 10px; /* LTR */
+}
+
+/* Bold all links */
+.fusion-bold-links .inner a {
+  font-weight: bold;
+}
+
+/* Float imagefield images left and add margin */
+.fusion-float-imagefield-left .field-type-filefield,
+.fusion-float-imagefield-left .image-insert,
+.fusion-float-imagefield-left .imagecache {
+  float: left; /* LTR */
+  margin: 0 15px 15px 0; /* LTR */
+}
+
+/* Clear float on new Views item so each row drops to a new line */
+.fusion-float-imagefield-left .views-row {
+  clear: left; /* LTR */
+}
+
+/* Float imagefield images right and add margin */
+.fusion-float-imagefield-right .field-type-filefield,
+.fusion-float-imagefield-right .image-insert,
+.fusion-float-imagefield-right .imagecache {
+  float: right; /* LTR */
+  margin: 0 0 15px 15px; /* LTR */
+}
+
+/* Clear float on new Views item so each row drops to a new line */
+.fusion-float-imagefield-right .views-row {
+  clear: right; /* LTR */
+}
+
+/* Superfish: all menus */
+.sf-menu li {
+  list-style: none;
+  list-style-image: none;
+  list-style-type: none;
+}
+
+/* Superfish: vertical menus */
+.superfish-vertical {
+  position: relative;
+  z-index: 9;
+}
+
+ul.sf-vertical {
+  background: #fafafa;
+  margin: 0;
+  width: 100%;
+}
+
+ul.sf-vertical li {
+  border-bottom: 1px solid #ccc;
+  font-weight: bold;
+  line-height: 200%; /* 24px */
+  padding: 0;
+  width: 100%;
+}
+
+ul.sf-vertical li a:link,
+ul.sf-vertical li a:visited,
+ul.sf-vertical li .nolink {
+  margin-left: 10px;
+  padding: 2px;
+}
+
+ul.sf-vertical li a:hover,
+ul.sf-vertical li a.active {
+  text-decoration: underline;
+}
+
+ul.sf-vertical li ul {
+  background: #fafafa;
+  border-top: 1px solid #ccc;
+  margin-left: 0;
+  width: 150px;
+}
+
+ul.sf-vertical li ul li.last {
+  border-top: 1px solid #ccc;
+  margin-bottom: -1px;
+  margin-top: -1px;
+}
+
+ul.sf-vertical li ul {
+  border-top: none;
+  padding: 4px 0;
+}
+
+ul.sf-vertical li ul li {
+  border-bottom: none;
+  line-height: 150%; /* 24px */
+}
+
+ul.sf-vertical li ul li.last {
+  border-top: none;
+}
+
+ul.sf-vertical li ul li ul {
+  margin-top: -4px;
+}
+
+
+/* Pagers
+-------------------------------------------------------------- */
+ul.pager {
+  margin: 20px 0;
+}
+
+ul.pager li {
+  margin: 0;
+  white-space: nowrap;
+}
+
+ul.pager a,
+ul.pager li.pager-current {
+  border-style: solid;
+  border-width: 1px;
+  padding: 3px 6px 2px 6px;
+  text-decoration: none;
+}
+
+ul.pager a:link,
+ul.pager a:visited {
+  color: inherit;
+}
+
+ul.pager a:hover,
+ul.pager a:active,
+ul.pager a:focus {
+  border-style: solid;
+  border-width: 1px;
+}
+
+ul.pager span.pager-ellipsis {
+  padding: 0 4px;
+}
+
+.item-list .pager li {
+  padding: 0;
+}
+
+
+/* Forms
+/-------------------------------------------------------------- */
+/* defaults for all text fields */
+.form-text {
+  padding: 2px;
+}
+
+/* defaults for all form buttons */
+form input.form-submit {
+  cursor: pointer;
+  font-weight: bold;
+  margin: 2px;
+  padding: 3px 5px;
+}
+
+form input.form-submit:hover {
+  cursor: pointer;
+}
+
+fieldset {
+  margin: 15px 0;
+  padding: 10px;
+}
+
+html.js fieldset.collapsed {
+  margin-bottom: 15px;
+}
+
+/* limit width of form inputs */
+textarea,
+.form-item input,
+.form-item select,
+#content-region input.form-text {
+  max-width: 95%;
+}
+
+html.js textarea {
+  max-width: 100%;
+}
+
+/* adjust for collapsible fieldset differences */
+fieldset.collapsible .resizable-textarea textarea {
+  max-width: 101.5%;
+}
+
+fieldset.collapsible .resizable-textarea .grippie {
+  width: 101%;
+}
+
+/* keep admin pages visible */
+.page-admin #main-content-inner .nested,
+.page-admin #content-group,
+.page-admin #content-region,
+.page-admin #content-inner {
+  margin-bottom: 1.5em;
+  overflow: visible;
+}
+
+/* keep admin form elements on top */
+.page-admin .content-inner-inner {
+  z-index: 10;
+}
+
+/* theme settings form field width limit */
+form#system-theme-settings select,
+form#system-theme-settings input.form-text {
+  max-width: 95%;
+}
+
+/* keep theme select form visible */
+#system-themes-form {
+  position: relative;
+  z-index: 1;
+}
+
+/* keep theme switcher visible */
+.form-item select#edit-theme {
+  max-width: none;
+}
+
+/* keep admin columns from dropping under */
+div.admin .left,
+div.admin .right {
+  margin-left: 1%;
+  margin-right: 1%;
+}
+
+/* region labels on block admin page */
+.block-region {
+  background-color: #F3F3F3;
+  border: 3px dashed #CCCCCC;
+  color: #555555;
+  font-weight: bold;
+  margin: 1px;
+  padding: 3px;
+  text-align: center;
+  text-shadow: 1px 1px #FDFDFD;
+  text-transform: uppercase;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+}
+
+
+/* User Login Form
+/-------------------------------------------------------------- */
+/* remove centering on login form */
+#user-login-form {
+  text-align: left; /* LTR */
+}
+
+#user-login-form .item-list {
+  margin-top: 1em;
+}
+
+#user-login-form .item-list ul {
+  margin-left: 0; /* LTR */
+}
+
+/* remove list styling on login form */
+#user-login-form div.item-list ul li {
+  list-style-type: none;
+  margin: 0;
+}
+
+/* adjust openid link (display set in openid.js) */
+#user-login-form li.openid-link a,
+#user-login li.openid-link a {
+  background-position: 0 0;
+  padding: 0 0 0 20px;
+}
+
+/* User Login Form - Horizontal (Skinr selectable)
+/-------------------------------------------------------------- */
+.fusion-horiz-login#block-user-0 {
+  float: right;
+  margin: 20px 0 10px 0;
+  position: relative;
+}
+
+html.js .fusion-horiz-login#block-user-0 {
+  margin-top: 10px;
+}
+
+.fusion-horiz-login#block-user-0 h2.title {
+  display: none;
+}
+
+.fusion-horiz-login#block-user-0 #user-login-form div.form-item,
+.fusion-horiz-login#block-user-0 #user-login-form input.form-submit,
+.fusion-horiz-login#block-user-0 .item-list {
+  float: left;
+  margin: 0 10px 0 0;
+  text-align: left;
+}
+
+.fusion-horiz-login#block-user-0 #user-login-form input.form-submit {
+  padding: 2px 15px;
+  text-align: center;
+}
+
+.fusion-horiz-login#block-user-0 #user-login-form div.form-item {
+  width: 115px;
+}
+
+.fusion-horiz-login#block-user-0 #user-login-form label {
+  margin: -20px 0 0 2px;
+}
+
+html.js .fusion-horiz-login#block-user-0 #user-login-form label {
+  display: block;
+  font-weight: normal;
+  margin: 0 0 0 7px;
+  position: absolute;
+  top: 2px;
+}
+
+.fusion-horiz-login#block-user-0 #user-login-form input.form-text {
+  border-width: 1px;
+  padding: 1px;
+  width: 125px;
+}
+
+.fusion-horiz-login#block-user-0 .item-list {
+  margin-top: -1px;
+}
+
+.fusion-horiz-login#block-user-0 .item-list ul {
+  margin: 0;
+  padding: 0;
+}
+
+.fusion-horiz-login#block-user-0 .item-list li {
+  list-style: none;
+  margin: 0;
+}
+
+.fusion-horiz-login#block-user-0 .item-list li a {
+  text-decoration: none;
+}
+
+.fusion-horiz-login#block-user-0 .item-list li a:hover,
+.fusion-horiz-login#block-user-0 .item-list li a:focus {
+  text-decoration: underline;
+}
+
+
+/* OpenID login*/
+.fusion-horiz-login#block-user-0 #user-login-form li.openid-link,
+.fusion-horiz-login#block-user-0 #user-login-form li.user-link {
+  background: none;
+  padding: 6px 0 0 0;
+}
+
+.fusion-horiz-login#block-user-0 #user-login-form div#edit-openid-identifier-wrapper {
+  margin: 0 10px 0 0;
+  width: 145px;
+}
+
+.fusion-horiz-login#block-user-0 #user-login-form input#edit-openid-identifier.form-text {
+  width: 135px;
+}
+
+html.js .fusion-horiz-login#block-user-0 #user-login-form div#edit-openid-identifier-wrapper label {
+  padding-left: 18px;
+}
+
+.fusion-horiz-login#block-user-0 #edit-openid-identifier-wrapper .description {
+  padding-right: 5px;
+  text-align: right;
+}
+
+
+/* Blocks
+/-------------------------------------------------------------- */
+.block {
+  float: left; /* LTR */
+  margin-bottom: 1.5em;
+  width: 100%;
+}
+
+/* no gutters for blocks in content region */
+#content-content .inner {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+/* administrator block edit links */
+.block .inner {
+  position: relative;
+}
+
+.block .fusion-edit {
+  display: none;
+  padding: 0;
+  position: absolute;
+  right: 0;
+  text-align: left; /* LTR */
+  top: 0;
+  z-index: 10;
+}
+
+.block:hover > .inner > .fusion-edit {
+  display: block;
+}
+
+.block .fusion-edit a {
+  background-color: #fff;
+  border: 1px solid #333;
+  display: block;
+  float: left;
+  outline: 0;
+  padding: 2px 2px 2px 6px;
+  text-indent: -9999px;
+  width: 16px;
+}
+
+.block .fusion-edit a:hover {
+  background-color: #eee;
+  text-decoration: none;
+}
+
+.block .fusion-block-config,
+.block .fusion-block-edit {
+  background: url(../images/emblem-system.png) center center no-repeat;
+}
+
+.block .fusion-edit-menu {
+  background: url(../images/text-x-generic-menu.png) center center no-repeat;
+}
+
+
+/* Nodes
+/-------------------------------------------------------------- */
+div.node {
+  margin-bottom: 1.5em;
+}
+
+/* remove image borders and add margin for feed, node link, table sort images */
+a.feed-icon img,
+ul.links img,
+th img {
+  border: 0;
+  margin: 0 5px;
+}
+
+/* remove awkward link padding on login/register to comment links */
+#content-content .node ul.links li.comment_forbidden a {
+  padding-right: 0;
+}
+
+
+/* Comments
+/-------------------------------------------------------------- */
+div.comment {
+  margin: 15px 0;
+  padding: 10px;
+}
+
+div.comment h3.title {
+  font-weight: bold;
+  margin: 0 0 5px 0;
+}
+
+div.comment div.links a,
+div.comment ul.links a {
+  text-align: right;
+}
+
+.comment-folded {
+  margin: 1em 0 1em 1em;
+}
+
+.comment-folded .subject {
+  font-weight: bold;
+  padding-right: 5px;
+  text-transform: uppercase;
+}
+
+.comment-folded .subject a {
+  font-style: normal;
+  text-transform: none;
+  font-weight: normal;
+}
+
+.signature {
+  border-top-style: solid;
+  border-top-width: 1px;
+  margin: 10px 0;
+  padding: 0;
+}
+
+
+/* Profiles
+/-------------------------------------------------------------- */
+.profile {
+  clear: none;
+  margin: 12px 0;
+}
+
+.profile h2.title {
+  margin-top: 15px;
+  border-bottom: 1px solid;
+}
+
+.profile dt {
+  float: left; /* LTR */
+  margin-bottom: -10px;
+  margin-right: 5px; /* LTR */
+  padding: 0 5px;
+  text-align: left; /* LTR */
+  width: 185px;
+}
+
+
+/* Forum
+/-------------------------------------------------------------- */
+#forum .description {
+  margin: 5px;
+}
+
+#forum td.created,
+#forum td.posts,
+#forum td.topics,
+#forum td.last-reply,
+#forum td.replies,
+#forum td.pager {
+  white-space: nowrap;
+}
+
+#forum td.posts,
+#forum td.topics,
+#forum td.replies,
+#forum td.pager {
+  text-align: center;
+}
+
+.forum-topic-navigation {
+  padding: 10px 0 0 30px;
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  text-align: center;
+  padding: 5px;
+}
+
+.forum-topic-navigation .topic-previous {
+  text-align: right; /* LTR */
+  float: left; /* LTR */
+  width: 46%;
+}
+
+.forum-topic-navigation .topic-next {
+  text-align: left; /* LTR */
+  float: right; /* LTR */
+  width: 46%;
+}
+
+
+/* Book
+/-------------------------------------------------------------- */
+.book-navigation .menu {
+  border-top-style: solid;
+  border-top-width: 1px;
+  padding: 10px 0 0 30px;
+}
+.book-navigation .page-links {
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  text-align: center;
+  padding: 5px;
+}
+
+
+/* Drupal Messages
+/-------------------------------------------------------------- */
+div.content-messages div.messages,
+div.content-help div.help {
+  border-style: solid;
+  border-width: 6px;
+  font-weight: bold;
+  margin-bottom: 1.5em;
+  overflow: hidden;
+  padding: 14px;
+}
+
+div.content-messages-inner div.status {
+  background-color: #EAF8E4;
+  border-color: #8DC478;
+  color: #3E642F;
+}
+
+div.content-messages-inner div.warning {
+  background: #FFFFDD;
+  border-color: #EED300;
+  color: #745500;
+}
+
+div.content-messages-inner div.error {
+  background-color: #FFF2F2;
+  border-color: #CC0000;
+  color: #B20000;
+}
+
+.help,
+div.content-help-inner div.help {
+  background-color: #E4EEF8;
+  border-color: #57718A;
+  color: #292929;
+}
+
+div.messages ul,
+div.content-help .help ul {
+  list-style-position: inside;
+}
+
+div.messages a:link,
+div.messages a:visited,
+.help a:link,
+.help a:visited,
+.help .more-help-link a:link,
+.help .more-help-link a:visited {
+  color: #333;
+  text-decoration: underline;
+}
+
+div.messages a:hover,
+div.messages a:active,
+.help a:hover,
+.help a:active,
+.help .more-help-link a:hover,
+.help .more-help-link a:active,
+div.messages em {
+  color: #333;
+  text-decoration: none;
+}
+
+#content-region ul.tips li {
+  background: transparent;
+  list-style: disc;
+  list-style-image: none;
+  list-style-position: inside;
+}
+
+
+/* Welcome Page
+/-------------------------------------------------------------- */
+#first-time p {
+  clear: both;
+}
+
+
+/* Maintenance Page
+/-------------------------------------------------------------- */
+/* let site name & slogan drop under logo */
+.in-maintenance .page #logo {
+  float: none;
+}
+
+/* default margins for logo and site name */
+.in-maintenance .page .header-site-info {
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+
+/* default padding with no db */
+.db-offline .page .header-group-inner,
+.db-offline .page .main-inner {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+
+/* Poll
+/-------------------------------------------------------------- */
+/* increase default font size and spacing of poll titles */
+.block-poll .poll div.title {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+
+/* Views
+/-------------------------------------------------------------- */
+.view {
+  margin: 0;
+}
+
+/* views form field width limit */
+.views-edit-view input,
+.views-edit-view textarea {
+  max-width: 95%;
+}
+
+/* remove extra bottom margin from last node in view */
+.block-wrapper .block-views .views-row-last .node {
+  margin-bottom: 0;
+}
+
+/* prevent horizontal scrollbar on admin link hover */
+div.view div.views-admin-links {
+  width: auto;
+}
+
+div.view div.views-admin-links li {
+  background: transparent;
+}
+
+/* Reset any list/link styling on views admin links */
+div.view div.views-admin-links ul.links,
+div.view div.views-admin-links ul.links li,
+div.view div.views-admin-links ul.links li a:link,
+div.view div.views-admin-links ul.links li a:visited,
+div.view div.views-admin-links ul.links li a:hover,
+div.view div.views-admin-links ul.links li a:focus {
+  background-image: none;
+  border: 0;
+  display: inline;
+  font-weight: bold;
+  margin: 0;
+  padding: 0;
+  text-decoration: none;
+}
+
+div.view div.views-admin-links ul.links li {
+  list-style: none;
+  list-style-image: none;
+}
+
+div.view div.views-admin-links ul.links li a:link,
+div.view div.views-admin-links ul.links li a:visited {
+  background-color: #fff;
+  color: #000;
+  filter: alpha(opacity=75);
+  -khtml-opacity: 0.75;
+	-moz-opacity: 0.75;
+  opacity: 0.75;
+  padding: 3px;
+}
+
+div.view div.views-admin-links ul.links li a:hover,
+div.view div.views-admin-links ul.links li a:focus {
+  text-decoration: underline;
+}
+
+
+/* Ubercart
+/-------------------------------------------------------------- */
+#cart-form-products,
+.cart-review {
+  border: 0;
+}
+
+#cart-form-buttons,
+#checkout-form-bottom,
+.review-button-row {
+  border: 0;
+}
+
+.product-image {
+  border-left: 0;
+  clear: left;
+  float: none;
+  margin-left: 0;
+  padding-left: 0;
+}
+
+/* limit quantity field width */
+.add-to-cart .form-text[name=qty] {
+  width: 25px;
+}
+
+/* category grid products */
+.category-grid-products table {
+  border: none;
+  clear: both;
+  margin: 5px 0;
+  table-layout: fixed;
+}
+
+.category-grid-products table tbody {
+  border-top: none;
+}
+
+.category-grid-products td {
+  background: none;
+  border: none;
+  padding: 5px;
+  vertical-align: top;
+}
+
+.category-grid-products .catalog-grid-image {
+  display: block;
+  margin: 0 0 .5em 0;
+  padding: 0;
+  text-align: center;
+  width: 100%;
+}
+
+.category-grid-products #edit-qty-wrapper {
+  display: block;
+}
+
+.category-grid-products .form-item label {
+  display: inline;
+}
+
+.category-grid-products .form-item .form-text {
+  margin: 0;
+}
+
+.category-grid-products .catalog-grid-title {
+  display: block;
+  width: 100%;
+}
+
+.catalog-grid-title a {
+  display: block;
+  padding: 10px;
+}
+
+/* center product grids */
+.category td,
+.category-grid-products td,
+.cart-block-summary-table tr.cart-block-summary-tr td {
+  text-align: center;
+}
+
+.uc-price-list_price,
+.uc-price-list {
+  text-decoration: line-through;
+}
+
+
+/* Vertical tabs
+/-------------------------------------------------------------- */
+.vertical-tabs {
+  margin-left: 0;
+}
+
+.vertical-tabs-list {
+  border: none;
+  left: -1.5em;
+}
+
+.vertical-tabs ul li {
+  border-left: none;
+  list-style-image: none;
+}
+
+.vertical-tabs ul li.last {
+  border-bottom: none;
+}
+
+.vertical-tabs-list li a:link,
+.vertical-tabs-list li a:visited,
+.vertical-tabs-list li a:hover,
+.vertical-tabs-list li a:active {
+  background-color: transparent;
+  background-image: none;
+  border: none;
+}
+
+
+/* Quicktabs
+/-------------------------------------------------------------- */
+.quicktabs .block {
+  float: none;   /* keep content in div */
+}
+
+
+/* Views admin links
+/-------------------------------------------------------------- */
+.block div.view div.views-admin-links {
+  margin-top: 0;
+}
+
+
+/* Skinr preview
+/-------------------------------------------------------------- */
+html.js span.preview-icon {
+  background: url(../images/skinrpreviews/skinr-image-preview.png) no-repeat bottom right;
+  cursor: help;
+  display: inline-block;
+  height: 20px;
+  margin: 0 0 -6px 3px;
+  width: 20px;
+}
+
+span.preview-icon {
+  display: block;
+  text-indent: -9000px;
+}
+
+#screenshot {
+  background: #333;
+  color: #333;
+  display: block;
+  height: 190px;
+  padding: 5px 5px 0 5px;
+  position: absolute;
+  z-index: 100;
+  box-shadow: 3px 3px 3px #999;
+  -moz-border-radius: 3px;
+  -moz-box-shadow: 3px 3px 3px #999;
+  -webkit-border-radius: 3px;
+  -webkit-box-shadow: 3px 3px 3px #999;
+}
+
+#screenshot .screenshot-caption {
+  bottom: 0;
+  color: #fff;
+  height: 30px;
+  font-weight: bold;
+  line-height: 100%;
+  margin: 0 0 -3px -5px;
+  overflow: hidden;
+  padding: 0 10px;
+  position: absolute;
+  text-align: center;
+  z-index: 100;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+}
+
+#screenshot .screenshot-preview {
+  background: #333;
+  display: block;
+  margin-bottom: 30px;
+  position: relative;
+  z-index: 100;
+}
+
+/* Skinr image preview - General styles */
+#screenshot .fusion-general-styles-fusion-callout {
+  background: url(../images/skinrpreviews/fusion-general-styles-fusion-callout.png) no-repeat;
+}
+
+#screenshot .fusion-general-styles-fusion-padding {
+  background: url(../images/skinrpreviews/fusion-general-styles-fusion-padding.png) no-repeat;
+}
+
+#screenshot .fusion-general-styles-fusion-border {
+  background: url(../images/skinrpreviews/fusion-general-styles-fusion-border.png) no-repeat;
+}
+
+#screenshot .fusion-general-styles-bold-links {
+  background: url(../images/skinrpreviews/fusion-general-styles-bold-links.png) no-repeat;
+}
+
+#screenshot .fusion-general-styles-equal-heights {
+  background: url(../images/skinrpreviews/fusion-general-styles-equal-heights.png) no-repeat;
+}
+
+/* Skinr image preview - Stackable list/menu styles */
+#screenshot .list-styles-bottom-border {
+  background: url(../images/skinrpreviews/list-styles-bottom-border.png) no-repeat;
+}
+
+#screenshot .list-styles-extra-vertical-spacing {
+  background: url(../images/skinrpreviews/list-styles-extra-vertical-spacing.png) no-repeat;
+}
+
+/* Skinr image preview - Stackable list/menu styles */
+#screenshot .fusion-menu-fusion-inline-menu {
+  background: url(../images/skinrpreviews/fusion-menu-fusion-inline-menu.png) no-repeat;
+}
+
+#screenshot .fusion-menu-fusion-multicol-menu {
+  background: url(../images/skinrpreviews/fusion-menu-fusion-multicol-menu.png) no-repeat;
+}
+
+/* Skinr image preview - Superfish menu styles */
+#screenshot .fusion-superfish-superfish-vertical {
+  background: url(../images/skinrpreviews/fusion-superfish-superfish-vertical.png) no-repeat;
+}
+
+/* Skinr image preview - User login block styles */
+#screenshot .fusion-login-fusion-horiz-login {
+  background: url(../images/skinrpreviews/fusion-login-fusion-horiz-login.png) no-repeat;
+}

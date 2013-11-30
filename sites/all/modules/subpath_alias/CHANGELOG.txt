@@ -1,0 +1,15 @@
+// $Id: CHANGELOG.txt,v 1.4 2009/11/02 14:13:10 smk Exp $
+
+Sub-path URL Aliasing 6.x-1.x, xxxx-xx-xx
+-----------------------------------------
+
+Sub-path URL Aliasing 6.x-1.1, 2009-11-02
+-----------------------------------------
+by smk-ka: Added support for path alias whitelist (see
+ http://drupal.org/node/106559).
+#613318 by Dave Reid: Updated hook_url_alter function names.
+ Note: requires URL Alter version 1.2 or later!
+
+Sub-path URL Aliasing 6.x-1.0, 2009-06-20
+-----------------------------------------
+Initial release.

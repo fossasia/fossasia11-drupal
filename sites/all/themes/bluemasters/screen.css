@@ -1,0 +1,195 @@
+* { margin:0; padding:0; }
+body, div, span, p, a, img, ul, ol, li, table, th, tr, td, form, fieldset, legend, dl, dt, dd, blockquote, applet, object { border:0; }
+body { 
+  padding: 0; 
+  background: #fff url('../img/bg.jpg') repeat-x; 
+  font: 0.8em/1.5 "arial",sans-serif; 
+  color: #303030; 
+  text-align: center; 
+}
+
+/* obecne odkazy --------------------------------------------------------------- */
+a {color:#b41818;}
+a:link {color:#b41818;}
+a:hover {color:#b41818; text-decoration: none;}
+
+/* nadpisy --------------------------------------------------------------------- */
+h1, h2, h3, h4, h5, h6 { margin:15px 0 7px 0; }
+h1 { font-size:200%; }
+h2 { font-size:170%; font-weight: normal;}
+h3 { font-size:105%; border-bottom: 1px solid #ddd;}
+h4 { font-size:120%; }
+h5 { font-size:100%; }
+
+.rbroundbox h2 {color: #fff; font-size: 170%; margin-top: 0; border: 0;}
+
+/* layout ---------------------------------------------------------------------- */
+#layout { 
+  width:820px; 
+  margin:0 auto; 
+  text-align:left; 
+}
+
+  	/* hlavicka ------------------------------------------------------------------ */
+  	#header { position:relative; background: #303030; margin-bottom: 20px; }
+  
+      #logo {
+        font-family: 'Trebuchet MS', 'Geneva CE', lucida, sans-serif;
+        position: relative; 
+        overflow: hidden; 
+        width: 250px; height: 108px;
+        font-size:230%;
+        margin: 0;
+        line-height: 108px;
+        text-align: center;
+      }
+      #logo a{
+        text-decoration: none;
+        color: #fff;
+        font-weight: normal;
+        border-left: 8px solid #b41818;  
+        padding: 0px 10px 7px 10px;  
+      }
+      
+      #logo span {
+        color: #676767;
+        font-weight: bold;
+      }
+      
+      #logo a:hover span {
+        color: #fff;
+        font-weight: bold;
+      }
+      
+      #navigation{
+        position: absolute;
+        left: 270px;
+        line-height: 83px;
+        display: block;
+        height: 108px;
+        width: 530px;
+        top: 0;
+        text-align: right;
+        font-size: 95%;
+      }
+      
+      #navigation ul li{
+        display: inline;
+      }
+      
+      #navigation li a {
+        color: #cacaca;
+        padding: 50px 10px;
+        text-decoration: none;
+      }
+      
+      #navigation a:hover {
+        color: #fff;
+      }
+      
+      /* The nice box with introducing text and news */
+      
+      /* set millions of background images */
+      .rbroundbox { background: #d02c2c url('../img/main.jpg') no-repeat; }
+      .rbtop div { background: url('../img/tl.gif') no-repeat top left; }
+      .rbtop { background: url('../img/tr.gif') no-repeat top right; }
+      .rbbot div { background: url('../img/bl.gif') no-repeat bottom left; }
+      .rbbot { background: url('../img/br.gif') no-repeat bottom right; clear: both; }
+
+      /* height and width stuff, width not really nessisary. */
+      .rbtop div, .rbtop, .rbbot div, .rbbot {
+      width: 100%;
+      height: 7px;
+      font-size: 1px;
+      }
+      .rbcontent { margin: 0 7px; }
+      .rbroundbox { width: 95%; margin: 1em auto; color: #fff; margin-bottom: 20px;}
+      
+      .rbroundbox a { color: #fff; }
+      .rbroundbox a:hover { text-decoration: underline; }
+
+      .content {
+      float: left; 
+      padding: 12px 0 12px 10px;
+      width:500px;
+      z-index: 10;
+      }
+      
+      #panel-right { float:right; width:230px; padding: 15px 10px 10px 10px; color: }
+      #panel-right-inside {border-left: 1px solid #ca4747; padding: 0 0 0 16px;}
+      #panel-right span { color: #e49695; }
+      #panel-right p {margin: 0;}
+      
+      #main {
+      padding: 0 37px
+      }
+      
+      #footer {
+      background: #303030;
+      color: #b1b1b1;
+      }
+      
+      #footer a{
+      color: #b1b1b1;
+      }
+      
+      #footer-inside {
+      width:746px; 
+      margin:0 auto; 
+      text-align:left; 
+      padding: 26px 0;
+      }
+      
+      #footer-inside p {
+      margin-top: 0;
+      margin-bottom: 0;
+      }
+      
+      #copyright {
+      float: left; 
+      width: 300px;
+      }
+      
+      #dont-delete-this{
+      margin: 0 0 0 323px;
+      text-align: right;
+      }
+
+/* odstavce -------------------------------------------------------------------- */
+p { margin:15px 0; line-height: 24px; font-size: 95%}
+
+.content p {color: #fff; margin-top: 10px;}
+
+/* tabulky --------------------------------------------------------------------- */
+table { margin:15px 0; border: 1px solid #cdcdcd; border-collapse:collapse; border-spacing:0; font-size:100%; width: 100%;}
+th { text-align:center; font-weight:bold; border: 1px solid #cdcdcd;}
+th, td { padding:4px 6px; border: 1px solid #cdcdcd;}
+tr.table-top {background: #e5e5e5; font-weight: bold;}
+
+/* seznamy --------------------------------------------------------------------- */
+ul, ol { display:block; margin:15px 0 15px 40px; }
+ul ul, ul ul ul, ol ol, ol ol ol { margin:0; margin-left:20px; }
+ol { list-style-type:decimal; }
+ol ol { list-style-type:upper-alpha; }
+ol ol ol {list-style-type:lower-alpha; }
+li { display:list-item; }
+ul li a { text-decoration:underline; }
+
+/* definice -------------------------------------------------------------------- */
+dl { margin:15px 0; }
+dt { font-weight:bold; }
+dd { margin-left:30px; }
+
+/* ostatni --------------------------------------------------------------------- */
+fieldset { margin:15px 0; padding:10px; border:1px solid #CCC; }
+legend { margin-left:10px; font-size:100%; font-weight:bold; color:#000; }
+abbr, acronym, .help { border-bottom:1px dotted #CCC; cursor:help; }
+blockquote { margin:15px 20px; font-style:italic; }
+del, .del { text-decoration:line-through; }
+strong, .strong { font-weight:bold; }
+cite, em, q, var { font-style:italic; }
+code, kbd, samp  {font-family:monospace; font-size:110%; }
+hr { display:block; height:1px; margin:10px 0; padding:0; border:0 solid #CCC; background:#CCC; color:#CCC;} 
+.light {padding: 4px 5px; background: #ac0001; text-decoration: none;} .light:hover {color: #fff;}
+.noscreen { display:none; }
+

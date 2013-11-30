@@ -1,0 +1,58 @@
+
+/* IE7 RTL fixes
+-------------------------------------------------------------- */
+/* fluid grid16: block indents, minus 0.1% to prevent float under */
+.grid-type-fluid .grid16-indent-1 {margin-right: 6.15%;}
+.grid-type-fluid .grid16-indent-2 {margin-right: 12.4%;}
+.grid-type-fluid .grid16-indent-3 {margin-right: 18.65%;}
+.grid-type-fluid .grid16-indent-4 {margin-right: 24.9%;}
+.grid-type-fluid .grid16-indent-5 {margin-right: 31.15%;}
+.grid-type-fluid .grid16-indent-6 {margin-right: 37.4%;}
+.grid-type-fluid .grid16-indent-7 {margin-right: 43.65%;}
+.grid-type-fluid .grid16-indent-8 {margin-right: 49.9%;}
+.grid-type-fluid .grid16-indent-9 {margin-right: 56.15%;}
+.grid-type-fluid .grid16-indent-10 {margin-right: 62.4%;}
+.grid-type-fluid .grid16-indent-11 {margin-right: 68.65%;}
+.grid-type-fluid .grid16-indent-12 {margin-right: 74.9%;}
+.grid-type-fluid .grid16-indent-13 {margin-right: 81.15%;}
+.grid-type-fluid .grid16-indent-14 {margin-right: 87.4%;}
+.grid-type-fluid .grid16-indent-15 {margin-right: 93.65%;}
+
+/* fluid grid12: block indents, minus 0.1% to prevent float under */
+.grid-type-fluid .grid12-indent-1 {margin-right: 8.23%;}
+.grid-type-fluid .grid12-indent-2 {margin-right: 16.57%;}
+.grid-type-fluid .grid12-indent-3 {margin-right: 24.9%;}
+.grid-type-fluid .grid12-indent-4 {margin-right: 33.23%;}
+.grid-type-fluid .grid12-indent-5 {margin-right: 41.57%;}
+.grid-type-fluid .grid12-indent-6 {margin-right: 49.9%;}
+.grid-type-fluid .grid12-indent-7 {margin-right: 58.23%;}
+.grid-type-fluid .grid12-indent-8 {margin-right: 66.57%;}
+.grid-type-fluid .grid12-indent-9 {margin-right: 74.9%;}
+.grid-type-fluid .grid12-indent-10 {margin-right: 83.23%;}
+.grid-type-fluid .grid12-indent-11 {margin-right: 91.57%;}
+
+/* User login block
+-------------------------------------------------------------- */
+.fusion-horiz-login #block-user-0 #edit-openid-identifier-wrapper .description {
+  left: 3px;
+  right: auto;
+}
+
+/* ordered list margin fix */
+.block ol {
+  margin-right: 2em;
+}
+
+/* broken content menu layout fix */
+#content-tabs .content-tabs-inner {
+  overflow: hidden;
+}
+
+#content-tabs .content-tabs-inner ul.tabs {
+  width: 100%;
+}
+
+/* primary superfish menu fix */
+.sf-menu {
+  float: none;
+}

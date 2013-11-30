@@ -1,0 +1,16 @@
+name = XML sitemap menu
+description = Adds menu item links to the sitemap.
+package = XML sitemap
+core = 6.x
+dependencies[] = xmlsitemap
+dependencies[] = menu
+files[] = xmlsitemap_menu.module
+files[] = xmlsitemap_menu.install
+files[] = xmlsitemap_menu.test
+
+; Information added by drupal.org packaging script on 2012-12-08
+version = "6.x-2.0-rc2"
+core = "6.x"
+project = "xmlsitemap"
+datestamp = "1354926583"
+

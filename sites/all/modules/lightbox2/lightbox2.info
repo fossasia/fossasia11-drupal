@@ -1,0 +1,11 @@
+; $Id: lightbox2.info,v 1.1.6.4 2008/07/14 11:51:34 snpower Exp $
+name = Lightbox2
+description = Enables Lightbox2 for Drupal
+core = 6.x
+
+; Information added by drupal.org packaging script on 2010-09-24
+version = "6.x-1.11"
+core = "6.x"
+project = "lightbox2"
+datestamp = "1285342563"
+

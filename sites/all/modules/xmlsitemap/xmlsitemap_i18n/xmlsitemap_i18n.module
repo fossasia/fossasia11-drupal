@@ -1,0 +1,113 @@
+<?php
+
+/**
+ * Implements hook_xmlsitemap_context_info().
+ */
+function xmlsitemap_i18n_xmlsitemap_context_info() {
+  $context['language'] = array(
+    'label' => t('Language'),
+    'summary callback' => 'locale_language_name',
+    'default' => language_default('language'),
+  );
+  return $context;
+}
+
+/**
+ * Implements hook_xmlsitemap_context().
+ */
+function xmlsitemap_i18n_xmlsitemap_context() {
+  $context['language'] = $GLOBALS['language']->language;
+  return $context;
+}
+
+/**
+ * Implements xmlsitemap_context_url_options().
+ */
+function xmlsitemap_i18n_xmlsitemap_context_url_options(array $context) {
+  $options = array();
+  if (isset($context['language'])) {
+    $options['language'] = xmlsitemap_language_load($context['language']);
+  }
+  return $options;
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function xmlsitemap_i18n_form_xmlsitemap_sitemap_edit_form_alter(&$form, $form_state) {
+  $form['context']['language'] = array(
+    '#type' => 'select',
+    '#title' => t('Language'),
+    '#options' => locale_language_list(),
+    '#default_value' => isset($form['#sitemap']->context['language']) ? $form['#sitemap']->context['language'] : '',
+  );
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Set the regeneration needed flag if settings are changed.
+ */
+function xmlsitemap_form_locale_languages_overview_form_alter(&$form, $form_state) {
+  array_unshift($form['#submit'], 'xmlsitemap_form_submit_flag_regenerate');
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Set the regeneration needed flag if multilingual settings are changed.
+ */
+function xmlsitemap_i18n_form_i18n_admin_settings_alter(&$form, $form_state) {
+  array_unshift($form['#submit'], 'xmlsitemap_form_submit_flag_regenerate');
+}
+
+/**
+ * Implements hook_query_xmlsitemap_generate_alter().
+ *
+ * @see i18n_db_rewrite_where()
+ */
+function xmlsitemap_i18n_query_xmlsitemap_generate_alter(array &$query, array &$args, stdClass $sitemap) {
+  $mode = variable_get('i18n_selection_mode', 'simple');
+
+  if (!isset($sitemap->context['language']) || $mode == 'off') {
+    return;
+  }
+
+  // Get languages to simplify query building.
+  $current = $sitemap->context['language'];
+  $default = i18n_default_language();
+
+  if ($mode == 'mixed' && $current == $default) {
+    // If mode is mixed but current = default, is the same as 'simple'.
+    $mode = 'simple';
+  }
+
+  switch ($mode) {
+    case 'simple':
+      // Current language and language neutral.
+      $query['WHERE'] .= " AND x.language IN ('%s', '')";
+      $args[] = $current;
+      break;
+    case 'mixed':
+      // Mixed current language (if available) or default language (if not) and language neutral.
+      $query['WHERE'] .= " AND x.language IN ('%s', '%s', '')";
+      $args[] = $current;
+      $args[] = $default;
+      break;
+    case 'default':
+      // Only default language and language neutral.
+      $query['WHERE'] .= " AND x.language IN ('%s', '')";
+      $args[] = $default;
+      break;
+    case 'strict':
+      // Only current language (for nodes), simple for all other types.
+      $query['WHERE'] .= " AND ((x.type = 'node' AND x.language = '%s') OR (x.type <> 'node' AND x.language IN ('%s', '')))";
+      $args[] = $current;
+      $args[] = $current;
+      break;
+    case 'off':
+      // All content. No language conditions apply. Handled by if statement
+      // above.
+      break;
+  }
+}

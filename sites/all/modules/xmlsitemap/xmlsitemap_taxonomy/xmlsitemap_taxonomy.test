@@ -1,0 +1,50 @@
+<?php
+
+/**
+ * @file
+ * Unit tests for the xmlsitemap_taxonomy module.
+ */
+
+class XMLSitemapTaxonomyFunctionalTest extends XMLSitemapTestHelper {
+  protected $normal_user;
+  protected $terms = array();
+
+  public static function getInfo() {
+    return array(
+      'name' => 'XML sitemap taxonomy',
+      'description' => 'Functional tests for the XML sitemap taxonomy module.',
+      'group' => 'XML sitemap',
+    );
+  }
+
+  function setUp($modules = array()) {
+    $modules[] = 'xmlsitemap_taxonomy';
+    $modules[] = 'taxonomy';
+    parent::setUp($modules);
+
+    $this->admin_user = $this->drupalCreateUser(array('administer taxonomy', 'administer xmlsitemap'));
+    $this->normal_user = $this->drupalCreateUser(array('access content'));
+  }
+
+  function testTaxonomySettings() {
+    $this->drupalLogin($this->admin_user);
+
+    $edit = array(
+      'name' => $this->randomName(),
+      'xmlsitemap[status]' => '1',
+      'xmlsitemap[priority]' => '1.0',
+    );
+    $this->drupalPost('admin/content/taxonomy/add/vocabulary', $edit, 'Save');
+    $this->assertText("Created new vocabulary {$edit['name']}.");
+
+    $vid = db_result(db_query("SELECT vid FROM {vocabulary} WHERE name = '%s'", $edit['name']));
+    $vocabulary = taxonomy_vocabulary_load($vid);
+
+    $edit = array(
+      'name' => $this->randomName(),
+      'xmlsitemap[status]' => 'default',
+      'xmlsitemap[priority]' => 'default',
+    );
+    $this->drupalPost("admin/content/taxonomy/$vid/add/term", $edit, 'Save');
+  }
+}

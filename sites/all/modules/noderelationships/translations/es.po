@@ -1,0 +1,458 @@
+# $Id: es.po,v 1.1.2.3 2010/03/07 18:33:24 markuspetrux Exp $
+#
+# Spanish translation of Drupal (general)
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# Generated from files:
+#  noderelationships.admin.inc,v 1.1.2.12 2009/07/05 09:01:56 markuspetrux
+#  noderef_dialog.js,v 1.1.2.5 2009/07/07 17:08:29 markuspetrux
+#  noderelationships.pages.inc,v 1.1.2.17 2009/08/21 22:57:02 markuspetrux
+#  noderelationships.inc,v 1.1.2.17 2009/07/07 17:08:29 markuspetrux
+#  noderelationships.module,v 1.1.2.20 2009/08/22 18:01:03 markuspetrux
+#  noderelationships.translation.inc: n/a
+#  noderelationships.info,v 1.1.2.4 2009/06/13 17:02:03 markuspetrux
+#  admin.drag.js,v 1.1.2.3 2009/07/05 09:01:56 markuspetrux
+#  admin.view_settings.js,v 1.1.2.4 2009/06/06 16:41:51 markuspetrux
+#  node_form.js,v 1.1.2.5 2009/06/13 17:02:04 markuspetrux
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2009-08-23 10:24+0000\n"
+"PO-Revision-Date: 2009-08-23 10:24+0000\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Spanish <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+
+#: noderelationships.admin.inc:41
+msgid "Could not find relations for this content type."
+msgstr "No se han encontrado relaciones para este tipo de contenido."
+
+#: noderelationships.admin.inc:124
+msgid "Referred from"
+msgstr "Sa hece referencia desde"
+
+#: noderelationships.admin.inc:132
+msgid "Refers to"
+msgstr "Se refiere a"
+
+#: noderelationships.admin.inc:136
+msgid "This panel displays an Entity Relationship Diagram (ERD) relative to the content type %type."
+msgstr ""
+"Este panel muestra un Diagrama de Relación de Entidades (DRE) "
+"relativo al tipo de contenido %type."
+
+#: noderelationships.admin.inc:229
+msgid "Could not find node reference fields referring to other content types from %type."
+msgstr ""
+"No se han encontrado campos de referencia a nodos con referencias a "
+"otros tipos de contenido desde %type."
+
+#: noderelationships.admin.inc:233
+msgid "This panel allows you to configure extra settings for <em>Node Reference</em> fields defined in the content type %type-name.\nYou can modify and/or clone (recommended) the default view for the <em>Search and reference</em> feature should you need to add more fields, filters or change any other option to suit your needs.\nThese extra options are available only to node reference fields configured to use the autocomplete widget."
+msgstr ""
+
+#: noderelationships.admin.inc:246;524 js/noderef_dialog.js:0
+msgid "none"
+msgstr "ninguno"
+
+#: noderelationships.admin.inc:298;566
+msgid "Save settings"
+msgstr "Guardar las opciones"
+
+#: noderelationships.admin.inc:321;598
+msgid "The settings have been saved."
+msgstr "Los cambios han sido guardados."
+
+#: noderelationships.admin.inc:345
+msgid "Reference field"
+msgstr "Campo de referencia"
+
+#: noderelationships.admin.inc:346
+msgid "Referred types"
+msgstr "Tipos referidos"
+
+#: noderelationships.admin.inc:347;627
+msgid "Required"
+msgstr "Obigatorio"
+
+#: noderelationships.admin.inc:348;628
+msgid "Cardinality"
+msgstr "Cardinalidad"
+
+#: noderelationships.admin.inc:349
+msgid "Search and reference view"
+msgstr "Vista para buscar y referenciar"
+
+#: noderelationships.admin.inc:350 noderelationships.pages.inc:554
+msgid "Create and reference"
+msgstr "Crear y referenciar"
+
+#: noderelationships.admin.inc:353
+msgid "Translate and reference"
+msgstr "Traducir y referenciar"
+
+#: noderelationships.admin.inc:374
+msgid "Any"
+msgstr "Cualquiera"
+
+#: noderelationships.admin.inc:399;697
+msgid "Yes"
+msgstr "Sí"
+
+#: noderelationships.admin.inc:399;697
+msgid "No"
+msgstr "No"
+
+#: noderelationships.admin.inc:405;703
+msgid "Unlimited"
+msgstr "Ilimitado"
+
+#: noderelationships.admin.inc:432
+msgid "These options are available only for node reference autocomplete widgets."
+msgstr ""
+
+#: noderelationships.admin.inc:456
+msgid "Could not find content types referring to %type."
+msgstr "No se han encontrado tipos de contenido referenciando a %type."
+
+#: noderelationships.admin.inc:460
+msgid "This panel displays <em>Node Reference</em> fields that may refer to nodes of type %type.\nThese fields generate <em>back references</em> that you can easily display using a view on several regions (<em>Page</em>, <em>Tab</em> or <em>Fields</em>).\nYou can modify and/or clone (recommended) the default view should you need to add more fields, filters or change any other option to suit your needs.\nTo enable these <em>back references</em> just drag them to the region of your choice.\nBack references assigned to the <em>Page</em> and <em>Tab</em> regions can be reordered from this panel.\nBack references assigned to the <em>Fields</em> region can be reordered from the \"Manage fields\" panel."
+msgstr ""
+
+#: noderelationships.admin.inc:625
+msgid "Weight"
+msgstr "Peso"
+
+#: noderelationships.admin.inc:626
+msgid "Referrer type/field"
+msgstr ""
+
+#: noderelationships.admin.inc:629
+msgid "Back reference view"
+msgstr ""
+
+#: noderelationships.admin.inc:630
+msgid "Back reference field"
+msgstr ""
+
+#: noderelationships.admin.inc:631
+msgid "Region"
+msgstr "Región"
+
+#: noderelationships.admin.inc:636
+msgid "Disabled"
+msgstr "Desactivado"
+
+#: noderelationships.admin.inc:650
+msgid "No items in this region"
+msgstr "No hay elementos en esta región"
+
+#: noderelationships.admin.inc:730;775 noderelationships.inc:534
+msgid "Back references from @referrer-label in @referrer-type"
+msgstr "Referencias hacia atrás para @referrer-label en @referrer-type "
+
+#: noderelationships.admin.inc:734
+msgid "This field will be automatically created when the form is submitted."
+msgstr ""
+
+#: noderelationships.admin.inc:782
+msgid "Back reference settings"
+msgstr ""
+
+#: noderelationships.admin.inc:842
+msgid "Back reference field settings"
+msgstr ""
+
+#: noderelationships.admin.inc:843
+msgid "Back reference fields for the %type content type are created automatically from the settings specified in the <a href=\"@backref-settings\">back reference settings panel</a> for the %type content type."
+msgstr ""
+
+#: noderelationships.admin.inc:849
+msgid "Label"
+msgstr "Etiqueta"
+
+#: noderelationships.admin.inc:852
+msgid "A human-readable name to be used as the label for the back references view displayed for this field in the %type content type."
+msgstr ""
+
+#: noderelationships.admin.inc:855
+msgid "Referrer information"
+msgstr ""
+
+#: noderelationships.admin.inc:856
+msgid "This section provides information about the node reference field that generates back references to the %type content type."
+msgstr ""
+
+#: noderelationships.admin.inc:861
+msgid "Referrer type"
+msgstr ""
+
+#: noderelationships.admin.inc:867
+msgid "Referrer field"
+msgstr ""
+
+#: noderelationships.admin.inc:885;894
+msgid "Add existing field: Back reference fields are managed by the Node Reference module automatically."
+msgstr ""
+
+#: noderelationships.admin.inc:947
+msgid "The path assigned to this view is dynamically customized by the Node Relationships module."
+msgstr ""
+
+#: noderelationships.admin.inc:958
+msgid "The tag assigned to this view is marked readonly because it is used to trigger the dynamic customizations of the view performed by the Node Relationships module."
+msgstr ""
+
+#: noderelationships.inc:14
+msgid "Fields: Render back reference views as content fields"
+msgstr ""
+
+#: noderelationships.inc:15
+msgid "Page: Render back reference views grouped on a single fieldset on main node view"
+msgstr ""
+
+#: noderelationships.inc:16
+msgid "Tab: Render back reference views in separate relationships tab"
+msgstr ""
+
+#: noderelationships.inc:548
+msgid "Back reference field created: %field"
+msgstr ""
+
+#: noderelationships.inc:559
+msgid "Back reference field removed: %field"
+msgstr ""
+
+#: noderelationships.inc:690;736
+msgid "Default view"
+msgstr "Vista predeterminada"
+
+#: noderelationships.inc:901;1126
+msgid "Could not load field information to properly customize the view %view-name."
+msgstr ""
+
+#: noderelationships.inc:940 noderelationships.pages.inc:189
+msgid "Back references from %referrer-label in %referrer-type-name for %referred-type-name: %node-title"
+msgstr ""
+"Referencias hacia atrás desde %referrer-label en %referrer-type-name "
+"para %referred-type-name: %node-title "
+
+#: noderelationships.inc:950
+msgid "Home"
+msgstr "Inicio"
+
+#: noderelationships.inc:979;1032
+msgid "Default"
+msgstr "Predeterminado"
+
+#: noderelationships.inc:1158
+msgid "Search and reference %referrer-label"
+msgstr "Buscar y referenciar %referrer-label "
+
+#: noderelationships.inc:902;1127 noderelationships.pages.inc:120;139;460 noderelationships.module:0
+msgid "noderelationships"
+msgstr "noderelationships"
+
+#: noderelationships.inc:902;1127
+msgid "Could not load field information to properly customize the view %view-name (field: @field-name, type: @type-name)."
+msgstr ""
+
+#: noderelationships.pages.inc:30
+msgid "This %type-name does not have relations."
+msgstr "Este/Esta %type-name no tiene relaciones."
+
+#: noderelationships.pages.inc:46
+msgid "Related content"
+msgstr "Contenido relacionado"
+
+#: noderelationships.pages.inc:119;120
+msgid "Could not locate %field in content type %type."
+msgstr "No se ha podido encontrar %field en el tipo de contenido %type."
+
+#: noderelationships.pages.inc:138;459;139;460
+msgid "Could not load the view %view:%display."
+msgstr "No se ha podido cargar la vista %view:%display."
+
+#: noderelationships.pages.inc:417
+msgid "Create @name"
+msgstr "Crear @name"
+
+#: noderelationships.pages.inc:441
+msgid "Translating @title from @lang-from to @lang-to"
+msgstr "Traducir @title de @lang-from a @lang-to"
+
+#: noderelationships.pages.inc:508
+msgid "Currently selected %field"
+msgstr "Seleccionado actualmente: %field "
+
+#: noderelationships.pages.inc:527
+msgid "Sort descending"
+msgstr "Ordenar descendentemente"
+
+#: noderelationships.pages.inc:527
+msgid "Desc."
+msgstr "Desc."
+
+#: noderelationships.pages.inc:528
+msgid "Sort ascending"
+msgstr "Ordenar ascendentemente"
+
+#: noderelationships.pages.inc:528
+msgid "Asc."
+msgstr "Asc."
+
+#: noderelationships.pages.inc:529
+msgid "Reset selection"
+msgstr "Restablecer selección"
+
+#: noderelationships.pages.inc:529
+msgid "Reset"
+msgstr "Restablecer"
+
+#: noderelationships.pages.inc:530
+msgid "Close dialog and save changes"
+msgstr "Cerrar diálogo y guardar cambios"
+
+#: noderelationships.pages.inc:530
+msgid "Save"
+msgstr "Guardar"
+
+#: noderelationships.pages.inc:531
+msgid "Close dialog and discard changes"
+msgstr "Cerrar diálogo y cancelar cambios"
+
+#: noderelationships.pages.inc:531
+msgid "Cancel"
+msgstr "Cancelar"
+
+#: noderelationships.pages.inc:536
+msgid "Search and reference multiple items at once"
+msgstr "Buscar y referenciar múltiples elementos a la vez"
+
+#: noderelationships.pages.inc:540
+msgid "Selected items"
+msgstr "Elementos seleccionados"
+
+#: noderelationships.pages.inc:553
+msgid "Search and reference"
+msgstr "Buscar y referenciar"
+
+#: noderelationships.translation.inc:178
+msgid "Missing translation for !title."
+msgstr "No se ha encontrado traducción para !title."
+
+#: noderelationships.translation.inc:182
+msgid "View @title [nid: @nid] in new window..."
+msgstr ""
+
+#: noderelationships.translation.inc:192
+msgid "You can !translate now."
+msgstr "Puedes !translate ahora."
+
+#: noderelationships.translation.inc:193
+msgid "translate and reference"
+msgstr "traducir y referenciar"
+
+#: noderelationships.translation.inc:197
+msgid "Click here to translate and reference @title [nid: @nid] now."
+msgstr "Sigue este enlace para traducir y referenciar @title [nid: @nid] ahora."
+
+#: noderelationships.translation.inc:206
+msgid "Translation of this reference is not supported."
+msgstr "La traducción de esta referencia no está soportada."
+
+#: noderelationships.module:126
+msgid "Dynamically generated by the Node Relationships module."
+msgstr ""
+
+#: noderelationships.module:128
+msgid "This view is dynamically customized by the Node Relationships module."
+msgstr ""
+
+#: noderelationships.module:155;202
+msgid "Back reference"
+msgstr ""
+
+#: noderelationships.module:156
+msgid "Display node back references."
+msgstr ""
+
+#: noderelationships.module:225
+msgid "Back references view"
+msgstr ""
+
+#: noderelationships.module:230
+msgid "Back references count"
+msgstr ""
+
+#: noderelationships.module:272
+msgid "Node relationships"
+msgstr "Relaciones entre nodos"
+
+#: noderelationships.module:273
+msgid "Back reference views for the following types: @types."
+msgstr ""
+
+#: noderelationships.info:0
+msgid "Node Relationships"
+msgstr "Node Relationships"
+
+#: noderelationships.info:0
+msgid "Provides methods to complete two way relationships between content types enhancing the features of node reference fields."
+msgstr ""
+
+#: noderelationships.info:0
+msgid "CCK"
+msgstr "CCK"
+
+#: js/admin.drag.js:0
+msgid "Disable"
+msgstr "Desactivar"
+
+#: js/admin.drag.js:0
+msgid "Changes will not be saved and Back reference fields will not be created until the <em>Save settings</em> button is clicked."
+msgstr ""
+
+#: js/admin.drag.js:0
+msgid "Click here to disable this item"
+msgstr ""
+
+#: js/admin.view_settings.js:0
+msgid "Edit view settings in new window..."
+msgstr "Editar configuración de la vista en ventana nueva..."
+
+#: js/node_form.js:0;0
+msgid "View in new window..."
+msgstr "Ver en una nueva ventana..."
+
+#: js/node_form.js:0
+msgid "View in new window... [disabled]"
+msgstr "Ver en nueva ventana...[desactivado]"
+
+#: js/node_form.js:0
+msgid "Search and reference..."
+msgstr "Buscar y referenciar..."
+
+#: js/node_form.js:0
+msgid "Search and reference multiple items at once..."
+msgstr "Buscar y referenciar múltiples elementos a la vez"
+
+#: js/node_form.js:0
+msgid "Create and reference..."
+msgstr "Crear y referenciar..."
+
+#: js/noderef_dialog.js:0
+msgid "Select: @value"
+msgstr "Seleccionar: @value"
+
+#: js/noderef_dialog.js:0
+msgid "Sorry, you can only select @max values maximum."
+msgstr "Sólo es posible seleccionar un máximo de @max valores."
+
+#: js/noderef_dialog.js:0
+msgid "Unselect"
+msgstr "Deseleccionar"

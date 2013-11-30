@@ -1,0 +1,68 @@
+<?php
+
+/**
+ * @file
+ * Provides Slideshow style options for Views.
+ */
+
+/**
+ * Implement hook_theme().
+ */
+function views_slideshow_theme($existing, $type, $theme, $path) {
+  return array(
+    'views_slideshow_main_section' => array(
+      'arguments' => array('id' => NULL, 'hidden_elements' => NULL, 'plugin' => NULL),
+      'file' => 'views_slideshow.theme.inc',
+    ),
+  );
+}
+
+/**
+ * Implements hook_views_api().
+ */
+function views_slideshow_views_api() {
+  return array(
+    'api' => 2.0,
+  );
+}
+
+/**
+ * Implements hook_help().
+ */
+function views_slideshow_help($path, $arg) {
+  switch ($path) {
+    case 'admin/help#views_slideshow':
+      if (module_exists('advanced_help')) {
+        $output = '<p>' . l(t('Click here to view the documentation for Views Slideshow'), 'admin/advanced_help/views_slideshow') . '</p>';
+      }
+      else {
+        $output = '<p>' . t('Views Slideshow help can be found by installing and enabling the !help.',  array('!advanced_help' => l(t('Advanced Help module'), 'http://drupal.org/project/advanced_help'))) . '</p>';
+      }
+      return $output;
+  }
+}
+
+/**
+ * Views Slideshow: preprocess function for the slideshow.
+ */
+function template_preprocess_views_slideshow(&$vars) {
+  $vars['slideshow'] = '';
+  $rows = $vars['rows'];
+
+  // Remove empty rows.
+  if (!empty($rows)) {
+    foreach($rows as $key => $data) {
+      if (empty($data)) {
+        unset($rows[$key]);
+      }
+    }
+  }
+
+  if (!empty($rows)) {
+    $options = $vars['options'];
+    if (in_array($options['mode'], array('singleframe', 'thumbnailhover', 'menu', 'ddblock', 'slider'))) {
+      $options['mode'] = 'views_slideshow_' . $options['mode'];
+    }
+    $vars['slideshow'] = theme($options['mode'], $vars['view'], $options, $rows, $vars['title']);
+  }
+}

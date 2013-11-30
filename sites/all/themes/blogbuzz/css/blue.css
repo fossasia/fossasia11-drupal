@@ -1,0 +1,157 @@
+/* $Id: blue.css,v 1.1 2010/04/24 13:24:34 antsin Exp $ */
+
+/*
++----------------------------------------------------------------+
+|   BlogBuzz for Dupal 6.x - Version 2.0                         |
+|   Copyright (C) 2010 Antsin.com All Rights Reserved.           |
+|   @license - GNU GENERAL PUBLIC LICENSE                        |
+|----------------------------------------------------------------|
+|   Theme Name: BlogBuzz                                         |
+|   Description: BlogBuzz by Antsin                              |
+|   Author: Antsin.com                                           |
+|   Website: http://www.antsin.com/                              |
+|----------------------------------------------------------------+
+*/
+
+/** body **/
+body {
+  background-color: #C0D8F0;
+}
+
+a, .node-type-blog .date {
+  color: #C72840;
+}
+
+/** showcase **/
+#showcase {
+  border: 1px solid #96BFE6;
+}
+
+#showcase div.number-pager {
+  border-top: 1px solid #386DA8;
+  background-color: #719BD1;
+}
+
+#showcase div.number-pager a {
+  border: 1px solid #96BFE6;
+}
+
+#showcase div.number-pager a.activeSlide {
+  color: #fff;
+  background: #A90532;  
+}
+
+/** main & node **/
+#content {
+  border: 1px solid #96BFE6;
+}
+
+.extra-links {
+  background-color: #C0D8F0;
+}
+
+#main-bottom h2 {
+  color: #444444;
+  font-size: 140%;
+  padding: 8px 10px;
+  border: 1px solid #fff;
+}
+
+#main-bottom .title {
+  border: 1px solid #96BFE6;
+}
+
+.comment-by-author .picture img {
+  border: 1px solid #C72840;
+}
+
+/** sidebar **/
+#sidebar-left .title, #sidebar-right .title {
+  border-bottom: 1px solid #fff;
+}
+
+#sidebar-left h2, #sidebar-right h2 {
+  color: #444444;
+  border-bottom: 1px solid #96BFE6;
+}
+
+#sidebar-left .boxed .content-wrapper, #sidebar-right .boxed .content-wrapper, #main-bottom .boxed .content-wrapper {
+  border: 1px solid #96BFE6;
+}
+
+/** footer **/
+#footer {
+  color: #fff;
+  border-top: 2px solid #386DA8;
+  background-color: #719BD1;
+}
+
+#footer .title {
+  border-bottom: 1px solid #C0D8F0;
+}
+
+#footer h2 {
+  color: #fff;
+  border-bottom: 1px solid #386DA8;
+}
+
+/** button & read more **/
+span.button, .read-more {
+  border: 1px solid #A90532;
+}
+
+span.button input.form-submit, .read-more a {
+  border: 1px solid #D8023F;
+  background-color: #A90532;  
+}
+
+span.button input.form-submit:hover, .read-more a:hover {
+  color: #A90532;
+  border: 1px solid #C0D8F0;
+  background-color: #C0D8F0; 
+}
+
+/** pager **/
+ul.pager {
+  border-top: 1px solid #386DA8;
+  background-color: #719BD1;  
+}
+
+/** breadcrumb **/
+#breadcrumb {
+  border-bottom: 1px solid #386DA8;
+  background-color: #719BD1;
+}
+
+/** menu **/
+#primary {
+  background: #A90532 url("../images/blue/bg_menu.png") repeat-x bottom left; 
+}
+
+#primary ul li {
+  background: url("../images/blue/divider_menu.png") no-repeat bottom right; 
+}
+
+#primary ul li:hover,
+#primary ul li.active-trail {
+  background-color: #A90532;
+  background-image: none;
+}
+
+#primary ul ul li {
+  background-color: #A90532;
+}
+
+#primary ul ul li.expanded {
+  background: #A90532 url("../images/bg_menu_arrow.png") no-repeat 90% 50%;
+}
+
+#primary ul ul a {
+  border-top: 1px solid #D8023F;  
+  border-bottom: 1px solid #6A0421;
+}
+
+#primary ul ul ul li a {
+  border-top: 1px solid #D8023F;  
+  border-bottom: 1px solid #6A0421 !important;
+}

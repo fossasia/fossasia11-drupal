@@ -1,0 +1,45 @@
+
+body {
+  background-color: #FFF;
+  font-family: Verdana,sans-serif;
+  font-size: 10pt;
+}
+h1 {
+  font-size: 1.25em;
+}
+table.tablesorter {
+  background-color: #CDCDCD;
+  margin:10px 0pt 15px;
+  font-size: 8pt;
+  width: 100%;
+  text-align: left;
+}
+table.tablesorter thead tr th, table.tablesorter tfoot tr th {
+  background-color: #E6EEEE;
+  border: 1px solid #FFF;
+  font-size: 8pt;
+  padding: 3px;
+}
+table.tablesorter thead tr .header {
+  cursor: pointer;
+}
+table.tablesorter tbody td {
+  color: #3D3D3D;
+  padding: 3px;
+  background-color: #FFF;
+  vertical-align: top;
+}
+table.tablesorter tbody tr.odd td {
+  background-color: #EFEFEF;
+}
+table.tablesorter thead tr .headerSortUp {
+  background: url(/misc/arrow-asc.png) no-repeat center right;
+}
+table.tablesorter thead tr .headerSortDown {
+  background: url(/misc/arrow-desc.png) no-repeat center right;
+}
+table.tablesorter thead tr .headerSortDown, table.tablesorter thead tr .headerSortUp {
+  background-color: #5050D3;
+  color: #FFF;
+  font-style: italic;
+}

@@ -1,0 +1,122 @@
+<?php
+
+/**
+ * @file
+ * Install and uninstall schema and functions for the xmlsitemap_node module.
+ */
+
+/**
+ * Implements hook_uninstall().
+ */
+function xmlsitemap_node_uninstall() {
+  drupal_load('module', 'node');
+  drupal_load('module', 'xmlsitemap');
+  $node_types = array_keys(node_get_types('names'));
+  foreach ($node_types as $node_type) {
+    xmlsitemap_link_bundle_delete('node', $node_type);
+  }
+}
+
+/**
+ * Migrate 6.x-1.x node variables.
+ */
+function xmlsitemap_node_update_6196() {
+  drupal_load('module', 'node');
+  $node_types = array_keys(node_get_types('names'));
+  foreach ($node_types as $node_type) {
+    $status = 0;
+    $priority = variable_get('xmlsitemap_node_type_priority_' . $node_type, 0.5);
+    if ($priority == -1) {
+      $priority = 0.5;
+    }
+    else {
+      $status = 1;
+    }
+    variable_set('xmlsitemap_node_status_' . $node_type, $status);
+    variable_set('xmlsitemap_node_priority_' . $node_type, $priority);
+  }
+  return array();
+}
+
+/**
+ * Migrate 6.x-1.x node data.
+ */
+function xmlsitemap_node_update_6198(&$context) {
+  $ret = array();
+
+  if (!db_table_exists('xmlsitemap_node')) {
+    // Skip if the 6.x-1.x table doesn't exist.
+    return $ret;
+  }
+  elseif (db_column_exists('xmlsitemap', 'sid')) {
+    // Skip if the main {xmlsitemap} table hasn't been upgraded yet.
+    $ret['#abort'] = array('success' => FALSE, 'query' => 'The primary xmlsitemap table upgrade has not yet been completed. Re-run the upgrade script.');
+    return $ret;
+  }
+
+  if (!isset($context['progress'])) {
+    $context['progress'] = $context['last'] = 0;
+    $context['count'] = db_result(db_query("SELECT COUNT(nid) FROM {xmlsitemap_node} WHERE priority_override <> -2 AND nid > %d", $context['last']));
+  }
+
+  drupal_load('module', 'xmlsitemap_node');
+  drupal_load('module', 'xmlsitemap');
+
+  $query = db_query_range("SELECT nid, priority_override FROM {xmlsitemap_node} WHERE priority_override <> -2 AND nid > %d ORDER BY nid", $context['last'], 0, 10);
+  while ($record = db_fetch_object($query)) {
+    if ($node = node_load($record->nid, NULL, TRUE)) {
+      $link = xmlsitemap_node_create_link($node);
+      $link['status'] = variable_get('xmlsitemap_node_status_' . $node->type, 0);
+      $link['priority'] = variable_get('xmlsitemap_node_priority_' . $node->type, 0.5);
+      if ($record->priority_override == -1) {
+        $link['status'] = 0;
+        $link['status_override'] = 1;
+      }
+      elseif ($record->priority_override != -2) {
+        $link['priority'] = $record->priority_override;
+        $link['priority_override'] = 1;
+      }
+      xmlsitemap_link_save($link);
+    }
+    $context['last'] = $record->nid;
+    $context['progress']++;
+  }
+
+  $ret['#finished'] = empty($context['count']) ? 1 : ($context['progress'] / $context['count']);
+  return $ret;
+}
+
+/**
+ * Cleanup variables.
+ */
+function xmlsitemap_node_update_6200() {
+  drupal_load('module', 'node');
+  drupal_load('module', 'xmlsitemap');
+  $node_types = array_keys(node_get_types('names'));
+  foreach ($node_types as $node_type) {
+    $settings = array(
+      'status' => variable_get('xmlsitemap_node_status_' . $node_type, XMLSITEMAP_STATUS_DEFAULT),
+      'priority' => variable_get('xmlsitemap_node_priority_' . $node_type, XMLSITEMAP_PRIORITY_DEFAULT),
+    );
+    variable_set('xmlsitemap_settings_node_' . $node_type, $settings);
+    variable_del('xmlsitemap_node_status_' . $node_type);
+    variable_del('xmlsitemap_node_priority_' . $node_type);
+    variable_del('xmlsitemap_node_update_' . $node_type);
+  }
+  return array();
+}
+
+/**
+ * Cleanup any remaining 6.x-1.x tables, variables or weights.
+ */
+function xmlsitemap_node_update_6201() {
+  $ret = array();
+  if (db_table_exists('xmlsitemap_node')) {
+    db_drop_table($ret, 'xmlsitemap_node');
+  }
+  db_query("DELETE FROM {variable} WHERE name LIKE 'xmlsitemap_node_type_priority_%%'");
+  variable_del('xmlsitemap_node_promote_priority');
+  variable_del('xmlsitemap_node_comment_priority');
+  $ret[] = update_sql("UPDATE {system} SET weight = 0 WHERE type = 'module' AND name = 'xmlsitemap_node'");
+  return $ret;
+}

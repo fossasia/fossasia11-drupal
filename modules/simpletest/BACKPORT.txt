@@ -1,0 +1,49 @@
+$Id: BACKPORT.txt,v 1.1.2.7 2009/09/14 23:03:27 boombatower Exp $
+
+AUTHOR
+------
+Jimmy Berry ("boombatower", http://drupal.org/user/214218)
+
+PURPOSE
+-------
+This document describes the changes necessary to backport Drupal 7 core
+SimpleTest for Drupal 6. This record is useful when trying to backport new
+features from Drupal 7.
+
+CHANGES
+-------
+All changes are placed bellow the line they are changing and the original line
+is then commented out. This makes it easy to see what was done when merging
+later changes.
+
+The last backported core CVS ID for the file is listed just bellow the actual
+CVS ID with the prefix "Core: ".
+
+DrupalWebTestCase
+-----------------
+Document as described above.
+
+SimpleTest module (simpletest.module)
+-------------------------------------
+  * simpletest_get_all_tests()
+  * simpletest_run_tests()
+  * _simpletest_batch_finished()
+  * simpletest_clean_database
+    - Added simpletest_get_like_tables()
+  * simpletest_clean_temporary_directory()
+  * simpletest_test_form()
+  * _drupal_decode_exception()
+  * Added hook_form_system_modules_alter()
+
+SimpleTest installer (simpletest.install)
+-----------------------------------------
+  * Added update hook.
+  * Added requirements check for configuration file modifications.
+
+JavaScript (simpletest.js)
+--------------------------
+  * Changed function attach syntax in both behaviors.
+
+CLI script (run-tests.sh)
+-------------------------
+  * Backported database calls.

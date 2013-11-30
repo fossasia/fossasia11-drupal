@@ -1,0 +1,124 @@
+<?php
+// $Id: better_formats_anonymous_user.test,v 1.1.2.1 2009/07/25 16:23:44 dragonwize Exp $
+
+/**
+ * @file
+ * Tests for the Better Formats module.
+ *
+ */
+
+class BetterFormatsTestCase extends DrupalWebTestCase {
+  /**
+   * Implementation of getInfo().
+   */
+  public static function getInfo() {
+    return array(
+      'name' => t('Better formats tests'),
+      'description' => t('Test some of the BetterFormats features.'),
+      'group' => t('Better Formats'),
+    );
+  }
+
+  /**
+   * Implementation of setUp().
+   */
+  function setUp() {
+    parent::setUp('better_formats');
+
+  }
+
+  /**
+   * Test various behaviors for anonymous users.
+   */
+  function testBetterFormatsFunctionalTest() {
+    // Create a user with permission to view the actions administration pages.
+    $admin = $this->drupalCreateUser(array('administer permissions', 'administer filters'));
+    $this->drupalLogin($admin);
+
+    // Hide the format tips link.
+    $this->setPermission('anonymous user', array('show more format tips link' => FALSE, 'access comments' => TRUE, 'access content' => TRUE, 'post comments' => TRUE, 'post comments without approval' => TRUE));
+    $this->node = $this->drupalCreateNode(array('type' => 'story', 'promote' => 1, 'comment' => 2));
+    $this->drupalLogout();
+    $this->drupalGet('comment/reply/' . $this->node->nid);
+    $this->assertNoText('More information about formatting options.', 'Show more format tips link removed.');
+
+    // Default for comments, hiding format selection on comments.
+    $this->drupalLogin($admin);
+    // Let anon use full html - it's crazy, but it's just simpletest
+    $edit = array();
+    $edit['roles[1]'] = TRUE;
+    $this->drupalPost('admin/settings/filters/2', $edit, t('Save configuration'));
+
+    // Set full html as default for anon on comments - again, crazy, but...
+    $edit = array();
+    $edit['comment-1[format]'] = 2;
+    $this->drupalPost('admin/settings/filters/defaults', $edit, t('Save defaults'));
+
+    $this->setPermission('anonymous user', array('show format selection for comments' => FALSE, 'create page content' => TRUE));
+    $this->drupalLogout();
+
+    // Now, do we see the signature for Full HTML on the comment page?
+    $this->drupalGet('comment/reply/' . $this->node->nid);
+    $this->assertNoText('Allowed HTML tags:', 'Filter tips removed on comments.');
+    $this->assertText('Web page addresses and e-mail addresses turn into links automatically.', 'Filter tips removed on comments.');
+
+    // And do we see the Filtered HTML on a node page?
+    $this->drupalGet('node/add/page');
+    $this->assertText('Allowed HTML tags:', 'Filter tips still on a page.');
+
+    // Collapsible format selection collapsed by default.
+    $this->drupalLogin($admin);
+    $this->setPermission('anonymous user', array('show format selection for comments' => TRUE));
+    $this->drupalLogout();
+    $this->drupalGet('comment/reply/' . $this->node->nid);
+    $this->assertText('Filtered HTML', 'Allow format selection on comments.');
+    $this->assertRaw('<fieldset class=" collapsible collapsed"><legend>Input format</legend>', 'Collapsible format selection fieldset found.');
+    $this->assertRaw('<input type="radio" id="edit-format-2-1" name="format" value="2"  checked="checked"  class="form-radio" /> Full HTML', 'Default for comments to Full HTML.');
+
+    // Not collapsed by default.
+    $this->drupalLogin($admin);
+    $this->setPermission('anonymous user', array('collapse format fieldset by default' => FALSE));
+    $this->drupalLogout();
+    $this->drupalGet('comment/reply/' . $this->node->nid);
+    $this->assertRaw('<fieldset class=" collapsible"><legend>Input format</legend>', 'Collapsible format selection fieldset found.');
+
+    // Not even collapsible.
+    $this->drupalLogin($admin);
+    $this->setPermission('anonymous user', array('collapsible format selection' => FALSE));
+    $this->drupalLogout();
+    $this->drupalGet('comment/reply/' . $this->node->nid);
+    $this->assertRaw('<fieldset><legend>Input format</legend>', 'Collapsible format selection fieldset found.');
+
+    // Check to see that the show format selection on nodes works.
+    $this->drupalLogin($admin);
+    $this->setPermission('anonymous user', array('show format selection for nodes' => FALSE));
+    $this->drupalLogout();
+    $this->drupalGet('node/add/page');
+    $this->assertNoRaw('<input type="radio" id="edit-format-1-1" name="format" value="1"  checked="checked"  class="form-radio" /> Filtered HTML</label>', 'No radios on a page.');
+
+  }
+
+  /**
+   * Set permission.
+   *
+   * @param string $role User role to set permissions for.
+   * @param array $permissions Key-value array of permissions to set.
+   */
+  function setPermission($role, $permissions) {
+    // Get role id (rid) for specified role.
+    $rid = db_result(db_query("SELECT rid FROM {role} WHERE name = '%s'", array('%s' => $role)));
+    if ($rid === FALSE) {
+      $this->fail(t(' [permission] Role "' . $role . '" not found.'));
+    }
+
+    // Create edit array from permission.
+    $edit = array();
+    foreach ($permissions as $name => $value) {
+      $edit[$rid . '[' . $name . ']'] = $value;
+    }
+
+    $this->drupalPost('admin/user/permissions', $edit, t('Save permissions'));
+    $this->assertText(t('The changes have been saved.'), t(' [permission] Saved changes.'));
+  }
+
+}

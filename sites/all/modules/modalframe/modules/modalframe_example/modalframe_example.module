@@ -1,0 +1,241 @@
+<?php
+// $Id: modalframe_example.module,v 1.1.2.3 2009/06/17 12:55:55 markuspetrux Exp $
+
+/**
+ * @file
+ * Example for the Modal Frame module.
+ */
+
+/**
+ * Implementation of hook_perm().
+ */
+function modalframe_example_perm() {
+  return array('access modalframe examples');
+}
+
+/**
+ * Implementation of hook_menu().
+ */
+function modalframe_example_menu() {
+  $items = array();
+  // This is the parent window, from where all examples are available.
+  $items['modalframe-example'] = array(
+    'title' => 'Modal Frame Examples',
+    'page callback' => 'modalframe_example_page',
+    'access arguments' => array('access modalframe examples'),
+    'type' => MENU_NORMAL_ITEM,
+  );
+
+  // Hello world example.
+  $items['modalframe-example/hello-world'] = array(
+    'title' => 'Modal Frame Example (hello world)',
+    'page callback' => 'modalframe_example_hello_world',
+    'access arguments' => array('access modalframe examples'),
+    'type' => MENU_CALLBACK,
+  );
+
+  // Simple form examples.
+  $items['modalframe-example/simple-form'] = array(
+    'title' => 'Modal Frame Example (simple form)',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('modalframe_example_simple_form'),
+    'access arguments' => array('access modalframe examples'),
+    'type' => MENU_CALLBACK,
+  );
+  $items['modalframe-example/simple-page'] = array(
+    'title' => 'Modal Frame Example (simple page)',
+    'page callback' => 'modalframe_example_simple_page',
+    'access arguments' => array('access modalframe examples'),
+    'type' => MENU_CALLBACK,
+  );
+
+  // Node edit form example.
+  $items['modalframe-example/node-edit'] = array(
+    'title' => 'Modal Frame Example (node edit)',
+    'page callback' => 'modalframe_example_node_edit_page',
+    'access arguments' => array('access modalframe examples'),
+    'type' => MENU_CALLBACK,
+  );
+  return $items;
+}
+
+/**
+ * Menu callback; Generate the parent window, from where all examples are available.
+ */
+function modalframe_example_page() {
+  // Send the Modal Frame javascript for parent windows to the page.
+  modalframe_parent_js();
+  // Add the client-side behaviors for the examples.
+  drupal_add_js(drupal_get_path('module', 'modalframe_example') .'/modalframe_example.js');
+
+  $output = '<p>'. t('This is the Modal Frame examples page.') .'</p>';
+  $output .= '<div class="modalframe-example-messages"></div>';
+
+  // Render a list of several examples.
+  $items = array(
+    modalframe_example_get_item(t('Hello world!'), 'modalframe-example/hello-world', '300,200'),
+    modalframe_example_get_item(t('Simple form where menu callback is drupal_get_form()'), 'modalframe-example/simple-form/first/second/third', '350,400'),
+    modalframe_example_get_item(t('Simple form where menu callback is a custom function'), 'modalframe-example/simple-page/first/second/third', '350,400'),
+    modalframe_example_get_item(t('Custom menu callback to edit a node'), 'modalframe-example/node-edit'),
+  );
+  $output .= theme('item_list', $items);
+
+  return $output;
+}
+
+/**
+ * Helper function to build links to each example from the main examples page.
+ */
+function modalframe_example_get_item($title, $path, $size = NULL) {
+  $options = array('attributes' => array('class' => 'modalframe-example-child'. (!empty($size) ? ' modalframe-example-size['. $size .']' : '')));
+  return l($title, $path, $options);
+}
+
+/**
+ * Menu callback; Hello world example.
+ */
+function modalframe_example_hello_world() {
+  // Send the Modal Frame javascript for child windows to the page.
+  modalframe_child_js();
+
+  // Render the page contents.
+  return t('Hello, world!');
+}
+
+/**
+ * Menu callback; Generate the child page for the example.
+ */
+function modalframe_example_simple_page($first = NULL, $second = NULL, $third = NULL) {
+  // Build the form forwarding page arguments.
+  return drupal_get_form('modalframe_example_simple_form', $first, $second, $third);
+}
+
+/**
+ * Generate the form for the child window.
+ */
+function modalframe_example_simple_form(&$form_state) {
+  $form = array();
+
+  // Send the Modal Frame javascript for child windows to the page.
+  modalframe_child_js();
+
+  $page_arguments = func_get_args();
+  array_shift($page_arguments);
+
+  $form['markup'] = array(
+    '#type' => 'markup',
+    '#value' => '<pre>'. t('Page arguments') .': '. check_plain(var_export($page_arguments, TRUE)) .'</pre>',
+  );
+  $form['is_after_12'] = array(
+    '#type' => 'radios',
+    '#title' => t('What time is it?'),
+    '#options' => array(t('Before 12:00 AM'), t('After 12:00 AM')),
+    '#default_value' => 0,
+  );
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Submit'),
+  );
+  return $form;
+}
+
+/**
+ * Submit handler for the child form.
+ */
+function modalframe_example_simple_form_submit($form, &$form_state) {
+  // Process the form as usual.
+  drupal_set_message(t('The form has been processed.'));
+
+  // Tell the parent window to close the modal frame dialog.
+  modalframe_close_dialog(array(
+    'message' => (empty($form_state['values']['is_after_12']) ? t('Good morning!') : t('Good afternoon!')),
+  ));
+}
+
+/**
+ * Menu callback; Node edit form example.
+ *
+ * @see modalframe_example_form_alter()
+ * @see modalframe_example_form_submit()
+ */
+function modalframe_example_node_edit_page() {
+  // Send the Modal Frame javascript for child windows to the page.
+  modalframe_child_js();
+
+  // Let's find the last created node the current user has edit access to.
+  $nid = (int)db_result(db_query_range(db_rewrite_sql('SELECT n.nid FROM {node} n ORDER BY n.nid DESC'), 0, 1));
+  $node = node_load($nid);
+  if (!$node || !node_access('update', $node)) {
+    drupal_set_message(t('Sorry, could not find any node that you are allowed to edit for this test.'), 'error');
+    drupal_not_found();
+    return;
+  }
+
+  // Record the flag that we use in hook_form_alter() to know which node
+  // should we operate with. Note that this flag could be anything else
+  // that you may need to trigger your hook_form_alter() logic.
+  $GLOBALS['modalframe_example_node_edit_page_nid'] = $nid;
+
+  $output = '<h2>'. t('This example allows you to edit the last created node in this site.') .'</h2>';
+
+  // Render the node edit form itself.
+  module_load_include('inc', 'node', 'node.pages');
+  $output .= node_page_edit($node);
+
+  return $output;
+}
+
+/**
+ * Implementation of hook_form_alter().
+ *
+ * This function is part of the node edit form example.
+ *
+ * @see modalframe_example_node_edit_page()
+ * @see modalframe_example_form_submit()
+ */
+function modalframe_example_form_alter(&$form, $form_state, $form_id) {
+  // Look for a node edit form.
+  if (isset($form['type']) && isset($form['#node']) && $form['type']['#value'] .'_node_form' == $form_id) {
+    $node = &$form['#node'];
+
+    // Is this node the one we are testing?
+    if (!empty($GLOBALS['modalframe_example_node_edit_page_nid']) && $GLOBALS['modalframe_example_node_edit_page_nid'] == $node->nid) {
+
+      // Keep this example as simple as possible by hidding a few buttons.
+      // If we wanted to show all buttons, then we probably need to take
+      // additional actions, for example to alter the delete confirmation
+      // page so that we also send the modal frame javascript to that page,
+      // and we also alter that particular form to append out submit handler
+      // where we may wish to close the modal frame dialog.
+      // So let's keep this as simple as possible. We are now hidding all
+      // buttons, except "Save" and "Preview".
+      foreach (element_children($form['buttons']) as $key) {
+        if (!in_array($key, array('submit', 'preview')) && isset($form['buttons'][$key]) && $form['buttons'][$key]) {
+          unset($form['buttons'][$key]);
+        }
+      }
+
+      // Append our submit handler. This is required if we want a chance to
+      // close the modal frame dialog.
+      $form['#submit'][] = 'modalframe_example_form_submit';
+    }
+  }
+}
+
+/**
+ * Submit handler for our node edit form example.
+ *
+ * This function is part of the node edit form example.
+ *
+ * @see modalframe_example_node_edit_page()
+ * @see modalframe_example_form_alter()
+ */
+function modalframe_example_form_submit($form, &$form_state) {
+  // Ignore preview requests. Close dialog only when user clicks "Save" button.
+  if ($form_state['values']['op'] == t('Save')) {
+    // Tell the parent window to close the modal frame dialog.
+    modalframe_close_dialog(array(
+      'message' => t('This is an argument sent by the Modal Frame API from the submit handler attached to the node edit form!'),
+    ));
+  }
+}

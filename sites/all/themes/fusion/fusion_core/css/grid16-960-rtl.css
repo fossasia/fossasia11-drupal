@@ -1,0 +1,24 @@
+
+/* Layout - 16 column grid, 960px fixed width, 20px gutters - RTL
+-------------------------------------------------------------- */
+/* block indents */
+.grid16-indent-1 {margin-right: 60px;}
+.grid16-indent-2 {margin-right: 120px;}
+.grid16-indent-3 {margin-right: 180px;}
+.grid16-indent-4 {margin-right: 240px;}
+.grid16-indent-5 {margin-right: 300px;}
+.grid16-indent-6 {margin-right: 360px;}
+.grid16-indent-7 {margin-right: 420px;}
+.grid16-indent-8 {margin-right: 480px;}
+.grid16-indent-9 {margin-right: 540px;}
+.grid16-indent-10 {margin-right: 600px;}
+.grid16-indent-11 {margin-right: 660px;}
+.grid16-indent-12 {margin-right: 720px;}
+.grid16-indent-13 {margin-right: 780px;}
+.grid16-indent-14 {margin-right: 840px;}
+.grid16-indent-15 {margin-right: 900px;}
+
+/* hack to fix node-top & node-bottom being off-grid */
+#content-content .node .first .inner {
+  margin-left: 20px;
+}

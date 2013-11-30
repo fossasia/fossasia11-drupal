@@ -1,0 +1,18 @@
+/* $Id: comment_notify.css,v 1.4 2009/03/31 23:27:26 greggles Exp $ */
+#edit-notify-type-1-wrapper, #edit-notify-type-2-wrapper {
+  float: left;  /* LTR */
+  display: inline;
+}
+
+#edit-notify-type-1-wrapper {
+  margin-left: 2em;  /* LTR */
+}
+
+#comment-notify .form-radios {
+  overflow: hidden;
+  height: 100%;
+}
+
+#edit-notify-type-2-wrapper {
+  margin-left: 1em;  /* LTR */
+}

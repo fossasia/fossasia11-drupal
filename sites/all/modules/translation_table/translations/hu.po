@@ -1,0 +1,148 @@
+# Hungarian translation of Translation table (6.x-1.2)
+# Copyright (c) 2010 by the Hungarian translation team
+# Generated from files:
+#  admin.inc,v 1.2 2010/08/13 14:26:41 drifter
+#  content.translation_table.inc,v 1.2 2010/08/13 14:25:09 drifter
+#  menu.translation_table.inc,v 1.2 2010/08/13 14:25:09 drifter
+#  node.translation_table.inc,v 1.2 2010/08/13 14:25:09 drifter
+#  quicktabs.translation_table.inc,v 1.2 2010/08/13 14:25:09 drifter
+#  taxonomy.translation_table.inc,v 1.2 2010/08/13 14:25:09 drifter
+#  theme.inc,v 1.2 2010/08/13 14:26:41 drifter
+#  translation_table.info,v 1.2 2010/08/13 14:25:09 drifter
+#  translation_table.module,v 1.2 2010/08/13 14:25:09 drifter
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Translation table (6.x-1.2)\n"
+"POT-Creation-Date: 2010-10-20 11:13+0000\n"
+"PO-Revision-Date: 2010-07-17 19:45+0000\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+
+#: includes/admin.inc:25
+msgid "Operations"
+msgstr "Műveletek"
+
+#: modules/content.translation_table.inc:52,56
+msgid "Content types"
+msgstr "Tartalomtípusok"
+
+#: modules/content.translation_table.inc:139; modules/menu.translation_table.inc:93; modules/node.translation_table.inc:115; modules/quicktabs.translation_table.inc:116; modules/taxonomy.translation_table.inc:133
+msgid "Save"
+msgstr "Mentés"
+
+#: modules/node.translation_table.inc:52
+msgid "Content type"
+msgstr "Tartalomtípus"
+
+#: modules/content.translation_table.inc:77; modules/menu.translation_table.inc:51; modules/node.translation_table.inc:60; modules/quicktabs.translation_table.inc:66; modules/taxonomy.translation_table.inc:71
+msgid "Filter"
+msgstr "Szűrő"
+
+#: modules/taxonomy.translation_table.inc:63
+msgid "Vocabulary"
+msgstr "Szótár"
+
+#: includes/admin.inc:19
+msgid "Original"
+msgstr "Eredeti"
+
+#: modules/content.translation_table.inc:43; modules/menu.translation_table.inc:42; modules/node.translation_table.inc:43; modules/quicktabs.translation_table.inc:43; modules/taxonomy.translation_table.inc:43
+msgid "Languages"
+msgstr "Nyelvek"
+
+#: modules/content.translation_table.inc:69
+msgid "Scope"
+msgstr "Hatókör"
+
+#: includes/theme.inc:55
+msgid "Translate"
+msgstr "Fordítás"
+
+#: translation_table.info:0
+msgid "Multilanguage"
+msgstr "Többnyelvűség"
+
+#: modules/quicktabs.translation_table.inc:58
+msgid "Quicktab"
+msgstr "Fül"
+
+#: includes/theme.inc:56
+msgid "Delete string"
+msgstr "Karaktersorozat törlése"
+
+#: modules/taxonomy.translation_table.inc:64
+msgid "Select the vocabulary."
+msgstr "Szótár kiválasztása."
+
+#: translation_table.module:53; translation_table.info:0
+msgid "Translation table"
+msgstr "Fordítási tábla"
+
+#: includes/theme.inc:31,35,39,45
+msgid "Edit source"
+msgstr "Forrás szerkesztése"
+
+#: includes/theme.inc:31
+msgid "Edit term (@property)"
+msgstr "Kifejezés szerkesztése (@property)"
+
+#: includes/theme.inc:35
+msgid "Edit vocabulary (@property)"
+msgstr "Szótár szerkesztése (@property)"
+
+#: includes/theme.inc:39
+msgid "Edit menu item (@property)"
+msgstr "Menüelem szerkesztése (@property)"
+
+#: includes/theme.inc:45
+msgid "Edit @node_type (@property)"
+msgstr "@node_type szerkesztése (@property)"
+
+#: modules/content.translation_table.inc:44; modules/menu.translation_table.inc:43; modules/node.translation_table.inc:44; modules/quicktabs.translation_table.inc:44; modules/taxonomy.translation_table.inc:44
+msgid "Select the languages to display."
+msgstr "A megjelenítendő nyelvek kiválasztása."
+
+#: modules/taxonomy.translation_table.inc:50
+msgid "- Display all taxonomy strings -"
+msgstr "- Minden taxonómia karaktersorozat megjelenítése -"
+
+#: modules/taxonomy.translation_table.inc:51
+msgid "- Display vocabulary strings -"
+msgstr "- Szótár karaktersorozatok megjelenítése -"
+
+#: modules/node.translation_table.inc:53
+msgid "Select the content types to display."
+msgstr "A megjelenítendő tartalomtípusok kiválasztása."
+
+#: modules/content.translation_table.inc:51; modules/node.translation_table.inc:54
+msgid "- All -"
+msgstr "- Mind -"
+
+#: translation_table.module:54
+msgid "Edit translations"
+msgstr ""
+
+#: translation_table.info:0
+msgid "UI for quick translation of dynamic strings."
+msgstr ""
+
+#: modules/content.translation_table.inc:53,63
+msgid "Allowed values per field"
+msgstr ""
+
+#: modules/content.translation_table.inc:70
+msgid "Select the kind of strings to display."
+msgstr ""
+
+#: modules/quicktabs.translation_table.inc:50
+msgid "- Display all quicktabs -"
+msgstr ""
+
+#: modules/quicktabs.translation_table.inc:59
+msgid "Select a quicktab."
+msgstr ""
+

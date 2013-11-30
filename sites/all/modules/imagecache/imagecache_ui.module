@@ -1,0 +1,160 @@
+<?php
+
+/**
+ * Administrative interface to imagecache.
+ *
+ */
+
+/**
+ * Implementation of hook_help().
+ */
+function imagecache_ui_help($path, $arg) {
+  switch($path) {
+    case 'admin/build/imagecache':
+      return t('Manage ImageCache presets.');
+    case 'admin/build/imagecache/%/export':
+      return t('Place the following snippet in your module as part of <code>hook_imagecache_default_presets()</code>.');
+  }
+}
+
+/**
+ * Implementation of hook_menu().
+ */
+function imagecache_ui_menu() {
+  $items = array();
+  $items['admin/build/imagecache'] = array(
+    'title' => 'ImageCache',
+    'file' => 'imagecache_ui.pages.inc',
+    'description' => 'Administer imagecache presets and actions.',
+    'page callback' => 'imagecache_ui_preset_overview',
+    'access arguments' => array('administer imagecache'),
+  );
+  $items['admin/build/imagecache/list'] = array(
+    'title' => 'List',
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+    'weight' => -10,
+  );
+
+  $items['admin/build/imagecache/add'] = array(
+    'title' => 'Add new preset',
+    'file' => 'imagecache_ui.pages.inc',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('imagecache_ui_preset_form'),
+    'access arguments' => array('administer imagecache'),
+    'type' => MENU_LOCAL_TASK,
+  );
+
+  $items['admin/build/imagecache/%imagecache_ui_preset'] = array(
+    'title callback' => 'imagecache_preset_title_callback',
+    'title arguments' => array('Edit preset: !presetname', 3),
+    'file' => 'imagecache_ui.pages.inc',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('imagecache_ui_preset_form', 3),
+    'access arguments' => array('administer imagecache'),
+    'type' => MENU_CALLBACK,
+  );
+  $items['admin/build/imagecache/%imagecache_ui_preset/delete'] = array(
+    'title callback' => 'imagecache_preset_title_callback',
+    'title arguments' => array('Delete preset: !presetname', 3),
+    'file' => 'imagecache_ui.pages.inc',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('imagecache_ui_preset_delete_form', 3),
+    'access arguments' => array('administer imagecache'),
+    'type' => MENU_CALLBACK,
+  );
+  $items['admin/build/imagecache/%imagecache_ui_preset/flush'] = array(
+    'title callback' => 'imagecache_preset_title_callback',
+    'title arguments' => array('Flush preset: !presetname', 3),
+    'file' => 'imagecache_ui.pages.inc',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('imagecache_ui_preset_flush_form', 3),
+    'access arguments' => array('flush imagecache'),
+    'type' => MENU_CALLBACK,
+  );
+  $items['admin/build/imagecache/%imagecache_ui_preset/export'] = array(
+    'title callback' => 'imagecache_preset_title_callback',
+    'title arguments' => array('Export preset: !presetname', 3),
+    'file' => 'imagecache_ui.pages.inc',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('imagecache_ui_preset_export_form', 3),
+    'access arguments' => array('administer imagecache'),
+    'type' => MENU_CALLBACK,
+  );
+  $items['admin/build/imagecache/%imagecache_ui_preset/override'] = array(
+    'title callback' => 'imagecache_preset_title_callback',
+    'title arguments' => array('Override preset: !presetname', 3),
+    'file' => 'imagecache_ui.pages.inc',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('imagecache_ui_preset_form', 3, TRUE),
+    'access arguments' => array('administer imagecache'),
+    'type' => MENU_CALLBACK,
+  );
+
+  $items['admin/build/imagecache/%imagecache_ui_preset/add/%'] = array(
+    'title callback' => 'imagecache_preset_title_callback',
+    'title arguments' => array('Add !actionname to !presetname', 3, 5),
+    'file' => 'imagecache_ui.pages.inc',
+    'page callback' => 'imagecache_ui_action_add_page',
+    'page arguments' => array(3, 5),
+    'access arguments' => array('administer imagecache'),
+    'type' => MENU_CALLBACK,
+  );
+
+  $items['admin/build/imagecache/%imagecache_ui_preset/%imagecache_action'] = array(
+    'title callback' => 'imagecache_preset_title_callback',
+    'title arguments' => array('!action for preset !presetname', 3, 4),
+    'file' => 'imagecache_ui.pages.inc',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('imagecache_ui_action_form', 3, 4),
+    'access arguments' => array('administer imagecache'),
+    'type' => MENU_CALLBACK,
+  );
+
+  $items['admin/build/imagecache/%imagecache_ui_preset/%imagecache_action/delete'] = array(
+    'title callback' => 'imagecache_preset_title_callback',
+    'title arguments' => array('Delete !action for preset !presetname', 3, 4),
+    'file' => 'imagecache_ui.pages.inc',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('imagecache_ui_action_delete_form', 3, 4),
+    'access arguments' => array('administer imagecache'),
+    'type' => MENU_CALLBACK,
+  );
+  return $items;
+}
+
+/**
+ * Menu wildcard loader.
+ */
+function imagecache_ui_preset_load($preset_id) {
+  return imagecache_preset($preset_id, TRUE);
+}
+
+function imagecache_preset_title_callback($title, $preset = array(), $action = array()) {
+  $replacements = array();
+  if (!empty($preset)) {
+    $replacements['!presetname'] = $preset['presetname'];
+    $replacements['!presetid'] = $preset['presetid'];
+  }
+  if (!empty($action) && !is_array($action)) {
+    $replacements['!actionname'] = $action;
+  }
+  elseif (!empty($action)) {
+    $replacements['!action'] = $action['action'];
+  }
+  return t($title, $replacements);
+}
+
+/**
+ * Implementation of hook_theme().
+ */
+function imagecache_ui_theme() {
+  return array(
+    'imagecache_ui_preset_actions' => array(
+      'arguments' => array(
+        'form' => NULL,
+      ),
+      'file' => 'imagecache_ui.pages.inc',
+    ),
+  );
+}
+

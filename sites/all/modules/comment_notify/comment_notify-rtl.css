@@ -1,0 +1,14 @@
+/* $Id: comment_notify-rtl.css,v 1.1 2009/03/31 23:27:26 greggles Exp $ */
+#edit-notify-type-1-wrapper, #edit-notify-type-2-wrapper {
+  float: right;
+}
+
+#edit-notify-type-1-wrapper {
+  margin-left: 0em;
+  margin-right: 2em;
+}
+
+#edit-notify-type-2-wrapper {
+  margin-left: 0em;
+  margin-right: 1em;
+}

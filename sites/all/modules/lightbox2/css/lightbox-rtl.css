@@ -1,0 +1,62 @@
+/* $Id: lightbox-rtl.css,v 1.1.2.18 2010/06/07 14:43:02 snpower Exp $ */
+
+#imageData #imageDetails {
+  float: right;
+  text-align: right;
+}
+
+/* Image location mod */
+#bottomNavClose {
+  float: left;
+}
+
+#bottomNavZoom,
+#bottomNavZoomOut {
+  left: -30px;
+  float: left;
+}
+
+#lightshowPlay,
+#lightshowPause {
+  float: left;
+  margin-right: 0px;
+  margin-left: 5px;
+}
+
+#prevLink, #nextLink {
+  width: 49%;
+  height: 100%;
+  background: transparent url(../images/blank.gif) no-repeat; /* Trick IE into showing hover */
+  display: block;
+}
+
+#prevLink, #framePrevLink {
+  left: auto;
+  right: 0;
+  float: right;
+}
+
+#nextLink, #frameNextLink {
+  right: auto;
+  left: 0;
+  float: left;
+}
+
+#prevLink:hover, #prevLink:visited:hover, #prevLink.force_show_nav, #framePrevLink {
+  background: url(../images/next.gif) right 15% no-repeat;
+}
+
+#nextLink:hover, #nextLink:visited:hover, #nextLink.force_show_nav, #frameNextLink {
+  background: url(../images/prev.gif) left 15% no-repeat;
+}
+
+#prevLink:hover.force_show_nav, #prevLink:visited:hover.force_show_nav,
+#framePrevLink:hover, #framePrevLink:visited:hover {
+  background: url(../images/next_hover.gif) right 15% no-repeat;
+}
+
+#nextLink:hover.force_show_nav, #nextLink:visited:hover.force_show_nav,
+#frameNextLink:hover, #frameNextLink:visited:hover {
+  background: url(../images/prev_hover.gif) left 15% no-repeat;
+}
+

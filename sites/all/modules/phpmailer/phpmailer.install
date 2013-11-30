@@ -1,0 +1,59 @@
+<?php
+
+/**
+ * @file
+ * PHPMailer installation functions.
+ */
+
+/**
+ * Implementation of hook_requirements().
+ */
+function phpmailer_requirements($phase) {
+  $requirements = array();
+  // Ensure translations don't break at install time.
+  $t = get_t();
+
+  if ($phase == 'runtime' && phpmailer_load_library()) {
+    $mail = new PHPMailer();
+    $requirements['phpmailer'] = array(
+      'title' => $t('PHPMailer library'),
+      'value' => $mail->Version,
+      'severity' => REQUIREMENT_OK,
+    );
+  }
+  else {
+    drupal_load('module', 'libraries');
+    $path = libraries_get_path('phpmailer');
+    if (!file_exists('./' . $path . '/class.phpmailer.php') || !file_exists('./' . $path . '/class.smtp.php')) {
+      $requirements['phpmailer'] = array(
+        'title' => $t('PHPMailer library'),
+        'value' => $t('Missing'),
+        'severity' => REQUIREMENT_ERROR,
+        'description' => $t('Please download <a href="@url">PHPMailer for PHP5/6</a>, extract the archive and copy the contents to the following location:<br /><code>@path</code>. Make sure the main file, class.phpmailer.php, is located at<br /><code>@class</code>.', array(
+          '@url' => 'http://sourceforge.net/projects/phpmailer/files/phpmailer%20for%20php5_6/',
+          '@path' => $path,
+          '@class' => $path . '/class.phpmailer.php',
+        )),
+      );
+    }
+  }
+
+  return $requirements;
+}
+
+/**
+ * Implementation of hook_uninstall().
+ */
+function phpmailer_uninstall() {
+  variable_del('smtp_on');
+  variable_del('smtp_host');
+  variable_del('smtp_hostbackup');
+  variable_del('smtp_port');
+  variable_del('smtp_protocol');
+  variable_del('smtp_fromname');
+  variable_del('smtp_username');
+  variable_del('smtp_password');
+  variable_del('smtp_keepalive');
+  variable_del('smtp_debug');
+}
+

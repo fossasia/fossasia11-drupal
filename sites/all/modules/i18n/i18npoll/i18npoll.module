@@ -1,0 +1,169 @@
+<?php
+
+/**
+ * @file
+ * Multilingual poll - Aggregates poll results for all translations.
+ *
+ * Most code ripped off poll module and adapted for multilingual results.
+ */
+
+/**
+ * Implementation of hook_form_alter().
+ *
+ * Rewrite the cancel vote form with the nid for the translation with the actual vote.
+ */
+function i18npoll_form_alter(&$form, $form_state, $form_id) {
+  if ($form_id == 'poll_cancel_form') {
+    if (!empty($form['#nid']) && empty($form['#i18ntnid'])) {
+      // Replace nid with the original node the user voted
+      $node = node_load($form['#nid']);
+      if (!empty($node->tnid) && ($vote = i18npoll_get_vote($node->tnid))) {
+        $form['#i18ntnid'] = $node->tnid;
+        $form['#nid'] = $vote->nid;
+      }
+    }
+  }
+}
+
+/**
+ * Implementation of hook_nodeapi().
+ *
+ * Replaces poll results with aggregated translations.
+ *
+ * We don't add all language results on loading to avoid the data being trashed
+ * when editing and saving nodes again.
+ */
+function i18npoll_nodeapi(&$node, $op, $teaser = NULL, $page = NULL) {
+  global $user;
+
+  if ($node->type == 'poll' && !empty($node->tnid)) {
+    // Replace results for node view
+    if ($op == 'view' && (empty($node->allowvotes) || !empty($node->show_results))) {
+      $node->content['body'] = array(
+        '#value' => i18npoll_view_results($node, $teaser, $page, FALSE),
+      );
+    }
+    // Check again whether or not this user is allowed to vote.
+    // User may have voted for any of the translations
+    if ($op == 'load' && $node->allowvotes) {
+      $result = i18npoll_get_vote($node->tnid);
+      if (isset($result->chorder)) {
+        $node->vote = $result->chorder;
+        $node->allowvotes = FALSE;
+      }
+    }
+  }
+}
+
+/**
+ * Implementation of hook_block().
+ *
+ * Generates a block containing the latest poll with aggregated results.
+ */
+function i18npoll_block($op = 'list', $delta = 0) {
+  if (user_access('access content')) {
+    if ($op == 'list') {
+      $blocks[0]['info'] = t('Most recent poll (Aggregated translations)');
+      return $blocks;
+    }
+    elseif ($op == 'view') {
+      // Retrieve the latest poll.
+      $sql = db_rewrite_sql("SELECT MAX(n.created) FROM {node} n INNER JOIN {poll} p ON p.nid = n.nid WHERE n.status = 1 AND p.active = 1");
+      $timestamp = db_result(db_query($sql));
+      if ($timestamp) {
+        $poll = node_load(array('type' => 'poll', 'created' => $timestamp, 'status' => 1));
+
+        if ($poll->nid) {
+          $poll = i18npoll_view($poll, TRUE, FALSE, TRUE);
+        }
+      }
+      $block['subject'] = t('Poll');
+      $block['content'] = drupal_render($poll->content);
+      return $block;
+    }
+  }
+}
+
+/**
+ * Implementation of hook_view().
+ *
+ * @param $block
+ *   An extra parameter that adapts the hook to display a block-ready
+ *   rendering of the poll.
+ */
+function i18npoll_view($node, $teaser = FALSE, $page = FALSE, $block = FALSE) {
+  global $user;
+  $output = '';
+
+  // Special display for side-block.
+  if ($block) {
+    // No 'read more' link.
+    $node->readmore = FALSE;
+
+    $links = module_invoke_all('link', 'node', $node, 1);
+    $links[] = array(
+      'title' => t('Older polls'),
+      'href' => 'poll',
+      'attributes' => array(
+        'title' => t('View the list of polls on this site.')
+      )
+    );
+    if ($node->allowvotes && $block) {
+      $links[] = array(
+        'title' => t('Results'),
+        'href' => 'node/'. $node->nid .'/results',
+        'attributes' => array(
+          'title' => t('View the current poll results.')
+        )
+      );
+    }
+
+    $node->links = $links;
+  }
+
+  if (!empty($node->allowvotes) && ($block || empty($node->show_results))) {
+    $node->content['body'] = array(
+      '#value' => drupal_get_form('poll_view_voting', $node, $block),
+    );
+  }
+  else {
+    $node->content['body'] = array(
+      '#value' => i18npoll_view_results($node, $teaser, $page, $block),
+    );
+  }
+  return $node;
+}
+
+/**
+ * Generates a graphical representation of the results of a poll.
+ */
+function i18npoll_view_results(&$node, $teaser, $page, $block) {
+  // Load the appropriate choices into the $poll object.
+  $result = db_query("SELECT c.chorder, SUM(c.chvotes) AS votes FROM {poll_choices} c INNER JOIN {node} n ON c.nid = n.nid WHERE n.tnid = %d GROUP BY c.chorder", $node->tnid);
+  while ($choice = db_fetch_object($result)) {
+    // If this option not set for the source node, do not show.
+    if (isset($node->choice[$choice->chorder])) {
+      $node->choice[$choice->chorder]['chvotes'] = $choice->votes;
+    }
+  }
+  return poll_view_results($node, $teaser, $page, $block);
+}
+
+/**
+ * Get user vote for this node or its translations.
+ *
+ * Returns object with nid, chorder. Has static caching as this will typically be called twice.
+ */
+function i18npoll_get_vote($tnid) {
+  global $user;
+  static $vote = array();
+  if (!array_key_exists($tnid, $vote)) {
+    if ($user->uid) {
+      $vote[$tnid] = db_fetch_object(db_query('SELECT v.nid, v.chorder FROM {poll_votes} v INNER JOIN {node} n ON n.nid = v.nid WHERE n.tnid = %d AND v.uid = %d', $tnid, $user->uid));
+    }
+    else {
+      $vote[$tnid] = db_fetch_object(db_query("SELECT v.chorder FROM {poll_votes} v INNER JOIN {node} n ON n.nid = v.nid WHERE n.tnid = %d AND v.hostname = '%s'", $tnid, ip_address()));
+    }
+  }
+  return $vote[$tnid];
+}

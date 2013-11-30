@@ -1,0 +1,622 @@
+<?php
+// $Id: menu_breadcrumb.module,v 1.11 2010/02/02 23:41:11 xuriz Exp $
+/**
+ * @file
+ * The main file for the menu_breadcrumb module.
+ *
+ * By default, Drupal 6 will use the Navigation menu for the breadcrumb.
+ * This module allows you to use the menu the current page belongs to for
+ * the breadcrumb.
+ *
+ * As an added bonus, it also allows you to append the page title to the
+ * breadcrumb (either as a clickable url or not) and hide the breadcrumb
+ * if it only contains the link to the front page.
+ *
+ * Maintained by: Geoffrey de Vlugt <gdevlugt@gmail.com>
+ */
+
+define('MENU_BREADCRUMB_REGEX_DEFAULT', '/^book-toc-\d+$/Books/');
+define('MENU_BREADCRUMB_REGEX_MATCH', '%^(/.+/)([^/]+)/$%');
+
+/**
+ * Implementation of hook_help().
+ */
+function menu_breadcrumb_help($path, $arg) {
+  $output = '';
+  switch ($path) {
+    case 'admin/settings/modules#description':
+      $output = t('Allows you to use the menu the current page belongs to for the breadcrumb.');
+      break;
+    case 'admin/settings/menu_breadcrumb':
+      $output = t('<p>By default, Drupal 6 will use the Navigation menu for the breadcrumb. This module allows you to use the menu the current page belongs to for the breadcrumb.</p><p>As an added bonus, it also allows you to append the page title to the breadcrumb (either as a clickable url or not) and hide the breadcrumb if it only contains the link to the front page.</p>');
+      break;
+  }
+
+  return $output;
+}
+
+/**
+ * Implementation of hook_menu().
+ */
+function menu_breadcrumb_menu() {
+  $items = array();
+
+  $items['admin/settings/menu_breadcrumb'] = array(
+    'title' => 'Menu breadcrumb',
+    'description' => 'Configure menu breadcrumb.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('menu_breadcrumb_admin_settings_form'),
+    'access arguments' => array('administer site configuration'),
+    'type' => MENU_NORMAL_ITEM,
+  );
+
+  return $items;
+}
+
+/**
+ * Default menu item.
+ * If the module is not yet configured, we only need this
+ * as a starting point. This determines the default weight
+ * and 'enabled' status for any new menus.
+ */
+function _menu_breadcrumb_default_menu() {
+  return array(
+    'menu_breadcrumb_default_menu' => array(
+      'enabled' => 1,
+      'weight'  => 0,
+      'type'    => 'menu_breadcrumb_default_menu',
+    ),
+  );
+}
+
+/**
+ * Get the menu selection configuration.
+ *
+ * @return
+ *   Array of menu selections and weights.
+ */
+function _menu_breadcrumb_get_menus() {
+  static $menus;
+  if (!isset($menus)) {
+    // Fetch stored or default settings.
+    $menus = variable_get('menu_breadcrumb_menus', _menu_breadcrumb_default_menu());
+
+    // Load the pattern match cache (to avoid any unnecessary regex matching).
+    // Submitting the settings form requires us to rebuild this cache, as
+    // the patterns may have changed.
+    $match_cache = variable_get('menu_breadcrumb_pattern_matches', array());
+    $match_cache_rebuild = variable_get('menu_breadcrumb_pattern_matches_rebuild', FALSE);
+    if ($match_cache_rebuild) {
+      variable_set('menu_breadcrumb_pattern_matches_rebuild', FALSE);
+      $match_cache_old = $match_cache;
+      $match_cache = array();
+    }
+    else {
+      $match_cache_old = array();
+    }
+
+    // Find new/unknown menus. If rebuilding the pattern match cache,
+    // we also treat previously-matched menus (i.e. those currently
+    // 'replaced' by a pattern) as new.
+    $drupal_menu_names = menu_get_names();
+    $unknown_menu_names = array_diff($drupal_menu_names, array_keys($menus), array_keys($match_cache));
+    if ($unknown_menu_names) {
+      $new_menus = _menu_breadcrumb_process_unknown_menus($unknown_menu_names, $menus, $match_cache_old, $match_cache_rebuild);
+    }
+    else {
+      $new_menus = array();
+    }
+
+    // Check new menus against the patterns.
+    if ($match_cache_rebuild) {
+      // We need to check all menus (old and new), as the
+      // patterns may have been modified.
+      $new_menus = array_merge($new_menus, $menus);
+      $menus = array();
+    }
+    if ($new_menus) {
+      // $menus and $match_cache are updated by reference.
+      _menu_breadcrumb_process_new_menus($new_menus, $menus, $match_cache, $match_cache_rebuild);
+    }
+
+    // Remove any defunct menu names. Only visible if we are showing
+    // the admin settings form, so don't waste time processing this
+    // otherwise.
+    if ($_GET['q'] == 'admin/settings/menu_breadcrumb') {
+      $current_menu_names = array_merge($drupal_menu_names, array_unique($match_cache), array('menu_breadcrumb_default_menu'));
+      $menus_current = array_intersect(array_keys($menus), $current_menu_names);
+      $menus = array_intersect_key($menus, array_flip($menus_current));
+    }
+  }
+
+  return $menus;
+}
+
+/**
+ * Helper for _menu_breadcrumb_get_menus().
+ * Determine whether each 'unknown' menu is genuinely new,
+ * or was previously aggregated by a pattern match.
+ *
+ * @return
+ *   Array of new/unknown menus.
+ */
+function _menu_breadcrumb_process_unknown_menus($unknown_menu_names, $menus, $match_cache_old, $match_cache_rebuild) {
+  $new_menus = array();
+
+  // 'devel' and 'admin_menu' cause known issues, and should not
+  // be used for breadcrumbs.
+  $disabled_by_default = array(
+    'devel',
+    'admin_menu',
+  );
+  // consider hook here allowing modules to disable their menu
+  // by default.
+
+  foreach ($unknown_menu_names as $menu_name) {
+    $previously_matched = ($match_cache_rebuild
+                          && array_key_exists($menu_name, $match_cache_old)
+                          && ($pattern = $match_cache_old[$menu_name])
+                          && array_key_exists($pattern, $menus));
+    if ($previously_matched) {
+      // Use the known enabled/weight values for this pattern.
+      $enabled = $menus[$pattern]['enabled'];
+      $weight = $menus[$pattern]['weight'];
+    }
+    else {
+      // A genuinely unknown menu. Use default values.
+      $disable = in_array($menu_name, $disabled_by_default, TRUE);
+      $enabled = $disable ? FALSE : $menus['menu_breadcrumb_default_menu']['enabled'];
+      $weight = $disable ? count($menus) : $menus['menu_breadcrumb_default_menu']['weight'];
+    }
+
+    $new_menus[$menu_name] = array(
+      'enabled' => $enabled,
+      'weight'  => $weight,
+      'type'    => 'menu',
+    );
+  }
+  return $new_menus;
+}
+
+/**
+ * Helper for _menu_breadcrumb_get_menus().
+ * Compare new menus against the defined menu patterns,
+ * and update the persistent variable caches accordingly.
+ */
+function _menu_breadcrumb_process_new_menus($new_menus, &$menus, &$match_cache, $match_cache_rebuild) {
+  // Load the current regex patterns.
+  $patterns = array();
+  $menu_patterns = variable_get('menu_breadcrumb_menu_patterns', MENU_BREADCRUMB_REGEX_DEFAULT);
+  $menu_patterns = array_filter(explode("\n", $menu_patterns));
+  foreach ($menu_patterns as $pattern) {
+    $part = array();
+    // Form validation has already ensured these will match.
+    preg_match(MENU_BREADCRUMB_REGEX_MATCH, $pattern, $part);
+    $regex = $part[1];
+    $title = $part[2];
+    $patterns[$regex] = $title;
+  }
+
+  // Remove any deprecated patterns.
+  if ($match_cache_rebuild) {
+    foreach ($new_menus as $menu_name => $menu) {
+      if ($menu['type'] == 'pattern' && !in_array($menu_name, array_keys($patterns), TRUE)) {
+        unset($new_menus[$menu_name]);
+      }
+    }
+  }
+
+  // Aggregate the menus which match the specified patterns.
+  if ($patterns) {
+    $update_match_cache = FALSE;
+
+    foreach ($patterns as $regex => $title) {
+      foreach ($new_menus as $menu_name => $menu) {
+        if ($menu['type'] == 'menu') {
+          if (preg_match($regex, $menu_name)) {
+            // This menu name matches a pattern. Add the pattern
+            // itself as a menu entry if it's new.
+            if (!array_key_exists($regex, $menus)) {
+              // Use existing weight and enabled status.
+              $menus[$regex] = $new_menus[$menu_name];
+              $menus[$regex]['type'] = 'pattern';
+            }
+            // Remove the matching name, and update the match cache.
+            unset($new_menus[$menu_name]);
+            $match_cache[$menu_name] = $regex;
+            $update_match_cache = TRUE;
+          }
+        }
+      }
+
+      // We don't have the titles for new patterns yet in
+      // 'menu_breadcrumb_menus', so add it now for the settings form.
+      if (array_key_exists($regex, $menus)) {
+        $menus[$regex]['title'] = $title;
+      }
+    }
+    if ($update_match_cache) {
+      variable_set('menu_breadcrumb_pattern_matches', $match_cache);
+    }
+  }
+
+  // Merge in any remaining new menus that did not match any pattern
+  // and update the 'menu_breadcrumb_menus' cache.
+  $menus = array_merge($new_menus, $menus);
+  foreach (array_keys($menus) as $menu_name) {
+    $menus[$menu_name]['name'] = $menu_name;
+  }
+  uasort($menus, '_menu_breadcrumb_sort'); // sort by weight.
+  variable_set('menu_breadcrumb_menus', $menus);
+}
+
+/**
+ * Sort-by-weight comparison.
+ * Sub-sort by menu_name, for consistency in the settings form.
+ */
+function _menu_breadcrumb_sort($menu1, $menu2) {
+  $menu1_weight = !empty($menu1['weight']) ? $menu1['weight'] : 0;
+  $menu2_weight = !empty($menu2['weight']) ? $menu2['weight'] : 0;
+  if ($menu1_weight == $menu2_weight) {
+    $menu1_name = !empty($menu1['name']) ? $menu1['name'] : "";
+    $menu2_name = !empty($menu2['name']) ? $menu2['name'] : "";
+    return ($menu1_name < $menu2_name) ? -1 : 1;
+  }
+  return ($menu1_weight < $menu2_weight) ? -1 : 1;
+}
+
+/**
+ * Get the menu/selection list.
+ *
+ * @return
+ *   An array indicating the enabled status of each menu.
+ */
+function menu_breadcrumb_menu_list() {
+  static $list;
+
+  if (!isset($list)) {
+    $menus = _menu_breadcrumb_get_menus();
+    unset($menus['menu_breadcrumb_default_menu']);
+
+    $list = array();
+    foreach ($menus as $name => $menu) {
+      $list[$name] = (bool) $menu['enabled'];
+    }
+
+    // Enable other modules to dynamically modify the menu list
+    // (for example, to make the order depend upon the current
+    // user's language preference).
+    if ($hook = module_invoke_all('menu_breadcrumb_menu_list', $list)) {
+      $list = $hook;
+    }
+  }
+
+  return $list;
+}
+
+/**
+ * Implementation of hook_init().
+ *
+ * Set the active menu according to the current path.
+ */
+function menu_breadcrumb_init() {
+  if (variable_get('menu_breadcrumb_determine_menu', 1)) {
+    // Find the set of menus containing a link for the current page.
+    $menu_item = menu_get_item();
+    $result = db_query("SELECT mlid, menu_name FROM {menu_links} WHERE link_path = '%s'", $menu_item['href']);
+    $menu_link_menus = array();
+    while ($menu_link = db_fetch_array($result)) {
+      $menu_link_menus[$menu_link['menu_name']] = TRUE;
+    }
+
+    // Choose the highest-priority 'Enabled' menu.
+    $match_cache = variable_get('menu_breadcrumb_pattern_matches', array());
+    $menu_list = array_filter(menu_breadcrumb_menu_list()); // enabled menus.
+
+    foreach (array_keys($menu_list) as $menu_name) {
+      $is_pattern = (substr($menu_name, 0, 1) == '/' && substr($menu_name, -1, 1) == '/');
+      if ($is_pattern) {
+        // Look for each of the $menu_link_menus in the pattern match cache.
+        foreach (array_keys($menu_link_menus) as $menu_link_menu_name) {
+          if (array_key_exists($menu_link_menu_name, $match_cache)
+              && $match_cache[$menu_link_menu_name] == $menu_name) {
+            menu_set_active_menu_name($menu_link_menu_name);
+            break 2;
+          }
+        }
+      }
+      else {
+        if (array_key_exists($menu_name, $menu_link_menus)) {
+          menu_set_active_menu_name($menu_name);
+          break;
+        }
+      }
+    }
+  }
+
+  // Generate the breadcrumbs using the active menu.
+  $breadcrumb = drupal_get_breadcrumb();
+
+  if (variable_get('menu_breadcrumb_append_node_title', 0) == 1) {
+    if (variable_get('menu_breadcrumb_append_node_url', 0) == 1) {
+      $breadcrumb[] = l(drupal_get_title(), $_GET['q'], array('html' => TRUE));
+    }
+    else {
+      $breadcrumb[] = drupal_get_title();
+    }
+  }
+
+  if (count($breadcrumb) == 1 && variable_get('menu_breadcrumb_hide_on_single_item', 0)) {
+    $breadcrumb = array();
+  }
+
+  drupal_set_breadcrumb($breadcrumb);
+}
+
+/**
+ * Menu breadcrumb admin settings form.
+ *
+ * @return
+ *   The settings form used by Menu breadcrumb.
+ */
+function menu_breadcrumb_admin_settings_form() {
+  $form['menu_breadcrumb_determine_menu'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Use menu the page belongs to for the breadcrumb.'),
+    '#description' => t('By default, Drupal 6 will use the Navigation menu for the breadcrumb. If you want to use the menu the active page belongs to for the breadcrumb, enable this option.'),
+    '#default_value' => variable_get('menu_breadcrumb_determine_menu', 1),
+  );
+
+  $form['menu_breadcrumb_append_node_title'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Append page title to breadcrumb'),
+    '#description' => t('Choose whether or not the page title should be included in the breadcrumb.'),
+    '#default_value' => variable_get('menu_breadcrumb_append_node_title', 0),
+  );
+
+  $form['menu_breadcrumb_append_node_url'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Appended page title as an URL.'),
+    '#description' => t('Choose whether or not the appended page title should be an URL.'),
+    '#default_value' => variable_get('menu_breadcrumb_append_node_url', 0),
+  );
+
+  $form['menu_breadcrumb_hide_on_single_item'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Hide the breadcrumb if the breadcrumb only contains the link to the front page.'),
+    '#description' => t('Choose whether or not the breadcrumb should be hidden if the breadcrumb only contains a link to the front page (<em>Home</em>.).'),
+    '#default_value' => variable_get('menu_breadcrumb_hide_on_single_item', 0),
+  );
+
+  $form['include_exclude'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Enable / Disable Menus'),
+    '#description' => t('The breadcrumb will be generated from the first "enabled" menu that contains a menu item for the page. Re-order the list to change the priority of each menu.'),
+  );
+
+  $form['include_exclude']['note_about_navigation'] = array(
+    '#type' => 'markup',
+    '#prefix' => '<p class="description">',
+    '#suffix' => '</p>',
+    '#value' => t("Note: If none of the enabled menus contain an item for a given page, Drupal will look in the 'Navigation' menu by default, even if it is 'disabled' here."),
+  );
+
+  // Orderable list of menu selections.
+  $form['include_exclude']['menu_breadcrumb_menus'] = array(
+    '#tree' => TRUE,
+    '#theme' => 'menu_breadcrumb_menus_table',
+  );
+
+  // Load stored configuration.
+  $menus = _menu_breadcrumb_get_menus();
+  $weight_delta = count($menus);
+
+  foreach ($menus as $menu_name => $menu) {
+    // Load menu titles.
+    $title = !empty($menu['title']) ? $menu['title'] : $menu_name;
+    if ($menu['type'] == 'menu') {
+      $drupal_menu = menu_load($menu_name);
+      if (!empty($drupal_menu['title'])) {
+        $title = $drupal_menu['title'];
+      }
+    }
+
+    // Ensure that regex patterns do not cause invalid id attributes.
+    $safe_id_prefix = 'edit-menu-breadcrumb-menus-'. menu_breadcrumb_html_id($menu_name);
+
+    $form['include_exclude']['menu_breadcrumb_menus'][$menu_name] = array(
+      'enabled' => array(
+        '#type' => 'checkbox',
+        '#id' => $safe_id_prefix .'-enabled',
+        '#title' => '',
+        '#default_value' => $menu['enabled'],
+      ),
+      'label' => array(
+        '#value' => $menu_name,
+      ),
+      'weight' => array(
+        '#type' => 'weight',
+        '#default_value' => !empty($menu['weight']) ? (int) $menu['weight'] : 0,
+        '#delta' => $weight_delta,
+        '#id' => $safe_id_prefix .'-weight-wrapper',
+      ),
+      'type' => array(
+        '#type' => 'value',
+        '#value' => $menu['type'],
+      ),
+      'title' => array(
+        '#type' => 'value',
+        '#value' => $title,
+      ),
+      'title_display' => array(
+        '#type' => 'markup',
+        '#value' => check_plain($title),
+      ),
+    );
+
+    // Provide helpful title attributes for special menus.
+    $title_field =& $form['include_exclude']['menu_breadcrumb_menus'][$menu_name]['title_display'];
+    if ($menu['type'] == 'pattern') {
+      $title_field['#value'] = t(
+        '<span title="@title">@name <em>(@hint)</em></span>',
+        array(
+          '@title' => t("See 'Advanced' settings below."),
+          '@name' => $title_field['#value'],
+          '@hint' => t('pattern'),
+        )
+      );
+    }
+    elseif ($menu['type'] == 'menu_breadcrumb_default_menu') {
+      $title_field['#value'] = t(
+        '<em><span title="@title">@text</span></em>',
+        array(
+          '@title' => t('Default setting for future menus.'),
+          '@text' => t('Default setting (see below)'),
+        )
+      );
+    }
+  }
+
+  $form['include_exclude']['description'] = array(
+    '#type' => 'markup',
+    '#prefix' => '<p class="description">',
+    '#suffix' => '</p>',
+    '#value' => t('<strong>Default setting</strong> is not a real menu - it defines the default position and enabled status for future menus. If it is "enabled", Menu Breadcrumb will automatically consider newly-added menus when establishing breadcrumbs. If it is disabled, new menus will not be used for breadcrumbs until they have explicitly been enabled here.'),
+  );
+
+  $form['include_exclude']['advanced'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Advanced'),
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+  );
+
+  $form['include_exclude']['advanced']['pattern_help'] = array(
+    '#type' => 'markup',
+    '#prefix' => '<p class="description">',
+    '#suffix' => '</p>',
+    '#value' => t("Enter regular expressions (one per line) to aggregate matching menu names into a single replacement title in the above list."),
+  );
+
+  $form['include_exclude']['advanced']['menu_breadcrumb_menu_patterns'] = array(
+    '#type' => 'textarea',
+    '#title' => t('Patterns'),
+    '#default_value' => variable_get('menu_breadcrumb_menu_patterns', MENU_BREADCRUMB_REGEX_DEFAULT),
+    '#description' => t("Syntax: /regex/title/<br/>e.g.: /^book-toc-\d+$/Books/"),
+  );
+
+  // Explicitly set our submit handler, due to system_settings_form().
+  $form['#submit'][] = 'menu_breadcrumb_admin_settings_form_submit';
+  return system_settings_form($form);
+}
+
+/**
+ * Form validation handler.
+ */
+function menu_breadcrumb_admin_settings_form_validate($form, &$form_state) {
+  $patterns =& $form_state['values']['menu_breadcrumb_menu_patterns'];
+
+  // Filter white-space before saving patterns.
+  $patterns = trim($patterns);
+  $patterns = preg_replace('/\s*[\r\n]+\s*/', "\n", $patterns);
+
+  // Check patterns against required syntax.
+  if ($patterns) {
+    foreach (explode("\n", $patterns) as $pattern) {
+      if (!preg_match(MENU_BREADCRUMB_REGEX_MATCH, $pattern)) {
+        $t_args = array(
+          '%pattern' => $pattern, 
+          '%regex'   => MENU_BREADCRUMB_REGEX_MATCH
+        ) ;
+        form_set_error('menu_breadcrumb_menu_patterns', t("Invalid pattern syntax: %pattern does not match %regex", $t_args));
+      }
+    }
+  }
+}
+
+/**
+ * Form submission handler.
+ */
+function menu_breadcrumb_admin_settings_form_submit($form, &$form_state) {
+  // The menu pattern match cache needs rebuilding, as the
+  // pattern definitions may have changed.
+  variable_set('menu_breadcrumb_pattern_matches_rebuild', TRUE);
+}
+
+/**
+ * Implementation of hook_theme().
+ */
+function menu_breadcrumb_theme() {
+  return array(
+    'menu_breadcrumb_menus_table' => array(
+      'arguments' => array('element' => NULL),
+    ),
+  );
+}
+
+/**
+ * Theme a drag-to-reorder table of menu selection checkboxes.
+ */
+function theme_menu_breadcrumb_menus_table($element) {
+  drupal_add_tabledrag('menu-breadcrumb-menus', 'order', 'sibling', 'menu-weight');
+
+  $header = array(
+    t('Menu'),
+    t('Enabled'),
+    t('Weight'),
+  );
+
+  // Generate table of draggable menu names.
+  $rows = array();
+  foreach (element_children($element) as $menu_name) {
+    $element[$menu_name]['weight']['#attributes']['class'] = 'menu-weight';
+    $rows[] = array(
+      'data' => array(
+        drupal_render($element[$menu_name]['title_display']),
+        drupal_render($element[$menu_name]['enabled']),
+        drupal_render($element[$menu_name]['weight']),
+      ),
+      'class' => 'draggable',
+    );
+  }
+
+  return theme('table', $header, $rows, array('id' => 'menu-breadcrumb-menus'));
+}
+
+/**
+ * Prepare a string for use as a valid HTML ID and guarantee uniqueness.
+ * Adapted from Drupal 7's drupal_html_id().
+ *
+ * @param $id
+ *   The ID to clean.
+ * @return
+ *   The cleaned ID.
+ */
+function menu_breadcrumb_html_id($id) {
+  static $seen_ids = array();
+  $id = strtr(drupal_strtolower($id), array(' ' => '-', '_' => '-', '[' => '-', ']' => ''));
+
+  // As defined in http://www.w3.org/TR/html4/types.html#type-name, HTML IDs can
+  // only contain letters, digits ([0-9]), hyphens ("-"), underscores ("_"),
+  // colons (":"), and periods ("."). We strip out any character not in that
+  // list. Note that the CSS spec doesn't allow colons or periods in identifiers
+  // (http://www.w3.org/TR/CSS21/syndata.html#characters), so we strip those two
+  // characters as well.
+  $id = preg_replace('/[^A-Za-z0-9\-_]/', '', $id);
+
+  // Ensure IDs are unique. The first occurrence is held but left alone.
+  // Subsequent occurrences get a number appended to them. This incrementing
+  // will almost certainly break code that relies on explicit HTML IDs in forms
+  // that appear more than once on the page, but the alternative is outputting
+  // duplicate IDs, which would break JS code and XHTML validity anyways. For
+  // now, it's an acceptable stopgap solution.
+  if (isset($seen_ids[$id])) {
+    $id = $id .'-'. ++$seen_ids[$id];
+  }
+  else {
+    $seen_ids[$id] = 1;
+  }
+
+  return $id;
+}
+

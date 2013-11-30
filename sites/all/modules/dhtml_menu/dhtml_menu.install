@@ -1,0 +1,83 @@
+<?php
+// $Id: dhtml_menu.install,v 1.9.2.4 2009/01/17 17:36:27 arancaytar Exp $
+
+/**
+ * @file dhtml_menu.install
+ * Update functions for the DHTML Menu module.
+ */
+
+/**
+ * #6000: 6.x-2.x upgrade. Custom blocks are gone, using preprocess instead.
+ * - Fixing a variable typo in dhtml_menus_menus.
+ * - Restore normal menu blocks.
+ * - Setting dhtml_menu_menus to its initial settings.
+ */
+function dhtml_menu_update_6000() {
+  variable_del('dhtml_menus_menus');
+
+  $res = db_query("SELECT delta, theme, weight, region, custom, throttle, visibility, pages, title FROM {blocks} WHERE status AND module = '%s'", 'dhtml_menu');
+  while ($row = db_fetch_array($res)) {
+    if ($row['delta'] == 1) {
+      $module = 'user';
+    }
+    else {
+      $module = 'menu';
+    }
+    db_query("UPDATE {blocks} SET status = 1, weight = %d, region = '%s', custom = %d, throttle = %d, visibility = %d, pages = '%s', title = '%s' WHERE module = '%s' AND delta = '%s' AND theme = '%s'", $row['weight'], $row['region'], $row['custom'], $row['throttle'], $row['visibility'], $row['pages'], $row['title'], $module, $row['delta'], $row['theme']);
+  }
+
+  variable_set('dhtml_menu_menus', array('navigation' => 1, 'primary-links' => 1, 'secondary-links' => 1));
+  return array();
+}
+
+/**
+ * #6001: 6.x-2.1 upgrade. A two-dimensional array is now used for these settings, indexing by module and block delta.
+ */
+function dhtml_menu_update_6001() {
+  variable_set('dhtml_menu_menus', array('user' => array(1 => TRUE), 'menu' => array('primary-links' => TRUE, 'secondary-links' => TRUE)));
+  return array();
+}
+
+/**
+ * #6002: 6.x-3.x upgrade. All existing variables are obsolete.
+ */
+function dhtml_menu_update_6002() {
+  $s['slide'] = variable_get('dhtml_menu_use_effects', FALSE);
+  $s['siblings'] = variable_get('dhtml_menu_hide_siblings', FALSE);
+  // don't confuse people by removing this functionality.
+  $s['doubleclick'] = TRUE;
+  // add this new functionality.
+  $s['clone'] = TRUE;
+
+  // These settings are no longer needed.
+  variable_del('dhtml_menu_use_effects');
+  variable_del('dhtml_menu_hide_siblings');
+  variable_del('dhtml_menu_duplicated');
+  variable_del('dhtml_menu_menus');
+
+  $var = array();
+  foreach ($s as $setting => $value) {
+    if ($value) {
+      $var[] = $setting;
+    }
+  }
+
+  // Store new settings.
+  variable_set('dhtml_menu_effects', $var);
+
+  // Rebuild theme registry now that our theme functions got added.
+  drupal_rebuild_theme_registry();
+  return array();
+}
+
+/**
+ * #6003: 6.x-3.4 upgrade. Remove two obsolete variables and rebuild all themes.
+ */
+function dhtml_menu_update_6003() {
+  variable_del('dhtml_menu_theme_menu_item');
+  variable_del('dhtml_menu_theme_menu_item_link');
+
+  drupal_rebuild_theme_registry();
+  return array();
+}
+

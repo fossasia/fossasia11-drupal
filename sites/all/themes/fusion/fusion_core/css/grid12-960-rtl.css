@@ -1,0 +1,20 @@
+
+/* Layout - 12 column grid, 960px fixed width, 20px gutters
+-------------------------------------------------------------- */
+/* block indents */
+.grid12-indent-1 {margin-right: 80px;}
+.grid12-indent-2 {margin-right: 160px;}
+.grid12-indent-3 {margin-right: 240px;}
+.grid12-indent-4 {margin-right: 320px;}
+.grid12-indent-5 {margin-right: 400px;}
+.grid12-indent-6 {margin-right: 480px;}
+.grid12-indent-7 {margin-right: 560px;}
+.grid12-indent-8 {margin-right: 640px;}
+.grid12-indent-9 {margin-right: 720px;}
+.grid12-indent-10 {margin-right: 800px;}
+.grid12-indent-11 {margin-right: 880px;}
+
+/* hack to fix node-top & node-bottom being off-grid */
+#content-content .node .first .inner {
+  margin-left: 20px;
+}

@@ -1,0 +1,230 @@
+/* $Id: lightbox_alt.css,v 1.1.4.22 2010/09/22 10:47:15 snpower Exp $ */
+/**
+ * Based on a design created by Nicolas Borda:
+ * http://www.ipwa.net/assets/myslimbox/
+ */
+
+#lightbox {
+  position: absolute;
+  top: 40px;
+  left: 0;
+  width: 100%;
+  z-index: 100;
+  text-align: center;
+  line-height: 0;
+}
+
+#lightbox a img {
+  border: none;
+}
+
+#outerImageContainer {
+  position: relative;
+  background-color: #fff;
+  width: 250px;
+  height: 250px;
+  margin: 0 auto;
+  min-width: 240px;
+  overflow: hidden;
+}
+
+#imageContainer, #frameContainer, #modalContainer {
+  padding: 10px;
+}
+
+#modalContainer {
+  line-height: 1em;
+  overflow: auto;
+}
+
+#loading {
+  height: 25%;
+  width: 100%;
+  text-align: center;
+  line-height: 0;
+  position: absolute;
+  top: 40%;
+  left: 45%;
+  *left: 0%;
+}
+
+#hoverNav {
+  z-index: 10;
+}
+
+#imageData>#hoverNav {
+  left: 0;
+}
+
+#hoverNav a {
+  outline: none;
+}
+
+#prevLink, #nextLink {
+  width: 45px;
+  height: 45px;
+  display: block;
+}
+
+#prevLink {
+  left: 0;
+  float: left;
+  background: url(../images/prev_alt.gif) left 15% no-repeat;
+}
+
+#nextLink {
+  right: 0;
+  float: right;
+  background: url(../images/next_alt.gif) right 15% no-repeat;
+}
+
+#prevLink:hover, #prevLink:visited:hover {
+  background-position: right 15%;
+}
+
+#nextLink:hover, #nextLink:visited:hover {
+  background-position: left 15%;
+}
+
+#imageDataContainer {
+  font: 10px Verdana, Helvetica, sans-serif;
+  background-color: #fff;
+  margin: 0 auto;
+  line-height: 1.4em;
+  min-width: 240px;
+}
+
+#imageData {
+  padding: 0 10px;
+}
+
+#imageData #imageDetails {
+  width: 70%;
+  margin-right: auto;
+  margin-left: auto;
+  text-align: center;
+}
+
+#imageData #caption {
+  font-weight: bold;
+}
+
+#imageData #numberDisplay {
+  display: block;
+  padding-bottom: 1.0em;
+}
+
+#imageData #lightbox2-node-link-text {
+  display: block;
+  padding-bottom: 1.0em;
+}
+
+#lightbox2-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 90;
+  width: 100%;
+  height: 500px;
+  background-color: #000;
+}
+
+#overlay_default {
+  opacity: 0.6;
+}
+
+#overlay_macff2 {
+  background: transparent url(../images/overlay.png) repeat;
+}
+
+
+.clearfix:after {
+  content: ".";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+}
+
+* html>body .clearfix {
+  display: inline;
+  width: 100%;
+}
+
+* html .clearfix {
+  /* Hides from IE-mac \*/
+  height: 1%;
+  /* End hide from IE-mac */
+}
+
+
+/* Image location mod */
+#bottomNavClose {
+  display: block;
+  z-index: 200;
+  background: url(../images/close.gif) left no-repeat;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  height: 26px;
+  width: 26px;
+}
+
+#bottomNavClose:hover {
+  background-position: right;
+}
+
+#loadingLink {
+  display: block;
+  background: url(../images/loading.gif) no-repeat;
+  width: 32px;
+  height: 32px;
+}
+
+#bottomNavZoom {
+  display: block;
+  background: url(../images/expand.gif) no-repeat;
+  width: 34px;
+  height: 34px;
+  position: absolute;
+  bottom: 25px;
+  right: 5px;
+}
+
+#bottomNavZoomOut {
+  display: block;
+  background: url(../images/contract.gif) no-repeat;
+  width: 34px;
+  height: 34px;
+  position: absolute;
+  bottom: 25px;
+  right: 5px;
+}
+
+#lightshowPlay {
+  background: url(../images/play.png) no-repeat;
+  display: block;
+  margin-right: auto;
+  margin-left: auto;
+  margin-bottom: 5px;
+  height: 20px;
+  width: 20px;
+}
+
+#lightshowPause {
+  background: url(../images/pause.png) no-repeat;
+  display: block;
+  margin-right: auto;
+  margin-left: auto;
+  margin-bottom: 5px;
+  height: 20px;
+  width: 20px;
+}
+
+.lightbox_hide_image {
+  display: none;
+}
+
+#lightboxImage {
+  -ms-interpolation-mode: bicubic;
+}

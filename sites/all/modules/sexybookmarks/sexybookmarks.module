@@ -1,0 +1,208 @@
+<?php
+/**
+ * @file
+ * Contains core functions for the SexyBookmarks module.
+ */
+
+// Shareaholic API key.
+define('SB_APIKEY', '19afe428dd0d6406b366252cf4204ec6e');
+
+/**
+ * Include additional files.
+ */
+foreach (module_list() as $module) {
+  if (file_exists($file = dirname(__FILE__) . "/includes/{$module}.inc")) {
+    require_once $file;
+  }
+}
+
+/**
+ * Implements hook_sexybookmarks_init().
+ */
+function sexybookmarks_sexybookmarks_init() {
+  $globals = array(
+    'perfoption' => '0',
+  );
+  drupal_add_js('SHRSB_Globals = ' . drupal_to_js($globals) . ';', 'inline');
+  drupal_add_js('SHRSB_Settings = {};', 'inline');
+
+  // Determine if all required modules are available after SexyBookmarks 1.x to 2.x upgrade.
+  $required = array(
+    'ctools' => l(t('Chaos tool suite'), 'http://drupal.org/project/ctools'),
+    'jquery_update' => l(t('jQuery Update'), 'http://drupal.org/project/jquery_update')
+  );
+  foreach (element_children($required) as $module) {
+    if (!module_exists($module)) {
+      module_enable(array($module));
+      if (!module_exists($module)) {
+        drupal_set_message(t("SexyBookmarks requires the !{$module} module to perform correctly, please install it immediately.", array("!{$module}" => $required[$module])), 'error');
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_flush_caches().
+ */
+function sexybookmarks_flush_caches() {
+  // Only flush cache if we can ping Shareaholic.
+  $request = drupal_http_request('http://www.shareaholic.com');
+  if ($request->code == 200) {
+    _sexybookmarks_recursive_delete(file_directory_path() . '/sexybookmarks');
+  }
+  return array();
+}
+
+/**
+ * Recursively delete files and folders.
+ *
+ * @param $directory
+ *   The directory to recurse through.
+ */
+function _sexybookmarks_recursive_delete($directory) {
+  if (is_dir($directory)) {
+    foreach (array_diff(scandir($directory), array('.', '..')) as $file) {
+      $file = "{$directory}/{$file}";
+      if (is_dir($file)) {
+        _sexybookmarks_recursive_delete($file);
+        @rmdir($file);
+      }
+      else {
+        @unlink($file);
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_perm().
+ */
+function sexybookmarks_perm() {
+  return array('administer sexybookmarks');
+}
+
+/**
+ * Implements hook_theme().
+ */
+function sexybookmarks_sexybookmarks_theme_alter($items) {
+  $items['sexybookmarks'] = array(
+    'arguments' => array(
+      'variables' => array(),
+    ),
+  );
+
+  $items['sexybookmarks_services'] = array(
+    'arguments' => array(
+      'form_element' => NULL,
+    ),
+    'file' => 'sexybookmarks_profiles.inc',
+    'path' => drupal_get_path('module', 'sexybookmarks') . '/plugins/export_ui'
+  );
+}
+
+/**
+ * Theme callback for SexyBookmarks.
+ */
+function theme_sexybookmarks($variables) {
+  if (($config = sexybookmarks_get_config($variables))) {
+    $id = isset($variables['id']) ? $variables['id'] : "{$variables['profile']}-" . rand(1000, 9999);
+    $directory = md5($config['service']);
+    $api = 'http://www.shareaholic.com/api/sprite/?v=2&apikey=' . SB_APIKEY . '&service=' . urlencode($config['service']);
+    $settings = drupal_to_js(array(
+      "sexybookmarks-{$id}" => array_merge(
+        $config,
+        array(
+          'apikey' => SB_APIKEY,
+          'src' => base_path() . file_directory_path() . "/sexybookmarks/{$directory}",
+          'link' => isset($variables['url']) ? $variables['url'] : '',
+          'title' => isset($variables['title']) ? $variables['title'] : (
+            drupal_get_title() ? strip_tags(drupal_get_title()) : check_plain(variable_get('site_name', 'Drupal'))
+          ),
+          'notes' => isset($variables['text']) ? $variables['text'] : '',
+          'localize' => TRUE,
+        )
+      )
+    ));
+    drupal_add_js("jQuery.extend(SHRSB_Settings, {$settings});", 'inline');
+    drupal_add_js(sexybookmarks_get_file('http://www.shareaholic.com/media/js/jquery.shareaholic-publishers-sb.min.js'));
+    sexybookmarks_get_file('http://www.shareaholic.com/api/sprite/?v=2&apikey=' . SB_APIKEY . '&service=' . urlencode($config['service']), "{$directory}/sprite.css");
+    sexybookmarks_get_file('http://www.shareaholic.com/api/sprite/?v=2&apikey=' . SB_APIKEY . '&apitype=png&service=' . urlencode($config['service']), "{$directory}/sprite.png");
+    return "<div class='sexybookmarks-{$id}'></div>";
+  }
+  return '';
+}
+
+/**
+ * Prepare configuration for SexyBookmarks theme callback.
+ */
+function sexybookmarks_get_config(&$variables) {
+  if (!module_exists('ctools')) {
+    return NULL;
+  }
+
+  $config = NULL;
+
+  if (!empty($variables['profile'])) {
+    ctools_include('export');
+    if (($profile = ctools_export_crud_load('sexybookmarks_profiles', $variables['profile']))) {
+      if (empty($profile->disabled)) {
+        $config = $profile->config;
+        if (isset($variables['config'])) {
+          $config = array_merge($config, $variables['config']);
+        }
+      }
+      else {
+        watchdog('sexybookmarks', 'Provided profile disabled (!profile).', array('!profile' => $variables['profile']), WATCHDOG_ERROR);
+      }
+    }
+    else {
+      watchdog('sexybookmarks', 'Invalid profile provided (!profile).', array('!profile' => $variables['profile']), WATCHDOG_ERROR);
+    }
+  }
+
+  elseif (isset($variables['config'])) {
+    $config = $variables['config'];
+  }
+
+  else {
+    watchdog('sexybookmarks', 'No profile or configuration provided.', array(), WATCHDOG_ERROR);
+  }
+
+  // Convert certain strings to boolean values.
+  $string_to_bool = array('fbLikeButton', 'dontShowShareCount', 'designer_toolTips', 'shrlink', 'expand');
+  foreach ($string_to_bool as $key) {
+    if (isset($config[$key])) {
+      $config[$key] = (bool) $config[$key];
+    }
+  }
+
+  // Allow other modules to alter configuration.
+  drupal_alter('sexybookmarks_config', $config, array(&$variables));
+
+  return $config;
+}
+
+/**
+ * Return cached version of request URL.
+ */
+function sexybookmarks_get_file($url, $destination = NULL) {
+  $md5 = md5($url);
+  $pathinfo = pathinfo($url);
+  $destination = isset($destination) ? $destination : $pathinfo['basename'];
+  $file = file_directory_path() . "/sexybookmarks/{$destination}";
+
+  if (!file_exists($file)) {
+    $request = drupal_http_request($url);
+    $pathinfo = pathinfo($file);
+    if ($request->code == 200) {
+      if (file_check_directory($dir = file_directory_path() . '/sexybookmarks', FILE_CREATE_DIRECTORY) && file_check_directory($pathinfo['dirname'], FILE_CREATE_DIRECTORY)) {
+        file_save_data($request->data, $file);
+      }
+    }
+
+    else {
+      return $url;
+    }
+  }
+  return $file;
+}

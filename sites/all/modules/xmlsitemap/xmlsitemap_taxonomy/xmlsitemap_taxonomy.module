@@ -1,0 +1,221 @@
+<?php
+
+/**
+ * Implements hook_xmlsitemap_link_info().
+ */
+function xmlsitemap_taxonomy_xmlsitemap_link_info() {
+  $types['taxonomy_term'] = array(
+    'label' => t('Taxonomy'),
+    'bundle label' => t('Vocabulary'),
+    'base table' => 'term_data',
+    'entity keys' => array(
+      'id' => 'tid',
+      'bundle' => 'vid',
+    ),
+    'uri callback' => 'xmlsitemap_taxonomy_term_uri',
+    'load hook' => 'taxonomy_get_term',
+    'xmlsitemap' => array(
+      'process callback' => 'xmlsitemap_taxonomy_xmlsitemap_process_taxonomy_term_links',
+    ),
+  );
+  foreach (taxonomy_get_vocabularies() as $vid => $vocabulary) {
+    $types['taxonomy_term']['bundles'][$vid] = array(
+      'label' => $vocabulary->name,
+      'admin' => array(
+        'real path' => 'admin/content/taxonomy/edit/vocabulary/' . $vid,
+        'access arguments' => array('administer taxonomy'),
+      ),
+    );
+  }
+  return $types;
+}
+
+/**
+ * Entity URI callback.
+ */
+function xmlsitemap_taxonomy_term_uri($term) {
+  return array(
+    'path' => taxonomy_term_path($term),
+  );
+}
+
+/**
+ * Implements hook_cron().
+ *
+ * Process old taxonomy terms not found in the {xmlsitemap} table.
+ */
+function xmlsitemap_taxonomy_cron() {
+  xmlsitemap_taxonomy_xmlsitemap_index_links(xmlsitemap_var('batch_limit'));
+}
+
+/**
+ * Implements hook_xmlsitemap_index_links().
+ */
+function xmlsitemap_taxonomy_xmlsitemap_index_links($limit) {
+  if ($vids = xmlsitemap_get_link_type_enabled_bundles('taxonomy_term')) {
+    $query = db_query_range("SELECT t.tid FROM {term_data} t LEFT JOIN {xmlsitemap} x ON x.type = 'taxonomy_term' AND t.tid = x.id WHERE x.id IS NULL AND t.vid IN (" . db_placeholders($vids) . ") ORDER BY t.tid DESC", $vids, 0, $limit);
+    $tids = xmlsitemap_db_fetch_col($query);
+    xmlsitemap_taxonomy_xmlsitemap_process_taxonomy_term_links($tids);
+  }
+}
+
+/**
+ * Process taxonomy term sitemap links.
+ *
+ * @param $tids
+ *   An array of taxonomy term IDs.
+ */
+function xmlsitemap_taxonomy_xmlsitemap_process_taxonomy_term_links(array $tids) {
+  foreach ($tids as $tid) {
+    $term = taxonomy_get_term($tid);
+    $link = xmlsitemap_taxonomy_create_link($term);
+    xmlsitemap_link_save($link);
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * @see taxonomy_form_vocabulary()
+ * @see xmlsitemap_add_link_bundle_settings()
+ */
+function xmlsitemap_taxonomy_form_taxonomy_form_vocabulary_alter(&$form, $form_state) {
+  $vid = isset($form['vid']['#value']) ? $form['vid']['#value'] : 0;
+
+  module_load_include('inc', 'xmlsitemap', 'xmlsitemap.admin');
+  xmlsitemap_add_link_bundle_settings($form, $form_state, 'taxonomy_term', $vid);
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function xmlsitemap_taxonomy_form_taxonomy_form_term_alter(&$form, $form_state) {
+  // Because the same form is used for deletion in confirm_form, we must check
+  // if the normal editing form elements are present.
+  if (!isset($form['identification'])) {
+    return;
+  }
+
+  // Add the link options.
+  module_load_include('inc', 'xmlsitemap', 'xmlsitemap.admin');
+  xmlsitemap_add_form_link_options($form, 'taxonomy_term', $form['vid']['#value'], $form['#term']['tid']);
+}
+
+/**
+ * Implements hook_taxonomy().
+ */
+function xmlsitemap_taxonomy_taxonomy($op, $type, $array = NULL) {
+  if ($type == 'vocabulary') {
+    $vid = $array['vid'];
+    if ($op == 'insert' || $op == 'update') {
+      if (isset($array['xmlsitemap'])) {
+        xmlsitemap_link_bundle_settings_save('taxonomy_term', $vid, $array['xmlsitemap']);
+      }
+    }
+    elseif ($op == 'delete') {
+      xmlsitemap_link_bundle_delete('taxonomy_term', $vid);
+    }
+  }
+  if ($type == 'term') {
+    $tid = $array['tid'];
+    if ($op == 'insert' || $op == 'update') {
+      $term = (object) $array;
+      $link = xmlsitemap_taxonomy_create_link($term);
+      xmlsitemap_link_save($link);
+    }
+    elseif ($op == 'delete') {
+      xmlsitemap_link_delete('taxonomy_term', $tid);
+    }
+  }
+}
+
+/**
+ * Create a sitemap link from a taxonomy term.
+ *
+ * @param $term
+ *   A taxonomy term object.
+ * @return
+ *   An array representing a sitemap link.
+ */
+function xmlsitemap_taxonomy_create_link(stdClass &$term) {
+  if (!isset($term->xmlsitemap)) {
+    $term->xmlsitemap = array();
+    if ($term->tid && $link = xmlsitemap_link_load('taxonomy_term', $term->tid)) {
+      $term->xmlsitemap = $link;
+    }
+  }
+
+  $settings = xmlsitemap_link_bundle_load('taxonomy_term', $term->vid);
+  $uri = xmlsitemap_entity_uri('taxonomy_term', $term);
+
+  $term->xmlsitemap += array(
+    'id' => $term->tid,
+    'type' => 'taxonomy_term',
+    'subtype' => $term->vid,
+    'status' => $settings['status'],
+    'status_default' => $settings['status'],
+    'status_override' => 0,
+    'priority' => $settings['priority'],
+    'priority_default' => $settings['priority'],
+    'priority_override' => 0,
+  );
+
+  // The following values must always be checked because they are volatile.
+  // @todo How can/should we check taxonomy term access?
+  $term->xmlsitemap['loc'] = $uri['path'];
+  $term->xmlsitemap['access'] = 1;
+  $term->xmlsitemap['language'] = isset($term->language) ? $term->language : '';
+
+  return $term->xmlsitemap;
+}
+
+/**
+ * Calculate the priority of a taxonomy term based on depth and weight.
+ */
+//function xmlsitemap_taxonomy_calculate_term_priority(stdClass $term) {
+//  // Calculate priority.
+//  // Min weight = -128
+//  // Max weight = 127
+//  // Max depth = ?
+//}
+
+/**
+ * Find the tree depth of a taxonomy term.
+ *
+ * @param $term
+ *   A taxonomy term object.
+ * @return
+ *   The tree depth of the term.
+ */
+function xmlsitemap_taxonomy_get_term_depth(stdClass $term) {
+  static $depths = array();
+
+  if (!isset($depths[$term->tid])) {
+    if ($parent = db_result(db_query("SELECT parent FROM {term_hierarchy} WHERE tid = %d", $term->tid))) {
+      // If the term has a parent, the term's depth is the parent's depth + 1.
+      if (!isset($depths[$parent])) {
+        $depths[$parent] = xmlsitemap_taxonomy_get_term_depth($parent);
+      }
+      $depths[$term->tid] = $depths[$parent] + 1;
+    }
+    else {
+      // Term has no parents, so depth is 0.
+      $depths[$term->tid] = 0;
+    }
+  }
+
+  return $depths[$term->tid];
+}
+
+/**
+ * Find the number of nodes that are associated with a taxonomy term.
+ *
+ * @param $term
+ *   A taxonomy term object.
+ * @return
+ *   The number of nodes associated with the term.
+ */
+function xmlsitemap_taxonomy_get_node_count(stdClass $term) {
+  // @todo Use db_rewrite_sql() w/ switch user.
+  return db_result(db_query_range("SELECT COUNT(tn.nid) FROM {term_node} tn LEFT JOIN {node n} USING (nid) WHERE tn.tid = %d AND n.status = 1", $term->tid, 0, 1));
+}

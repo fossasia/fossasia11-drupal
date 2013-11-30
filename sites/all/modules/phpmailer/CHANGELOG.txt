@@ -1,0 +1,88 @@
+
+PHPMailer 6.x-3.x, xxxx-xx-xx
+-----------------------------
+
+
+PHPMailer 6.x-3.1, 2011-06-05
+-----------------------------
+by sun: Fixed PHP E_STRICT warnings.
+by smk-ka: Added a note to the README how to configure other popular
+ freemailers.
+#749506 by smk-ka: Fixed 'invalid address' error caused by MIME encoded e-mail
+ addresses. Updated tests.
+by smk-ka: Improved installation and status report page error message in case
+ the PHPMailer library is missing.
+by smk-ka: Improved integration with Mime Mail.
+by smk-ka: Removed bogus call to hook_mail_alter() from phpmailer_preview().
+by smk-ka: Display a warning message if PHPMailer is disabled.
+
+
+PHPMailer 6.x-3.0, 2010-07-07
+-----------------------------
+#642138 by Zoltok, sun, smk-ka: Fixed wrong path to class.smtp.php.
+#563112 by markus_petrux: Added support for Libraries API.
+by smk-ka: Improved error handling.
+by smk-ka: Fixed PHP warning on Mime Mail settings page.
+by smk-ka: Improved usability: provide next steps during installation.
+#634868 by smk-ka: Fixed bad e-mail addresses in sent mails if display names
+ contains a comma.
+#491658 by a_c_m, smk-ka: Setting FromName also for Mime Mail messages.
+#499824, #551004 by smk-ka: Added support for PHPMailer's exception handling
+ to avoid dumping errors to the browser (since 5.0.0).
+#516450 by smk-ka: Fixed test mail cannot be sent at the same time as enabling
+ PHPMailer.
+by smk-ka: Cleaned up Mime Mail integration. Ported the HTML e-mail preview to
+ D6.
+by smk-ka: Disabling the module now resets the smtp_library and mimemail_engine
+ variables, to avoid a WSOD.
+by smk-ka: Checking requirements before allowing to install the module.
+by smk-ka: Documentation updates.
+by smk-ka: Fixed PHPMailer settings not saved when used as Mime Mail engine.
+by smk-ka: Fixed Admin Menu not visible anymore.
+by smk-ka: Regression: Fixed not being able to enable either Mime Mail or
+ PHPMailer for e-mail delivery.
+by smk-ka: Moved resetting email properties to DrupalPHPMailer::SmtpSend().
+by smk-ka: Provide more user-friendly error messages.
+#607204 by smk-ka: Added support for Reply-To headers.
+#633278 by smk-ka: Increased security: added an option to hide the password on
+ the settings page and added a log message if the configuration changed.
+#686994 by sun, smk-ka: Restored compatibility with PHPMailer 2.x library.
+#675388 by smk-ka: Fixed unrecognized character in regular expression for PHP
+ versions < 5.2.2.
+#607204 by dagmar, smk-ka: Fixed unable to reply to e-mails sent via Google
+ Mail. Added an option to always set a "Reply-To" address.
+#764448 by smk-ka: Fixed sending more than one message for certain server
+ configurations.
+by smk-ka: Fixed libraries module not loaded when checking install requirements.
+#847238 by J0nathan: Better description of debug settings in README.txt.
+#805834 by smk-ka: Added description of the most common error message to
+ README.txt.
+
+
+PHPMailer 6.x-2.1, 2009-06-10
+-----------------------------
+by smk-ka: Updated external PHPMailer message strings.
+by smk-ka: Don't set FromName to an empty string.
+by smk-ka: Added public method SmtpSend for compatibility with PHPMailer 5.x.
+
+
+PHPMailer 6.x-2.0, 2009-05-17
+-----------------------------
+by sun: Fixed wrong link to ex. watchdog page.
+by sun: Added HTML mail preview when Mime Mail module is installed.
+by sun: Simplified settings form (UX).
+by smk-ka: Fixed improper RFC 822 formatted date (by Mime Mail).
+by smk-ka: Fixed empty mail body with Mime Mail.
+by smk-ka: Fixed inconsistent linefeeds with Mime Mail.
+by smk-ka: Fixed phpmailer_debug_mail not always rerouting.
+#375422 by recidive: Fixed mails are sent to multiple recipients.
+by sun: Fixed missing system_settings_form() due to clean-up commit.
+by sun: Code clean-up and sync between 5.x-2.x and 6.x-2.x.
+by smk-ka: Complete rewrite for PHPMailer 2.x.
+
+
+PHPMailer 5.x-1.0, 2009-01-15
+-----------------------------
+Initial release of PHPMailer integration module for Drupal.
+
+

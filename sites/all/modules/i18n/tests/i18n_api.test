@@ -1,0 +1,84 @@
+<?php
+/**
+ * Class for testing messaging module.
+ *
+ * Tests basic API functions
+ */
+
+require_once 'drupal_i18n_test_case.php';
+
+class i18n_API_Tests extends Drupali18nTestCase {
+
+  function getInfo() {
+    return array(
+      'name' => 'Internationalization API',
+      'group' => 'Internationalization',
+      'description' => 'Internationalization API functions'
+    );
+  }
+
+  function setUp() {
+    parent::setUp('i18n', 'locale');
+    $this->addLanguage('es');
+    $this->addLanguage('de');
+    // A language with two letter code may help too
+    $this->addLanguage('pt-br');
+
+    //variable_set('i18n_variables', array('site_name','site_frontpage',));
+
+    // Log in user with access content permission
+    $user = $this->drupalCreateUser(array('access comments', 'access content'));
+    $this->drupalLogin($user);
+  }
+
+  function testBasicAPI() {
+    $language_count = count(language_list());
+    $this->assertTrue($language_count > 1, 'Multiple languages created: ' . $language_count);
+    $this->assertEqual(i18n_get_lang(), 'en', 'Default language (en) properly set.');
+
+    // Set site name for each language and check pages later
+    foreach (language_list() as $lang) {
+      i18n_variable_set('site_name', "Drupal-$lang->name", $lang->language);
+    }
+
+    // Enable language switcher block
+    //$this->enableBlock('locale', 0);
+    //$this->dumpTable('blocks');
+
+    // Create some content and check selection modes
+    variable_set('language_content_type_story', 1);
+    $neutral = $this->drupalCreateNode(array('type' => 'story', 'promote' => 1));
+    $source = $this->drupalCreateNode(array('type' => 'story', 'promote' => 1, 'language' => i18n_default_language()));
+    $translations = $this->drupalCreateTranslations($source);
+    // This fails because the _get_translations() function has static caching
+    //$this->assertEqual(count(translation_node_get_translations($source->tnid)), $language_count, "Created $language_count $source->type translations.");
+    $this->assertEqual(count($translations), $language_count, "Created $language_count $source->type translations.");
+
+    // Default selection module, only language neutral and current
+    variable_set('i18n_selection_mode', 'simple');
+    foreach (language_list() as $lang) {
+      $this->drupalGet('', array('language' => $lang));
+      $this->assertText("Drupal-$lang->name", 'Checked translated site name: Drupal-' . $lang->name);
+      $display = array($translations[$lang->language], $neutral);
+      $hide = $translations;
+      unset($hide[$lang->language]);
+      $this->assertContent($display, $hide);
+    }
+
+  }
+
+  /**
+   * Check some nodes are displayed, some are not
+   */
+  function assertContent($display, $hide = array()) {
+    $languages = language_list();
+    foreach ($display as $node) {
+      $name = $node->language ? $languages[$node->language]->name : 'Language neutral';
+      $this->assertText($node->title, 'Content displayed for ' . $name);
+    }
+    foreach ($hide as $node) {
+      $name = $node->language ? $languages[$node->language]->name : 'Language neutral';
+      $this->assertNoText($node->title, 'Content not displayed for ' . $name);
+    }
+  }
+}

@@ -1,0 +1,73 @@
+// $Id: CHANGELOG.txt,v 1.48.2.1 2010/03/24 23:39:55 johnalbin Exp $
+
+Menu Block 6.x-2.3, 2010-03-24
+------------------------------
+- #739282: Users with "administer menu" privileges can exploit XSS vulnerability
+- #343061 by sun and JohnAlbin: CSS styling breaks form layout
+- #345552 by Dmitriy.trt: Inconsistent display of starting level set to children
+  of active item
+- #474784: Menu title as link is incorrectly always marked as in active trail
+- #540842 by JohnAlbin and agentrickard: Add option to use current page's
+  selected menu
+- #580348: Add administrative title to config form to help organize blocks
+- #350029: Add theme hook suggestions for all theme function calls
+- #741284 by JohnAlbin, sdboyer, and hefox: Add "menu tree" content types to
+  Chaos Tools/Panels.
+- #741284 by JohnAlbin and hefox: Add menu_block_get_config() and
+  menu_block_configure_form() to make the configuration form reusable by
+  separating it from the Block API functions.
+- #553842 by apodran and JohnAlbin: split() is deprecated in PHP 5.3
+- #398888: "exanded" elements of a menu-item-rooted tree aren't expanded
+- #703968 by hefox and JohnAlbin: Add menu_tree_build() to allow reuse of tree
+  building code outside of blocks
+- Refactored API for menu_block_get_title() and menu_block_set_title()
+- Added HOOK_menu_block_tree_alter() to allow direct tree manipulation
+- by Denes Szabo and Zoltan Balogh: Added Hungarian translation
+- Make default menu be "Primary links" instead of "Navigation"
+- #378206 by sbordage: Added French translation
+- #345419: Add option for menu title as link
+- #347805: Add delta to variables and classes in menu-block-wrapper.tpl
+
+Menu Block 6.x-2.2, 2008-12-16
+------------------------------
+- #342498: Give unique class to depth-limited leaves that have children
+- #341436: Depth-limited leaves that have children get "collapsed" icon
+- #341345: WSOD on "Add menu block" page with some PHP versions
+
+Menu Block 6.x-2.1, 2008-12-01
+------------------------------
+- #300086: Add option to make starting level follow active menu item
+- #340868: Clean up display of block configuration options
+- #300094: Add option to sort active trail to top of menu tree
+- #328238 by gorbeia: Add support for i18n menu translation
+- #331934: Add option to select parent item of menu tree
+- #330978: Add hook_get_menus() and implement Book module integration
+- #331935: Replace admin/by-module hack with README.txt
+- #332974: Collapsed menu items get "leaf" class when using "depth" option
+- #333988: Create template for menu-block-wrapper
+- #331933 by sun: Help links are displayed if Help module is disabled
+- #338263: Migration from 5.x-1.x to 6.x-2.x is broken
+- #305267: Menu blocks incorrectly cached per role
+
+Menu Block 6.x-2.0, 2008-08-25
+------------------------------
+- Added extensive documentation help text
+- Added extended classes to menu trees
+- Menu block's administrative interface now matches the block module's standard
+  add, configure, and delete interface
+- #266230: Port Menu block to D6
+
+Menu Block 5.x-2.0, 2008-11-24
+------------------------------
+- #304675: Port 6.x admin interface to 5.x
+- Added missing dependency on menu module
+
+Menu Block 5.x-1.0, 2008-08-05
+------------------------------
+- Simplified block configuration
+
+Menu Block 5.x-0.9, 2008-08-05
+------------------------------
+- #266223: Add option to limit the depth of the tree to an arbitrary level
+- Added block config to specify whether to expand all children
+- Added settings to enable specific menu blocks

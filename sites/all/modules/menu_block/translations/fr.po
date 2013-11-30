@@ -1,0 +1,338 @@
+# $Id: fr.po,v 1.1 2009/02/20 15:04:13 sbordage Exp $
+#
+# French translation of Drupal (general)
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# Generated from files:
+#  menu_block.admin.inc,v 1.27 2008/12/01 21:49:48 johnalbin
+#  menu_block.pages.inc,v 1.15 2008/12/04 04:35:34 johnalbin
+#  menu_block.module,v 1.48 2008/12/04 04:35:34 johnalbin
+#  menu_block.install,v 1.15 2008/12/01 09:56:56 johnalbin
+#  menu_block.info,v 1.6 2008/08/05 03:45:10 johnalbin
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: French translation for Menu Block Drupal module\n"
+"POT-Creation-Date: 2009-02-13 21:03+0100\n"
+"PO-Revision-Date: 2009-02-20 16:03+0100\n"
+"Last-Translator: Stéphane Bordage <sbordage@breek.fr>\n"
+"Language-Team: Stéphane Bordage, Breek <sbordage@breek.fr>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: french\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+"X-Poedit-Country: France\n"
+
+#: menu_block.admin.inc:43
+msgid "The block has been created."
+msgstr "Le bloc a été créé."
+
+#: menu_block.admin.inc:55
+msgid "delete"
+msgstr "supprimer"
+
+#: menu_block.admin.inc:67
+msgid "Are you sure you want to delete the \"%name\" block?"
+msgstr "Êtes vous sûr de vouloir supprimer le bloc %name ?"
+
+#: menu_block.admin.inc:67
+msgid "Delete"
+msgstr "Supprimer"
+
+#: menu_block.admin.inc:67
+msgid "Cancel"
+msgstr "Annuler"
+
+#: menu_block.admin.inc:89
+msgid "The \"%name\" block has been removed."
+msgstr "Le bloc %name a été enlevé."
+
+#: menu_block.admin.inc:121
+msgid "Unconfigured menu block"
+msgstr "Bloc de menu non configuré"
+
+#: menu_block.admin.inc:135
+msgid "@menu_name (active menu item)"
+msgstr "@menu_name (élément actif du menu)"
+
+#: menu_block.admin.inc:138
+msgid "@menu_name (level @level1)"
+msgstr "@menu_name (niveau @level1)"
+
+#: menu_block.admin.inc:142
+msgid "@menu_name (expanded levels @level1-@level2)"
+msgstr "@menu_name (niveaux dépliés @level1-@level2)"
+
+#: menu_block.admin.inc:145
+msgid "@menu_name (levels @level1-@level2)"
+msgstr "@menu_name (niveaux @level1-@level2)"
+
+#: menu_block.admin.inc:150
+msgid "@menu_name (expanded levels @level1+)"
+msgstr "@menu_name (niveaux dépliés @level1+)"
+
+#: menu_block.admin.inc:153
+msgid "@menu_name (levels @level1+)"
+msgstr "@menu_name (niveaux @level1+)"
+
+#: menu_block.admin.inc:177
+msgid "root of @menu_name"
+msgstr "racine de @menu_name"
+
+#: menu_block.admin.inc:182
+msgid "Menu"
+msgstr "Menu"
+
+#: menu_block.admin.inc:195
+msgid "Item"
+msgstr "Elément"
+
+#: menu_block.admin.inc:209
+#: menu_block.pages.inc:39
+msgid "Parent item"
+msgstr "Elément parent"
+
+#: menu_block.admin.inc:212
+msgid "The tree of links will only contain children of the selected parent item."
+msgstr "L'arborescence de liens ne contiendra que des enfants de l'élément parent sélectioné."
+
+#: menu_block.admin.inc:216
+#: menu_block.pages.inc:41
+msgid "Starting level"
+msgstr "Niveau de départ"
+
+#: menu_block.admin.inc:219
+msgid "1st level (primary)"
+msgstr "1er niveau (primaire)"
+
+#: menu_block.admin.inc:220
+msgid "2nd level (secondary)"
+msgstr "2ème niveau (secondaire)"
+
+#: menu_block.admin.inc:221
+msgid "3rd level (tertiary)"
+msgstr "3ème niveau (tertiaire)"
+
+#: menu_block.admin.inc:222
+msgid "4th level"
+msgstr "4ème niveau"
+
+#: menu_block.admin.inc:223
+msgid "5th level"
+msgstr "5ème niveau"
+
+#: menu_block.admin.inc:224
+msgid "6th level"
+msgstr "6ème niveau"
+
+#: menu_block.admin.inc:225
+msgid "7th level"
+msgstr "7ème niveau"
+
+#: menu_block.admin.inc:226
+msgid "8th level"
+msgstr "8ème niveau"
+
+#: menu_block.admin.inc:227
+msgid "9th level"
+msgstr "9ème niveau"
+
+#: menu_block.admin.inc:229
+#: menu_block.pages.inc:42
+msgid "Blocks that start with the 1st level will always be visible. Blocks that start with the 2nd level or deeper will only be visible when the trail to the active menu item is in the block’s tree."
+msgstr "Les blocs commençant avec le 1er niveau seront toujours visibles. Les blocs commençant avec le 2ème niveau (ou un niveau inférieur) ne seront visibles que quand la fin de l'élément actif du menu se trouve dans l'arborescence de menu du bloc."
+
+#: menu_block.admin.inc:240
+msgid "Make the starting level follow the active menu item."
+msgstr "Faire en sorte que le niveau de départ suive l'élément actif du menu."
+
+#: menu_block.admin.inc:242
+#: menu_block.pages.inc:44
+msgid "If the active menu item is deeper than the level specified above, the starting level will follow the active menu item. Otherwise, the starting level of the tree will remain fixed."
+msgstr "Si l'élément actif du menu est plus profond que le niveau spécifié ci-dessus, le niveau de départ suivra l'élément actif du menu. Sinon, le niveau de départ de l'arborescence restera fixe."
+
+#: menu_block.admin.inc:246
+msgid "Starting level will be"
+msgstr "Le niveau de départ sera"
+
+#: menu_block.admin.inc:249
+msgid "Active menu item"
+msgstr "Elément actif du menu"
+
+#: menu_block.admin.inc:250
+msgid "Children of active menu item"
+msgstr "Enfants de l'élément actif du menu"
+
+#: menu_block.admin.inc:252
+msgid "When following the active menu item, specify if the starting level should be the active menu item or its children."
+msgstr "En suivant l'élément actif du menu, précisez si le niveau de départ doit être l'élément actif du menu ou son fils."
+
+#: menu_block.admin.inc:256
+#: menu_block.pages.inc:45
+msgid "Maximum depth"
+msgstr "Profondeur maximale"
+
+#: menu_block.admin.inc:268
+msgid "Unlimited"
+msgstr "Illimité"
+
+#: menu_block.admin.inc:270
+msgid "From the starting level, specify the maximum depth of the menu tree."
+msgstr "Précisez la profondeur maximale de l'arborescence de menu à partir du niveau de départ."
+
+#: menu_block.admin.inc:274
+#: menu_block.pages.inc:47
+msgid "Expand children"
+msgstr "Déplier les enfants"
+
+#: menu_block.admin.inc:276
+msgid "Expand all the sub-menus of this tree."
+msgstr "Déplier tous les sous-menus de cette arborescence."
+
+#: menu_block.admin.inc:281
+#: menu_block.pages.inc:49
+msgid "Sort"
+msgstr "Trier"
+
+#: menu_block.admin.inc:283
+#, fuzzy
+msgid "Sort menu tree by the active menu item’s trail."
+msgstr "Trier l'arborescence du menu en fonction de l'élément actif du menu."
+
+#: menu_block.admin.inc:285
+#: menu_block.pages.inc:50
+msgid "Sort each item in the active trail to the top of its level. When used on a deep or wide menu tree, the active menu item’s children will be easier to see when the page is reloaded."
+msgstr "Trier chaque élément dans la trail active to the top of its level. Quand l'arborescence du menu est profonde ou large, les enfants de l'élément actif du menu seront plus facile à voir en rechargeant la page."
+
+#: menu_block.pages.inc:16
+msgid "Use the <a href=\"@url\">add menu block page</a> to create a customizable menu block. You will then be able to configure your menu block before adding it."
+msgstr "Utiliser la <a href=\"@url\">page d'ajout de blocs de menu</a> pour créer un bloc de menu personnalisable. Vous pourrez alos configurer votre bloc demenu avant de l'ajouter."
+
+#: menu_block.pages.inc:25
+msgid "To learn more about configuring menu blocks, see <a href=\"@url\">menu block’s detailed help</a>."
+msgstr "Pour apprendre comment configurer des blocs de menu, visitez <a href=\"@url\">la page d'aide</a>."
+
+#: menu_block.pages.inc:31
+msgid "Adding menu blocks"
+msgstr "Ajout de blocs de menu"
+
+#: menu_block.pages.inc:32
+msgid "To add new menu blocks, use the \"Add menu block\" tab (or button) on the <a href=\"@url\">administer blocks page</a>. You will then be able to configure your menu block before adding it."
+msgstr "Pour ajouter de nouveaux blocs de menu, utilisez l'onglet (ou le bouton) \"Ajouter un bloc de menu\" dans la <a href=\"@url\">page de gestion des blocs</a>. Vous pourrez alos configurer votre bloc demenu avant de l'ajouter."
+
+#: menu_block.pages.inc:33
+msgid "Configuring menu blocks"
+msgstr "Configurer les blocs de menu"
+
+#: menu_block.pages.inc:34
+msgid "When adding or configuring a menu block, several configuration options are available:"
+msgstr "Plusieurs options de configuration sont disponibles lors de l'ajout ou du paramétrage d'un bloc de menu :"
+
+#: menu_block.pages.inc:36
+msgid "Block title"
+msgstr "Titre du bloc"
+
+#: menu_block.pages.inc:37
+msgid "For menu trees that start with the 1st level, the default block title will be the menu name. For menu trees that start with the 2nd level or deeper, the default block title will be the title for the parent menu item of the specified level."
+msgstr "Pour les arborescences de menu commençant par le 1er niveau, le titre par défaut du bloc sera le nom du menu. Pour les arborescences de menu commençant par le 2ème niveau (ou inférieur), le titre par défaut du bloc sera le titre du parent de l'élément du niveau précisé. "
+
+#: menu_block.pages.inc:38
+msgid "For example, if the active menu trail for the Navigation menu is: Administer › Site building › Menus › Primary links, then a menu block configured to start with the 1st level of the Navigation will display a block title of “Navigation”. And a menu block configured to start with the 3rd level of the Navigation menu will display a block title of “Site building”."
+msgstr "Par exemple, si le fil d'Ariane du menu Navigation est celui-ci : Administrer > Construction du site > Menus > Liens primaires, alors un bloc de menu configuré pour commencer au 1er niveau de Navigation affichera le titre \"Navigation\". Alors qu'un bloc de menu configuré pour commencer au 3ème niveau de Navigation affichera \"Contruction du site\"."
+
+#: menu_block.pages.inc:40
+msgid "First select the menu. Then select the parent item from that menu. The tree of links will only contain children of the selected parent item."
+msgstr "Commencez par sélectionner le menu. Ensuite, sélectionnez l'élément parent à partir de ce menu. L'arborescence de liens ne contiendra que les enfants de l'élément parent sélectionné."
+
+#: menu_block.pages.inc:43
+msgid "Make the starting level follow the active menu item"
+msgstr "Faire en sorte que le niveau de départ suive l'élément actif du menu"
+
+#: menu_block.pages.inc:46
+msgid "From the starting level, specify the maximum depth of the tree. Blocks with a maximum depth of 1 will just be a single un-nested list of links with none of those links’ children displayed."
+msgstr "A partir du niveau de départ, précisez la profondeur maximale de l'arborescence. Les blocs avec une profondeur maximale de 1 seront qu'une liste à plat de liens (les enfants ne seront pas affichés)."
+
+#: menu_block.pages.inc:48
+msgid "All sub-menus of this menu will be expanded."
+msgstr "Tous les sous menus de ce menu seront dépliés."
+
+#: menu_block.pages.inc:52
+msgid "Styling menu blocks"
+msgstr "Habiller les blocs de menu"
+
+#: menu_block.pages.inc:53
+msgid "Themers should look at the myriad of classes added to the %div, %li and %a elements."
+msgstr "Les designers devraient jetter un oeil aux myriades de classes ajoutées aux %div, %li et %a."
+
+#: menu_block.pages.inc:56
+msgid "The %div wrapped around the menu tree has a class for several of the configurable options of the block: %class."
+msgstr "Le %div autour de l'arborescence de menu possède une classe pour plusieurs options de configuration du bloc : %class."
+
+#: menu_block.pages.inc:58
+msgid "The %li elements of the menu tree can have an extended list of classes (compared to standard menu trees): %class."
+msgstr "Les éléments %li de l'arborescence de menu peuvent posséder une liste étendue de classes  (par rapport aux arborescences standards de menu) : %class."
+
+#: menu_block.pages.inc:60
+msgid "The %a elements of the menu tree can have: %class."
+msgstr "Les éléments %a de l'arborescence de menu peuvent avoir : %class."
+
+#: menu_block.pages.inc:62
+msgid "In addition, the wrapper %div for the block is generated using the %template_default template. And Menu block provides template suggestions of the form %template_suggestion. For example, a file in your theme called %template_example can be used to override the %div for just the primary-links menu blocks."
+msgstr "De plus, le %div  wrapper  pour le bloc est généré en utilisant le template %template_default. Menu block fourni des suggestions de template pour le formulaire %template_suggestion. Par exemple, un fichier de votre thème appelé %template_example peut être utilisé pour surcharger le %div uniquement pour les blocs de menu de liens primaires."
+
+#: menu_block.pages.inc:63
+msgid "Menu block API"
+msgstr "API du module Menu Block"
+
+#: menu_block.pages.inc:64
+msgid "Developers can use the API of this module to create their own menu trees outside the confines of blocks. All of the publicly available API functions are documented in the menu_block.module file."
+msgstr "Les développeurs peuvent utiliser l'API de ce module pour créer leurs propres arborescences de menu en dehors des blocs. Toute la documentation disponible se trouve dans le fichier menu_block.module."
+
+#: menu_block.pages.inc:65
+msgid "In addition, Menu block implements HOOK_get_menus() to retrieve menu names and titles of menus created by a module. See book_get_menus() in menu_block.book.inc for an example of this hook."
+msgstr "De plus, Menu block exécute HOOK_get_menus() pour retrouver les noms et titres des menus créés par des modules. Pour un exemple de ce hook, voir book_get_menus() dans menu_block.book.inc"
+
+#: menu_block.module:18
+msgid "Add menu block"
+msgstr "Ajouter un bloc de menu"
+
+#: menu_block.module:19
+msgid "Add a new menu block."
+msgstr "Ajouter un nouveau bloc de menu."
+
+#: menu_block.module:27
+msgid "Delete menu block"
+msgstr "Supprimer un bloc de menu"
+
+#: menu_block.module:0
+msgid "menu_block"
+msgstr "menu_block"
+
+#: menu_block.install:33
+msgid "To use menu blocks, find the \"Add menu block\" tab (or button) on the <a href=\"@url\">administer blocks page</a>."
+msgstr "Pour utiliser le module Menu Blocks, trouvez l'onglet (ou le bouton) \"Add menu block\" dans la page de <a href=\"@url\">gestion des blocs</a>."
+
+#: menu_block.install:70
+msgid "A pre-release version of Menu block has been detected. All menu blocks from the pre-release version have been given a new delta and are no longer placed in any block regions; their block placement should be re-configured immediately."
+msgstr "Une version en pre-release de Menu Block a été détectée. Tous les blocs de menu créés avec la version en pre-release ont été doté d'un nouveau delta et ne sont plus placés dans aucune région de bloc. Leur placement devrait être reconfiguré tout de suite."
+
+#: menu_block.install:108
+msgid "A 5.x-1.x version of Menu block has been detected and an attempt was made to upgrade it. Unfortunately, you should have upgraded to Menu block 5.x-2.x before your upgrade to Drupal 6. You may need to re-configure all your menu blocks. To use menu blocks in Drupal 6, find the \"Add menu block\" tab (or button) on the <a href=\"@url\">administer blocks page</a>."
+msgstr "Une version 5.x-1.x de Menu block a été détectée et nous avons essayé de la mettre à jour. Malheureusement, vous auriez dû passer à la version 5.x-2.x  de Menu block avant de passer à Drupal 6. Vous devrez peut être reconfigurer tous vos blocs de menu. Pour utiliser Menu block dans Drupal 6, trouvez l'onglet (ou le bouton) \"Ajouter un bloc de menu\" dans la <a href=\"@url\">page d'administration des blocs</a>."
+
+#: menu_block.install:128
+msgid "The 5.x-2.x version of Menu block has been upgraded. To use menu blocks in Drupal 6, find the \"Add menu block\" tab (or button) on the <a href=\"@url\">administer blocks page</a>."
+msgstr "La version 5.x-2.x de Menu block a été mise à jour. Pour utiliser des blocs de menu dans Drupal 6, trouvez l'onglet (ou le bouton) \"Ajouter un bloc de menu\" dans la <a href=\"@url\">page d'administration des blocs</a>."
+
+#: menu_block.install:142
+msgid "The 6.x-2.0 version of Menu block has been upgraded. To use menu blocks in Drupal 6, find the \"Add menu block\" tab (or button) on the <a href=\"@url\">administer blocks page</a>."
+msgstr "La version 6.x-2.0  de Menu block a été mise à jour. Pour utiliser des blocs de menu dans Drupal 6, trouvez l'onglet (ou le bouton) \"Ajouter un bloc de menu\" dans la <a href=\"@url\">page d'administration des blocs</a>."
+
+#: menu_block.info:0
+msgid "Menu Block"
+msgstr "Bloc de menu"
+
+#: menu_block.info:0
+msgid "Provides configurable blocks of menu items."
+msgstr "Fourni des blocs de menu configurables."
+

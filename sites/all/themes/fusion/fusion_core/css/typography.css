@@ -1,0 +1,313 @@
+
+/* Typography
+-------------------------------------------------------------- */
+
+/* Base Settings
+-------------------------------------------------------------- */
+body {
+  font-family: Arial, Helvetica, Verdana, "Bitstream Vera Sans", sans-serif;     /* web safe fonts */
+  font-size: 81.25%;   /* also set in fusion_core.info: settings[theme_font_size] = font-size-13 */
+  line-height: 150%;   /* 1.5x vertical rhythm */
+}
+
+.form-text {
+  font-family: Arial, Helvetica, Verdana, "Bitstream Vera Sans", sans-serif;
+}
+
+
+/* HTML Elements
+-------------------------------------------------------------- */
+h1 {
+  font-size: 180%;
+}
+
+h2 {
+  font-size: 142.85%;
+}
+
+h3 {
+  font-size: 114.28%;
+}
+
+h4 {
+  font-size: 100%;
+}
+
+h5 {
+  font-size: 90%;
+}
+
+h6 {
+  font-size: 80%;
+}
+
+#footer {
+  font-size: 95%;
+}
+
+
+/* Nodes
+/-------------------------------------------------------------- */
+/* bylines and taxonomy */
+.submitted,
+.terms {
+  font-size: 95%;
+}
+
+.terms {
+  line-height: 130%;
+}
+
+.node .read-more,
+.node .more-link,
+.node .links {
+  font-size: 95%;
+}
+
+
+/* Comments
+/-------------------------------------------------------------- */
+div.comment div.links a,
+div.comment ul.links a {
+  font-size: 90%;
+}
+
+.signature {
+  font-size: 91.6%;
+}
+
+
+/* Links
+/-------------------------------------------------------------- */
+/* breadcrumbs */
+.breadcrumbs {
+  font-size: 90%;
+  line-height: 100%;
+}
+
+/* pagers */
+ul.pager {
+  font-size: 90%;
+  line-height: 150%;
+}
+
+ul.pager li {
+  line-height: 250%;
+}
+
+
+/* Lists
+/-------------------------------------------------------------- */
+li,
+li.leaf,
+ul.menu li,
+.item-list ul li {
+  line-height: 150%;
+}
+
+
+/* Forms
+/-------------------------------------------------------------- */
+/* form buttons */
+.form-submit {
+  font-size: 80%;
+}
+
+.form-item .description {
+  font-size: 95%;
+  line-height: 130%;
+}
+
+/* region labels on block admin page */
+.block-region {
+  font-size: 130%;
+}
+
+
+/* Tab Menus
+/-------------------------------------------------------------- */
+#content-tabs ul.primary li a:link,
+#content-tabs ul.primary li a:visited {
+  font-size: 110%;
+  line-height: 120%;
+}
+
+#content-tabs ul.secondary li a:link,
+#content-tabs ul.secondary li a:visited {
+  font-size: 100%;
+  line-height: 110%;
+}
+
+
+/* Poll
+/-------------------------------------------------------------- */
+/* increase default font size and spacing of poll titles */
+.block-poll .poll div.title {
+  font-size: 120%;
+}
+
+
+/* Forum
+/-------------------------------------------------------------- */
+#forum .description {
+  font-size: 90%;
+}
+
+
+/* Skinr
+/-------------------------------------------------------------- */
+/* callout block style */
+.fusion-callout .inner {
+  font-size: 150%;
+}
+
+/* multi-column menu style */
+.fusion-multicol-menu .inner ul li {
+  font-size: 115%;
+}
+
+.fusion-multicol-menu .inner ul li.expanded ul {
+  font-size: 75%;
+}
+
+.fusion-multicol-menu .inner ul li.expanded ul li ul {
+  font-size: 85%;
+}
+
+/* horizontal login style*/
+.fusion-horiz-login#block-user-0 #user-login-form label {
+  font-size: 90%;
+}
+
+html.js .fusion-horiz-login#block-user-0 #user-login-form label {
+  font-size: 85%;
+}
+
+.fusion-horiz-login#block-user-0 .item-list li {
+  font-size: 95%;
+  line-height: 105%;
+}
+
+.fusion-horiz-login#block-user-0 #edit-openid-identifier-wrapper .description {
+  font-size: 80%;
+}
+
+
+/* Grid Mask Overlay
+-------------------------------------------------------------- */
+#grid-mask-toggle {
+  font-size: 14px;
+}
+
+
+/* Font Theme Settings
+/-------------------------------------------------------------- */
+/* font size */
+.font-size-10 {
+  font-size: 62.5%;
+}
+
+.font-size-11 {
+  font-size: 68.75%;
+}
+
+.font-size-12 {
+  font-size: 75%;
+}
+
+.font-size-13 {
+  font-size: 81.25%;
+}
+
+.font-size-14 {
+  font-size: 87.5%;
+}
+
+.font-size-15 {
+  font-size: 93.75%;
+}
+
+.font-size-16 {
+  font-size: 100%;
+}
+
+.font-size-17 {
+  font-size: 106.25%;
+}
+
+.font-size-18 {
+  font-size: 112.5%;
+}
+
+/* absolute font sizes as examples for theme setting labels - NOT USED IN THEME */
+#edit-theme-font-size-font-size-10-wrapper label {
+  font-size: 10px;
+}
+
+#edit-theme-font-size-font-size-11-wrapper label {
+  font-size: 11px;
+}
+
+#edit-theme-font-size-font-size-12-wrapper label {
+  font-size: 12px;
+}
+
+#edit-theme-font-size-font-size-13-wrapper label {
+  font-size: 13px;
+}
+
+#edit-theme-font-size-font-size-14-wrapper label {
+  font-size: 14px;
+}
+
+#edit-theme-font-size-font-size-15-wrapper label {
+  font-size: 15px;
+}
+
+#edit-theme-font-size-font-size-16-wrapper label {
+  font-size: 16px;
+}
+
+#edit-theme-font-size-font-size-17-wrapper label {
+  font-size: 17px;
+}
+
+#edit-theme-font-size-font-size-18-wrapper label {
+  font-size: 18px;
+}
+
+/* font family */
+.font-family-sans-serif-sm,
+.font-family-sans-serif-sm .form-text {
+  font-family: Arial, Helvetica, "Nimbus Sans L", FreeSans, sans-serif;
+}
+
+.font-family-sans-serif-lg,
+.font-family-sans-serif-lg .form-text {
+  font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+}
+
+.font-family-serif-sm,
+.font-family-serif-sm .form-text {
+  font-family: Garamond, Perpetua, "Nimbus Roman No9 L", "Times New Roman", serif;
+}
+
+.font-family-serif-lg,
+.font-family-serif-lg .form-text {
+  font-family: Baskerville, Georgia, Palatino, "Palatino Linotype", "Book Antiqua", "URW Palladio L", serif;
+}
+
+.font-family-myriad,
+.font-family-myriad .form-text {
+  font-family: "Myriad Pro", Myriad, "Trebuchet MS", Arial, Helvetica, sans-serif;
+}
+
+.font-family-lucida,
+.font-family-lucida .form-text {
+  font-family: "Lucida Sans", "Lucida Grande", "Lucida Sans Unicode", Verdana, Geneva, sans-serif;
+}
+
+.font-family-tahoma,
+.font-family-tahoma .form-text {
+  font-family: Tahoma, Arial, Verdana, sans-serif;
+}

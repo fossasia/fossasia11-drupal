@@ -1,0 +1,63 @@
+/* $Id: ie7-fixes.css 8058 2010-10-22 18:01:49Z jeremy $ */
+
+/* Block */
+.block {
+  position: relative;
+}
+
+/* Pager - current */
+.item-list ul.pager li.pager-current {
+  margin-right: 2px;
+  padding-right: 3px;
+}
+
+/* Marina - Icons */
+.title-icon .block-icon,
+#comments .block-icon {
+  left: 4px;
+  top: 2px;
+}
+
+/* Marina - Title - Rounded Blue/Green */
+.marina-rounded-corners.marina-title-rounded-blue h2.block-title,
+.marina-rounded-corners.marina-title-rounded-green h2.block-title {
+  margin-top: 0;
+}
+
+/* Search */
+#secondary-menu,
+#search-box.block {
+  margin-bottom: -25px;
+}
+
+#search-box-inner {
+  float: left;
+  width: 262px;
+}
+
+.search-box-inner input.search-submit {
+  margin: 0 0 0 4px;
+  padding: 2px;
+}
+
+/* Header site info */
+#header-site-info.block {
+  width: 100%;
+}
+
+/* Primary menu */
+#primary-menu ul.menu li:hover ul.menu,
+#primary-menu ul.menu li.hover ul.menu,
+#primary-menu ul.menu li.sfHover ul.menu {
+  margin-top: -4px;
+}
+
+/* Comments */
+#comments .marina-rounded-corners .corner-bottom {
+  margin-top: -2px;
+}
+
+/* Block content */
+.marina-rounded-corners .inner-wrapper .inner-inner {
+  padding-top: 0;  
+}

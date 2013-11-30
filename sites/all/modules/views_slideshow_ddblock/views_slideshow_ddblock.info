@@ -1,0 +1,20 @@
+name = Views slideshow: DDblock
+description = Adds ddblock functionality to Views Slideshows.
+dependencies[] = views_slideshow
+package = Views
+core = 6.x
+
+
+; Information added by drupal.org packaging script on 2009-09-02
+version = "6.x-1.x-dev"
+core = "6.x"
+project = "views_slideshow_ddblock"
+datestamp = "1251895082"
+
+
+; Information added by drupal.org packaging script on 2011-06-22
+version = "6.x-2.0"
+core = "6.x"
+project = "views_slideshow_ddblock"
+datestamp = "1308738721"
+

@@ -1,0 +1,103 @@
+# Polish translation of dhtml_menu (6.x-3.4)
+# Copyright (c) 2009 by the Polish translation team
+# Generated from files:
+#  dhtml_menu.admin.inc,v 1.5.2.3 2008/11/08 17:35:12 arancaytar
+#  dhtml_menu.module,v 1.29.2.17 2009/01/17 02:50:53 arancaytar
+#  dhtml_menu.info,v 1.6 2008/07/11 22:15:58 arancaytar
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: dhtml_menu (6.x-3.4)\n"
+"POT-Creation-Date: 2009-05-06 00:36+0200\n"
+"PO-Revision-Date: 2009-03-29 19:26+0200\n"
+"Language-Team: Polish\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=((n==1)?(0):(((((n%10)>=2)&&((n%10)<=4))&&(((n%100)<10)||((n%100)>=20)))?(1):2));\n"
+
+#: dhtml_menu.admin.inc:15
+msgid "DHTML Menu effects"
+msgstr "Efekty DHTML Menu"
+
+#: dhtml_menu.admin.inc:17
+msgid "Animated sliding effect"
+msgstr "Uduchowiony ślizgający się efekt"
+
+#: dhtml_menu.admin.inc:18
+msgid "Keep only one menu open at a time."
+msgstr "Powstrzymujcie otwartym  tylko jedno menu za jeden raz."
+
+#: dhtml_menu.admin.inc:19
+msgid "For the above option, consider each menu tree separately."
+msgstr ""
+"Powyżej dla elementu ustawień, rozpatrują się każde drzewo "
+"jadłospisu oddzielnie."
+
+#: dhtml_menu.admin.inc:20
+msgid "Close menus when their parent menu is closed."
+msgstr "Ukryj menu jeśli element nadrzędny jest zamknięty."
+
+#: dhtml_menu.admin.inc:21
+msgid "Add an extra page link to each expanding menu item."
+msgstr ""
+"Dodaj dodatkowy związek stronicy z każdym punktem menu, że "
+"rozszerza się."
+
+#: dhtml_menu.admin.inc:22
+msgid "Go to the page on double-click."
+msgstr "Przejdź do strony po podwójnym kliknięciu."
+
+#: dhtml_menu.admin.inc:29
+msgid "Menus without DHTML"
+msgstr "Menu bez DHTML"
+
+#: dhtml_menu.admin.inc:32
+msgid ""
+"DHTML will be used for all menus by default, but can be switched off "
+"for specific menus."
+msgstr ""
+"DHTML jest domyślnie włączony dla dla wszystkich menu, ale może "
+"być wyłączony dla wybranych menu."
+
+#: dhtml_menu.admin.inc:54
+msgid "Book: %title"
+msgstr "Książka: %title"
+
+#: dhtml_menu.module:238
+msgid ""
+"<em>DHTML Menu</em> adds dynamic functionality to the menus of your "
+"site. Ordinarily, reaching the child elements below an item requires "
+"you to visit its page. With DHTML Menu, clicking on an item with child "
+"elements will expand it without leaving the page, saving time. You can "
+"reach the actual page of such an item either by double-clicking on it "
+"or visiting the small extra link that will be shown right below it "
+"when expanded."
+msgstr ""
+"<em>DHTML Menu</em> dodaje dynamiczne funkcje do menu twojej strony "
+"internetowej. Zazwyczaj Zwykle, osiągając filialnych żywiołów "
+"niżej za element żąda, byle odwiedziliście jego stronicę. Z DHTML "
+"Menu, kląskając po elemencie z filialnymi żywiołami rozbabrze to "
+"nie pociskawszy stronicy, oszczędzając czas. Możecie osiągnąć "
+"faktycznej stronicy takiego elementu albo double-clicking na tym, "
+"albo, odwiedzając malutkie dodatkowe zesłanie, które będzie "
+"pokazane wprost niżej za to, kiedy rozwinięto."
+
+#: dhtml_menu.module:222; dhtml_menu.info:0
+msgid "DHTML Menu"
+msgstr "DHTML Menu"
+
+#: dhtml_menu.module:223
+msgid "Configure the effects of DHTML Menu"
+msgstr "Konfiguracja efektów DHTML Menu"
+
+#: dhtml_menu.module:0
+msgid "dhtml_menu"
+msgstr "dhtml_menu"
+
+#: dhtml_menu.info:0
+msgid "Opens menus dynamically to reduce page refreshes."
+msgstr ""
+"Rozwiń menu dynamicznie, aby zredukować konieczność przeładowania "
+"strony."
+

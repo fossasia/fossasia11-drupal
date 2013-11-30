@@ -1,0 +1,126 @@
+<?php
+
+/**
+ * @file
+ * Install, update, and uninstall functions for Pathauto.
+ *
+ * @ingroup pathauto
+ */
+
+/**
+ * Implements hook_install().
+ */
+function pathauto_install() {
+  // Set some default variables necessary for the module to perform.
+  variable_set('pathauto_node_pattern', 'content/[title-raw]');
+  variable_set('pathauto_taxonomy_pattern', '[vocab-raw]/[catpath-raw]');
+  variable_set('pathauto_forum_pattern', '[vocab-raw]/[catpath-raw]');
+  variable_set('pathauto_user_pattern', 'users/[user-raw]');
+  variable_set('pathauto_blog_pattern', 'blogs/[user-raw]');
+
+  // Set the default separator character to replace instead of remove (default).
+  variable_set('pathauto_punctuation_hyphen', 1);
+
+  // Set the weight to 1
+  db_query("UPDATE {system} SET weight = 1 WHERE type = 'module' AND name = 'pathauto'");
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function pathauto_uninstall() {
+  // Delete all the pathauto variables and then clear the variable cache
+  db_query("DELETE FROM {variable} WHERE name LIKE 'pathauto_%'");
+  cache_clear_all('variables', 'cache');
+}
+
+/**
+ * Set the weight a little heavier to allow taxonomy to do its work.
+ */
+function pathauto_update_1() {
+  $ret = array();
+  $ret[] = update_sql("UPDATE {system} SET weight = 1 WHERE type = 'module' AND name = 'pathauto'");
+  return $ret;
+}
+
+/**
+ * pathauto_update_4 was a backport of a feature which is in core of Drupal 6
+ * hence it is removed from the 6.x branch even though the goal is to support
+ * Pathauto 5.x-1.x -> 6.x-2.x upgrades.
+ */
+
+/**
+ * Delete the pathauto_node_supportsfeeds.
+ */
+function pathauto_update_3() {
+  // Do nothing, this update was a mistake
+  return array();
+}
+
+/**
+ * New style naming for the punctuation chars.
+ */
+function pathauto_update_4() {
+  variable_set('pathauto_punctuation_quotes', variable_get('pathauto_quotes', 0));
+  variable_del('pathauto_quotes');
+  return array();
+}
+
+/**
+ * Remove the url_alias_extra table which wasn't used.
+ */
+function pathauto_update_7() {
+  $ret = array();
+  if (db_table_exists('url_alias_extra')) {
+    db_drop_table($ret, 'url_alias_extra');
+  }
+  return $ret;
+}
+
+/**
+ * Remove the unsupported user/%/contact and user/%/tracker pattern variables.
+ */
+function pathauto_update_6200() {
+  variable_del('pathauto_contact_bulkupdate');
+  variable_del('pathauto_contact_pattern');
+  variable_del('pathauto_contact_supportsfeeds');
+  variable_del('pathauto_contact_applytofeeds');
+  variable_del('pathauto_tracker_bulkupdate');
+  variable_del('pathauto_tracker_pattern');
+  variable_del('pathauto_tracker_supportsfeeds');
+  variable_del('pathauto_tracker_applytofeeds');
+  return array();
+}
+
+/**
+ * Remove obsolete variables since batch API is now used.
+ */
+function pathauto_update_6201() {
+  variable_del('pathauto_max_bulk_update');
+  variable_del('pathauto_node_bulkupdate');
+  variable_del('pathauto_taxonomy_bulkupdate');
+  variable_del('pathauto_forum_bulkupdate');
+  variable_del('pathauto_user_bulkupdate');
+  variable_del('pathauto_blog_bulkupdate');
+  variable_del('pathauto_modulelist');
+  variable_del('pathauto_indexaliases');
+  variable_del('pathauto_indexaliases_bulkupdate');
+  return array();
+}
+
+/**
+ * Remove obsolete variables for removed feed handling.
+ */
+function pathauto_update_6202() {
+  variable_del('pathauto_node_supportsfeeds');
+  variable_del('pathauto_node_applytofeeds');
+  variable_del('pathauto_taxonomy_supportsfeeds');
+  variable_del('pathauto_taxonomy_applytofeeds');
+  variable_del('pathauto_forum_supportsfeeds');
+  variable_del('pathauto_forum_applytofeeds');
+  variable_del('pathauto_user_supportsfeeds');
+  variable_del('pathauto_user_applytofeeds');
+  variable_del('pathauto_blog_supportsfeeds');
+  variable_del('pathauto_blog_applytofeeds');
+  return array();
+}

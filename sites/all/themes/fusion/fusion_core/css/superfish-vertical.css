@@ -1,0 +1,54 @@
+
+/*** adding sf-vertical in addition to sf-menu creates a vertical menu ***/
+.sf-vertical, .sf-vertical li {
+	width:	10em;
+}
+/* this lacks ul at the start of the selector .sf-vertical, so the styles from the main CSS file override it where needed */
+.sf-vertical li:hover ul,
+.sf-vertical li.sfHover ul {
+	left:	10em; /* match ul width */
+	right: 0; /* in case the menu is wider than 10em, this ensures that the drop-down lines up with the far edge of the menu*/
+	top:	0;
+}
+
+/*** alter arrow directions ***/
+.sf-vertical .sf-sub-indicator { background-position: -10px 0; } /* IE6 gets solid image only */
+.sf-vertical a > .sf-sub-indicator { background-position: 0 0; } /* use translucent arrow for modern browsers*/
+
+/* hover arrow direction for modern browsers*/
+.sf-vertical a:focus > .sf-sub-indicator,
+.sf-vertical a:hover > .sf-sub-indicator,
+.sf-vertical a:active > .sf-sub-indicator,
+.sf-vertical li:hover > a > .sf-sub-indicator,
+.sf-vertical li.sfHover > a > .sf-sub-indicator {
+	background-position: -10px 0; /* arrow hovers for modern browsers*/
+}
+
+/*styles for vertical menus in a sidebar on the right side of the page, to ensure that sub-menus drop into the page and don't get cut off*/
+
+.sidebars-split .sidebar-last .sf-vertical ul,
+.sidebars-both-last .sidebar-last .sf-vertical ul,
+.sidebars-both-last .sidebar-first .sf-vertical ul {
+  width: 10em;
+}
+
+.sidebars-split .sidebar-last .sf-vertical li, 
+.sidebars-split .sidebar-last .sf-vertical li li,
+.sidebars-both-last .sidebar-last .sf-vertical li, 
+.sidebars-both-last .sidebar-last .sf-vertical li li,
+.sidebars-both-last .sidebar-first .sf-vertical li, 
+.sidebars-both-last .sidebar-first .sf-vertical li li {
+  text-align: right;
+}
+
+.sidebars-split .sidebar-last .sf-vertical li:hover ul,
+.sidebars-split .sidebar-last .sf-vertical li.sfHover ul,
+.sidebars-both-last.sidebar-last .sf-vertical li:hover ul,
+.sidebars-both-last .sidebar-last .sf-vertical li.sfHover ul,
+.sidebars-both-last .sidebar-first .sf-vertical li:hover ul,
+.sidebars-both-last .sidebar-first .sf-vertical li.sfHover ul {
+  left: auto; 
+  right: 10em; /* match ul width*/
+  top: 0;
+}
+	

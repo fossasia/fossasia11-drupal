@@ -1,0 +1,25 @@
+
+#admin-menu { text-align: right; direction: rtl; }
+#admin-menu li.admin-menu-action { float: left; }
+#admin-menu li.admin-menu-action a { border-right: 1px solid #323232; border-left: none; }
+
+/* all lists */
+#admin-menu ul a { border-left: 1px solid #323232; border-right: 0; padding: 4px 8px; text-align: right; }
+
+/* all list items */
+/* width needed or else Opera goes nuts */
+#admin-menu li { float: right; position: relative; }
+#admin-menu li li { position: static; }
+#admin-menu li ul { right: 0; }
+
+/* third-and-above-level lists */
+#admin-menu li li.expandable ul { margin: -20px 160px 0 0; }
+
+#admin-menu li.admin-menu-action:hover ul {
+  left: 0 !important;
+  right: auto;
+}
+
+/* second-and-more-level hovering */
+#admin-menu li li.expandable { background: #45454a url(images/arrow-rtl.png) no-repeat 5px 7px; }
+

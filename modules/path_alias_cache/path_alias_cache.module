@@ -1,0 +1,213 @@
+<?php
+
+/**
+ * Implementation of hook_flush_caches().
+ *
+ * @return array
+ */
+function path_alias_cache_flush_caches() {
+  return array('cache_path');
+}
+
+/**
+ * Implementation of hook_lookup_path
+ *
+ * This version of lookup_path is almost exactly what is in core, but adds a cache table.
+ *
+ */
+function path_alias_cache_lookup_path($action, $path = '', $path_language = '') {
+  global $language;
+  $cache = &path_alias_cache_static(__FUNCTION__, array(
+    'map' => array(),
+    'no_src' => array(),
+    'whitelist' => NULL,
+    'system_paths' => array(),
+    'no_aliases' => array(),
+    'first_call' => TRUE,
+  ));
+
+  // Retrieve the path alias whitelist.
+  if (!isset($cache['whitelist'])) {
+    if ($cached = cache_get('path_alias_whitelist', 'cache_path')) {
+      $cache['whitelist'] = $cached->data;
+    } else {
+      $cache['whitelist'] = path_alias_cache_path_alias_whitelist_rebuild();
+    }
+  }
+
+  $path_language = $path_language ? $path_language : $language->language;
+
+  if ($action == 'wipe') {
+    $cache = array();
+    $cache['whitelist'] = path_alias_cache_path_alias_whitelist_rebuild();
+  }
+  elseif ($cache['whitelist'] && $path != '') {
+    if ($action == 'alias') {
+      // During the first call to path_alias_cache_lookup_path() per language, load the
+      // expected system paths for the page from cache.
+      if (!empty($cache['first_call'])) {
+        $cache['first_call'] = FALSE;
+
+        if (!isset($cache['map'][$path_language]) || !is_array($cache['map'][$path_language])) {
+          $cache['map'][$path_language] = array();
+        }
+        // Load system paths from cache.
+        $cid = $_GET['q'];
+        if ($cached = cache_get($cid, 'cache_path')) {
+          $cache['system_paths'] = $cached->data;
+          // Now fetch the aliases corresponding to these system paths.
+          // We order by ASC and overwrite array keys to ensure the correct
+          // alias is used when there are multiple aliases per path.
+          $placeholders = db_placeholders($cache['system_paths'], 'varchar');
+
+          // If the second argument to db_query() is an array, all following arguments get ignored.
+          // Prepare required query values into a single array.
+          $args = $cache['system_paths'];
+          $args[] = $path_language;
+          $result = db_query("SELECT src, dst FROM {url_alias} WHERE src IN($placeholders) AND (language = '%s' OR language = '') ORDER BY language ASC", $args);
+
+          while ($record = db_fetch_object($result)) {
+            if (!isset($cache['map'][$path_language][$record->src])) {
+              $cache['map'][$path_language][$record->src] = $record->dst;
+            }
+          }
+          // Keep a record of paths with no alias to avoid querying twice.
+          $cache['no_aliases'][$path_language] = array_flip(array_diff_key($cache['system_paths'], array_keys($cache['map'][$path_language])));
+        }
+      }
+      // If the alias has already been loaded, return it.
+      if (isset($cache['map'][$path_language][$path])) {
+        return $cache['map'][$path_language][$path];
+      }
+      // Check the path whitelist, if the top_level part before the first "/"
+      // is not in the list, then there is no need to do anything further,
+      // it is not in the database.
+      elseif (!isset($cache['whitelist'][strtok($path, '/')])) {
+        return FALSE;
+      }
+      // For system paths which were not cached, query aliases individually.
+      else if (!isset($cache['no_aliases'][$path_language][$path])) {
+        // Get the most fitting result falling back with alias without language
+        $alias = db_result(db_query("SELECT dst FROM {url_alias} WHERE src = '%s' AND (language = '%s' OR language = '') ORDER BY language DESC", $path, $path_language));
+        $cache['map'][$path_language][$path] = $alias;
+        return $alias;
+      }
+    }
+    // Check no_src for this $path in case we've already determined that there
+    // isn't a path that has this alias
+    elseif ($action == 'source' && !isset($cache['no_src'][$path_language][$path])) {
+      // Look for the value $path within the cached map
+      $src = '';
+      if (!isset($cache['map'][$path_language]) || !($src = array_search($path, $cache['map'][$path_language]))) {
+        // Get the most fitting result falling back with alias without language
+        if ($src = db_result(db_query("SELECT src FROM {url_alias} WHERE dst = '%s' AND (language = '%s' OR language = '') ORDER BY language DESC", $path, $path_language))) {
+          $cache['map'][$path_language][$src] = $path;
+        }
+        else {
+          // We can't record anything into map because we do not have a valid
+          // index and there is no need because we have not learned anything
+          // about any Drupal path. Thus cache to no_src.
+          $cache['no_src'][$path_language][$path] = TRUE;
+        }
+      }
+      return $src;
+    }
+  }
+
+  return FALSE;
+}
+
+/**
+ * Implementation of hook_exit
+ * We use this to cache the paths on a page, for later requests.
+ */
+function path_alias_cache_exit() {
+  path_alias_cache_cache_system_paths();
+}
+
+/**
+ * Cache system paths for a page.
+ *
+ * Cache an array of the system paths available on each page. We assume
+ * that aliases will be needed for the majority of these paths during
+ * subsequent requests, and load them in a single query during
+ * drupal_lookup_path().
+ */
+function path_alias_cache_cache_system_paths() {
+  // Check if the system paths for this page were loaded from cache in this
+  // request to avoid writing to cache on every request.
+  $cache = &path_alias_cache_static('path_alias_cache_lookup_path', array());
+  if (empty($cache['system_paths']) && !empty($cache['map'])) {
+    // Generate a cache ID (cid) specifically for this page.
+    $cid = $_GET['q'];
+    // The static $map array used by drupal_lookup_path() includes all
+    // system paths for the page request.
+    if (array_key_exists('map', $cache) && is_array($cache['map']) && $paths = current($cache['map'])) {
+      $data = array_keys($paths);
+      $expire = $_SERVER['REQUEST_TIME'] + 86400;
+      cache_set($cid, $data, 'cache_path', $expire);
+    }
+  }
+}
+
+/**
+ * Central static variable storage.
+ *
+ * @param $name
+ *   Globally unique name for the variable. For a function with only one static,
+ *   variable, the function name (e.g. via the PHP magic __FUNCTION__ constant)
+ *   is recommended. For a function with multiple static variables add a
+ *   distinguishing suffix to the function name for each one.
+ * @param $default_value
+ *   Optional default value.
+ * @param $reset
+ *   TRUE to reset a specific named variable, or all variables if $name is NULL.
+ *   Resetting every variable should only be used, for example, for running
+ *   unit tests with a clean environment. Should be used only though via
+ *   function drupal_static_reset().
+ *
+ * @return
+ *   Returns a variable by reference if $reset is FALSE.
+ */
+function &path_alias_cache_static($name, $default_value = NULL, $reset = FALSE) {
+  static $data = array();
+
+  // Reset a single value, or all values.
+  if ($reset) {
+    if (isset($name)) {
+      unset($data[$name]);
+    }
+    else {
+      $data = array();
+    }
+    // We must return a reference to a variable.
+    $dummy = NULL;
+    return $dummy;
+  }
+
+  if (!isset($data[$name])) {
+    $data[$name] = $default_value;
+  }
+
+  return $data[$name];
+}
+
+/**
+ * Rebuild the path alias white list.
+ *
+ * @return
+ *   An array containing a white list of path aliases.
+ */
+function path_alias_cache_path_alias_whitelist_rebuild() {
+  // For each alias in the database, get the top level component of the system
+  // path it corresponds to. This is the portion of the path before the first "/"
+  // if present, otherwise the whole path itself.
+  $whitelist = array();
+  $result = db_query("SELECT SUBSTRING_INDEX(src, '/', 1) AS path FROM {url_alias} GROUP BY path");
+  while ($row = db_fetch_object($result)) {
+    $whitelist[$row->path] = TRUE;
+  }
+  cache_set('path_alias_whitelist', $whitelist, 'cache_path');
+  return $whitelist;
+}
+

@@ -1,0 +1,3 @@
+HTMLTIDY MODULE
+M: Gabriel Sjoberg <xabbu at cox dot net>
+S: maintained

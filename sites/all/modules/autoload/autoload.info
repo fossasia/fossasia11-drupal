@@ -1,0 +1,11 @@
+name = Autoload
+description = Helper module to autoload classes under PHP 5.
+php = 5.1.2
+core = 6.x
+
+; Information added by drupal.org packaging script on 2011-04-22
+version = "6.x-2.1"
+core = "6.x"
+project = "autoload"
+datestamp = "1303486914"
+

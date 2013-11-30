@@ -1,0 +1,102 @@
+/**
+ * Administration Menu.
+ *
+ * Implementation of Sons of Suckerfish Dropdowns.
+ * @see www.htmldog.com/articles/suckerfish
+ **/
+#admin-menu { position: absolute; top: 0px; left: 0px; font-size: 9px; font-family: "lucida grande", tahoma, verdana, arial, sans-serif; background: url(images/bkg.png) bottom left repeat-x #101010; width: 100%; text-align: left; }
+#admin-menu li.admin-menu-icon a { padding: 1px 8px 4px; }
+#admin-menu li.admin-menu-icon ul a { padding: 4px 8px; }
+#admin-menu li.admin-menu-icon img { vertical-align: bottom; }
+#admin-menu li.admin-menu-users img { margin-top: 1px; }
+#admin-menu li.admin-menu-action { float: right; }
+#admin-menu li.admin-menu-action a { border-left: 1px solid #323232; border-right: none; }
+body.admin-menu { margin-top: 20px !important; }
+
+/* all lists */
+#admin-menu, #admin-menu ul { padding: 0; margin: 0; list-style: none; line-height: 1.4em; z-index: 999; }
+#admin-menu ul { position: static; }
+#admin-menu ul a { display: block; border-right: 1px solid #323232; border-bottom: none; padding: 4px 8px; font-weight: normal; color: #eee; text-decoration: none; text-align: left; }
+#admin-menu ul li.admin-menu-tab a { border-right: 1px solid #52565e; }
+#admin-menu li li a { border-right: none; border-top: 1px solid #323232; }
+
+/* all list items */
+/* width needed or else Opera goes nuts */
+#admin-menu li { float: left; height: 100%; margin: 0 !important; padding: 0; list-style-image: none; list-style-type: none; background-image: none; }
+#admin-menu li.admin-menu-tab { padding-bottom: 1px; background: url(images/bkg_tab.png) repeat-x left bottom; }
+#admin-menu li li { width: 160px; background: #202020; filter:Alpha(opacity=88); opacity: 0.88; }
+
+/* second-level lists */
+/* Note: Use left instead of display to hide publicly visible menus because display: none isn't read by screen readers */
+#admin-menu li ul { position: absolute; background: none; margin: 0; width: 160px; left: -999em; display: none; line-height: 1.2em; }
+
+/* third-and-above-level lists */
+#admin-menu li li.expandable ul { margin: -20px 0 0 160px; }
+
+#admin-menu li:hover ul ul,
+#admin-menu li:hover ul ul ul,
+#admin-menu li:hover ul ul ul ul,
+#admin-menu li:hover ul ul ul ul ul,
+#admin-menu li.iehover ul ul,
+#admin-menu li.iehover ul ul ul,
+#admin-menu li.iehover ul ul ul ul,
+#admin-menu li.iehover ul ul ul ul ul {
+  left: -999em;
+  display: none;
+}
+
+/* lists nested under hovered list items */
+#admin-menu li:hover ul,
+#admin-menu li li:hover ul,
+#admin-menu li li li:hover ul,
+#admin-menu li li li li:hover ul,
+#admin-menu li li li li li:hover ul,
+#admin-menu li.iehover ul,
+#admin-menu li li.iehover ul,
+#admin-menu li li li.iehover ul,
+#admin-menu li li li li.iehover ul,
+#admin-menu li li li li li.iehover ul {
+  left: auto;
+  display: block;
+}
+#admin-menu li.admin-menu-action:hover ul {
+  right: 0;
+}
+
+/* second-and-more-level hovering */
+#admin-menu li li.expandable { background: #45454a url(images/arrow.png) no-repeat 145px 7px; }
+#admin-menu li li:hover,
+#admin-menu li li.iehover {
+  background-color: #111;
+}
+#admin-menu li li:hover a,
+#admin-menu li li:hover li:hover a,
+#admin-menu li li:hover li:hover li:hover a {
+  color: #fff;
+}
+#admin-menu li li.expandable:hover a,
+#admin-menu li li.expandable:hover li.expandable:hover a {
+  border-color: #666666; color: #eee;
+}
+#admin-menu li li.expandable:hover li a,
+#admin-menu li li.expandable:hover li.expandable:hover li a {
+  border-color: #323232;
+}
+#admin-menu li li:hover li a,
+#admin-menu li li.iehover li a,
+#admin-menu li li.iehover li.iehover li a {
+  color: #eee;
+}
+#admin-menu li li.iehover a,
+#admin-menu li li.iehover li.iehover a,
+#admin-menu li li.iehover li.iehover li.iehover a {
+  color: #fff; width: 90%; /* IE */
+}
+
+/* #210615: Mozilla on Mac fix */
+html.js fieldset.collapsible div.fieldset-wrapper { overflow: visible; }
+
+@media print {
+  #admin-menu { display: none; }
+  body.admin-menu { margin-top: 0 !important; }
+}

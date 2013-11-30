@@ -1,0 +1,522 @@
+<?php
+// $Id: inactive_user.module,v 1.9 2009/06/11 19:27:33 deekayen Exp $
+
+/**
+ * @file
+ * The inactive user module controls inactive users.
+ *
+ * The inactive user module sends mails to inactive users.
+ * The user can configure the time after Drupal sends mails.
+ */
+
+
+/**
+ * Implementation of hook_perm().
+ */
+function inactive_user_perm() {
+  return array('change inactive user settings');
+}
+
+/**
+ * Implementation of hook_user().
+ */
+function inactive_user_user($type, $edit, &$user) {
+  switch ($type) {
+    case 'delete':
+      db_query("DELETE FROM {inactive_users} WHERE uid = %d", $user->uid);
+    break;
+  }
+}
+
+/**
+ * Implementation of hook_menu().
+ */
+function inactive_user_menu() {
+  $items['admin/user/inactive-user'] = array(
+    'title' => 'Inactive users',
+    'description' => 'Set rules and contact templates for inactive users.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('inactive_user_custom_settings'),
+    'access arguments' => array('change inactive user settings'),
+    'type' => MENU_NORMAL_ITEM,
+  );
+
+  return $items;
+}
+
+/**
+ * Custom settings page: menu callback
+ * (we're using a custom callback to enable a nicer menu title, without underscore
+ */
+function inactive_user_custom_settings() {
+  $period = array(0 => 'disabled') + drupal_map_assoc(array(604800, 1209600, 1814400, 2419200, 2592000, 7776000, 15552000, 23328000, 31536000, 47088000, 63072000), '_format_interval');
+  $warn_period = array(0 => 'disabled') + drupal_map_assoc(array(86400, 172800, 259200, 604800, 1209600, 1814400, 2592000), '_format_interval');
+  $mail_variables = ' %username, %useremail, %lastaccess, %period, %sitename, %siteurl';
+
+  // set administrator e-mail
+  $form['inactive_user_admin_email_fieldset'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Administrator e-mail'),
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+  );
+  $form['inactive_user_admin_email_fieldset']['inactive_user_admin_email'] = array(
+    '#type' => 'textfield',
+    '#title' => t('E-mail addresses'),
+    '#default_value' => _inactive_user_admin_mail(),
+    '#description' => t('Supply a comma-separated list of e-mail addresses that will receive administrator alerts. Spaces between addresses are allowed.'),
+    '#maxlength' => 256,
+    '#required' => TRUE,
+  );
+
+  // inactive user notification
+  $form['inactive_user_notification'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Inactive user notification'),
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+  );
+  $form['inactive_user_notification']['inactive_user_notify_admin'] = array(
+    '#type' => 'select',
+    '#title' => t('Notify administrator when a user hasn\'t logged in for more than'),
+    '#default_value' => variable_get('inactive_user_notify_admin', 0),
+    '#options' => $period,
+    '#description' => t('Generate an email to notify the site administrator that a user account hasn\'t been used for longer than the specified amount of time.  Requires crontab.'),
+  );
+  $form['inactive_user_notification']['inactive_user_notify'] = array(
+    '#type' => 'select',
+    '#title' => t('Notify users when they haven\'t logged in for more than'),
+    '#default_value' => variable_get('inactive_user_notify', 0),
+    '#options' => $period,
+    '#description' => t('Generate an email to notify users when they haven\'t used their account for longer than the specified amount of time.  Requires crontab.'),
+  );
+  $form['inactive_user_notification']['inactive_user_notify_text'] = array(
+    '#type' => 'textarea',
+    '#title' => t('Body of user notification e-mail'),
+    '#default_value' => variable_get('inactive_user_notify_text', _inactive_user_mail_text('notify_text')),
+    '#cols' => 70,
+    '#rows' => 10,
+    '#description' => t('Customize the body of the notification e-mail sent to the user.') .' '. t('Available variables are:') . $mail_variables,
+    '#required' => TRUE,
+  );
+
+  // automatically block inactive users
+  $form['block_inactive_user'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Automatically block inactive users'),
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+  );
+  $form['block_inactive_user']['inactive_user_auto_block'] = array(
+    '#type' => 'select',
+    '#title' => t('Block users that haven\'t logged in for more than'),
+    '#default_value' => variable_get('inactive_user_auto_block', 0),
+    '#options' => $period,
+    '#description' => t('Automatically block user accounts that haven\'t been used in the specified amount of time.  Requires crontab.'),
+  );
+  $form['block_inactive_user']['inactive_user_notify_block'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Notify user'),
+    '#default_value' => variable_get('inactive_user_notify_block', 0),
+    '#description' => t('Generate an email to notify a user that his/her account has been automatically blocked.'),
+  );
+  $form['block_inactive_user']['inactive_user_block_notify_text'] = array(
+    '#type' => 'textarea',
+    '#title' => t('Body of blocked user acount e-mail'),
+    '#default_value' => variable_get('inactive_user_block_notify_text', _inactive_user_mail_text('block_notify_text')),
+    '#cols' => 70,
+    '#rows' => 10,
+    '#description' => t('Customize the body of the notification e-mail sent to the user when their account has been blocked.') .' '. t('Available variables are:') . $mail_variables,
+    '#required' => TRUE,
+  );
+  $form['block_inactive_user']['inactive_user_notify_block_admin'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Notify administrator'),
+    '#default_value' => variable_get('inactive_user_notify_block_admin', 0),
+    '#description' => t('Generate an email to notify the site administrator when a user is automatically blocked.'),
+  );
+  $form['block_inactive_user']['inactive_user_auto_block_warn'] = array(
+    '#type' => 'select',
+    '#title' => t('Warn users before they are blocked'),
+    '#default_value' => variable_get('inactive_user_auto_block_warn', 0),
+    '#options' => $warn_period,
+    '#description' => t('Generate an email to notify a user that his/her account is about to be blocked.'),
+  );
+  $form['block_inactive_user']['inactive_user_block_warn_text'] = array(
+    '#type' => 'textarea',
+    '#title' => t('Body of user warning e-mail'),
+    '#default_value' => variable_get('inactive_user_block_warn_text', _inactive_user_mail_text('block_warn_text')),
+    '#cols' => 70,
+    '#rows' => 10,
+    '#description' => t('Customize the body of the notification e-mail sent to the user when their account is about to be blocked.') .' '. t('Available variables are:') . $mail_variables,
+    '#required' => TRUE,
+  );
+
+  // automatically delete inactive users
+  $form['delete_inactive_user'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Automatically delete inactive users'),
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+  );
+  $form['delete_inactive_user']['inactive_user_auto_delete'] = array(
+    '#type' => 'select',
+    '#title' => t('Delete users that haven\'t logged in for more than'),
+    '#default_value' => variable_get('inactive_user_auto_delete', 0),
+    '#options' => $period,
+    '#description' => t('Automatically delete user accounts that haven\'t been used in the specified amount of time.  Warning, user accounts are permanently deleted, with no ability to undo the action!  Requires crontab.'),
+  );
+  $form['delete_inactive_user']['inactive_user_preserve_content'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Preserve users that own site content'),
+    '#default_value' => variable_get('inactive_user_preserve_content', 1),
+    '#description' => t('Select this option to never delete users that own site content.  If you delete a user that owns content on the site, such as a user that created a node or left a comment, the content will no longer be available via the normal Drupal user interface.  That is, if a user creates a node or leaves a comment, then the user is deleted, the node and/or comment will no longer be accesible even though it will still be in the database.'),
+  );
+  $form['delete_inactive_user']['inactive_user_notify_delete'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Notify user'),
+    '#default_value' => variable_get('inactive_user_notify_delete', 0),
+    '#description' => t('Generate an email to notify a user that his/her account has been automatically deleted.'),
+  );
+  $form['delete_inactive_user']['inactive_user_delete_notify_text'] = array(
+    '#type' => 'textarea',
+    '#title' => t('Body of deleted user account e-mail'),
+    '#default_value' => variable_get('inactive_user_delete_notify_text', _inactive_user_mail_text('delete_notify_text')),
+    '#cols' => 70,
+    '#rows' => 10,
+    '#description' => t('Customize the body of the notification e-mail sent to the user when their account has been deleted.') .' '. t('Available variables are:') . $mail_variables,
+    '#required' => TRUE,
+  );
+  $form['delete_inactive_user']['inactive_user_notify_delete_admin'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Notify administrator'),
+    '#default_value' => variable_get('inactive_user_notify_delete_admin', 0),
+    '#description' => t('Generate an email to notify the site administrator when a user is automatically deleted.'),
+  );
+  $form['delete_inactive_user']['inactive_user_auto_delete_warn'] = array(
+    '#type' => 'select',
+    '#title' => t('Warn users before they are deleted'),
+    '#default_value' => variable_get('inactive_user_auto_delete_warn', 0),
+    '#options' => $warn_period,
+    '#description' => t('Generate an email to notify a user that his/her account is about to be deleted.')
+  );
+  $form['delete_inactive_user']['inactive_user_delete_warn_text'] = array(
+    '#type' => 'textarea',
+    '#title' => t('Body of user warning e-mail'),
+    '#default_value' => variable_get('inactive_user_delete_warn_text', _inactive_user_mail_text('delete_warn_text')),
+    '#cols' => 70,
+    '#rows' => 10,
+    '#description' => t('Customize the body of the notification e-mail sent to the user when their account is about to be deleted.') .' '. t('Available variables are:') . $mail_variables,
+    '#required' => TRUE,
+  );
+  return system_settings_form($form);
+}
+
+function inactive_user_custom_settings_validate($form, &$form_state) {
+  $mails = explode(',', $edit['inactive_user_admin_email']);
+  foreach ($mails as $mail) {
+    if ($mail && !valid_email_address(trim($mail))) {
+      $invalid[] = $mail;
+      $count++;
+    }
+  }
+  if ($count ==  1) {
+    form_set_error('inactive_user_admin_email', t('%mail is not a valid e-mail address', array('%mail' => $invalid[0])));
+  }
+  elseif ($count > 1) {
+    form_set_error('inactive_user_admin_email', t('The following e-mail addresses are invalid: %mail', array('%mail' => implode(', ', $invalid))));
+  }
+}
+
+/**
+ * Implementation of hook_cron().
+ */
+function inactive_user_cron() {
+  if ((time() - variable_get('inactive_user_timestamp', '0')) >= 86100) { // Only check once every almost-day, so we slide around the clock and don't overload the server.
+    variable_set('inactive_user_timestamp', time());
+    unset($user_list);
+
+    // reset notifications if recent user activity
+    $users = db_fetch_object(db_query('SELECT uid FROM {inactive_users} WHERE uid <> 1'));
+    if ($users) {
+      foreach ($users as $uid) {
+        $u = db_fetch_object(db_query('SELECT access, name FROM {users} WHERE uid = %d', $uid));
+        if ($u->access > time() - 604800) {
+          // user activity in last week, remove from inactivity table
+          db_query('DELETE FROM {inactive_users} WHERE uid = %d', $uid);
+          watchdog('user', 'recent user activity: %user removed from inactivity list', array('%user' => $u->name), WATCHDOG_NOTICE, l(t('edit user'), "admin/user/edit/$uid"));
+        }
+      }
+    }
+
+    // notify administrator of inactive user accounts
+    if ($notify_time = variable_get('inactive_user_notify_admin', 0)) {
+      $result = db_query('SELECT uid, name, mail, access, created FROM {users} WHERE ((access <> 0 AND login <> 0 AND access < (%d - %d)) OR (login = 0 AND created < (%d - %d))) AND uid <> 1', time(), $notify_time, time(), $notify_time);
+      while ($user = db_fetch_object($result)) {
+        if ($user->uid && !db_fetch_object(db_query('SELECT uid FROM {inactive_users} WHERE uid = %d AND notified_admin = 1', $user->uid)) && ($user->created < (time() - $notify_time))) {
+          db_query('UPDATE {inactive_users} SET notified_admin = 1 WHERE uid = %d', $user->uid);
+          if (!db_affected_rows()) {
+            // must create a new row
+            @db_query('INSERT INTO {inactive_users} (uid, notified_admin) VALUES (%d, 1)', $user->uid);
+          }
+          $user_list .= "$user->name ($user->mail) last active on ". format_date($user->access, 'large') .".\n";
+        }
+      }
+      if ($user_list) {
+        _inactive_user_mail(t('[@sitename] Inactive users', array('@sitename' => variable_get('site_name', 'drupal'))), _inactive_user_mail_text('notify_admin_text'), $notify_time, NULL, $user_list);
+        unset($user_list);
+      }
+    }
+
+    // notify users that their account has been inactive
+    if ($notify_time = variable_get('inactive_user_notify', 0)) {
+      $result = db_query('SELECT * FROM {users} WHERE ((access <> 0 AND login <> 0 AND access < (%d - %d)) OR (login = 0 AND created < (%d - %d))) AND status <> 0 AND uid <> 1', time(), $notify_time, time(), $notify_time);
+      while ($user = db_fetch_object($result)) {
+        if ($user->uid && !db_fetch_object(db_query('SELECT uid FROM {inactive_users} WHERE notified_user = 1 AND uid = %d', $user->uid)) && ($user->created < (time() - $notify_time))) {
+          db_query('UPDATE {inactive_users} SET notified_user = 1 WHERE uid = %d', $user->uid);
+          if (!db_affected_rows()) {
+            @db_query('INSERT INTO {inactive_users} (uid, notified_user) VALUES (%d, 1)', $user->uid);
+          }
+          _inactive_user_mail(t('[@sitename] Account inactivity', array('@sitename' => variable_get('site_name', 'drupal'))), variable_get('inactive_user_notify_text', _inactive_user_mail_text('notify_text')), $notify_time, $user, NULL);
+          watchdog('user', 'user %user notified of inactivity', array('%user' => $user->name), WATCHDOG_INFO, l(t('edit user'), "admin/user/edit/$uid"));
+        }
+      }
+    }
+
+    // warn users when they are about to be blocked
+    if (($warn_time = variable_get('inactive_user_auto_block_warn', 0)) &&
+        ($block_time = variable_get('inactive_user_auto_block', 0))) {
+      $result = db_query('SELECT * FROM {users} WHERE ((access <> 0 AND login <> 0 AND access < (%d - %d - %d)) OR (login = 0 AND created < (%d - %d - %d))) AND status <> 0 AND uid <> 1', time(), $warn_time, $block_time, time(), $warn_time, $block_time);
+      while ($user = db_fetch_object($result)) {
+        if ($user->uid && !db_fetch_object(db_query('SELECT uid FROM {inactive_users} WHERE uid = %d AND warned_user_block_timestamp > 0', $user->uid)) && ($user->created < (time() - $warn_time - $block_time))) {
+          db_query('UPDATE {inactive_users} SET warned_user_block_timestamp = %d WHERE uid = %d', time() + $warn_time, $user->uid);
+          if (!db_affected_rows()) {
+            @db_query('INSERT INTO {inactive_users} (uid, warned_user_block_timestamp) VALUES (%d, %d)', $user->uid, time() + $warn_time);
+          }
+          _inactive_user_mail(t('[@sitename] Account inactivity', array('@sitename' => variable_get('site_name', 'drupal'))), variable_get('inactive_user_block_warn_text', _inactive_user_mail_text('block_warn_text')), $warn_time, $user, NULL);
+          watchdog('user', 'user %user warned will be blocked due to inactivity', array('%user' => $user->name), WATCHDOG_NOTICE, l(t('edit user'), "admin/user/edit/$uid"));
+        }
+      }
+    }
+
+    // automatically block users
+    if ($block_time = variable_get('inactive_user_auto_block', 0)) {
+      $result = db_query('SELECT * FROM {users} WHERE ((access <> 0 AND login <> 0 AND access < (%d - %d)) OR (login = 0 AND created < (%d - %d))) AND status <> 0 AND uid <> 1', time(), $block_time, time(), $block_time);
+      while ($user = db_fetch_object($result)) {
+        // don't block user yet if we sent a warning and it hasn't expired
+        if ($user->uid && db_fetch_object(db_query('SELECT uid FROM {inactive_users} WHERE uid = %d AND warned_user_block_timestamp < %d', $user->uid, time())) && ($user->created < (time() - $block_time))) {
+          db_query('UPDATE {users} SET status = 0 WHERE uid = %d', $user->uid);
+
+          // notify user
+          if (variable_get('inactive_user_notify_block', 0)) {
+            if (!db_fetch_object(db_query('SELECT uid FROM {inactive_users} WHERE uid = %d AND notified_user_block = 1', $user->uid))) {
+              db_query('UPDATE {inactive_users} SET notified_user_block = 1 WHERE uid = %d', $user->uid);
+              if (!db_affected_rows()) {
+                @db_query('INSERT INTO {inactive_users} (uid, notified_user_block) VALUES (%d, 1)', $user->uid);
+              }
+              _inactive_user_mail(t('[@sitename] Account blocked due to inactivity', array('@sitename' => variable_get('site_name', 'drupal'))), variable_get('inactive_user_block_notify_text', _inactive_user_mail_text('block_notify_text')), $block_time, $user, NULL);
+              watchdog('user', 'user %user blocked due to inactivity', array('%user' => $user->name), WATCHDOG_NOTICE, l(t('edit user'), "admin/user/edit/$uid"));
+            }
+          }
+
+          // notify admin
+          if (variable_get('inactive_user_notify_block_admin', 0)) {
+            if (!db_fetch_object(db_query('SELECT uid FROM {inactive_users} WHERE uid = %d and notified_admin_block = 1', $user->uid))) {
+              db_query('UPDATE {inactive_users} SET notified_admin_block = 1 WHERE uid = %d', $user->uid);
+              if (!db_affected_rows()) {
+                @db_query('INSERT INTO {inactive_users} (uid, notified_admin_block) VALUES(%d, 1)', $user->uid);
+              }
+              $user_list .= "$user->name ($user->mail) last active on ". format_date($user->access, 'large') .".\n";
+            }
+          }
+        }
+        if ($user_list) {
+          _inactive_user_mail(t('[@sitename] Blocked users', array('@sitename' => variable_get('site_name', 'drupal'))), _inactive_user_mail_text('block_notify_admin_text'), $block_time, NULL, $user_list);
+        unset($user_list);
+        }
+      }
+    }
+
+    // warn users when they are about to be deleted
+    if (($warn_time = variable_get('inactive_user_auto_delete_warn', 0)) &&
+        ($delete_time = variable_get('inactive_user_auto_delete', 0))) {
+      $result = db_query('SELECT * FROM {users} WHERE ((access <> 0 AND login <> 0 AND access < (%d - %d - %d)) OR (login = 0 AND created < (%d - %d - %d))) AND uid <> 1', time(), $warn_time, $delete_time, time(), $warn_time, $delete_time);
+      while ($user = db_fetch_object($result)) {
+        if ($user->uid && !db_fetch_object(db_query('SELECT uid FROM {inactive_users} WHERE uid = %d AND warned_user_delete_timestamp > 0', $user->uid)) && ($user->created < (time() - $warn_time - $delete_time))) {
+          if (variable_get('inactive_user_preserve_content', 1) && _inactive_user_with_content($user->uid)) {
+            $protected = 1;
+          }
+          else {
+            $protected = 0;
+          }
+          db_query('UPDATE {inactive_users} SET warned_user_delete_timestamp = %d AND protected = %d WHERE uid = %d', time() + $warn_time, $protected, $user->uid);
+          if (!db_affected_rows()) {
+            @db_query('INSERT INTO {inactive_users} (uid, warned_user_delete_timestamp, protected) VALUES (%d, %d, %d)', $user->uid, time() + $warn_time, $protected);
+          }
+          if (!$protected) {
+            _inactive_user_mail(t('[@sitename] Account inactivity', array('@sitename' => variable_get('site_name', 'drupal'))), variable_get('inactive_user_delete_warn_text', _inactive_user_mail_text('delete_warn_text')), $warn_time, $user, NULL);
+            watchdog('user', 'user %user warned will be deleted due to inactivity', array('%user' => $user->mail), WATCHDOG_NOTICE, l(t('edit user'), "admin/user/edit/$uid"));
+          }
+        }
+      }
+    }
+
+    // automatically delete users
+    if ($delete_time = variable_get('inactive_user_auto_delete', 0)) {
+      $result = db_query('SELECT * FROM {users} WHERE ((access <> 0 AND login <> 0 AND access < (%d - %d)) OR (login = 0 AND created < (%d - %d))) AND uid <> 1', time(), $delete_time, time(), $delete_time);
+      while ($user = db_fetch_object($result)) {
+        if ($user->uid && ((variable_get('inactive_user_auto_delete_warn', 0) && db_fetch_object(db_query('SELECT uid FROM {inactive_users} WHERE uid = %d AND warned_user_delete_timestamp < %d AND protected <> 1', $user->uid, time()))) || (!variable_get('inactive_user_auto_delete_warn', 0))) && ($user->created < (time() - $delete_time))) {
+          if (variable_get('inactive_user_preserve_content', 1) && _inactive_user_with_content($user->uid)) {
+            // this is a protected user, mark as such
+            db_query('UPDATE {inactive_users} SET protected = 1 WHERE uid = %d', $user->uid);
+            if (!db_affected_rows()) {
+              @db_query('INSERT INTO {inactive_users} (uid, protected) VALUES (%d, 1)', $user->uid, $protected);
+            }
+          }
+          else {
+            // delete the user
+            // not using user_delete() so we can send custom emails and watchdog
+            $array = (array) $user;
+            sess_destroy_uid($user->uid);
+            db_query("DELETE FROM {users} WHERE uid = %d", $user->uid);
+            db_query('DELETE FROM {users_roles} WHERE uid = %d', $user->uid);
+            db_query("DELETE FROM {authmap} WHERE uid = %d", $user->uid);
+            module_invoke_all('user', 'delete', $array, $user);
+            if (variable_get('inactive_user_notify_delete', 0)) {
+              _inactive_user_mail(t('[@sitename] Account removed', array('@sitename' => variable_get('site_name', 'drupal'))), variable_get('inactive_user_delete_notify_text', _inactive_user_mail_text('delete_notify_text')), $delete_time, $user, NULL);
+            }
+            if (variable_get('inactive_user_notify_delete_admin', 0)) {
+              $user_list .= "$user->name ($user->mail) last active on ". format_date($user->access, 'large') .".\n";
+            }
+            watchdog('user', 'user %user deleted due to inactivity', array('%user' => $user->name));
+          }
+        }
+      }
+      if ($user_list) {
+        _inactive_user_mail(t('[@sitename] Deleted accounts', array('@sitename' => variable_get('site_name', 'drupal'))), _inactive_user_mail_text('delete_notify_admin_text'), $delete_time, NULL, $user_list);
+        unset($user_list);
+      }
+    }
+  }
+}
+
+/**
+ * Slighty modified from format_interval() in common.inc to include months
+ */
+function _format_interval($timestamp, $granularity = 2) {
+  $units = array('1 year|@count years' => 31536000, '1 month|@count months' => 2592000, '1 week|@count weeks' => 604800, '1 day|@count days' => 86400, '1 hour|@count hours' => 3600, '1 min|@count min' => 60, '1 sec|@count sec' => 1);
+  foreach ($units as $key => $value) {
+    $key = explode('|', $key);
+    if ($timestamp >= $value) {
+      $output .= ($output ? ' ' : '') . format_plural(floor($timestamp / $value), $key[0], $key[1]);
+      $timestamp %= $value;
+      $granularity--;
+    }
+
+    if ($granularity == 0) {
+      break;
+    }
+  }
+  return ($output) ? $output : t('0 sec');
+}
+
+/**
+ * Get administrator e-mail address(es)
+ */
+function _inactive_user_admin_mail() {
+  $admin_mail = db_result(db_query('SELECT mail FROM {users} WHERE uid = 1'));
+  return variable_get('inactive_user_admin_email', variable_get('site_mail', $admin_mail));
+}
+
+function inactive_user_mail($key, &$message, $params) {
+  $message['subject'] = $params['subject'];
+  $message['body'][] = $params['message'];
+}
+
+/**
+ * Wrapper for user_mail
+ */
+function _inactive_user_mail($subject, $message, $period, $user = NULL, $user_list = NULL) {
+  global $base_url;
+  if ($user_list) {
+    $to = _inactive_user_admin_mail();
+    $variables = array(
+      '%period' => _format_interval($period),
+      '%sitename' => variable_get('site_name', 'drupal'),
+      '%siteurl' => $base_url,
+      "%userlist" => $user_list
+    );
+  }
+  elseif (isset($user->uid)) {
+    $to = $user->mail;
+    $variables = array(
+      '%username' => $user->name,
+      '%useremail' => $user->mail,
+      '%lastaccess' => empty($user->access) ? t('never') : format_date($user->access, 'custom', 'M d, Y'),
+      '%period' => _format_interval($period),
+      '%sitename' => variable_get('site_name', 'drupal'),
+      '%siteurl' => $base_url
+    );
+  }
+  if ($to) {
+    $from = variable_get('site_mail', ini_get('sendmail_from'));
+    $headers = array(
+      'Reply-to' => $from,
+      'Return-path' => "<$from>",
+      'Errors-to' => $from
+    );
+    $recipients = explode(',', $to);
+    foreach ($recipients as $recipient) {
+      $recipient = trim($recipient);
+      $params = array(
+        'subject' => $subject,
+        'message' => strtr($message, $variables),
+        'headers' => $headers
+      );
+      $user = user_load(array('mail' => $recipient));
+      $language = user_preferred_language($account);
+      drupal_mail('inactive_user', 'inactive_user_notice', $recipient, $language, $params, $from, TRUE);
+    }
+  }
+}
+
+/**
+ * Some default e-mail notification strings
+ */
+function _inactive_user_mail_text($message) {
+  switch ($message) {
+    case 'notify_text':
+      return t("Hello %username,\n\n  We haven't seen you at %sitename since %lastaccess, and we miss you!  Please come back and visit us soon at %siteurl.\n\nSincerely,\n  %sitename team");
+      break;
+    case 'notify_admin_text':
+      return t("Hello,\n\n  This automatic notification is to inform you that the following users haven't been seen on %sitename for more than %period:\n\n%userlist");
+      break;
+    case 'block_warn_text':
+      return t("Hello %username,\n\n  We haven't seen you at %sitename since %lastaccess, and we miss you!  This automatic message is to warn you that your account will be disabled in %period unless you come back and visit us before that time.\n\n  Please visit us at %siteurl.\n\nSincerely,\n  %sitename team");
+      break;
+    case 'block_notify_text':
+      return t("Hello %username,\n\n  This automatic message is to notify you that your account on %sitename has been automatically disabled due to no activity for more than %period.\n\n  Please visit us at %siteurl to have your account re-enabled.\n\nSincerely,\n  %sitename team");
+      break;
+    case 'block_notify_admin_text':
+      return t("Hello,\n\n  This automatic notification is to inform you that the following users have been automatically blocked due to inactivity on %sitename for more than %period:\n\n%userlist");
+      break;
+    case 'delete_warn_text':
+      return t("Hello %username,\n\n  We haven't seen you at %sitename since %lastaccess, and we miss you!  This automatic message is to warn you that your account will be completely removed in %period unless you come back and visit us before that time.\n\n  Please visit us at %siteurl.\n\nSincerely,\n  %sitename team");
+      break;
+    case 'delete_notify_text':
+      return t("Hello %username,\n\n  This automatic message is to notify you that your account on %sitename has been automatically removed due to no activity for more than %period.\n\n  Please visit us at %siteurl if you would like to create a new account.\n\nSincerely,\n  %sitename team");
+      break;
+    case 'delete_notify_admin_text':
+      return t("Hello,\n\n  This automatic notification is to inform you that the following users have been automatically deleted due to inactivity on %sitename for more than %period:\n\n%userlist");
+      break;
+  }
+}
+
+/**
+ * Returns 1 if the user has ever created a node or a comment
+ * The settings of inactive_user.module allow to protect such users from deletion
+ */
+function _inactive_user_with_content($uid) {
+  return (db_fetch_object(db_query('SELECT uid FROM {node} WHERE uid = %d', $uid)) || db_fetch_object(db_query('SELECT uid FROM {comments} WHERE uid = %d', $uid)));
+}
+

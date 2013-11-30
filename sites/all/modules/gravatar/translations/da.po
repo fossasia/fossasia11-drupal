@@ -1,0 +1,323 @@
+# $Id: da.po,v 1.1.2.1 2009/04/26 18:20:16 davereid Exp $
+#
+# Danish translation for drupal-gravatar
+# Copyright (c) 2009 Rosetta Contributors and Canonical Ltd 2009
+# This file is distributed under the same license as the drupal-gravatar package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2009.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: drupal-gravatar\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2009-01-03 17:37-0600\n"
+"PO-Revision-Date: 2009-03-15 02:44+0000\n"
+"Last-Translator: Mikkel Høgh <Unknown>\n"
+"Language-Team: Danish <da@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2009-04-26 18:16+0000\n"
+"X-Generator: Launchpad (build Unknown)\n"
+
+#: gravatar.admin.inc:20
+msgid "Display"
+msgstr "Visning"
+
+#: gravatar.admin.inc:24
+msgid "Image size"
+msgstr "Billedstørrelse"
+
+#: gravatar.admin.inc:25
+msgid ""
+"The preferred image size (maximum 512 pixels). This setting can be adjusted "
+"in the <a href=\"@user-picture-link\">user pictures settings</a>."
+msgstr ""
+"Den foretrukne billedstørrelse (maks. 512 pxels). Denne indstilling kan også "
+"tilbasses ved <a href=\"@user-picture-link\">indstillinger for "
+"brugerbilleder</a>."
+
+#: gravatar.admin.inc:26
+msgid "@sizex@size pixels"
+msgstr "@sizex@size pixels"
+
+#: gravatar.admin.inc:32
+msgid "Image maturity filter"
+msgstr "Filtrering af stødende billeder"
+
+#: gravatar.admin.inc:34
+msgid "G: Suitable for display on all websites with any audience type."
+msgstr "G: Passende på alle websteder, for ethvert publikum."
+
+#: gravatar.admin.inc:35
+msgid ""
+"PG: May contain rude gestures, provocatively dressed individuals, the lesser "
+"swear words, or mild violence."
+msgstr ""
+"PG: Kan indeholde stødende gestik, provokerende påklædning, samt skældsord "
+"eller vold i mindre grad."
+
+#: gravatar.admin.inc:36
+msgid ""
+"R: May contain such things as harsh profanity, intense violence, nudity, or "
+"hard drug use."
+msgstr ""
+"R: Kan indeholde ting som voldsomme skældsord, vold, nøgenhed eller "
+"stofmisbrug."
+
+#: gravatar.admin.inc:37
+msgid ""
+"X: May contain hardcore sexual imagery or extremely disturbing violence."
+msgstr "X: Kan indholde stærkt pornografiske billeder eller grov vold."
+
+#: gravatar.admin.inc:42
+msgid "Default image"
+msgstr "Standardbillede"
+
+#: gravatar.admin.inc:43
+msgid ""
+"Specifies an image that should be returned if either the requested e-mail "
+"address has no associated gravatar, or that gravatar has a rating higher "
+"than is allowed by the maturity filter."
+msgstr ""
+"Angiver et billede der skal vises hvis enten den pågældende e-mail-adresse "
+"ikke har nogen Gravatar tilknyttet eller den Gravatar har en dårligere "
+"bedømmelse end filtrering af stødende billeder tillader."
+
+#: gravatar.admin.inc:45
+msgid "Global default user image"
+msgstr "Globalt standard-brugerbillede"
+
+#: gravatar.admin.inc:46
+msgid "Module default image (white background)"
+msgstr "Modulets standardbillede (hvid baggrund)"
+
+#: gravatar.admin.inc:47
+msgid "Module default image (transparent background)"
+msgstr "Modulets standardbillede (transparent baggrund)"
+
+#: gravatar.admin.inc:48
+msgid "Gravatar.com identicon (generated)"
+msgstr "Gravatar.com identicon (automatisk genereret)"
+
+#: gravatar.admin.inc:49
+msgid "Gravatar.com wavatar (generated)"
+msgstr "Gravatar.com wavatar (automatisk genereret)"
+
+#: gravatar.admin.inc:50
+msgid "Gravatar.com monsterid (generated)"
+msgstr "Gravatar.com monsterid (automatisk genereret)"
+
+#: gravatar.admin.inc:51
+msgid "Gravatar.com logo"
+msgstr "Gravatar.com logo"
+
+#: gravatar.admin.inc:53;53
+msgid "Default picture example"
+msgstr "Eksempel på standarbillede"
+
+#: gravatar.admin.inc:74
+msgid ""
+"This setting can be adjusted in the <a href=\"@user-picture-link\">user "
+"pictures settings</a>."
+msgstr ""
+"Denne indstilling kan også tilbasses ved <a href=\"@user-picture-"
+"link\">indstillinger for brugerbilleder</a>."
+
+#: gravatar.admin.inc:78
+msgid "There currently is not a global default user picture specified."
+msgstr "Der er pt. ikke angivet et globalt standard-brugerbillede."
+
+#: gravatar.admin.inc:95
+msgid "Advanced"
+msgstr "Avanceret"
+
+#: gravatar.admin.inc:96
+msgid "Do not modify these options unless you know what you are doing!"
+msgstr ""
+"Ændr ikke disse indstillinger, med mindre du er sikker på hvad du gør!"
+
+#: gravatar.admin.inc:102
+msgid "Gravatar URL"
+msgstr "Gravatar URL"
+
+#: gravatar.module:63
+msgid "Global settings"
+msgstr "Globale indstillinger"
+
+#: gravatar.module:64
+msgid ""
+"Go to the !gravatar_integration_settings and enable gravatar integration. If "
+"enabled, all user images will be replaced with gravatars. If disabled, the "
+"site's default user picture settings are used. The site administrator may "
+"set a default image width, the maximum allowed maturity level, and select "
+"the site's default user image, the default user image provided by this "
+"module, or the image provided by gravatar.com, for the case no avatar could "
+"be retrieved."
+msgstr ""
+"Gå til !gravatar_integration_settings og slå Gravatar integration til. Hvis "
+"det er slået til vil alle brugerbilleder blive erstattet med Gravatars. Hvis "
+"ikke slået til vil sidens standard-brugerbillede blive brugt. Sidens "
+"administrator kan vælge en standard for højde, bredde og stødende indhold og "
+"vælge et standardbillede."
+
+#: gravatar.module:64
+msgid "gravatar integration settings"
+msgstr "Indstillinger for Gravatar-integration"
+
+#: gravatar.module:65
+msgid "Per user settings"
+msgstr "Per-bruger indstillinger"
+
+#: gravatar.module:66
+msgid ""
+"In the user profile page, each authenticated user can choose to use his or "
+"her gravatar, or the uploaded user image. There the user may also enter an "
+"alternative email address for which to retrieve the registered gravatar."
+msgstr ""
+"På brugerprofilsiden kan hver enkelt bruger vælge at bruge sin Gravatar "
+"eller uploade et billede. Brugeren kan også skrive en alternativ e-mail-"
+"adresse der bruges når der hentes billeder fra Gravatar."
+
+#: gravatar.module:74
+msgid "Please check the following potential issues: !issues"
+msgstr "Check venligst følgende potentielle problemer: !issues"
+
+#: gravatar.module:151
+msgid "@user's picture"
+msgstr "@users billede"
+
+#: gravatar.module:151
+msgid "Anonymous"
+msgstr "Anonym"
+
+#: gravatar.module:155
+msgid "View user profile."
+msgstr "Se brugerprofil"
+
+#: gravatar.module:160
+msgid "View user website."
+msgstr "Se brugerens hjemmeside"
+
+#: gravatar.module:172
+msgid "Please enter a valid email address."
+msgstr "Skriv venligst en gyldig e-mail-adresse"
+
+#: gravatar.module:183
+msgid ""
+"If you have a <a href=\"@gravatar-website\">Gravatar</a> account, used to "
+"display your avatar."
+msgstr ""
+"Hvis du har en <a href=\"@gravatar-website\">Gravatar</a>-konto, bruges "
+"denne til at hente dit brugerbillede."
+
+#: gravatar.module:202
+msgid ""
+"If you have a <a href=\"@gravatar-check\">valid gravatar</a> for your e-mail "
+"address, it will replace your current user picture."
+msgstr ""
+"Hvis du har en <a href=\"@gravatar-check\">gyldig Gravatar</a> for din e-"
+"mail-adresse, vil denne erstatte dit nuværende brugerbillede."
+
+#: gravatar.module:207
+msgid "Replace my user picture with the gravatar for my e-mail address."
+msgstr ""
+"Erstat mit brugerbillede med den Gravatar der hører til min e-mail-adresse."
+
+#: gravatar.module:335;390;0
+msgid "gravatar"
+msgstr "Gravatar"
+
+#: gravatar.module:335
+msgid "Hit unwanted condition in _gravatar_get_default_image."
+msgstr ""
+
+#: gravatar.module:390
+msgid "Default variable for %variable not found."
+msgstr "Standard-variabel for %variable ikke fundet."
+
+#: gravatar.module:53
+msgid "administer gravatar"
+msgstr "indstil Gravatar"
+
+#: gravatar.module:53 gravatar.install:54
+msgid "use gravatar"
+msgstr "brug Gravatar"
+
+#: gravatar.module:53
+msgid "disable own gravatar"
+msgstr "slå egen Gravatar fra"
+
+#: gravatar.module:85 gravatar.install:85
+msgid "Gravatar"
+msgstr "Gravatar"
+
+#: gravatar.module:86
+msgid "Administer gravatar integration."
+msgstr "Indstil Gravatar integration"
+
+#: gravatar.install:14
+msgid ""
+"Cache table for the Gravatar module to store already processed and cached "
+"images."
+msgstr ""
+"Cache-tabel for Gravatar-modulet for at gemme allerede behandlede billeder."
+
+#: gravatar.install:48
+msgid ""
+"Make sure <a href=\"@user-settings-link\">user picture support</a> is "
+"enabled to allow gravatar integration."
+msgstr ""
+"Check at <a href=\"@user-settings-link\">brugerbilleder</a> er slået til for "
+"at bruge Gravatar integration."
+
+#: gravatar.install:54
+msgid ""
+"There are no user roles that have the <a href=\"@permissions-"
+"link\">%permission permission</a>."
+msgstr ""
+"Der er ingen brugerroller der har <a href=\"@permissions-link\">%permission "
+"tilladelsen</a>."
+
+#: gravatar.install:62
+msgid ""
+"Make sure user pictures are enabled in your <a href=\"@theme-"
+"settings\">theme</a> settings."
+msgstr ""
+"Check at brugerbilleder er slået til i dine <a href=\"@theme-"
+"settings\">theme-indstillinger</a>."
+
+#: gravatar.install:69
+msgid ""
+"You have selected the global default user picture for the default gravatar "
+"picture, but you have not specified a <a href=\"@user-picture-link\">global "
+"default user picture</a>."
+msgstr ""
+"Du har valgt det globale standard-brugerbillede som standardbillede for "
+"Gravatar, men du har ikke valt et <a href=\"@user-picture-link\">globalt "
+"standard-brugerbillede</a>."
+
+#: gravatar.install:78
+msgid ""
+"Your <a href=\"@user-picture-link\">global default user picture</a> is too "
+"large (@widthx@height pixels) and may not display properly. Please resize it "
+"to fit the <a href=\"@user-picture-settings-link\">preferred user picture "
+"size</a> (@size pixels)."
+msgstr ""
+"Dit <a href=\"@user-picture-link\">globalt standard-brugerbillede</a> er for "
+"stort (@widthx@height pixels) og vil muligvis ikke blive vist rigtigt. "
+"Skalér det venligst ned så det passer under <a href=\"@user-picture-settings-"
+"link\">ønsket størrelse for brugerbilleder</a> (@size pixels)."
+
+#: gravatar.install:86
+msgid "Potential issues"
+msgstr "Potentielle problemer"
+
+#: gravatar.info:0
+msgid "Gravatar integration"
+msgstr "Gravatar integration"
+
+#: gravatar.info:0
+msgid ""
+"Integrate Gravatar pictures registered at Gravatar.com in Drupal sites"
+msgstr ""
+"Brug Gravatar billeder registreret på Gravatar.com på dit Drupal site."

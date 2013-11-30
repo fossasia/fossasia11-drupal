@@ -1,0 +1,158 @@
+
+/* IE7 fixes
+-------------------------------------------------------------- */
+/* limit legend width to text length */
+form fieldset legend {
+  display: inline-block !important;
+}
+
+/* fluid: fix list shift-on-hover bug */
+.grid-type-fluid .block-wrapper {
+  height: 1%;
+}
+
+/* fix primary menu dropping behind content below */
+.primary-menu .primary-menu-inner {
+  position: static;
+}
+
+/* fluid grid16: row/group container widths, minus 0.1% to prevent float under */
+.grid-type-fluid .grid16-1 {width: 6.15%;}
+.grid-type-fluid .grid16-2 {width: 12.4%;}
+.grid-type-fluid .grid16-3 {width: 18.65%;}
+.grid-type-fluid .grid16-4 {width: 24.9%;}
+.grid-type-fluid .grid16-5 {width: 31.15%;}
+.grid-type-fluid .grid16-6 {width: 37.4%;}
+.grid-type-fluid .grid16-7 {width: 43.65%;}
+.grid-type-fluid .grid16-8 {width: 49.9%;}
+.grid-type-fluid .grid16-9 {width: 56.15%;}
+.grid-type-fluid .grid16-10 {width: 62.4%;}
+.grid-type-fluid .grid16-11 {width: 68.65%;}
+.grid-type-fluid .grid16-12 {width: 74.9%;}
+.grid-type-fluid .grid16-13 {width: 81.15%;}
+.grid-type-fluid .grid16-14 {width: 87.4%;}
+.grid-type-fluid .grid16-15 {width: 93.65%;}
+.grid-type-fluid .grid16-16 {width: 99.9%;}
+
+/* fluid grid16: block indents, minus 0.1% to prevent float under */
+.grid-type-fluid .grid16-indent-1 {margin-left: 6.15%;}
+.grid-type-fluid .grid16-indent-2 {margin-left: 12.4%;}
+.grid-type-fluid .grid16-indent-3 {margin-left: 18.65%;}
+.grid-type-fluid .grid16-indent-4 {margin-left: 24.9%;}
+.grid-type-fluid .grid16-indent-5 {margin-left: 31.15%;}
+.grid-type-fluid .grid16-indent-6 {margin-left: 37.4%;}
+.grid-type-fluid .grid16-indent-7 {margin-left: 43.65%;}
+.grid-type-fluid .grid16-indent-8 {margin-left: 49.9%;}
+.grid-type-fluid .grid16-indent-9 {margin-left: 56.15%;}
+.grid-type-fluid .grid16-indent-10 {margin-left: 62.4%;}
+.grid-type-fluid .grid16-indent-11 {margin-left: 68.65%;}
+.grid-type-fluid .grid16-indent-12 {margin-left: 74.9%;}
+.grid-type-fluid .grid16-indent-13 {margin-left: 81.15%;}
+.grid-type-fluid .grid16-indent-14 {margin-left: 87.4%;}
+.grid-type-fluid .grid16-indent-15 {margin-left: 93.65%;}
+
+/* fluid grid12: row/group container widths, minus 0.1% to prevent float under */
+.grid-type-fluid .grid12-1 {width: 8.23%;}
+.grid-type-fluid .grid12-2 {width: 16.57%;}
+.grid-type-fluid .grid12-3 {width: 24.9%;}
+.grid-type-fluid .grid12-4 {width: 33.23%;}
+.grid-type-fluid .grid12-5 {width: 41.57%;}
+.grid-type-fluid .grid12-6 {width: 49.9%;}
+.grid-type-fluid .grid12-7 {width: 58.23%;}
+.grid-type-fluid .grid12-8 {width: 66.57%;}
+.grid-type-fluid .grid12-9 {width: 74.9%;}
+.grid-type-fluid .grid12-10 {width: 83.23%;}
+.grid-type-fluid .grid12-11 {width: 91.57%;}
+.grid-type-fluid .grid12-12 {width: 99.9%;}
+
+/* fluid grid12: block indents, minus 0.1% to prevent float under */
+.grid-type-fluid .grid12-indent-1 {margin-left: 8.23%;}
+.grid-type-fluid .grid12-indent-2 {margin-left: 16.57%;}
+.grid-type-fluid .grid12-indent-3 {margin-left: 24.9%;}
+.grid-type-fluid .grid12-indent-4 {margin-left: 33.23%;}
+.grid-type-fluid .grid12-indent-5 {margin-left: 41.57%;}
+.grid-type-fluid .grid12-indent-6 {margin-left: 49.9%;}
+.grid-type-fluid .grid12-indent-7 {margin-left: 58.23%;}
+.grid-type-fluid .grid12-indent-8 {margin-left: 66.57%;}
+.grid-type-fluid .grid12-indent-9 {margin-left: 74.9%;}
+.grid-type-fluid .grid12-indent-10 {margin-left: 83.23%;}
+.grid-type-fluid .grid12-indent-11 {margin-left: 91.57%;}
+
+/* grid mask overlay opacity fix */
+#grid-mask-overlay {
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=75);
+}
+
+/* ordered list margin fix */
+.block ol {
+  margin-left: 2em;
+}
+
+/* primary menu dropping behind other menus fix */
+.primary-menu {
+  z-index: 20;
+}
+
+
+/* Skinr styles
+-------------------------------------------------------------- */
+/* fix for inline-block centering */
+.fusion-center-content .inner ul.menu {
+  display: inline-block;
+}
+
+.fusion-center-content .inner ul.menu {
+  display: inline;
+}
+
+
+/* User login block
+-------------------------------------------------------------- */
+/* fix positioning bug */
+.fusion-horiz-login #block-user-0 #user-login-form label {
+  position: relative;
+}
+
+/* eliminate list item leading spacing */
+.fusion-horiz-login #block-user-0 .item-list ul {
+  list-style-position: outside;
+}
+
+/* reduce button size */
+.fusion-horiz-login #block-user-0 #user-login-form input.form-submit {
+  padding: 0 7px;
+}
+
+/* prevent "What is OpenID?" from breaking layout */
+.fusion-horiz-login #block-user-0 #edit-openid-identifier-wrapper  {
+  position: relative;
+}
+
+.fusion-horiz-login #block-user-0 #edit-openid-identifier-wrapper .description {
+  right: 3px;
+  position: absolute;
+  top: 20px;
+}
+
+
+/* Superfish menu
+-------------------------------------------------------------- */
+/* fix z-index show-behind bug */
+ul.sf-menu li,
+.sf-menu li:hover {
+  z-index: 100;
+}
+
+/* prevent menu items stacking*/
+ul.sf-menu li a {
+  float: left;
+}
+
+
+/* Helper classes
+-------------------------------------------------------------- */
+/* clear floats after last element in a container */
+.clearfix,
+.clearfix .inner {
+  zoom: 1;
+}

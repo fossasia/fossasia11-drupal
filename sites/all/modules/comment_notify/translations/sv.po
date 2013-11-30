@@ -1,0 +1,289 @@
+# Swedish translation of comment_notify (6.x-1.x-dev)
+# Copyright (c) 2009 by the SWedish translation team
+# Generated from files:
+#  comment_notify.module,v 1.53 2009/03/03 14:34:26 greggles
+#  comment_notify.install,v 1.13 2009/03/03 14:26:17 greggles
+#  comment_notify.info,v 1.3 2008/08/06 23:27:08 greggles
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: comment_notify (6.x-1.x-dev)\n"
+"POT-Creation-Date: 2009-03-04 19:45+0100\n"
+"PO-Revision-Date: 2009-03-04 19:46+0100\n"
+"Language-Team: Swedish\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+"Last-Translator: PatrikN <patrik@ment.se>\n"
+"X-Poedit-Language: Swedish\n"
+"X-Poedit-Country: SWEDEN\n"
+
+#: comment_notify.module:162
+msgid "Settings"
+msgstr "Inställningar"
+
+#: comment_notify.module:171
+msgid "Unsubscribe"
+msgstr "Avbryta prenumeration"
+
+#: comment_notify.module:61
+msgid "Comment follow-up e-mail notification for anonymous and registered users."
+msgstr "Kommentar uppföljande epost meddelande för anonyma och registrerade användare."
+
+#: comment_notify.module:587,305
+msgid "No notifications"
+msgstr "Inga meddelanden"
+
+#: comment_notify.module:209
+msgid "Your comment follow-up notification for this post was disabled. Thanks."
+msgstr "Din kommentar uppföljnings meddelanden för denna post är inaktiverade. Tack."
+
+#: comment_notify.module:210
+msgid "Disabled comment follow-up notification feature for this post."
+msgstr "Inaktiverade kommentar uppföljande meddelanden för denna post."
+
+#: comment_notify.module:154,213
+msgid "Comment notify"
+msgstr "Kommentar meddelande"
+
+#: comment_notify.module:232
+msgid "If you want to subscribe to comments you must supply a valid e-mail address."
+msgstr "Om du vill prenumerera på kommentarer måste du ange en giltig epost-adress."
+
+#: comment_notify.module:288
+msgid "Comment follow-up notification settings"
+msgstr "Kommentar uppföljnings meddelande inställningar"
+
+#: comment_notify.module:295
+msgid "Receive node follow-up notification e-mails"
+msgstr "Få nod uppföljnings epost"
+
+#: comment_notify.module:297
+msgid "Check this box to receive an e-mail notification for follow-ups on your nodes (pages, forum topics, etc). You can not disable notifications for individual threads."
+msgstr "Kryssa för denna ruta för att få epost-meddelande om uppföljning på dina poster (sidor, forum ämnen, etc). Du kan inte inaktivera meddelande för individuella trådar."
+
+#: comment_notify.module:302
+msgid "Receive comment follow-up notification e-mails"
+msgstr "Få kommentar uppföljningsmeddelande"
+
+#: comment_notify.module:309
+msgid "Check this box to receive e-mail notification for follow-up comments to comments you posted. You can later disable this on a post-by-post basis... so if you leave this to YES, you can still disable follow-up notifications for comments you don't want follow-up mails anymore - i.e. for very popular posts."
+msgstr "Kryssa för denna ruta för att få epost-meddelande om uppföljning på dina kommentarer. Du kan senare inaktivera detta baserat per post... som om du lämnar detta som JA, så kan du fortfarande inaktivera uppföljningsmedelande för kommentarer du inte vill ha meddelande om - ex.v. väldigt populära poster."
+
+#: comment_notify.module:440,391
+msgid "!site :: new comment for your post."
+msgstr "!site :: ny kommentar för din post."
+
+#: comment_notify.module:479
+msgid "source comment"
+msgstr "Ursprungskommentar"
+
+#: comment_notify.module:506
+msgid "Email to unsubscribe"
+msgstr "Epostadress att ta bort prenumeration från"
+
+#: comment_notify.module:510
+msgid "Unsubscribe this e-mail"
+msgstr "Ta bort denna epostadress"
+
+#: comment_notify.module:532
+msgid "There were no active comment notifications for that email."
+msgstr "Det fanns inga aktiva kommentarsmeddelanden för den eposten."
+
+#: comment_notify.module:557
+msgid "@content-type"
+msgstr "@content-type"
+
+#: comment_notify.module:563
+msgid "Anonymous commenters have the permission to subscribe to comments but cannot leave their contact infromation on the following content types: !types.  You should either disable subscriptions on those types here, revoke the permission for anonymous users, or enable anonymous users to leave their contact information in the comment settings."
+msgstr "Anonyma kommentatorer har rättigheter att prenumerera på kommentarer men kan inte lämna kontaktinformationj få följande innehållstyper: !types. Du bör antingen inaktivera prenumerationer för de typerna, ta bort rättigheterna för anynoma användare, eller låta anonyma användare lämna sin kontaktinformation i kommentarsinställningarna."
+
+#: comment_notify.module:568
+msgid "Content types to enable for comment notification"
+msgstr "Innehållstyper att aktivera kommentarsmeddelanden för"
+
+#: comment_notify.module:571
+msgid "Comments on content types enabled here will have the option of comment notification."
+msgstr "Kommentarer på innehållstyper aktiverade här kommer ha möjlighet till kommentarsmeddelanden"
+
+#: comment_notify.module:576
+msgid "Available subscription modes"
+msgstr "Tillgängliga prenumerations lägen"
+
+#: comment_notify.module:579
+msgid "Choose which notification subscription styles are available for users"
+msgstr "Välj vilka meddelande prenumerationer som  är tillgängliga för användarna"
+
+#: comment_notify.module:594
+msgid "Default state for the notification selection box for anonymous users"
+msgstr "Förvalt värde för meddelandeval rutan för anonyma användare"
+
+#: comment_notify.module:602
+msgid "Default state for the notification selection box for registered users."
+msgstr "Förvalt värde för meddelandeval rutan för registrerade användare."
+
+#: comment_notify.module:605
+msgid "This flag presets the flag for the follow-up notification on the form that anon users will see when posting a comment"
+msgstr "DEtta val sätter valet för uppföljande meddelanden i formuläret som anonyma användare ser när de postar en kommentar"
+
+#: comment_notify.module:612
+msgid "Default mail text for sending out notifications to commenters"
+msgstr "Förvald eposttext för meddelande till kommentatorer"
+
+#: comment_notify.module:613
+msgid ""
+"You can use the following variables to be replaced:\n"
+"      <ul>\n"
+"      <li>!commname = the username who posted the comment\n"
+"      <li>!commtext = the text of the posted comment\n"
+"      <li>!commsubj = the subject of the posted comment\n"
+"      <li>!comment_url = the full url of the post and comment - note: if you have paging enabled, this does not work correct - set your max comments per page so that all fit on one page or reverse order them\n"
+"      <li>!node_title = the title of the node that was commented on\n"
+"      <li>!node_teaser = the teaser of the node that was commented on\n"
+"      <li>!node_body = the body of the node that was commented on\n"
+"      <li>!mission = site_mission text\n"
+"      <li>!name = username receiving the alert\n"
+"      <li>!site = your site\n"
+"      <li>!uri = base_url of site\n"
+"      <li>!uri_brief = base_url of site w/o http\n"
+"      <li>!date = the current time\n"
+"      <li>!login_uri  uri to login the user\n"
+"      <li>!edit_uri = uri to edit user profile\n"
+"      <li>!link1 the QUICKLINK to disable future follow-up otifications for the user\n"
+"      </ul>"
+msgstr ""
+"Du kan använda följande variabler för ersättning:\n"
+"      <ul>\n"
+"      <li>!commname = användarnamn på den som postade kommentaren\n"
+"      <li>!commtext = text för postade postade kommentaren\n"
+"      <li>!commsubj = rubrik för postade postade kommentaren\n"
+"      <li>!comment_url = fulla urlen för den postade kommentaren - notis: om du har paging aktiverat, så kommer detta inte att fungera korrekt - sätt ditt max antal kommentarer per sida så att alla får plats på en sida eller sortera de baklänges\n"
+"      <li>!node_title = titel på den nod som kommenterades\n"
+"      <li>!node_teaser = teaser för den nod som kommenterades\n"
+"      <li>!node_body = body för den nod som kommenterades\n"
+"      <li>!mission = site_mission text\n"
+"      <li>!name = användarnamn på mottagaren\n"
+"      <li>!site = din site\n"
+"      <li>!uri = base_url av siten\n"
+"      <li>!uri_brief = base_url av siten utan http\n"
+"      <li>!date = aktuell tid\n"
+"      <li>!login_uri  uri för att logga in\n"
+"      <li>!edit_uri = uri för att redigera användarens profil\n"
+"      <li>!link1 snabblänken för att inaktivera kommande meddelanden för användaren\n"
+"      </ul>"
+
+#: comment_notify.module:642
+msgid "Default mail text for sending out the notifications to node authors"
+msgstr "Förvald eposttext för meddelande till nodens författare"
+
+#: comment_notify.module:643
+msgid ""
+"You can use the following variables to be replaced:\n"
+"      <ul>\n"
+"      <li>!commname = the username who posted the comment\n"
+"      <li>!commtext = the text of the posted comment\n"
+"      <li>!commsubj = the subject of the posted comment\n"
+"      <li>!comment_url = the full url of the post and comment - note: if you have paging enabled, this does not work correct - set your max comments per page so that all fit on one page or reverse order them\n"
+"      <li>!node_title = the title of the node that was commented on\n"
+"      <li>!node_teaser = the teaser of the node that was commented on\n"
+"      <li>!node_body = the body of the node that was commented on\n"
+"      <li>!mission = site_mission text\n"
+"      <li>!name = username receiving the alert\n"
+"      <li>!site = your site\n"
+"      <li>!uri = base_url of site\n"
+"      <li>!uri_brief = base_url of site w/o http\n"
+"      <li>!date = the current time\n"
+"      <li>!login_uri  uri to login the user\n"
+"      <li>!edit_uri = uri to edit user profile\n"
+"      </ul>"
+msgstr ""
+"Du kan använda följande variabler för ersättning:\n"
+"      <ul>\n"
+"      <li>!commname = användarnamn på den som postade kommentaren\n"
+"      <li>!commtext = text för postade postade kommentaren\n"
+"      <li>!commsubj = rubrik för postade postade kommentaren\n"
+"      <li>!comment_url = fulla urlen för den postade kommentaren - notis: om du har paging aktiverat, så kommer detta inte att fungera korrekt - sätt ditt max antal kommentarer per sida så att alla får plats på en sida eller sortera de baklänges\n"
+"      <li>!node_title = titel på den nod som kommenterades\n"
+"      <li>!node_teaser = teaser för den nod som kommenterades\n"
+"      <li>!node_body = body för den nod som kommenterades\n"
+"      <li>!mission = site_mission text\n"
+"      <li>!name = användarnamn på mottagaren\n"
+"      <li>!site = din site\n"
+"      <li>!uri = base_url av siten\n"
+"      <li>!uri_brief = base_url av siten utan http\n"
+"      <li>!date = aktuell tid\n"
+"      <li>!login_uri  uri för att logga in\n"
+"      <li>!edit_uri = uri för att redigera användarens profil\n"
+"      </ul>"
+
+#: comment_notify.module:535
+msgid "Email unsubscribed from 1 comment notification."
+msgid_plural "Email unsubscribed from @count comment notifications."
+msgstr[0] "Epost borttagen från 1 meddelande prenumeration."
+msgstr[1] "Epost brottagen från @count meddelande prenumerationer."
+
+#: comment_notify.module:145
+msgid "administer comment notify"
+msgstr "administrera kommentars meddelanden"
+
+#: comment_notify.module:145
+msgid "subscribe to comments"
+msgstr "prenumerera på kommentarer"
+
+#: comment_notify.module:163,155
+msgid "Configure settings for e-mails about new comments."
+msgstr "Konfigurationsinställningar för epost om nya kommentarer."
+
+#: comment_notify.module:172
+msgid "Unsubscribe an email from all notifications."
+msgstr "Ta bort en epost från all meddelanden."
+
+#: comment_notify.module:180
+msgid "comment notify"
+msgstr "comment notify"
+
+#: comment_notify.module:0,474
+msgid "comment_notify"
+msgstr "comment_notify"
+
+#: comment_notify.install:41
+msgid "Stores information about which commenters on the site have subscriped to followup emails."
+msgstr "Spara information om vilka kommentatorer på siten som prenumererar på meddelanden."
+
+#: comment_notify.info:0
+msgid "Comment Notify"
+msgstr "Comment Notify"
+
+#: comment_notify.info:0
+msgid "Comment follow-up e-mail notification for anonymous as well as registered users."
+msgstr "Kommentarmeddelanden för anonyma och registrerade användare."
+
+#: comment_notify.module:588,581,306,88
+msgid "All comments"
+msgstr "Alla kommentarer"
+
+#: comment_notify.module:589,582,307,89
+msgid "Replies to my comment"
+msgstr "Svar på min kommentar"
+
+#: comment_notify.module:114
+msgid "Notify me when new comments are posted"
+msgstr "Meddela mig när nya kommentarer postas."
+
+#: comment_notify.module:474
+msgid "Notified: !user_mail"
+msgstr "Meddelat: !user_mail"
+
+#: comment_notify.install:197
+msgid "For some reason the {comment_notify_user_settings} table was not properly created, and so per-user comment_notify settings could not be copied from {users}.data.  You will need to run this update again."
+msgstr "Av någon anledning var {comment_notify_user_settings} inte korrekt skapad och således kunde inte användarbaserade inställningar kopieras från {users}.data. Du behöver köra den här uppdateringen en gång till."
+
+#: comment_notify.install:248
+msgid "Moved comment_notify user settings data from the {users} table into the {comment_notify_user_settings} table."
+msgstr "Flyttat kommentarsmeddelande inställningar från {users} tabellen till {comment_notify_user_settings} tabellen."
+
+#: comment_notify.install:253
+msgid "Something is maybe not right."
+msgstr "Något kanske inte är rätt."
+

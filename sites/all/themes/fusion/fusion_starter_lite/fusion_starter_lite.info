@@ -1,0 +1,80 @@
+
+name = Fusion Starter Lite
+description = Fusion Starter Lite sub-theme. Requires <a href="http://drupal.org/project/fusion">Fusion Core</a> and the <a href="http://drupal.org/project/skinr">Skinr</a> module to enable easy point-and-click theming.
+base theme = fusion_core
+core = 6.x
+engine = phptemplate
+
+stylesheets[all][] = css/fusion-starter-lite-style.css
+
+regions[sidebar_first] = sidebar first
+regions[sidebar_last] = sidebar last
+regions[header] = header
+regions[content] = content
+regions[footer] = footer
+
+; Default theme settings
+settings[theme_grid] = grid12-960
+settings[theme_grid_options][] = grid12-960
+settings[theme_grid_options][] = grid12-fluid
+settings[fluid_grid_width] = fluid-100
+settings[theme_font_size] = font-size-12
+settings[sidebar_layout] = sidebars-split
+settings[sidebar_first_width] = 2
+settings[sidebar_last_width] = 2
+
+; Widths for 12 column, 960px/fluid grid
+skinr[grid12-width][title] = Width (12 column grid)
+skinr[grid12-width][type] = select
+skinr[grid12-width][features][] = block
+skinr[grid12-width][options][1][label] = 1 unit wide (80px/8.33%)
+skinr[grid12-width][options][1][class] = grid12-1
+skinr[grid12-width][options][2][label] = 2 units wide (160px/16.67%)
+skinr[grid12-width][options][2][class] = grid12-2
+skinr[grid12-width][options][3][label] = 3 units wide (240px/25%)
+skinr[grid12-width][options][3][class] = grid12-3
+skinr[grid12-width][options][4][label] = 4 units wide (320px/33.33%)
+skinr[grid12-width][options][4][class] = grid12-4
+skinr[grid12-width][options][5][label] = 5 units wide (400px/41.67%)
+skinr[grid12-width][options][5][class] = grid12-5
+skinr[grid12-width][options][6][label] = 6 units wide (480px/50%)
+skinr[grid12-width][options][6][class] = grid12-6
+skinr[grid12-width][options][7][label] = 7 units wide (560px/58.33%)
+skinr[grid12-width][options][7][class] = grid12-7
+skinr[grid12-width][options][8][label] = 8 units wide (640px/66.67%)
+skinr[grid12-width][options][8][class] = grid12-8
+skinr[grid12-width][options][9][label] = 9 units wide (720px/75%)
+skinr[grid12-width][options][9][class] = grid12-9
+skinr[grid12-width][options][10][label] = 10 units wide (800px/83.33%)
+skinr[grid12-width][options][10][class] = grid12-10
+skinr[grid12-width][options][11][label] = 11 units wide (880px/91.67%)
+skinr[grid12-width][options][11][class] = grid12-11
+skinr[grid12-width][options][12][label] = 12 units wide (960px/100%)
+skinr[grid12-width][options][12][class] = grid12-12
+skinr[grid-width][description] = Change the width of this block. Fluid grid % widths are relative to the parent region's width. Default widths: sidebar blocks default to the sidebar width; in other regions width is divided equally among all blocks.
+
+; Block positioning
+skinr[fusion-alignment][title] = Block position
+skinr[fusion-alignment][type] = select
+skinr[fusion-alignment][description] = Change the position of this block (default is to float to the left)
+skinr[fusion-alignment][features][] = block
+skinr[fusion-alignment][options][1][label] = Float block to the right
+skinr[fusion-alignment][options][1][class] = fusion-right
+skinr[fusion-alignment][options][2][label] = Position block in the center
+skinr[fusion-alignment][options][2][class] = fusion-center
+skinr[fusion-alignment][options][3][label] = Clear floats (block drops to a new line)
+skinr[fusion-alignment][options][3][class] = fusion-clear
+
+; Sample Skinr style (uncomment to use, see Skinr section in CSS)
+;skinr[fusion-example-styles][title] = Sample Skinr block styles
+;skinr[fusion-example-styles][type] = checkboxes
+;skinr[fusion-example-styles][features][] = block
+;skinr[fusion-example-styles][options][1][label] = My sample Skinr style
+;skinr[fusion-example-styles][options][1][class] = fusion-example-stylename
+
+; Information added by drupal.org packaging script on 2012-03-28
+version = "6.x-1.13"
+core = "6.x"
+project = "fusion"
+datestamp = "1332949846"
+

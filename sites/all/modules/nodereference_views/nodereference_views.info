@@ -1,0 +1,14 @@
+; $Id: nodereference_views.info,v 1.1 2009/03/24 15:37:37 joachim Exp $
+name = Node reference views
+description = Shows nodereference fields using a view.
+dependencies[] = nodereference
+dependencies[] = views
+package = CCK
+core = 6.x
+
+; Information added by drupal.org packaging script on 2010-11-19
+version = "6.x-1.3"
+core = "6.x"
+project = "nodereference_views"
+datestamp = "1290197447"
+

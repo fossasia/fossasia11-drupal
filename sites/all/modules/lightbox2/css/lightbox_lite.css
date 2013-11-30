@@ -1,0 +1,60 @@
+/* $Id: lightbox_lite.css,v 1.1.4.11 2010/06/07 14:54:30 snpower Exp $ */
+#lightbox {
+  background-color: #eee;
+  padding: 10px;
+  border-bottom: 2px solid #666;
+  border-right: 2px solid #666;
+  min-width: 240px;
+}
+
+#lightboxDetails {
+  font-size: 1.2em;
+  padding-top: 0.6em;
+  min-width: 240px;
+}
+
+#lightboxCaption {
+  float: left;
+  font: 0.9em black;
+}
+
+#keyboardMsg {
+  float: right;
+  font: 0.9em black;
+}
+
+#closeButton {
+  top: 5px;
+  right: 5px;
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  z-index: 200;
+  background: url(../images/close_lite.gif) no-repeat;
+}
+
+#loadingImage {
+  position: absolute;
+  top: 30%;
+  left: 45%;
+  height: 25%;
+  width: 100%;
+  text-align: center;
+  line-height: 0;
+  background: url(../images/loading_lite.gif) no-repeat;
+  width: 126px;
+  height: 22px;
+  z-index: 150;
+}
+
+#lightbox img {
+  border: none;
+  clear: both;
+}
+
+#lightbox2-overlay {
+  background-color: #333;
+  opacity: 0.6;
+  filter:alpha(opacity=60);
+}
+

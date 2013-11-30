@@ -1,0 +1,105 @@
+
+/* Right-to-left styles for Superfish menus
+/------------------------------------------------------------------- */
+/* essential styles */
+.sf-menu li {
+  float: right;
+}
+
+.sf-menu li:hover ul,
+.sf-menu li.sfHover ul {
+  left: auto;
+  right: 0;
+}
+
+ul.sf-menu li li:hover ul,
+ul.sf-menu li li.sfHover ul {
+  right: 10em;
+}
+
+ul.sf-menu li li li:hover ul,
+ul.sf-menu li li li.sfHover ul {
+  right: 10em;
+}
+
+/* demo skin */
+.sf-menu {
+  float: right;
+}
+
+/* arrows */
+.sf-menu a.sf-with-ul {
+  padding-left: 2.25em;
+  padding-right: 1em;
+}
+
+.sf-sub-indicator {
+  left: 0.75em;
+  right: auto;
+  background: url('../images/arrows-ffffff-rtl.png') no-repeat -10px -100px;
+}
+
+a > .sf-sub-indicator {
+  background-position: -10px -100px;
+}
+
+a:focus > .sf-sub-indicator,
+a:hover > .sf-sub-indicator,
+a:active > .sf-sub-indicator,
+li:hover > a > .sf-sub-indicator,
+li.sfHover > a > .sf-sub-indicator {
+  background-position: 0 -100px;
+}
+
+.sf-menu ul .sf-sub-indicator {
+  background-position: 0 0;
+}
+
+.sf-menu ul a > .sf-sub-indicator {
+  background-position: -10px 0;
+}
+
+.sf-menu ul a:focus > .sf-sub-indicator,
+.sf-menu ul a:hover > .sf-sub-indicator,
+.sf-menu ul a:active > .sf-sub-indicator,
+.sf-menu ul li:hover > a > .sf-sub-indicator,
+.sf-menu ul li.sfHover > a > .sf-sub-indicator {
+  background-position: 0 0;
+}
+
+.sf-shadow ul {
+  background: url('../images/shadow.png') no-repeat bottom left;
+  padding: 0 0 9px 8px;
+  -moz-border-radius-bottomright: 17px;
+  -moz-border-radius-topleft: 17px;
+  -webkit-border-top-left-radius: 17px;
+  -webkit-border-bottom-right-radius: 17px;
+}
+
+/*styles for vertical menus in a sidebar on the right side of the page, to ensure that sub-menus drop into the page and don't get cut off*/
+
+.sidebars-split .sidebar-first .sf-vertical ul,
+.sidebars-both-first .sidebar-first .sf-vertical ul,
+.sidebars-both-first .sidebar-last .sf-vertical ul{
+  width: 10em;
+}
+
+.sidebars-split .sidebar-first .sf-vertical li, 
+.sidebars-split .sidebar-first .sf-vertical li li,
+.sidebars-both-first .sidebar-first .sf-vertical li, 
+.sidebars-both-first .sidebar-first .sf-vertical li li,
+.sidebars-both-first .sidebar-last .sf-vertical li, 
+.sidebars-both-first .sidebar-last .sf-vertical li li{
+  text-align: right;
+}
+
+.sidebars-split .sidebar-first .sf-vertical li:hover ul,
+.sidebars-split .sidebar-first .sf-vertical li.sfHover ul,
+.sidebars-both-first .sidebar-first .sf-vertical li:hover ul,
+.sidebars-both-first .sidebar-first .sf-vertical li.sfHover ul,
+.sidebars-both-first .sidebar-last .sf-vertical li:hover ul,
+.sidebars-both-first .sidebar-last .sf-vertical li.sfHover ul{
+  left: auto; 
+  right: 10em; /* match ul width*/
+  top: 0;
+}

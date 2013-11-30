@@ -1,0 +1,587 @@
+<?php
+
+/**
+ * @file
+ * Internationalization (i18n) package. Synchronization of translations
+ *
+ * Keeps vocabulary terms in sync for translations.
+ * This is a per-vocabulary option.
+ *
+ * Ref: http://drupal.org/node/115463
+ *
+ * Notes:
+ * This module needs to run after taxonomy, i18n, translation. Check module weight.
+ *
+ * @ TODO Test with CCK when possible, api may have changed.
+ */
+
+/**
+ * Implementation of hook_help().
+ */
+function i18nsync_help($path, $arg) {
+  switch ($path) {
+    case 'admin/help#i18nsync' :
+      $output = '<p>'. t('This module synchronizes content taxonomy and fields accross translations:') .'</p>';
+      $output .= '<p>'. t('First you need to select which fields should be synchronized. Then, after a node has been updated, all enabled vocabularies and fields will be synchronized as follows:') .'</p>';
+      $output .= '<ul>';
+      $output .= '<li>'. t('All the node fields selected for synchronization will be set to the same value for all translations.') .'</li>';
+      $output .= '<li>'. t('For multilingual vocabularies, the terms for all translations will be replaced by the translations of the original node terms.') .'</li>';
+      $output .= '<li>'. t('For other vocabularies, the terms will be just copied over to all the translations.') .'</li>';
+      $output .= '</ul>';
+      $output .= '<p><strong>'. t('Note that permissions are not checked for each node. So if someone can edit a node and it is set to synchronize, all the translations will be synchronized anyway.') .'</strong></p>';
+      $output .= '<p>'. t('To enable synchronization check content type options to select which fields to synchronize for each node type.') .'</p>';
+      $output .= '<p>'. t('The list of available fields for synchronization will include some standard node fields and all CCK fields. You can add more fields to the list in a configuration variable. See README.txt for how to do it.') .'</p>';
+      $output .= '<p>'. t('For more information, see the online handbook entry for <a href="@i18n">Internationalization module</a>.', array('@i18n' => 'http://drupal.org/node/133977')) .'</p>';
+      return $output;
+  }
+}
+
+/**
+ * Implementation of hook_theme().
+ */
+function i18nsync_theme() {
+  return array(
+    'i18nsync_workflow_checkbox' => array(
+      'arguments' => array('item' => NULL),
+    ),
+  );
+}
+
+/**
+ * Implementation of hook_form_alter().
+ * - Vocabulary options
+ * - Content type options
+ */
+function i18nsync_form_alter(&$form, $form_state, $form_id) {
+  // Taxonomy vocabulary form.
+  switch ($form_id) {
+    case 'node_type_form':
+      $type = $form['#node_type']->type;
+      $current = i18nsync_node_fields($type);
+      $disabled = $form['i18n']['#disabled'];
+      $form['i18n']['i18nsync_nodeapi'] = array(
+        '#type' => 'fieldset',
+        '#tree' => TRUE,
+        '#title' => t('Synchronize translations'),
+        '#collapsible' => TRUE,
+        '#collapsed' => !count($current),
+        '#description' => t('Select which fields to synchronize for all translations of this content type.'),
+        '#disabled' => $disabled,
+      );
+      // Each set provides title and options. We build a big checkboxes control for it to be
+      // saved as an array. Special themeing for group titles.
+      foreach (i18nsync_node_available_fields($type) as $group => $data) {
+        $title = $data['#title'];
+        if (!empty($data['#options'])) {
+          foreach ($data['#options'] as $field => $name) {
+            $form['i18n']['i18nsync_nodeapi'][$field] = array(
+              '#group_title' => $title,
+              '#title' => $name,
+              '#type' => 'checkbox',
+              '#default_value' => in_array($field, $current),
+              '#theme' => 'i18nsync_workflow_checkbox',
+              '#disabled' => $disabled,
+            );
+            $title = '';
+          }
+        }
+      }
+      break;
+    case 'node_delete_confirm':
+      // Intercept form submission so we can handle uploads, replace callback
+      $form['#submit'] = array_merge(array('i18nsync_node_delete_submit'), $form['#submit']);
+      break;
+    case 'node_admin_content':
+      if (!empty($form['operation']) && $form['operation']['#value'] == 'delete') {
+        $form['#submit'] = array_merge(array('i18nsync_node_delete_submit'), $form['#submit']);
+      }
+      break;
+  }
+}
+
+/**
+ * Submit callback for
+ * - node delete confirm
+ * - node multiple delete confirm
+ */
+function i18nsync_node_delete_submit($form, $form_state) {
+  if ($form_state['values']['confirm']) {
+    if (!empty($form_state['values']['nid'])) {
+      // Single node
+      i18nsync_node_delete_prepare($form_state['values']['nid']);
+    }
+    elseif (!empty($form_state['values']['nodes'])) {
+      // Multiple nodes
+      foreach ($form_state['values']['nodes'] as $nid => $value) {
+        i18nsync_node_delete_prepare($nid);
+      }
+    }
+  }
+  // Then it will go through normal form submission
+}
+
+/**
+ * Prepare node for deletion, work out synchronization issues
+ */
+function i18nsync_node_delete_prepare($nid) {
+  $node = node_load($nid);
+  // Delete file associations when files are shared with existing translations
+  // so they are not removed by upload module
+  if (!empty($node->tnid) && module_exists('upload')) {
+    $result = db_query('SELECT u.* FROM {upload} u WHERE u.nid = %d AND u.fid IN (SELECT t.fid FROM {upload} t WHERE t.fid = u.fid AND t.nid <> u.nid)', $nid);
+    while ($up = db_fetch_object($result)) {
+      db_query("DELETE FROM {upload} WHERE fid = %d AND vid = %d", $up->fid, $up->vid);
+    }
+  }
+}
+
+/**
+ * Theming function for workflow checkboxes.
+ */
+function theme_i18nsync_workflow_checkbox($element) {
+  $output = $element['#group_title'] ? '<div class="description">'. $element['#group_title'] .'</div>' : '';
+  $output .= theme('checkbox', $element);
+  return $output;
+}
+
+/**
+ * Implementation of hook_nodeapi().
+ */
+function i18nsync_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
+  global $i18nsync; // This variable will be true when a sync operation is in progress.
+
+  // Only for nodes that have language and belong to a translation set.
+  if (translation_supported_type($node->type) && !empty($node->language) && !$i18nsync) {
+    switch ($op) {
+      case 'load':
+        // Add instance count for cck fields so we can use the information later, see hook_file_references()
+        if (!empty($node->tnid) && ($sync_fields = i18nsync_node_fields($node->type)) && ($content_fields = _i18nsync_cck_fields($node->type))) {
+          if ($translations = _i18nsync_node_translations($node, TRUE)) {
+            $count = count($translations);
+            foreach ($sync_fields as $field) {
+              if (isset($content_fields[$field]) && !empty($node->$field) && is_array($node->$field)) {
+                // The node field should be an array with one or more fields
+                // Reminder: Use brackets for $node->{$field}[$key] as $node->$field[$key] won't work
+                foreach (array_keys($node->$field) as $key) {
+                  if (is_array($node->{$field}[$key])) {
+                    $node->{$field}[$key]['i18nsync'] = $count;
+                  }
+                }
+              }
+            }
+          }
+        }
+        break;
+
+      case 'prepare translation':
+        // We copy over all the fields to be synchronized.
+        if ($fields = i18nsync_node_fields($node->type)) {
+          i18nsync_prepare_translation($node, $node->translation_source, $fields);
+        }
+        break;
+
+      case 'insert':
+        // When creating a translation, there are some aditional steps, different from update
+        if (!empty($node->translation_source)) {
+          // Set tnid that is not set by translation module
+          $node->tnid = $node->translation_source->tnid ? $node->translation_source->tnid : $node->translation_source->nid;
+          // If we have files, we need to save the files that have been inherited
+          if (!empty($node->files) && i18nsync_node_fields($node->type, 'files')) {
+            foreach ($node->files as $fid => $file) {
+              $file = (object)$file;
+              if (empty($file->remove) && empty($file->new)) {
+                db_query("INSERT INTO {upload} (fid, nid, vid, list, description, weight) VALUES (%d, %d, %d, %d, '%s', %d)", $file->fid, $node->nid, $node->vid, $file->list, $file->description, $file->weight);
+              }
+            }
+          }
+        }
+        // Intentional no break.
+      case 'update':    
+        // Let's go with field synchronization.
+        if (!empty($node->tnid) && ($fields = i18nsync_node_fields($node->type)) && ($translations = _i18nsync_node_translations($node, TRUE))) {
+          $i18nsync = TRUE;
+          $count = 0;
+          // If we have fields we need to reload them so we have the full data (fid, etc...)
+          if (!empty($node->files) && in_array('files', $fields)) {
+            $node->files = upload_load($node);
+          }
+          // Disable language selection temporarily, enable it again later
+          i18n_selection_mode('off');
+          foreach ($translations as $trnode) {
+            if ($node->nid != $trnode->nid) {
+              i18nsync_node_translation($node, $trnode, $fields, $op);
+              $count++;
+            }
+          }
+          i18n_selection_mode('reset');
+          $i18nsync = FALSE;
+          drupal_set_message(format_plural($count, 'One node translation has been synchronized.', 'All @count node translations have been synchronized.'));
+        }
+        break;
+    }
+  }
+}
+
+/**
+ * Prepare node translation. Copy over sincronizable fields.
+ */
+function i18nsync_prepare_translation(&$node, $source, $field_list) {
+  foreach ($field_list as $field) {
+    if (empty($source->$field)) continue;
+    switch ($field) {
+      case 'taxonomy':
+        // Do nothing, this is handled by the i18ntaxonomy module
+        break;
+
+      default:
+        $node->$field = $source->$field;
+        break;
+    }
+  }
+}
+
+/**
+ * Synchronizes fields for node translation.
+ *
+ * There's some specific handling for known fields like:
+ * - files, for file attachments.
+ * - iid (CCK node attachments, translations for them will be handled too).
+ *
+ * All the rest of the fields will be just copied over.
+ * The 'revision' field will have the special effect of creating a revision too for the translation.
+ *
+ * @param $node
+ *   Source node being edited.
+ * @param $translation
+ *   Node translation to synchronize, just needs nid property.
+ * @param $fields
+ *   List of fields to synchronize.
+ * @param $op
+ *   Node operation (insert|update).
+ */
+function i18nsync_node_translation($node, $translation, $fields, $op) {
+  // Load full node, we need all data here.
+  $translation = node_load($translation->nid, NULL, TRUE);
+
+  // Collect info on any CCK fields.
+  $content_fields = _i18nsync_cck_fields($node->type);
+
+  foreach ($fields as $field) {
+    // Check for CCK fields first.
+    if (isset($content_fields[$field]) && isset($node->$field)) {
+      switch ($content_fields[$field]['type']) {
+        // TODO take type specific actions.
+
+        // Filefields and imagefields are syncronized equally.
+        case 'filefield':
+        case 'imagefield':
+          i18nsync_node_translation_filefield_field($node, $translation, $field);
+          break;
+
+        case 'nodereference':
+          i18nsync_node_translation_nodereference_field($node, $translation, $field);
+          break;
+
+        default:
+          // For fields that don't need special handling.
+          $translation->$field = $node->$field;
+      }
+      // Skip over the regular handling.
+      continue;
+    }
+    else {
+      switch ($field) {
+        case 'taxonomy': // Do nothing it has already been syncd.
+          i18nsync_node_taxonomy($translation, $node);
+          break;
+
+        case 'parent': // Book outlines, translating parent page if exists.
+        case 'iid': // Attached image nodes.
+          i18nsync_node_translation_attached_node($node, $translation, $field);
+          break;
+
+        case 'images':
+          $translation->images = $node->images;
+          // Intentional no break so 'images' synchronizes files too.
+          // About images, see related patch status: http://drupal.org/node/360643
+          // @todo Weird things may happen if 'images' and 'files' are both selected
+        case 'files':
+          // Sync existing attached files. This should work for images too
+          foreach ((array)$node->files as $fid => $file) {
+            if (isset($translation->files[$fid])) {
+              // Just update list and weight properties, description can be different
+              $translation->files[$fid]->list = $file->list;
+              $translation->files[$fid]->weight = $file->weight;
+            }
+            else {
+              // New file. Clone so we can set the new property just for this translation
+              $translation->files[$fid] = clone $file;
+              $translation->files[$fid]->new = TRUE;
+            }
+          }
+          // Drop removed files.
+          foreach ((array)$translation->files as $fid => $file) {
+            if (!isset($node->files[$fid])) {
+              $translation->files[$fid]->remove = TRUE;
+            }
+          }
+          break;
+
+        default:
+          // For fields that don't need special handling.
+          if (isset($node->$field)) {
+            $translation->$field = $node->$field;
+          }
+      }
+    }
+  }
+  node_save($translation);
+}
+
+/**
+ * Synchronize taxonomy.
+ *
+ * Translate translatable terms, just copy over the rest.
+ */
+function i18nsync_node_taxonomy(&$node, &$source) {
+  if (module_exists('i18ntaxonomy') && is_array($source->taxonomy)) {
+    // Load clean source node taxonomy so we don't need to handle weird form input
+    if (!isset($source->i18ntaxonomy)) {
+      $source->i18ntaxonomy = i18ntaxonomy_node_get_terms($source);
+    }
+    $node->taxonomy = i18ntaxonomy_translate_terms($source->i18ntaxonomy, $node->language, FALSE);
+  }
+  else {
+    // If not multilingual taxonomy enabled, just copy over.
+    $node->taxonomy = $source->taxonomy;
+  }
+}
+
+/**
+ * Node attachments (CCK) that may have translation.
+ */
+function i18nsync_node_translation_attached_node(&$node, &$translation, $field) {
+  if ($attached = node_load($node->$field)) {
+    $translation->$field = i18nsync_node_translation_reference_field($attached, $node->$field, $translation->language);
+  }
+}
+
+/**
+ * Translating a nodereference field (cck).
+ */
+function i18nsync_node_translation_nodereference_field(&$node, &$translation, $field) {
+  $translated_references = array();
+  foreach ($node->$field as $reference) {
+    if ($reference_node = node_load($reference['nid'])) {
+      $translated_references[] = array(
+        'nid' => i18nsync_node_translation_reference_field($reference_node, $reference['nid'], $translation->language)
+      );
+    }
+  }
+  $translation->$field = $translated_references;
+}
+
+/**
+ * Translating an filefield (cck).
+ */
+function i18nsync_node_translation_filefield_field(&$node, &$translation, $field) {
+  if (is_array($node->$field)) {
+    $translated_images = array();
+    foreach ($node->$field as $file) {
+      $found = false;
+
+      // Try to find existing translations of the filefield items and reference them.
+      foreach ($translation->$field as $translation_image) {
+        if ($file['fid'] == $translation_image['fid']) {
+          $translated_images[] = $translation_image;
+          $found = true;
+        }
+      }
+
+      // If there was no translation found for the filefield item, just copy it.
+      if (!$found) {
+        $translated_images[] = $file;
+      }
+    }
+    $translation->$field = $translated_images;
+  }
+}
+
+/**
+ * Helper function to which translates reference field. We try to use translations for reference, otherwise fallback.
+ * Example:
+ *   English A references English B and English C.
+ *   English A and B are translated to German A and B, but English C is not.
+ *   The syncronization from English A to German A would it German B and English C.
+ */
+function i18nsync_node_translation_reference_field(&$reference_node, $default_value, $langcode) {
+  if (isset($reference_node->tnid) && translation_supported_type($reference_node->type)) {
+    // This content type has translations, find the one.
+    if (($reference_trans = translation_node_get_translations($reference_node->tnid)) && isset($reference_trans[$langcode])) {
+      return $reference_trans[$langcode]->nid;
+    }
+    else {
+      // No requested language found, just copy the field.
+      return $default_value;
+    }
+  }
+  else {
+    // Content type without language, just copy the field.
+    return $default_value;
+  }
+}
+
+/**
+ * Returns list of fields to synchronize for a given content type.
+ *
+ * @param $type
+ *   Node type.
+ * @param $field
+ *   Optional field name to check whether it is in the list
+ */
+function i18nsync_node_fields($type, $field = NULL) {
+  $fields = variable_get('i18nsync_nodeapi_'. $type, array());
+  return $field ? in_array($field, $fields) : $fields;
+}
+
+/**
+ * Returns list of available fields for given content type.
+ *
+ * There are two hidden variables (without UI) that can be used to add fields
+ * with the form array('field' => 'Field name')
+ *  - i18nsync_fields_node
+ *  - i18nsync_fields_node_$type;
+ *
+ * Fields can also be changed using hook_i18nsync_fields_alter($fields, $type)
+ *
+ * @param $type
+ *   Node type.
+ */
+function i18nsync_node_available_fields($type) {
+  static $cache;
+
+  if (!isset($cache[$type])) {
+    // Default node fields.
+    $fields['node']['#title'] = t('Standard node fields.');
+    $options = variable_get('i18nsync_fields_node', array());
+    $options += array(
+      'name' => t('Author'),
+      'status' => t('Status'),
+      'promote' => t('Promote'),
+      'moderate' => t('Moderate'),
+      'sticky' => t('Sticky'),
+      'revision' => t('Revision (Create also new revision for translations)'),
+      'parent' => t('Book outline (with the translated parent)'),
+      'taxonomy' => t('Taxonomy terms'),
+    );
+    if (module_exists('comment')) {
+      $options['comment'] = t('Comment settings');
+    }
+    if (module_exists('upload')) {
+      $options['files'] = t('File attachments');
+    }
+    // Location module
+    if (module_exists('location')) {
+      $options['locations'] = t('Location settings');
+    }
+    // If no type defined yet, that's it.
+    $fields['node']['#options'] = $options;
+
+    if (!$type) {
+      return $fields;
+    }
+
+    // Get variable for this node type.
+    $fields += variable_get("i18nsync_fields_node_$type", array());
+
+    // Image and image attach.
+    if (module_exists('image') && $type == 'image') {
+      $image['images'] = t('Image files');
+    }
+    if (module_exists('image_attach') && variable_get('image_attach_'. $type, 0)) {
+      $image['iid'] = t('Attached image nodes');
+    }
+    if (!empty($image)) {
+      $fields['image']['#title'] = t('Image module');
+      $fields['image']['#options'] = $image;
+    }
+    // Event fields.
+    if (variable_get('event_nodeapi_'. $type, 'never') != 'never') {
+      $fields['event']['#title'] = t('Event fields');
+      $fields['event']['#options'] = array(
+        'event_start' => t('Event start'),
+        'event_end' => t('Event end'),
+        'timezone' => t('Timezone')
+      );
+    }
+
+    // Get CCK fields.
+    if (($contentfields = _i18nsync_cck_fields($type))) {
+      // Get context information.
+      $info = module_invoke('content', 'fields', NULL, $type);
+      $fields['cck']['#title'] = t('CCK fields');
+      foreach ($contentfields as $name => $data) {
+        $fields['cck']['#options'][$data['field_name']] = $data['widget']['label'];
+      }
+    }
+
+    // Give a chance to modules to change/remove/add their own fields
+    drupal_alter('i18nsync_fields', $fields, $type);
+
+    $cache[$type] = $fields;
+  }
+  return $cache[$type];
+}
+
+/**
+ * Helper function to get list of cck fields
+ */
+function _i18nsync_cck_fields($type) {
+  if (($content = module_invoke('content', 'types', $type)) && !empty($content['fields'])) {
+    return $content['fields'];
+  }
+}
+
+/**
+ * Get node translations if any, optionally excluding this node
+ *
+ * Translations will be stored in the node itself so we have them cached
+ */
+function _i18nsync_node_translations($node, $exclude = FALSE) {
+  // Maybe translations are already here
+  if (!empty($node->tnid) && ($translations = translation_node_get_translations($node->tnid))) {
+    if ($exclude && $node->language) {
+      unset($translations[$node->language]);
+    }
+    return $translations;
+  }
+}
+
+/**
+ * Implementation of hook_file_references()
+ *
+ * Inform CCK's filefield that we have other nodes using that file so it won't be deleted
+ */
+function i18nsync_file_references($file) {
+  // We have marked the field previously on nodeapi load
+  return !empty($file->i18nsync);
+}
+
+/*
+ * Sample CCK field definition for Drupal 5.
+'field_text' =>
+    array
+      'field_name' => string 'field_text' (length=10)
+      'type' => string 'text' (length=4)
+      'required' => string '0' (length=1)
+      'multiple' => string '1' (length=1)
+      'db_storage' => string '0' (length=1)
+      'text_processing' => string '0' (length=1)
+      'max_length' => string '' (length=0)
+      'allowed_values' => string '' (length=0)
+      'allowed_values_php' => string '' (length=0)
+      'widget' =>
+        array
+          ...
+      'type_name' => string 'test' (length=4)
+ */

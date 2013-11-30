@@ -1,0 +1,14 @@
+; $Id: views_attach.info,v 1.1.2.1.2.2 2009/06/25 20:21:12 eaton Exp $
+name = Views attach
+description = Provides new Views display types that can be attached to nodes or users.
+core = 6.x
+dependencies[] = views
+suggests[] = token
+package = Views
+
+; Information added by drupal.org packaging script on 2009-10-08
+version = "6.x-2.2"
+core = "6.x"
+project = "views_attach"
+datestamp = "1255040204"
+

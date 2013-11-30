@@ -1,0 +1,11 @@
+; $Id: menu_breadcrumb.info,v 1.3 2008/02/20 18:51:40 gdevlugt Exp $
+name = Menu breadcrumb
+description = Allows you to use the menu the current page belongs to for the breadcrumb.
+dependencies[] = menu
+core = 6.x
+; Information added by drupal.org packaging script on 2010-02-02
+version = "6.x-1.3"
+core = "6.x"
+project = "menu_breadcrumb"
+datestamp = "1265154306"
+

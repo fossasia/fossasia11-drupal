@@ -1,0 +1,25 @@
+name = Blue Masters
+description = Theme based on Blue Masters PSD template
+version = VERSION
+core = 6.x
+engine = phptemplate
+regions[right] = Right sidebar
+regions[header] = Header
+regions[banner] = Banner
+regions[home_area_1] = Home area 1
+regions[home_area_2] = Home area 2
+regions[home_area_3] = Home area 3
+regions[home_area_3_b] = Home area 3 b
+regions[footer_left_1] = Footer left 1
+regions[footer_left_2] = Footer left 2
+regions[footer_center] = Footer center
+regions[footer_right] = Footer right
+regions[footer] = Footer
+
+
+; Information added by drupal.org packaging script on January 1, 1970 - 00:00
+version = "6.x-1.3"
+core = "6.x"
+project = "bluemasters"
+datestamp = "1297187527"
+

@@ -1,0 +1,54 @@
+
+/* Layout - 16 column grid, 960px fixed width, 20px gutters
+-------------------------------------------------------------- */
+
+/* grid widths */
+.grid16-1 {width: 60px;}
+.grid16-2 {width: 120px;}
+.grid16-3 {width: 180px;}
+.grid16-4 {width: 240px;}
+.grid16-5 {width: 300px;}
+.grid16-6 {width: 360px;}
+.grid16-7 {width: 420px;}
+.grid16-8 {width: 480px;}
+.grid16-9 {width: 540px;}
+.grid16-10 {width: 600px;}
+.grid16-11 {width: 660px;}
+.grid16-12 {width: 720px;}
+.grid16-13 {width: 780px;}
+.grid16-14 {width: 840px;}
+.grid16-15 {width: 900px;}
+.grid16-16 {width: 960px;}
+
+/* block indents */
+.grid16-indent-1 {margin-left: 60px;}
+.grid16-indent-2 {margin-left: 120px;}
+.grid16-indent-3 {margin-left: 180px;}
+.grid16-indent-4 {margin-left: 240px;}
+.grid16-indent-5 {margin-left: 300px;}
+.grid16-indent-6 {margin-left: 360px;}
+.grid16-indent-7 {margin-left: 420px;}
+.grid16-indent-8 {margin-left: 480px;}
+.grid16-indent-9 {margin-left: 540px;}
+.grid16-indent-10 {margin-left: 600px;}
+.grid16-indent-11 {margin-left: 660px;}
+.grid16-indent-12 {margin-left: 720px;}
+.grid16-indent-13 {margin-left: 780px;}
+.grid16-indent-14 {margin-left: 840px;}
+.grid16-indent-15 {margin-left: 900px;}
+
+/* gutters (2 x margin) */
+.block .inner {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+/* hack to fix node-top & node-bottom being off-grid */
+#content-content .node .first .inner {
+    margin-right: 20px;
+}
+
+body,
+div.full-width {
+  min-width: 960px;
+}

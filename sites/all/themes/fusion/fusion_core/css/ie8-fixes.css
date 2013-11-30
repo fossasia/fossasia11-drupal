@@ -1,0 +1,9 @@
+
+/* IE8 fixes
+-------------------------------------------------------------- */
+
+/* grid mask overlay opacity fix
+-------------------------------------------------------------- */
+#grid-mask-overlay {
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=75)";
+}

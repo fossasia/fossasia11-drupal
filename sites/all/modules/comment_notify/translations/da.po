@@ -1,0 +1,289 @@
+# $Id: da.po,v 1.2 2009/03/17 16:12:02 greggles Exp $
+#
+# Danish translation of Drupal (general)
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# Generated from files:
+#  comment_notify.module,v 1.54 2009/03/07 19:22:51 greggles
+#  comment_notify.install,v 1.14 2009/03/07 19:33:03 greggles
+#  comment_notify.info,v 1.3 2008/08/06 23:27:08 greggles
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2009-03-16 23:58+0100\n"
+"PO-Revision-Date: 2009-03-17 00:02+0100\n"
+"Last-Translator: Mikkel Høgh <mikkel@hoegh.org>\n"
+"Language-Team: Danish <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=0; plural=;\n"
+
+#: comment_notify.module:61
+msgid "Comment follow-up e-mail notification for anonymous and registered users."
+msgstr "E-mail om nye kommentarer til anonyme og registrerede brugere."
+
+#: comment_notify.module:88;312;587;594
+msgid "All comments"
+msgstr "Alle kommentarer"
+
+#: comment_notify.module:89;313;588;595
+msgid "Replies to my comment"
+msgstr "Svar til min kommentar"
+
+#: comment_notify.module:114
+msgid "Notify me when new comments are posted"
+msgstr "Send mig en e-mail når der bliver skrevet nye kommentarer"
+
+#: comment_notify.module:209
+msgid "Your comment follow-up notification for this post was disabled. Thanks."
+msgstr "Du har fravalgt opdateringer for dette indlæg. Tak."
+
+#: comment_notify.module:210
+msgid "Disabled comment follow-up notification feature for this post."
+msgstr "Opdateringsbeskeder om kommentarer slået fra på dette indlæg."
+
+#: comment_notify.module:213;154
+msgid "Comment notify"
+msgstr "Opdateringsbeskeder om kommentarer"
+
+#: comment_notify.module:234
+msgid "If you want to subscribe to comments you must supply a valid e-mail address."
+msgstr "Hvis du ønsker at modtage opdateringer, skal du angive en gyldig e-mail-adresse."
+
+#: comment_notify.module:294
+msgid "Comment follow-up notification settings"
+msgstr "Indstillinger for opdateringsbeskeder om kommentarer"
+
+#: comment_notify.module:301
+msgid "Receive node follow-up notification e-mails"
+msgstr "Modtag opdaterings-e-mails for dine noder"
+
+#: comment_notify.module:303
+msgid "Check this box to receive an e-mail notification for follow-ups on your nodes (pages, forum topics, etc). You can not disable notifications for individual threads."
+msgstr "Kryds denne box af for at modtage en e-mail-opdatering for kommentarer på dine noder (sider, forumemner, mv). Du kan ikke slå opdateringen fra for de enkelte tråde."
+
+#: comment_notify.module:308
+msgid "Receive comment follow-up notification e-mails"
+msgstr "Modtag opdaterings-e-mails for dine kommentarer"
+
+#: comment_notify.module:311;593
+msgid "No notifications"
+msgstr "Ingen meddelser"
+
+#: comment_notify.module:315
+msgid "Check this box to receive e-mail notification for follow-up comments to comments you posted. You can later disable this on a post-by-post basis... so if you leave this to YES, you can still disable follow-up notifications for comments you don't want follow-up mails anymore - i.e. for very popular posts."
+msgstr "Kryds denne box af for at modtage e-mail-opdateringer om kommentarer til kommentarer du har skrevet. Du kan senere slå dette til eller fra på den enkelte kommentar… så hvis du vælger det til her, kan du stadig du stadig slå det fra på kommentarer du ikke ønsker påmindelser om, f.eks. meget populære indlæg."
+
+#: comment_notify.module:397;446
+msgid "!site :: new comment for your post."
+msgstr "!site :: ny kommentar til dit indlæg"
+
+#: comment_notify.module:485
+msgid "source comment"
+msgstr "oprindelig kommentar"
+
+#: comment_notify.module:512
+msgid "Email to unsubscribe"
+msgstr "E-mail der skal frameldes"
+
+#: comment_notify.module:516
+msgid "Unsubscribe this e-mail"
+msgstr "Frameld denne e-mail"
+
+#: comment_notify.module:538
+msgid "There were no active comment notifications for that email."
+msgstr "Der var ingen aktive tilmeldinger til kommentar-opdateringer for den e-mail-adresse."
+
+#: comment_notify.module:563
+msgid "@content-type"
+msgstr "@content-type"
+
+#: comment_notify.module:569
+msgid "Anonymous commenters have the permission to subscribe to comments but cannot leave their contact infromation on the following content types: !types.  You should either disable subscriptions on those types here, revoke the permission for anonymous users, or enable anonymous users to leave their contact information in the comment settings."
+msgstr "Anonyme kommentatorer har tilladelse til at tilmelde sig opdateringer om nye kommentarer, men kan ikke skrive deres kontaktoplysninger på følgende indholdstyper: !types. Du bør enten slå opdateringer fra på disse typer, fjerne tilladelsen fra anonyme brugere eller give dem mulighed for at skrive deres kontaktoplysninger i kommentarindstillingerne."
+
+#: comment_notify.module:574
+msgid "Content types to enable for comment notification"
+msgstr "Indholdstyper hvor kommentar-opdateringer skal være tilgængelige"
+
+#: comment_notify.module:577
+msgid "Comments on content types enabled here will have the option of comment notification."
+msgstr "Kommentatorer på disse indholdstyper vil have muligheden for at modtage kommentaropdateringer."
+
+#: comment_notify.module:582
+msgid "Available subscription modes"
+msgstr "Mulige tilmeldingsmuligheder"
+
+#: comment_notify.module:585
+msgid "Choose which notification subscription styles are available for users"
+msgstr "Vælg hvilke forskellige måder man kan modtage kommentar-opdateringer på"
+
+#: comment_notify.module:600
+msgid "Default state for the notification selection box for anonymous users"
+msgstr "Standard-indstilling for kommentar-opdateringer for anonyme brugere"
+
+#: comment_notify.module:608
+msgid "Default state for the notification selection box for registered users."
+msgstr "Standard-indstilling for kommentar-opdateringer for registrerede brugere"
+
+#: comment_notify.module:611
+msgid "This flag presets the flag for the follow-up notification on the form that anon users will see when posting a comment"
+msgstr "Dette er standard-indstillingen anonyme brugere vil se når de skriver en kommentar."
+
+#: comment_notify.module:618
+msgid "Default mail text for sending out notifications to commenters"
+msgstr "Standard e-mail der sendes til kommentatorer"
+
+#: comment_notify.module:619
+msgid ""
+"You can use the following variables to be replaced:\n"
+"      <ul>\n"
+"      <li>!commname = the username who posted the comment\n"
+"      <li>!commtext = the text of the posted comment\n"
+"      <li>!commsubj = the subject of the posted comment\n"
+"      <li>!comment_url = the full url of the post and comment - note: if you have paging enabled, this does not work correct - set your max comments per page so that all fit on one page or reverse order them\n"
+"      <li>!node_title = the title of the node that was commented on\n"
+"      <li>!node_teaser = the teaser of the node that was commented on\n"
+"      <li>!node_body = the body of the node that was commented on\n"
+"      <li>!mission = site_mission text\n"
+"      <li>!name = username receiving the alert\n"
+"      <li>!site = your site\n"
+"      <li>!uri = base_url of site\n"
+"      <li>!uri_brief = base_url of site w/o http\n"
+"      <li>!date = the current time\n"
+"      <li>!login_uri  uri to login the user\n"
+"      <li>!edit_uri = uri to edit user profile\n"
+"      <li>!link1 the QUICKLINK to disable future follow-up otifications for the user\n"
+"      </ul>"
+msgstr ""
+"Du kan bruge følgende variable der vil blive erstattet med deres værdi:\n"
+"      <ul>\n"
+"      <li>!commname = navnet på den bruger der skrev kommentaren\n"
+"      <li>!commtext = indholdet af den pågældende kommentaer\n"
+"      <li>!commsubj = emnet for den pågældende kommentar\n"
+"<li>!comment_url = den fulde URL til indlæg og kommentar – bemærk at hvis du har paginering slået til vil dette ikke fungere korrekt.\n"
+"      <li>!node_title = titlen på den node der blev kommenteret på\n"
+"      <li>!node_teaser = teaseren for den node der blev kommenteret på\n"
+"      <li>!node_body = body-teksten for den node der blev kommenteret på\n"
+"      <li>!mission = sidens missions-tekst\n"
+"      <li>!name = brugernavnet på modtageren af opdateringen\n"
+"      <li>!site = dit sites navn\n"
+"      <li>!uri = hoved-URL for sitet\n"
+"      <li>!uri_brief = grund-URL for sitet uden http\n"
+"      <li>!date = nuværende tid og dato\n"
+"      <li>!login_uri  URL til at logge ind\n"
+"      <li>!edit_uri = URL til at redigere brugerprofil\n"
+"       <li>!link1 the QUICKLINK to disable future follow-up otifications for the user\n"
+"</ul>"
+
+#: comment_notify.module:648
+msgid "Default mail text for sending out the notifications to node authors"
+msgstr "Standard e-mail der sendes til node-forfattere"
+
+#: comment_notify.module:649
+msgid ""
+"You can use the following variables to be replaced:\n"
+"      <ul>\n"
+"      <li>!commname = the username who posted the comment\n"
+"      <li>!commtext = the text of the posted comment\n"
+"      <li>!commsubj = the subject of the posted comment\n"
+"      <li>!comment_url = the full url of the post and comment - note: if you have paging enabled, this does not work correct - set your max comments per page so that all fit on one page or reverse order them\n"
+"      <li>!node_title = the title of the node that was commented on\n"
+"      <li>!node_teaser = the teaser of the node that was commented on\n"
+"      <li>!node_body = the body of the node that was commented on\n"
+"      <li>!mission = site_mission text\n"
+"      <li>!name = username receiving the alert\n"
+"      <li>!site = your site\n"
+"      <li>!uri = base_url of site\n"
+"      <li>!uri_brief = base_url of site w/o http\n"
+"      <li>!date = the current time\n"
+"      <li>!login_uri  uri to login the user\n"
+"      <li>!edit_uri = uri to edit user profile\n"
+"      </ul>"
+msgstr ""
+"Du kan bruge følgende variable der vil blive erstattet med deres værdi:\n"
+"      <ul>\n"
+"      <li>!commname = navnet på brugeren der skrev den nye kommentar\n"
+"      <li>!commtext = indholdet af den nye kommentar\n"
+"      <li>!commsubj = emnet for den nye kommentar\n"
+"      <li>!comment_url = den fulde URL til indlæg og kommentar – bemærk at hvis du har paginering slået til vil dette ikke fungere korrekt.\n"
+"      <li>!node_title = titlen på den node der blev kommenteret på\n"
+"      <li>!node_teaser = teaseren for den node der blev kommenteret på\n"
+"      <li>!node_body = body-teksten for den node der blev kommenteret på\n"
+"      <li>!mission = sidens missions-tekst\n"
+"      <li>!name = brugernavnet på modtageren af opdateringen\n"
+"      <li>!site = dit sites navn\n"
+"      <li>!uri = hoved-URL for sitet\n"
+"      <li>!uri_brief = grund-URL for sitet uden http\n"
+"      <li>!date = nuværende tid og dato\n"
+"      <li>!login_uri  URL til at logge ind\n"
+"      <li>!edit_uri = URL til at redigere brugerprofil\n"
+"      </ul>"
+
+#: comment_notify.module:480;0
+msgid "comment_notify"
+msgstr "comment_notify"
+
+#: comment_notify.module:480
+msgid "Notified: !user_mail"
+msgstr "Kommentar-opdatering: !user_mail"
+
+#: comment_notify.module:541
+msgid "Email unsubscribed from 1 comment notification."
+msgid_plural "Email unsubscribed from @count comment notifications."
+msgstr[0] ""
+msgstr[1] ""
+
+#: comment_notify.module:145
+msgid "administer comment notify"
+msgstr "administrere kommentaropdateringer"
+
+#: comment_notify.module:145
+msgid "subscribe to comments"
+msgstr "tilmelde sig kommentaropdateringer"
+
+#: comment_notify.module:155;163
+msgid "Configure settings for e-mails about new comments."
+msgstr "Indstillinger for e-mails om nye kommentarer."
+
+#: comment_notify.module:162
+msgid "Settings"
+msgstr "Indstillinger"
+
+#: comment_notify.module:171
+msgid "Unsubscribe"
+msgstr "Frameld"
+
+#: comment_notify.module:172
+msgid "Unsubscribe an email from all notifications."
+msgstr "Frameld en e-mail-adresse fra alle opdateringer"
+
+#: comment_notify.module:180
+msgid "comment notify"
+msgstr "comment notify"
+
+#: comment_notify.install:41
+msgid "Stores information about which commenters on the site have subscriped to followup emails."
+msgstr "Indeholder information om hvilke kommentatorer på siden der er tilmeldt e-mails med opdateringer om nye kommentarer."
+
+#: comment_notify.install:197
+msgid "For some reason the {comment_notify_user_settings} table was not properly created, and so per-user comment_notify settings could not be copied from {users}.data.  You will need to run this update again."
+msgstr "Af en eller anden årsag er {comment_notify_user_settings} ikke oprettet korrekt, så per-bruger kommentar-opdateringer kan ikke kopieres fra {users}.data.  Du bliver nødt til at køre denne opdatering igen."
+
+#: comment_notify.install:248
+msgid "Moved comment_notify user settings data from the {users} table into the {comment_notify_user_settings} table."
+msgstr "Flyttet comment_notify brugerindstillinger fra {users} tabellen ind i {comment_notify_user_settings} tabellen."
+
+#: comment_notify.install:253
+msgid "Something is maybe not right."
+msgstr "Der er muligvis noget galt."
+
+#: comment_notify.info:0
+msgid "Comment Notify"
+msgstr "Kommentaropdateringer"
+
+#: comment_notify.info:0
+msgid "Comment follow-up e-mail notification for anonymous as well as registered users."
+msgstr "Opfølgnings-e-mail om nye kommentaer til anonyme såvel som registrerede brugere."
+

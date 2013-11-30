@@ -1,0 +1,121 @@
+# $Id: mimemail.pot,v 1.1 2008/09/20 23:20:37 jerdavis Exp $
+#
+# LANGUAGE translation of Drupal (general)
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# Generated from files:
+#  mimemail.module,v 1.24 2008/03/01 05:11:52 vauxia
+#  mimemail.info,v 1.1 2007/01/05 05:44:09 vauxia
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2008-09-15 14:03+0200\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: mimemail.module:14 mimemail.info:0
+msgid "Mail"
+msgstr ""
+
+#: mimemail.module:15
+msgid "HTML E-mail settings"
+msgstr ""
+
+#: mimemail.module:50
+msgid "E-mail address"
+msgstr ""
+
+#: mimemail.module:54
+msgid "A valid e-mail address for this website, used by the auto-mailer during registration, new password requests, notifications, etc."
+msgstr ""
+
+#: mimemail.module:58
+msgid "Use mime mail for all messages"
+msgstr ""
+
+#: mimemail.module:60
+msgid "Use the mime mail module to deliver all site messages.  With this option, system emails will have styles and formatting"
+msgstr ""
+
+#: mimemail.module:64;143
+msgid "Plaintext email only"
+msgstr ""
+
+#: mimemail.module:66
+msgid "This option disables the use of email messages with graphics and styles.  All messages will be converted to plain text."
+msgstr ""
+
+#: mimemail.module:71
+msgid "Advanced Settings"
+msgstr ""
+
+#: mimemail.module:77
+msgid "Process incoming messages posted to this site"
+msgstr ""
+
+#: mimemail.module:79
+msgid "This is an advanced setting that should not be enabled unless you know what you are doing"
+msgstr ""
+
+#: mimemail.module:83
+msgid "Message validation string"
+msgstr ""
+
+#: mimemail.module:86
+msgid "This string will be used to validate incoming messages.  It can be anything, but must be used on both sides of the transfer"
+msgstr ""
+
+#: mimemail.module:94;103
+msgid "E-mail engine"
+msgstr ""
+
+#: mimemail.module:97;106
+msgid "Choose an e-mail engine for sending mails from your site."
+msgstr ""
+
+#: mimemail.module:115
+msgid "Engine specific settings"
+msgstr ""
+
+#: mimemail.module:123
+msgid "Please choose a mail engine."
+msgstr ""
+
+#: mimemail.module:137
+msgid "Email settings"
+msgstr ""
+
+#: mimemail.module:145
+msgid "Check this option if you do not wish to receive email messages with graphics and styles"
+msgstr ""
+
+#: mimemail.module:258 mimemail.info:0
+msgid "Mime Mail"
+msgstr ""
+
+#: mimemail.module:261
+msgid "Default mailing engine using drupal_mail()."
+msgstr ""
+
+#: mimemail.module:312
+msgid "Authentication error for POST e-mail"
+msgstr ""
+
+#: mimemail.module:312
+msgid "access denied"
+msgstr ""
+
+#: mimemail.module:0
+msgid "mimemail"
+msgstr ""
+
+#: mimemail.info:0
+msgid "E-mail with HTML and attachments"
+msgstr ""
+

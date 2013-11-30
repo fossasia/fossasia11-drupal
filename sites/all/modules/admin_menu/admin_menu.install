@@ -1,0 +1,45 @@
+<?php
+
+/**
+ * Implementation of hook_uninstall().
+ */
+function admin_menu_uninstall() {
+  // Delete menu links.
+  db_query("DELETE FROM {menu_links} WHERE module = 'admin_menu'");
+  menu_cache_clear_all();
+  // Delete variables.
+  variable_del('admin_menu_devel_modules_enabled');
+  variable_del('admin_menu_margin_top');
+  variable_del('admin_menu_position_fixed');
+  variable_del('admin_menu_rebuild_links');
+  variable_del('admin_menu_tweak_modules');
+  variable_del('admin_menu_tweak_tabs');
+}
+
+/**
+ * Ensure that admin_menu is rebuilt after upgrading to D6.
+ */
+function admin_menu_update_6000() {
+  $ret = array();
+  // Delete menu links.
+  db_query("DELETE FROM {menu_links} WHERE module = 'admin_menu'");
+  variable_set('admin_menu_rebuild_links', TRUE);
+  // Drop the {admin_menu} table in admin_menu_update_6000() on sites that used
+  // one of the later patches in #132524.
+  if (db_table_exists('admin_menu')) {
+    $ret[] = update_sql("DROP TABLE {admin_menu}");
+  }
+  return $ret;
+}
+
+/**
+ * Wipe and rebuild so we can switch the icon path to <front>.
+ */
+function admin_menu_update_6001() {
+  $ret = array();
+  module_load_include('inc', 'admin_menu');
+  admin_menu_wipe();
+  $ret[] = array('success' => TRUE, 'query' => 'Administration menu links deleted for clean rebuild.');
+  return $ret;
+}
+

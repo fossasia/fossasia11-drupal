@@ -1,0 +1,255 @@
+<?php
+
+/**
+ * @file
+ * Internationalization (i18n) submodule: Profile translation.
+ *
+ * Allows translation of profile categories and fields.
+ *
+ * The i18n strings created by this module are:
+ * - profile:field:[name]:[title,explanation,options]
+ * - profile:category (Indexed by string)
+ *
+ * @author Jose A. Reyero, 2006
+ */
+
+/**
+ * Implementation of hook_help().
+ */
+function i18nprofile_help($path, $arg) {
+  switch ($path) {
+    case 'admin/modules#description':
+      $output = '<p>'. t('Supports translation for profile module field names and descriptions.') .'</p>';
+      $output .= '<p>'. t('To search and translate strings, use the <a href="@translate-interface">translation interface</a> pages.', array('@translate-interface' => url('admin/build/translate'))) .'</p>';
+      return $output;
+  }
+}
+
+/**
+ * Implementation of hook_locale().
+ */
+function i18nprofile_locale($op = 'groups', $group = NULL) {
+  switch ($op) {
+    case 'groups':
+      return array('profile' => t('Profile'));
+    case 'info':
+      $info['profile']['refresh callback'] = 'i18nprofile_locale_refresh';
+      $info['profile']['format'] = FALSE;
+      return $info;
+  }
+}
+
+/**
+ * Refresh strings.
+ */
+function i18nprofile_locale_refresh() {
+  $result = db_query('SELECT * FROM {profile_fields}');
+  $categories = array();
+  while ($field = db_fetch_object($result)) {
+    // Store strings to translate: title, explanation, options.
+    i18nstrings_update_object("profile:field:$field->name", $field, array('title', 'explanation', 'options'));
+    // Store category if not there yet.
+    if (!isset($categories[$field->category])) {
+      i18nstrings_update("profile:category", $field->category);
+      $categories[$field->category] = 1;
+    }
+  }
+  return TRUE; // Meaning it completed with no issues
+}
+
+/**
+ * Implementation of hook_menu_alter().
+ *
+ * Replace title callbacks for profile categories.
+ */
+function i18nprofile_menu_alter(&$items) {
+  $empty_account = new stdClass();
+  if (($categories = _user_categories($empty_account)) && (count($categories) > 1)) {
+    foreach ($categories as $key => $category) {
+      // 'account' is already handled by the MENU_DEFAULT_LOCAL_TASK.
+      $path = 'user/%user_category/edit/'. $category['name'];
+      if ($category['name'] != 'account' && !empty($items[$path])) {
+        $items[$path]['title callback'] =  'i18nprofile_translate_category'; // Was 'check_plain',
+        $items[$path]['title arguments'] = array($category['title']); // Was array($category['title'])
+      }
+    }
+  }
+}
+
+function i18nprofile_translate_category($title) {
+  return check_plain(i18nstrings('profile:category', $title));
+}
+
+/**
+ * Implementation of hook_profile_alter().
+ *
+ * Translates categories and fields.
+ */
+function i18nprofile_profile_alter(&$account) {
+  foreach (profile_categories() as $category) {
+    $name = $category['name'];
+    if (!empty($account->content[$name])) {
+      // First ranslate category title then fields.
+      $account->content[$name]['#title'] = i18nstrings('profile:category', $account->content[$name]['#title']);
+      foreach (element_children($account->content[$name]) as $field) {
+        i18nprofile_form_translate_field($account->content[$name], $field);
+        // Translate value if options field
+        if (!empty($account->content[$name][$field]['#value']) && $options = i18nprofile_field_options($field)) {
+          // Get the value from the account because this one may have been formatted.
+          if (isset($options[$account->$field])) {
+            // It may be a link or a paragraph, trick for not loading the field again.
+            if (!preg_match('|^<a href="|', $account->content[$name][$field]['#value'])) {
+              // Plain html
+              $account->content[$name][$field]['#value'] = check_markup($options[$account->$field]);
+            }
+            else {
+              // Link
+              $account->content[$name][$field]['#value'] = check_markup(l($options[$account->$field], 'profile/'. $field .'/'. $account->$field));
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Implementation of hook_form_alter().
+ */
+function i18nprofile_form_alter(&$form, $form_state, $form_id) {
+  switch ($form_id) {
+    case 'profile_field_form':
+      $form['#submit'][] = 'i18nprofile_field_form_submit';
+      break;
+
+    case 'user_profile_form':
+      if (($category = $form['_category']['#value']) && $category != 'account') {
+        i18nprofile_form_translate_category($form, $category);
+      }
+      break;
+
+    case 'user_register':
+      i18nprofile_form_translate_all($form_id, $form);
+      break;
+    case 'profile_field_delete':
+      // Store all field info for further reference
+      $form['field'] = array(
+        '#type' => 'value',
+        '#value' => db_fetch_object(db_query("SELECT * FROM {profile_fields} WHERE fid = %d", $form['fid']['#value'])),
+      );
+      $form['#submit'][] = 'i18nprofile_field_delete_submit';
+  }
+}
+
+/**
+ * Delte field profile related strings
+ */
+function i18nprofile_field_delete_submit($form, $form_state) {
+  $field = $form_state['values']['field'];
+  foreach (array('title', 'explanation', 'options') as $property) {
+    i18nstrings_remove_string("profile:field:$field->name:$property");
+  }
+  // Delete category too if no more fields in the same category
+  if (!db_result(db_query("SELECT COUNT(*) FROM {profile_fields} WHERE category = '%s'", $field->category))) {
+    i18nstrings_remove_string("profile:category", $values->category);
+  }
+}
+
+/**
+ * Process profile_field_form submissions.
+ */
+function i18nprofile_field_form_submit($form, &$form_state) {
+  $values = (object)$form_state['values'];
+  // Check old field name in case it has changed.
+  $oldname = $form['fields']['name']['#default_value'];
+  if ($oldname != 'profile_' && $oldname != $values->name) {
+    i18nstrings_update_context("profile:field:$oldname:*", "profile:field:$values->name:*");
+  }
+  // Store category.
+  i18nstrings_update("profile:category", $values->category);
+  // Store strings to translate: title, explanation, options.
+  i18nstrings_update_object("profile:field:$values->name", $values, array('title', 'explanation', 'options'));
+}
+
+/**
+ * Translate form fields for a given category.
+ */
+function i18nprofile_form_translate_category(&$form, $category) {
+  if (!empty($form[$category])) {
+    $form[$category]['#title'] = i18nstrings('profile:category', $form[$category]['#title']);
+    foreach (element_children($form[$category]) as $field) {
+      i18nprofile_form_translate_field($form[$category], $field);
+    }
+  }
+}
+
+/**
+ * Translate form field.
+ */
+function i18nprofile_form_translate_field(&$form, $field) {
+  if (!empty($form[$field]['#title'])) {
+    $form[$field]['#title'] = i18nstrings("profile:field:$field:title", $form[$field]['#title']);
+  }
+  elseif (!empty($form[$field]['#value'])) {
+    // Special treating for checboxes.
+    $field_type = db_result(db_query("SELECT type FROM {profile_fields} WHERE name = '%s'", $field));
+    if ($field_type == 'checkbox') {
+      $form[$field]['#value'] = i18nstrings("profile:field:$field:title", $form[$field]['#value']);
+    }
+  }
+  
+  if (!empty($form[$field]['#description'])) {
+    $form[$field]['#description'] = i18nstrings("profile:field:$field:explanation", $form[$field]['#description']);
+  }
+  if (!empty($form[$field]['#options'])) {
+    if ($options = i18nprofile_field_options($field, $form[$field]['#options'])) {
+      $form[$field]['#options'] = $options;
+    }
+  }
+
+}
+
+/**
+ * Translates field options.
+ */
+function i18nprofile_field_options($field, $source = array()) {
+  if ($translation = i18nstrings("profile:field:$field:options", '')) {
+    // Troubles when doing the split, produces empty lines, quick fix
+    $translation = str_replace("\r", '', $translation);
+    $translation = explode("\n", $translation);
+    if ($source) {
+      $options = $source;
+    }
+    elseif ($source = db_result(db_query("SELECT options FROM {profile_fields} WHERE name = '%s'", $field))) {
+      $source = str_replace("\r", '', $source);
+      $source = explode("\n", $source);
+      $options = array();
+    }
+    else {
+      return NULL;
+    }
+    foreach ($source as $value) {
+      if ($value != '--') {
+        $string = $translation ? trim(array_shift($translation)) : trim($value);
+        $options[trim($value)] = $string;
+      }
+    }
+    return $options;
+  }
+}
+
+/**
+ * Translate form fields for all categories.
+ *
+ * This is useful when we don't know which categories we have, like in the user register form.
+ */
+function i18nprofile_form_translate_all($form_id, &$form) {
+  $categories = profile_categories();
+  if (is_array($categories)) {
+    foreach ($categories as $category) {
+      if (isset($form[$category['name']])) {
+        i18nprofile_form_translate_category( $form, $category['name']);
+      }
+    }
+  }
+}

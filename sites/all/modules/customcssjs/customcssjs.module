@@ -1,0 +1,179 @@
+<?php
+// $Id: customcssjs.module,v 1.1.2.8 2010/04/21 10:17:49 davebv Exp $
+//
+
+/**
+ * Display help and module information
+ * @param path which path of the site we're displaying help
+ * @param arg array that holds the current path as would be returned from arg() function
+ * @return help text for the path
+ */
+function customcssjs_help($path, $arg) {
+  $output = '';  //declare your output variable
+  switch ($path) {
+  case "admin/help#customcssjs":
+    $output = '<p>'.  t("Add folder for extra CSS and JS files") .'</p>';
+    break;
+  }
+  return $output;
+} // function customcssjs_help
+
+
+
+/**
+ * Valid permissions for this module
+ * @return array An array of valid permissions for the customcssjs module
+ */
+function customcssjs_perm() {
+  return array('administer custom css and js') ;
+} // function customcssjs_perm()
+
+
+function customcssjs_init() {
+  // Add the CSS and JS
+  //
+  $basecamino = file_directory_path() ;
+  $css_path = variable_get('customcssjs_css', array()) ;
+  if (!empty($css_path)) {
+    $css_files = file_scan_directory(
+      $basecamino .'/'. $css_path, "css", array('.','..','CVS'),
+      '_customcssjs_add_css', // Callback function for adding the CSS
+      FALSE, 'filename', 0 ) ;
+  }
+  $js_path = variable_get('customcssjs_js', array()) ;
+  if (!empty($js_path)) {
+    $js_files = file_scan_directory(
+      $basecamino .'/'. $js_path, "js", array('.','..','CVS'),
+      '_customcssjs_add_js', // Callback function for adding the JS
+      FALSE, 'filename', 0 ) ;
+  }
+}
+
+/**
+ * Functions to add custom hadle for files to be added
+ */
+
+function _customcssjs_add_css($filename) {
+  drupal_add_css($filename, 'theme') ;
+}
+
+function _customcssjs_add_js($filename) {
+  drupal_add_js($filename, 'theme') ;
+}
+
+
+function customcssjs_menu() {
+  
+  $items = array();
+  $items['admin/settings/customcssjs'] = array(
+    'title' => 'Custom CSS and JS files',
+    'description' => 'Here you can tune your custom js and css folder files',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('customcssjs_admin'),
+    'access callback' => 'user_access',
+    'access arguments' => array('administer custom css and js'),
+    'type' => MENU_NORMAL_ITEM,
+  );
+
+  return $items;
+}
+
+function customcssjs_admin() {
+  $default_css_path = 'customcssjs/css';
+  $default_js_path = 'customcssjs/js';
+
+  $form = array() ;
+  $form['customcssjs_css'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Folder for CSS files'),
+    '#default_value' => variable_get('customcssjs_css', $default_css_path),
+    '#size' => 50,
+    '#maxlength' => 50,
+    '#description' => t('Path relative to default files folder: '. file_directory_path() .'. You may setup this path <a href="/admin/settings/file-system">here</a>.'),
+    '#required' => TRUE,
+  ) ;
+  $form['customcssjs_js'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Folder for JS files'),
+    '#default_value' => variable_get('customcssjs_js', $default_js_path),
+    '#size' => 50,
+    '#maxlength' => 50,
+    '#description' => t('Path relative to default files folder: '. file_directory_path() .'. You may setup this path <a href="/admin/settings/file-system">here</a>.'),
+    '#required' => TRUE,
+  ) ;
+  return system_settings_form($form) ;
+}
+
+
+function customcssjs_admin_validate($form, &$form_state) {
+  
+  $css_path = $form_state['values']['customcssjs_css'] ;
+  $css_full_path = file_directory_path() .'/'. $css_path;
+  file_check_directory($css_full_path, 1, 'customcssjs_css');
+  $js_path = $form_state['values']['customcssjs_js'] ;
+  $js_full_path = file_directory_path() .'/'.  $js_path;
+  file_check_directory($js_full_path, 1, 'customcssjs_js');
+}
+
+/**
+ * Implementation of hook_preprocess_page().
+ *
+ */
+
+function customcssjs_preprocess_page(&$variables) {
+  // We will get css and js files and rearrange them
+  if (!empty($variables['styles'])) {
+    $css_path = variable_get('customcssjs_css', array()) ;
+    if (!empty($css_path)) {
+      $css_array = explode("<link ", $variables['styles']);
+      $patron = '!(.*?)'. $css_path .'(.*?)!' ;
+      $css_array_last = preg_grep($patron, $css_array);
+      foreach ($css_array_last as $key => $value) {
+        if (is_null($value) || $value == ""){
+          unset($css_array_last[$key]);
+          continue;
+        }
+        $css_array_last[$key] = '<link '. trim($css_array_last[$key]) .'' ;
+      }
+      $css_array_in = preg_grep($patron, $css_array, PREG_GREP_INVERT);
+      foreach ($css_array_in as $key => $value) {
+        if (is_null($value) || $value == ""){
+          unset($css_array_in[$key]);
+          continue;
+        }
+        $css_array_in[$key] = '<link '. trim($css_array_in[$key]) .'' ;
+      }
+ 
+      $css_array_all = array_merge($css_array_in, $css_array_last) ;
+      $variables['styles'] = implode("", $css_array_all) ;
+    }
+  }
+  if (!empty($variables['scripts'])) {
+    $js_path = variable_get('customjsjs_js', array()) ;
+    if (!empty($js_path)) {
+      $js_array = explode("<script ", $variables['scripts']);
+      $patron = '!(.*?)'. $js_path .'(.*?)!' ;
+      $js_array_last = preg_grep($patron, $js_array);
+      foreach ($js_array_last as $key => $value) {
+        if (is_null($value) || $value == ""){
+          unset($js_array_last[$key]);
+          continue;
+        }
+        $js_array_last[$key] = '<script '. trim($js_array_last[$key]) .'' ;
+      }
+      $js_array_in = preg_grep($patron, $js_array, PREG_GREP_INVERT);
+      foreach ($js_array_in as $key => $value) {
+        if (is_null($value) || $value == ""){
+          unset($js_array_in[$key]);
+          continue;
+        }
+        $js_array_in[$key] = '<script '. trim($js_array_in[$key]) .'' ;
+      }
+ 
+      $js_array_all = array_merge($js_array_in, $js_array_last) ;
+      $variables['scripts'] = implode("", $js_array_all) ;
+    }
+  }
+
+}
+

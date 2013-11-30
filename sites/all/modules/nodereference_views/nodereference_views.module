@@ -1,0 +1,149 @@
+<?php
+// $Id: nodereference_views.module,v 1.5 2010/11/19 16:12:28 joachim Exp $
+
+/**
+ * @file
+ * Allows a view to be used as the display formatter for a CCK nodereference field.
+ * The view should have the same name as the field, including the automatic 'field_' prefix,
+ * eg 'field_my_noderef'.
+ * The first view argument must be a node id, set to allow multiple ids.
+ * No other arguments are passed.
+ */
+
+/**
+ * Implementation of hook_help().
+ */
+function nodereference_views_help($path, $arg) {
+  switch ($path) {
+    case 'admin/help#nodereference_views':
+      return t("The Node reference views module adds a display option called 'View' to all node reference CCK fields. To use this, you need a view that has the same name as your field, eg 'field_my_nodereference'. This view also needs its first argument to be a node ID, set to accept multiple values.<br />" .
+      "To get started, you can clone the example view: it comes with the argument already set. No other arguments are passed to the view. You can add any fields and sorts; however, CCK does not provide a sort for its field item order.");
+  }
+}
+
+/**
+ * Implementation of hook_theme().
+ */
+function nodereference_views_theme($existing, $type, $theme, $path) {
+  return array(
+    'nodereference_views_formatter_views' => array(
+      'arguments' => array('element'),
+    ),
+    'nodereference_views_formatter_views_single' => array(
+      'arguments' => array('element' => NULL),
+    ),
+  );
+}
+
+
+/**
+ * Implementation of hook_field_formatter_info().
+ */
+function nodereference_views_field_formatter_info() {
+  $formatters = array(
+    'views' => array(
+      'label' => t('View'),
+      'field types' => array('nodereference'),
+      'multiple values' => CONTENT_HANDLE_MODULE,
+    ),
+  );
+  if (module_exists('content_multigroup')) {
+    $formatters['views_single'] = array(
+      'label' => t('View (for multigroups)'),
+      'field types' => array('nodereference'),
+      'multiple values' => CONTENT_HANDLE_CORE,
+    );
+  }
+  return $formatters;
+}
+
+/**
+ * Formatter theme function.
+ *
+ * This looks for a view with the same name as the field, eg 'field_my_noderef'
+ * and passes it the node ids that the CCK field gives us.
+ * A view used for this should have the 'Node: nid' argument in first place
+ * The second argument is the displayed node's nid.
+ */
+function theme_nodereference_views_formatter_views($element) {
+  // We get here even if the field is empty, so check that the 0 value is not a proper nid
+  // and return nothing so the label is not shown.
+  if (!$element[0]['#item']['nid']) {
+    return;
+  }
+
+  foreach (element_children($element) as $key) {
+    $nids[] = $element[$key]['#item']['nid'];
+  }
+  // Filter out NULL values from gappy fields: see http://drupal.org/node/422036
+  $arg_nids = implode(',', array_filter($nids));
+
+  // Don't use views_embed_view so we can return an error if the view can't be found.
+  $view_name  = $element['#field_name'];
+  $args[]     = $arg_nids;
+  $args[]     = $element['#node']->nid;
+
+  $view = views_get_view($view_name);
+  if (!$view) {
+    return "Error: view $view_name not found.";
+  }
+
+  return $view->preview('default', $args);
+}
+
+/**
+ * Formatter theme function.
+ *
+ * This looks for a view with the same name as the field, eg 'field_my_noderef'
+ * and passes it the node id that the CCK field gives us.
+ * A view used for this should have the 'Node: nid' argument in first place
+ * The second argument is the displayed node's nid.
+ */
+function theme_nodereference_views_formatter_views_single($element) {
+  // We get here even if the field is empty, so check that the value is not a proper nid
+  // and return nothing so the label is not shown.
+  if (!$element['#item']['nid']) {
+    return;
+  }
+
+  // Don't use views_embed_view so we can return an error if the view can't be found.
+  $view_name  = $element['#field_name'];
+  $args[]     = $element['#item']['nid'];
+  $args[]     = $element['#node']->nid;
+
+  $view = views_get_view($view_name);
+  if (!$view) {
+    return "Error: view $view_name not found.";
+  }
+
+  return $view->preview('default', $args);
+}
+
+/*
+// This is an alternative approach: send just the nid and requery.
+// this requires a view with:
+//  - a relationship on the CCK noderef field,
+//  - an argument of node ID
+//  - fields for actual display set on the noderef relationship
+// It's more complex to set up, seems wasteful as CCK has given us the nids already
+// and in testing (admittedly with a tiny data set)
+// was about the same speed, marginally slower in fact.
+// Leaving this here anyway in case it's more suitable in other cases.
+function theme_nodereference_views_formatter_views_nid($element) {
+
+  $arg_nid = $element['#node']->nid;
+
+  #dsm($element);
+  return views_embed_view($element['#field_name'] . '_nid', 'default', $arg_nid);
+
+}
+*/
+
+/**
+ * Implementation of hook_views_api().
+ */
+function nodereference_views_views_api() {
+  return array(
+    'api' => 2,
+  );
+}

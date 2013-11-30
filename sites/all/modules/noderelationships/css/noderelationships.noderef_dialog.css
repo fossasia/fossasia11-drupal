@@ -1,0 +1,266 @@
+/* $Id: noderelationships.noderef_dialog.css,v 1.1.2.2 2009/09/28 07:56:41 markuspetrux Exp $ */
+
+/**
+ * Search/Create and reference tabs and content.
+ */
+.noderelationships-noderef-page-tabs {
+  margin: 0;
+  padding: 0;
+}
+/* Fix for IE6. */
+* html .noderelationships-noderef-page-tabs {
+  margin-top: 1em;
+}
+.noderelationships-noderef-page-tabs ul {
+  margin: 0;
+  padding: 0 0.8em 0 0.8em;
+  text-align: left;
+}
+.noderelationships-noderef-page-tabs ul li {
+  display: inline-block;
+  margin: 0 0.3em 0 0;
+  padding: 0;
+  list-style-type: none;
+  background-image: none;
+}
+/* Fix for IE6. */
+* html .noderelationships-noderef-page-tabs ul li {
+  display: inline;
+  zoom: 1;
+}
+.noderelationships-noderef-page-tabs ul li a {
+  display: inline-block;
+  margin: 0;
+  padding: 0 1em;
+  background-color: #f8f8f8;
+  border: 1px solid #d8e8f8;
+}
+.noderelationships-noderef-page-tabs ul li a:hover {
+  color: #000000;
+  background-color: #d8e8f8;
+  border: 1px solid #6699cc;
+  text-decoration: none;
+}
+.noderelationships-noderef-page-tabs ul li.active a {
+  background-color: #ffffff;
+  border-bottom-color: #ffffff;
+  font-weight: bold;
+}
+.noderelationships-noderef-page-tabs ul li.active a:hover {
+  background-color: #ffffff;
+  border: 1px solid #6699cc;
+  border-bottom-color: #ffffff;
+}
+.noderelationships-noderef-page-content {
+  margin: -1px 0 0 0;
+  padding: 1em;
+  background-color: #ffffff;
+  border: 1px solid #d8e8f8;
+}
+
+/**
+ * Single selection for search and reference views.
+ */
+.noderelationships-noderef-singleselect {
+  margin: 0 0 2em 0;
+  padding: 0;
+}
+.noderelationships-noderef-singleselect label {
+  font-weight: bold;
+}
+
+/**
+ * Multiple selection for search and reference views.
+ */
+.noderelationships-noderef-multiselect-items label {
+  font-weight: bold;
+}
+.noderelationships-noderef-multiselect-items-list {
+  float: left;
+  margin-right: 1em;
+}
+.noderelationships-noderef-multiselect-items-list ul {
+  width: 450px;
+  height: 60px;
+  margin: 0;
+  padding: 0;
+  overflow-y: scroll;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #606060 #cecece #cecece #606060;
+}
+.noderelationships-noderef-multiselect-items-list ul li {
+  margin: 0;
+  padding: 1px;
+  list-style-type: none;
+  background-image: none;
+  cursor: move;
+}
+.noderelationships-noderef-multiselect-items-list ul li div {
+  margin: 0;
+  padding: 2px 2px 2px .5em;
+  list-style-type: none;
+  background-image: none;
+  border: 1px solid #d8e8f8;
+}
+.noderelationships-noderef-multiselect-unselect {
+  display: block;
+  float: right;
+  width: 16px;
+  height: 16px;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #cecece #606060 #606060 #cecece;
+  background: #f4f4f4 url(../images/multiselect-sprites.png) no-repeat -200px -160px;
+}
+.noderelationships-noderef-multiselect-unselect:hover {
+  background-color: #ffffff;
+  background-position: 0 -160px;
+}
+.noderelationships-noderef-multiselect-items-list .ui-state-highlight {
+  height: 24px;
+  border: 1px dashed #808080;
+}
+.noderelationships-noderef-multiselect-ui-sortable-helper {
+  padding: .1em .5em;
+  border: 1px solid #d8e8f8;
+}
+.noderelationships-noderef-multiselect-actions {
+  float: left;
+}
+a.noderelationships-noderef-multiselect-button:link,
+a.noderelationships-noderef-multiselect-button:active,
+a.noderelationships-noderef-multiselect-button:visited {
+  display: block;
+  float: left;
+  margin: 4px;
+  padding: .2em 8px .2em 24px;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #cecece #606060 #606060 #cecece;
+  color: #606060;
+  background: #f0f0f0 url(../images/multiselect-sprites.png) no-repeat 4px 4px;
+  text-decoration: none;
+}
+a.noderelationships-noderef-multiselect-button:hover {
+  color: #000000;
+  background-color: #ffffff;
+  text-decoration: none;
+}
+a.noderelationships-noderef-multiselect-save {
+  background-position: 4px 4px;
+}
+a.noderelationships-noderef-multiselect-sort-desc:link,
+a.noderelationships-noderef-multiselect-sort-desc:active,
+a.noderelationships-noderef-multiselect-sort-desc:visited,
+a.noderelationships-noderef-multiselect-sort-desc:hover {
+  background-position: 4px -28px;
+}
+a.noderelationships-noderef-multiselect-sort-asc:link,
+a.noderelationships-noderef-multiselect-sort-asc:active,
+a.noderelationships-noderef-multiselect-sort-asc:visited,
+a.noderelationships-noderef-multiselect-sort-asc:hover {
+  background-position: 4px -60px;
+}
+a.noderelationships-noderef-multiselect-reset:link,
+a.noderelationships-noderef-multiselect-reset:active,
+a.noderelationships-noderef-multiselect-reset:visited,
+a.noderelationships-noderef-multiselect-reset:hover {
+  background-position: 4px -92px;
+}
+a.noderelationships-noderef-multiselect-cancel:link,
+a.noderelationships-noderef-multiselect-cancel:active,
+a.noderelationships-noderef-multiselect-cancel:visited,
+a.noderelationships-noderef-multiselect-cancel:hover {
+  background-position: 4px -124px;
+}
+a.noderelationships-disabled:link,
+a.noderelationships-disabled:active,
+a.noderelationships-disabled:visited,
+a.noderelationships-disabled:hover {
+  color: #888888;
+  border-color: #606060 #cecece #cecece #606060;
+  background-color: #f0f0f0;
+}
+a.noderelationships-noderef-multiselect-save-disabled:link,
+a.noderelationships-noderef-multiselect-save-disabled:active,
+a.noderelationships-noderef-multiselect-save-disabled:visited,
+a.noderelationships-noderef-multiselect-save-disabled:hover {
+  background-position: -196px 4px;
+}
+a.noderelationships-noderef-multiselect-sort-desc-disabled:link,
+a.noderelationships-noderef-multiselect-sort-desc-disabled:active,
+a.noderelationships-noderef-multiselect-sort-desc-disabled:visited,
+a.noderelationships-noderef-multiselect-sort-desc-disabled:hover {
+  background-position: -196px -28px;
+}
+a.noderelationships-noderef-multiselect-sort-asc-disabled:link,
+a.noderelationships-noderef-multiselect-sort-asc-disabled:active,
+a.noderelationships-noderef-multiselect-sort-asc-disabled:visited,
+a.noderelationships-noderef-multiselect-sort-asc-disabled:hover {
+  background-position: -196px -60px;
+}
+a.noderelationships-noderef-multiselect-reset-disabled:link,
+a.noderelationships-noderef-multiselect-reset-disabled:active,
+a.noderelationships-noderef-multiselect-reset-disabled:visited,
+a.noderelationships-noderef-multiselect-reset-disabled:hover {
+  background-position: -196px -92px;
+}
+a.noderelationships-noderef-multiselect-cancel-disabled:link,
+a.noderelationships-noderef-multiselect-cancel-disabled:active,
+a.noderelationships-noderef-multiselect-cancel-disabled:visited,
+a.noderelationships-noderef-multiselect-cancel-disabled:hover {
+  background-position: -196px -124px;
+}
+
+/**
+ * Search and reference views.
+ */
+.views-field-noderelationships-nid,
+.views-field-noderelationships-title {
+  display: none;
+}
+.noderelationships-noderef-selectable {
+  cursor: pointer;
+}
+
+/**
+ * Grid cells.
+ */
+table.views-view-grid {
+  border-collapse: separate;
+  border-spacing: 2px;
+  empty-cells: hide;
+}
+table.views-view-grid td {
+  border: 1px solid #d8e8f8;
+}
+
+/**
+ * Selected and hover effects for selectable view elements.
+ *
+ * Provide an explicit DOM path in selectors to match cells with active class.
+ * Note that the order of these CSS classes is important.
+ */
+table.views-view-grid td.noderelationships-noderef-selected,
+div.views-fluid-grid .noderelationships-noderef-selected,
+table.views-table tr.noderelationships-noderef-selected td,
+table.views-table tr.noderelationships-noderef-selected td.active {
+  background-color: #d0e0f0;
+}
+table.views-view-grid td.noderelationships-noderef-hover,
+div.views-fluid-grid .noderelationships-noderef-hover,
+table.views-table tr.noderelationships-noderef-hover td.active,
+table.views-table tr.noderelationships-noderef-hover td.noderelationships-noderef-hover {
+  background-color: #e4f0f8;
+}
+
+/**
+ * jQuery UI effects.
+ */
+.noderelationships-effects-transfer {
+  border: 1px dashed #888888;
+  background-color: #f0f0f0;
+  opacity: .5; /* css standard */
+  filter: alpha(opacity=50); /* IE */
+}

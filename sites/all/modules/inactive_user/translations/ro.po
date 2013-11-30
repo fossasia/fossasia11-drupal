@@ -1,0 +1,397 @@
+# $Id: ro.po,v 1.1 2009/05/29 18:09:59 deekayen Exp $
+#
+# LANGUAGE translation of Drupal (general)
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# Generated from files:
+#  inactive_user.module,v 1.7 2007/05/07 01:26:33 crell
+#  inactive_user.info,v 1.1.2.1 2007/05/09 05:05:55 crell
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Drupal/inactive_user\n"
+"POT-Creation-Date: 2007-07-16 20:13+0300\n"
+"PO-Revision-Date: 2007-07-17 20:36+0200\n"
+"Last-Translator: Claudiu Cristea <claudiu@cristea.info>\n"
+"Language-Team: Romanian <clau.cristea@gmail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-Language: Romanian\n"
+"X-Poedit-Country: ROMANIA\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+#: inactive_user.module:30
+msgid "Inactive users"
+msgstr "Utilizatori inactivi"
+
+#: inactive_user.module:31
+msgid "Configure notifications to and removal of inactive users."
+msgstr "Configurarea notificărilor şi a ştergerii utilizatorilor inactivi."
+
+#: inactive_user.module:53
+msgid "Administrator e-mail"
+msgstr "E-mai administrator"
+
+#: inactive_user.module:59
+msgid "E-mail addresses"
+msgstr "Adrese E-mail"
+
+#: inactive_user.module:61
+msgid "Supply a comma-separated list of e-mail addresses that will receive administrator alerts. Spaces between addresses are allowed."
+msgstr "Introduceţi o listă de adrese e-mail separate cu virgulă. La aceste adrese se vor transmite notificările. Sunt permise şi spaţii între adrese."
+
+#: inactive_user.module:69
+msgid "Inactive user notification"
+msgstr "Notificare utilizatori inactivi"
+
+#: inactive_user.module:75
+msgid "Notify administrator when a user hasn't logged in for more than"
+msgstr "Anunţă administratorul când un utilizator nu sa autentificat mai mult de"
+
+#: inactive_user.module:78
+msgid "Generate an email to notify the site administrator that a user account hasn't been used for longer than the specified amount of time.  Requires crontab."
+msgstr "Generează un mesaj pentru a notifica administratorul sitului că un utilizator nu s-a mai autentificat pentru o perioadă mai mare decât perioada specificată. Necesită crontab."
+
+#: inactive_user.module:82
+msgid "Notify users when they haven't logged in for more than"
+msgstr "Notifică utilizatorii atunci cand nu s-au mai autentificat mai mult de"
+
+#: inactive_user.module:85
+msgid "Generate an email to notify users when they haven't used their account for longer than the specified amount of time.  Requires crontab."
+msgstr "Generează un mesaj pentru a anunţa utilizatorii că nu şi-au mai utilizat contul pentru o perioadă specificată de timp. Necesită crontab."
+
+#: inactive_user.module:89
+msgid "Body of user notification e-mail"
+msgstr "Corpul mesajului pentru notificarea utilizatorului"
+
+#: inactive_user.module:93
+msgid "Customize the body of the notification e-mail sent to the user."
+msgstr "Personalizaţi corpul mesajului de notificare trimis utilizatorilor."
+
+#: inactive_user.module:93;123;145;181;203
+msgid "Available variables are:"
+msgstr "Variabilele disponibile sunt:"
+
+#: inactive_user.module:100
+msgid "Automatically block inactive users"
+msgstr "Blocare automată a utilizatorilor inactivi"
+
+#: inactive_user.module:106
+msgid "Block users that haven't logged in for more than"
+msgstr "Blochează utilizatorii care nu s-au mai autentificat de mai mult de"
+
+#: inactive_user.module:109
+msgid "Automatically block user accounts that haven't been used in the specified amount of time.  Requires crontab."
+msgstr "Blochează automat conturile utilizatorilor care nu au fost utilizate mai mult decât perioada specificată de timp. Necesită crontab."
+
+#: inactive_user.module:113;171
+msgid "Notify user"
+msgstr "Notifică utilizatorul"
+
+#: inactive_user.module:115
+msgid "Generate an email to notify a user that his/her account has been automatically blocked."
+msgstr "Generează un mesaj pentru a anunţa utilizatorul de blocarea automată a contului său."
+
+#: inactive_user.module:119
+msgid "Body of blocked user acount e-mail"
+msgstr "Corpul mesajului trimis utilizatorului"
+
+#: inactive_user.module:123
+msgid "Customize the body of the notification e-mail sent to the user when their account has been blocked."
+msgstr "Personalizează corpul mesajului de notificare trimis utilizatorului atunci când contul său a fost blocat."
+
+#: inactive_user.module:128;186
+msgid "Notify administrator"
+msgstr "Notifică administratorul"
+
+#: inactive_user.module:130
+msgid "Generate an email to notify the site administrator when a user is automatically blocked."
+msgstr "Generează un mesaj pentru a anunţa administratorul sitului atunci când un utilizator este blocat în mod automat."
+
+#: inactive_user.module:134
+msgid "Warn users before they are blocked"
+msgstr "Atenţionează utilizatorii înainte de blocare"
+
+#: inactive_user.module:137
+msgid "Generate an email to notify a user that his/her account is about to be blocked."
+msgstr "Generează un mesaj prin care un utilizator este anunţat atunci când contul său este pe cale de a fi blocat."
+
+#: inactive_user.module:141;199
+msgid "Body of user warning e-mail"
+msgstr "Corpul mesajului de atenţionare"
+
+#: inactive_user.module:145
+msgid "Customize the body of the notification e-mail sent to the user when their account is about to be blocked."
+msgstr "Personalizează corpul mesajului de atenţionare care se trimite utilizatorilor a căror conturi sunt pe cale de a fi blocate."
+
+#: inactive_user.module:152
+msgid "Automatically delete inactive users"
+msgstr "Şterge automat utilizatorii inactivi"
+
+#: inactive_user.module:158
+msgid "Delete users that haven't logged in for more than"
+msgstr "Şterge utilizatorii care nu s-au mai autentificat de"
+
+#: inactive_user.module:161
+msgid "Automatically delete user accounts that haven't been used in the specified amount of time.  Warning, user accounts are permanently deleted, with no ability to undo the action!  Requires crontab."
+msgstr "Şterge automat utilizatorilor ai căror conturi nu au mai fost utilizate mai mult decât perioada specificată. Atenţie: conturile utilizatorilor vor fi şterse permanent fără posibilitatea de a reveni asupra operaţiei! Necesită crontab."
+
+#: inactive_user.module:165
+msgid "Preserve users that own site content"
+msgstr "Prezervă utilizatorii care au creat conţinut pe sit"
+
+#: inactive_user.module:167
+msgid "Select this option to never delete users that own site content.  If you delete a user that owns content on the site, such as a user that created a node or left a comment, the content will no longer be available via the normal Drupal user interface.  That is, if a user creates a node or leaves a comment, then the user is deleted, the node and/or comment will no longer be accesible even though it will still be in the database."
+msgstr "Selectaţi această opţiune pentru a preveni ştergerea utilizatorilor care sunt autori de conţinut pe sit. dacă ştergeţi utilizatori care deţin conţinut pe sit aşa cum ar fi utilizatorii care au creat un nod sau au adăugat comentarii, conţinutul nu va mai fi afişat pe sit prin interfaţa uzuală Drupal chiar dacă el rămâne în baza de date."
+
+#: inactive_user.module:173
+msgid "Generate an email to notify a user that his/her account has been automatically deleted."
+msgstr "Generează un mesaj pentru a anunţa un utilizator de ştergerea automată a contului său."
+
+#: inactive_user.module:177
+msgid "Body of deleted user account e-mail"
+msgstr "Corpul mesajului trimis utilizatorului"
+
+#: inactive_user.module:181
+msgid "Customize the body of the notification e-mail sent to the user when their account has been deleted."
+msgstr "Personalizează corpul mesajului de notificare trimis utilizatorilor atunci când contul lor a fost şters."
+
+#: inactive_user.module:188
+msgid "Generate an email to notify the site administrator when a user is automatically deleted."
+msgstr "Generează un mesaj pentru a anunţa administratorul sitului atunci când un utilizator este şters automat."
+
+#: inactive_user.module:192
+msgid "Warn users before they are deleted"
+msgstr "Atenţionează utilizatorii înainte de a fi şterşi"
+
+#: inactive_user.module:195
+msgid "Generate an email to notify a user that his/her account is about to be deleted."
+msgstr "Generează un mesaj pentru a notifica un utilizator că este cale să-i fie şters contul."
+
+#: inactive_user.module:203
+msgid "Customize the body of the notification e-mail sent to the user when their account is about to be deleted."
+msgstr "Personalizează corpul mesajului de notificare trimis utilizatorilor care sunt pe cale să le fie şterse conturile."
+
+#: inactive_user.module:219
+msgid "%mail is not a valid e-mail address"
+msgstr "%mail nu este o adresă de e-mail validă"
+
+#: inactive_user.module:222
+msgid "The following e-mail addresses are invalid: %mail"
+msgstr "Următoarele adrese de e-mail sunt invalide: %mail"
+
+#: inactive_user.module:242
+msgid "recent user activity: %user removed from inactivity list"
+msgstr "activitarea recentă a utilizatorului: %user a fost şters din lista de inactivitate"
+
+#: inactive_user.module:242;276;292;313;353
+msgid "edit user"
+msgstr "modifică utilizator"
+
+#: inactive_user.module:261
+msgid "[@sitename] Inactive users"
+msgstr "[@sitename] Utilizatori inactivi"
+
+#: inactive_user.module:275;291;352
+msgid "[@sitename] Account inactivity"
+msgstr "[@sitename] Inactivitate a contului"
+
+#: inactive_user.module:276
+msgid "user %user notified of inactivity"
+msgstr "utilizator %user notificat pentru inactivitate"
+
+#: inactive_user.module:292
+msgid "user %user warned will be blocked due to inactivity"
+msgstr "utilizator %user atenţionat că va fi blocat pentru inactivitate"
+
+#: inactive_user.module:312
+msgid "[@sitename] Account blocked due to inactivity"
+msgstr "[@sitename] Cont blocat pentru inactivitate"
+
+#: inactive_user.module:313
+msgid "user %user blocked due to inactivity"
+msgstr "utilizator %user blocat pentru inactivitate"
+
+#: inactive_user.module:329
+msgid "[@sitename] Blocked users"
+msgstr "[@sitename] Utilizatori blocaţi"
+
+#: inactive_user.module:353
+msgid "user %user warned will be deleted due to inactivity"
+msgstr "utilizator %user atenţionat că va fi şters datorită inactivităţii"
+
+#: inactive_user.module:378
+msgid "[@sitename] Account removed"
+msgstr "[@sitename] Cont şters"
+
+#: inactive_user.module:383
+msgid "user %user deleted due to inactivity"
+msgstr "utilizator %user şters pentru inactivitate"
+
+#: inactive_user.module:388
+msgid "[@sitename] Deleted accounts"
+msgstr "[@sitename] Conturi şterse"
+
+#: inactive_user.module:412
+msgid "0 sec"
+msgstr "0 sec"
+
+#: inactive_user.module:456
+msgid ""
+"Hello %username,\n"
+"\n"
+"  We haven't seen you at %sitename since %lastaccess, and we miss you!  Please come back and visit us soon at %siteurl.\n"
+"\n"
+"Sincerely,\n"
+"  %sitename team"
+msgstr ""
+"Bună ziua %username,\n"
+"\n"
+"Nu aţi mai utilizat contul dumneavostră de la situl %sitename din %lastaccess! Vă rugăm să reveniţi şi să ne vizitaţi la %siteurl.\n"
+"\n"
+"Cu stimă,\n"
+"Echipa %sitename"
+
+#: inactive_user.module:459
+msgid ""
+"Hello,\n"
+"\n"
+"  This automatic notification is to inform you that the following users haven't been seen on %sitename for more than %period:\n"
+"\n"
+"%userlist"
+msgstr ""
+"Bună ziua,\n"
+"\n"
+"Acesta este un anunţ periodic pentru a vă informa că următorii utilizatori nu au mai fost văzuţi la %sitename de mai mult de %period:\n"
+"\n"
+"%userlist"
+
+#: inactive_user.module:462
+msgid ""
+"Hello %username,\n"
+"\n"
+"  We haven't seen you at %sitename since %lastaccess, and we miss you!  This automatic message is to warn you that your account will be disabled in %period unless you come back and visit us before that time.\n"
+"\n"
+"  Please visit us at %siteurl.\n"
+"\n"
+"Sincerely,\n"
+"  %sitename team"
+msgstr ""
+"Bună ziua %username,\n"
+"\n"
+"Nu aţi mai utilizat contul dumneavoastră de la situl %sitename din %lastaccess! Acest mesaj automat are rolul de a vă atenţiona că contul dumneavoastră va fi dezactivat în %period dacă nu reveniţi şi vă identificaţi (logaţi) înainte de acea perioadă.\n"
+"\n"
+"Vititaţi-ne la %siteurl.\n"
+"\n"
+"Cu stimă,\n"
+"Echipa  %sitename"
+
+#: inactive_user.module:465
+msgid ""
+"Hello %username,\n"
+"\n"
+"  This automatic message is to notify you that your account on %sitename has been automatically disabled due to no activity for more than %period.\n"
+"\n"
+"  Please visit us at %siteurl to have your account re-enabled.\n"
+"\n"
+"Sincerely,\n"
+"  %sitename team"
+msgstr ""
+"Bună ziua %username,\n"
+"\n"
+"Acest mesaj automat are rolul de a vă anunţa că contul dumneavoastră de pe situl %sitename a fost dezactivat în mod automat din cauza lipsei de activitate mai mult de %period.\n"
+"\n"
+"Vă rugăm vizitaţi-ne la %siteurl pentru a reactiva contul..\n"
+"\n"
+"Cu stimă,\n"
+"Echipa  %sitename"
+
+#: inactive_user.module:468
+msgid ""
+"Hello,\n"
+"\n"
+"  This automatic notification is to inform you that the following users have been automatically blocked due to inactivity on %sitename for more than %period:\n"
+"\n"
+"%userlist"
+msgstr ""
+"Bună ziua,\n"
+"\n"
+"Acest mesaj automat are rolul de a vă informa că următorii utilizatori au fost dezactivaţi automat din cauza lipsei de activitate pe situl %sitename pentru mai mult de %period:\n"
+"\n"
+"%userlist"
+
+#: inactive_user.module:471
+msgid ""
+"Hello %username,\n"
+"\n"
+"  We haven't seen you at %sitename since %lastaccess, and we miss you!  This automatic message is to warn you that your account will be completely removed in %period unless you come back and visit us before that time.\n"
+"\n"
+"  Please visit us at %siteurl.\n"
+"\n"
+"Sincerely,\n"
+"  %sitename team"
+msgstr ""
+"Bună ziua %username,\n"
+"\n"
+"Nu aţi mai utilizat contul dumneavostră de la situl %sitename din %lastaccess! Acest mesaj automat are rolul de a vă atenţiona că contul dumneavoastră va fi şters definitiv în %period dacă nu reveniţi şi utilizaţi contul în acestă perioadă.\n"
+"\n"
+"Vă rugăm să ne vizitaţi la %siteurl.\n"
+"\n"
+"Cu stimă,\n"
+"Echipa %sitename"
+
+#: inactive_user.module:474
+msgid ""
+"Hello %username,\n"
+"\n"
+"  This automatic message is to notify you that your account on %sitename has been automatically removed due to no activity for more than %period.\n"
+"\n"
+"  Please visit us at %siteurl if you would like to create a new account.\n"
+"\n"
+"Sincerely,\n"
+"  %sitename team"
+msgstr ""
+"Bună ziua %username,\n"
+"\n"
+"Acest mesaj automat are rolul de a vă anunţa că contul dumneavoastră de pe situl %sitename a fost şters automat din cauza lipsei de activitate pentru o perioadă mai mare de %period.\n"
+"\n"
+"Vă rugăm să ne vizitaţi la %siteurl dacă doriţi să vă creaţi un cont nou.\n"
+"\n"
+"Cu stimă,\n"
+"Echipa %sitename"
+
+#: inactive_user.module:477
+msgid ""
+"Hello,\n"
+"\n"
+"  This automatic notification is to inform you that the following users have been automatically deleted due to inactivity on %sitename for more than %period:\n"
+"\n"
+"%userlist"
+msgstr ""
+"Bună ziua,\n"
+"\n"
+"Acest mesaj automat are rolul de a vă informa că următorii utilizatori au fost şterşi automat din cauza lipsei de activitate pe situl %sitename mai mult de %period:\n"
+"\n"
+"%userlist"
+
+#: inactive_user.module:242;276;292;313;353;383
+msgid "user"
+msgstr "utilizator"
+
+#: inactive_user.module:8
+msgid "change inactive user settings"
+msgstr "modifică configuraţia utilizator inactiv"
+
+#: inactive_user.module:0
+msgid "inactive_user"
+msgstr "inactive_user"
+
+#: inactive_user.info:0
+msgid "Inactive User"
+msgstr "Utilizator inactiv"
+
+#: inactive_user.info:0
+msgid "Automatic handling of inactive users."
+msgstr "Gestionarea automată a utilizatorilor inactivi"
+

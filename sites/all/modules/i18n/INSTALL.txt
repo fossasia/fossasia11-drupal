@@ -1,0 +1,39 @@
+********************************************************************
+                     D R U P A L    M O D U L E
+********************************************************************
+Name: i18n module and translation module
+Author: Jose A. Reyero
+
+********************************************************************
+  This is the 6.x version of i18n module, and works with Drupal 6.x
+********************************************************************
+
+********************************************************************
+Updated documentation will be kept on-line at http://drupal.org/node/133977
+********************************************************************
+
+INSTALLATION:
+============
+
+1. Create folder 'sites/all/modules/i18n' and copy all the modules files, keeping directory structure, to this folder.
+2. If updating, run the update.php script following the standard procedure for Drupal updates.
+
+POST-INSTALLATION/CONFIGURATION:
+============
+- First of all review Drupal language settings and make sure you have chosen the right default language.
+- Enable the needed modules grouped under "Internationalization" package
+- Read the on-line handbook on
+
+IMPORTANT:
+==========
+- This module requires a complex set up, make sure you read the handbook and understand the different options
+- Before creating a support request, do read the handbook: http://drupal.org/node/133977
+
+Additional Support
+==================
+For support, please create a support request for this module's project: http://drupal.org/project/i18n
+
+Support questions by email to the module maintainer will be simply ignored. Use the issue tracker.
+
+====================================================================
+Jose A. Reyero, freelance at reyero dot net, http://www.reyero.net

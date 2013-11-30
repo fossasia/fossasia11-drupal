@@ -1,0 +1,242 @@
+<?php  // $Id$
+
+/**
+ * @file
+ * ImageMagick toolkit functions
+ */
+
+/**
+ * Implementation of hook_imageapi_toolkit().
+ *
+ * this hook only gets called to see is a module implements the imageapi hooks...
+ */
+function imageapi_imagemagick_imageapi_toolkit() {
+}
+
+
+/**
+ * Settings form for the toolkit.
+ */
+function imageapi_imagemagick_settings_form() {
+  $form['imageapi_imagemagick_quality'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Compression Quality'),
+    '#description' => t('Ranges from 0 to 100. Higher values mean better image quality, but bigger files.'),
+    '#size' => 10,
+    '#maxlength' => 3,
+    '#default_value' => variable_get('imageapi_imagemagick_quality', 75),
+    '#field_suffix' => '%',
+    '#element_validate' => array('imageapi_imagemagick_quality_element_validate'),
+  );
+
+  $form['imageapi_imagemagick_binary'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('ImageMagick Binary'),
+    '#collapsible' => FALSE,
+    '#description' => t('ImageMagick is a standalone program used to manipulate images. To use it, it must be installed on your server and you need to know where it is located. If you are unsure of the exact path consult your ISP or server administrator.'),
+  );
+
+  $form['imageapi_imagemagick_binary']['version'] = array('#weight' => -1);
+  $form['imageapi_imagemagick_binary']['#after_build'] = array('_imageapi_imagemagick_build_version');
+
+  $form['imageapi_imagemagick_binary']['imageapi_imagemagick_convert'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Path to the "convert" binary'),
+    '#default_value' => variable_get('imageapi_imagemagick_convert', '/usr/bin/convert'),
+    '#required' => TRUE,
+    '#description' => t('Specify the complete path to the ImageMagic <kbd>convert</kbd> binary. For example: <kbd>/usr/bin/convert</kbd> or <kbd>C:\Program Files\ImageMagick-6.3.4-Q16\convert.exe</kbd>'),
+    '#element_validate' => array('imageapi_imagemagick_validate_path'),
+  );
+
+  $form['imageapi_imagemagick_binary']['imageapi_imagemagick_debugging'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Display debugging information'),
+    '#default_value' => variable_get('imageapi_imagemagick_debugging', 0),
+    '#description' => t('Checking this option will display the ImageMagick commands and output to users with the <em>administer site configuration</em> permission.'),
+    '#weight' => 2,
+  );
+
+  return system_settings_form($form);
+}
+
+function _imageapi_imagemagick_build_version($form_element, $form_state) {
+  // make sure path is set and valid before running after build.
+  if ($path_errors = _imageapi_imagemagick_check_path($form_state['values']['imageapi_imagemagick_convert'])) {
+    // check here is primarily for pre-existing bad settings...
+    // the #validate should prevent users from adding bad paths.
+    $form_element['imageapi_imagemagick_binary'] = array(
+      '#value' => '<p class="error">'. implode('<br />', $path_errors) .'</p>',
+    );
+  }
+  else {
+    _imageapi_imagemagick_convert_exec('-version', $output, $errors);
+    $form_element['imageapi_imagemagick_binary']['version'] = array(
+      '#title' => t('Version information'),
+      '#value' => '<pre>'. check_plain(trim($output)) .'</pre>',
+      '#description' => t('The ImageMagick <kbd>convert</kbd> binary was located and return this version information.'),
+    );
+  }
+  $form_element['imageapi_imagemagick_binary']['version']['#type'] = 'item';
+  $form_element['imageapi_imagemagick_binary']['version']['#weight'] = -1;
+  return $form_element;
+}
+
+function imageapi_imagemagick_validate_path($element) {
+  if ($errors = _imageapi_imagemagick_check_path($element['#value'])) {
+    form_set_error($element['#parents'][0], implode('<br />', $errors));
+    //form_set_value($element['#parents'][0], variable_get('imageapi_imagemagick_convert', '/usr/bin/convert'));
+    return FALSE;
+  }
+  return TRUE;
+}
+
+function imageapi_imagemagick_quality_element_validate($element) {
+  if ($element['#value'] < 0 || $element['#value'] > 100) {
+    form_set_error($element['#name'], t('Compression Quality must be a value between 0 and 100.'));
+  }
+}
+
+function imageapi_imagemagick_image_open($image) {
+  $image->ops = array();
+  return $image;
+}
+
+function imageapi_imagemagick_image_close($image, $dst) {
+  return _imageapi_imagemagick_convert($image->source, $dst, $image->ops);
+}
+
+function imageapi_imagemagick_image_crop(&$image, $x, $y, $width, $height) {
+  $image->ops[]  = '-crop '. (int) $width .'x'. (int) $height .'+'. (int) $x .'+'. (int) $y .'!';
+  $image->info['width'] = $width;
+  $image->info['height'] = $height;
+  return TRUE;
+}
+
+function imageapi_imagemagick_image_resize(&$image, $width, $height) {
+  $image->ops[] = '-resize '. (int) $width .'x'. (int) $height .'!';
+  $image->info['width'] = $width;
+  $image->info['height'] = $height;
+  return TRUE;
+}
+
+function imageapi_imagemagick_image_rotate(&$image, $degrees, $bgcolor) {
+  if (is_int($bgcolor)) {
+    $bgcolor = '#'. str_pad(dechex($bgcolor), 6, 0);
+  }
+  else {
+    $bgcolor = str_replace('0x', '#', $bgcolor);
+  }
+  $image->ops[] = '-background '. escapeshellarg($bgcolor) .' -rotate '. (float) $degrees;
+  return TRUE;
+}
+
+function imageapi_imagemagick_image_sharpen(&$image, $radius, $sigma, $amount, $threshold) {
+  $unsharp_arg = $radius .'x'. $sigma .'+'. $amount/100 .'+'. $threshold;
+  $image->ops[] = '-unsharp '. $unsharp_arg;
+  return TRUE;
+}
+
+function imageapi_imagemagick_image_desaturate(&$image) {
+  $image->ops[] = '-colorspace GRAY';
+  return TRUE;
+}
+
+/**
+ * Calls the convert executable with the specified filter.
+ */
+function _imageapi_imagemagick_convert($source, $dest, $args) {
+  $args['quality'] = '-quality '. escapeshellarg(variable_get('imageapi_imagemagick_quality', 75));
+  // To make use of ImageMagick 6's parenthetical command grouping we need to make
+  // the $source image the first parameter and $dest the last.
+  // See http://www.imagemagick.org/Usage/basics/#cmdline for more info.
+  $command = escapeshellarg($source) .' '. implode(' ', $args) .' '. escapeshellarg($dest);
+
+  if (0 != _imageapi_imagemagick_convert_exec($command, $output, $errors)) {
+    return FALSE;
+  }
+  return file_exists($dest);
+}
+
+function _imageapi_imagemagick_check_path($path) {
+  $errors = array();
+  if (!is_file($path)) {
+    $errors[] = t('The specified ImageMagick path %file does not exist.', array('%file' => $path));
+  }
+  if (!$errors && !is_executable($path)) {
+    $errors[] = t('The specified ImageMagick path %file is not executable.', array('%file' => $path));
+  }
+  if ($errors && $open_basedir = ini_get('open_basedir')) {
+    $errors[] = t('PHP\'s <a href="!open-basedir">open_basedir</a> security restriction is set to %open-basedir, which may be interfering with attempts to locate ImageMagick.', array('%file' => $path, '%open-basedir' => $open_basedir, '!info-link' => url('http://php.net/features.safe-mode#ini.open-basedir')));
+  }
+  return $errors;
+}
+
+function _imageapi_imagemagick_convert_exec($command_args, &$output, &$errors) {
+  $convert_path = variable_get('imageapi_imagemagick_convert', '/usr/bin/convert');
+  if ($errors = _imageapi_imagemagick_check_path($convert_path)) {
+    watchdog('imageapi imagemagick', '!errors', array('!errors' => implode('<br />', $errors)), WATCHDOG_ERROR);
+    return FALSE;
+  }
+
+  // Specify Drupal's root as the working a working directory so that relative
+  // paths are interpreted correctly.
+  $drupal_path = getcwd();
+
+  if (strstr($_SERVER['SERVER_SOFTWARE'], 'Win32') || strstr($_SERVER['SERVER_SOFTWARE'], 'IIS')) {
+    // Use Window's start command to avoid the "black window" from showing up:
+    // http://us3.php.net/manual/en/function.exec.php#56599
+    // Use /D to run the command from PHP's current working directory so the
+    // file paths don't have to be absolute.
+    $convert_path = 'start "window title" /D'. escapeshellarg($drupal_path) .' /B '. escapeshellarg($convert_path);
+  }
+
+  $descriptors = array(
+    0 => array('pipe', 'r'), // stdin
+    1 => array('pipe', 'w'), // stdout
+    2 => array('pipe', 'w')  // stderr
+  );
+  if ($h = proc_open($convert_path .' '. $command_args, $descriptors, $pipes, $drupal_path)) {
+    $output = '';
+    while (!feof($pipes[1])) {
+      $output .= fgets($pipes[1]);
+    }
+
+    $errors = '';
+    while (!feof($pipes[2])) {
+      $errors .= fgets($pipes[2]);
+    }
+
+    fclose($pipes[0]);
+    fclose($pipes[1]);
+    fclose($pipes[2]);
+    $return_code = proc_close($h);
+
+    // Display debugging information to authorized users.
+    if (variable_get('imageapi_imagemagick_debugging', FALSE) && user_access('administer site configuration')) {
+      drupal_set_message(t('ImageMagick command: @command', array('@command' => $convert_path .' '. $command_args)));
+      drupal_set_message(t('ImageMagick output: @output', array('@output' => $output)));
+    }
+
+    if ($return_code == 1 && $command_args == '-version') {
+      // Some versions of ImageMagick return status code 1 when outputting the
+      // version info. This should not be caught as an error.
+    }
+    else if ($return_code != 0) {
+      // If ImageMagick returned a non-zero code, trigger a PHP error that will
+      // be caught by Drupal's error handler, logged to the watchdog and
+      // eventually displayed to the user if configured to do so.
+
+      // If $errors is empty, only report the error code.
+      if (empty($errors)) {
+        trigger_error(t('ImageMagick reported error code !code.', array('!code' => $return_code)), E_USER_ERROR);
+      }
+      // Otherwise report the error code, and the error message.
+      else {
+        trigger_error(t("ImageMagick reported error code !code.\nMessage:\n!error", array('!code' => $return_code, '!error' => $errors)), E_USER_ERROR);
+      }
+    }
+
+    return $return_code;
+  }
+  return FALSE;
+}

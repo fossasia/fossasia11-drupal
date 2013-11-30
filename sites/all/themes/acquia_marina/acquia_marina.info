@@ -1,0 +1,137 @@
+; $Id: acquia_marina.info 7703 2010-07-14 22:42:55Z jeremy $
+
+name = Acquia Marina
+description = <a href="http://www.acquia.com">Acquia</a> Marina is a bright and colorful grid-based theme with point-and-click theming. Requires the <a href="http://drupal.org/project/fusion">Fusion Core</a> base theme and the <a href="http://drupal.org/project/skinr">Skinr</a> module. Created by <a href="http://www.topnotchthemes.com">TopNotchThemes</a> and <a href="http://fusiondrupalthemes.com">Fusion Drupal Themes</a>.
+base theme = fusion_core
+core = 6.x
+engine = phptemplate
+
+stylesheets[all][] = css/fusion-acquia-marina-style.css
+
+scripts[] = js/jquery.corner.js
+scripts[] = js/acquia-marina-script.js
+
+regions[sidebar_first] = sidebar first
+regions[sidebar_last] = sidebar last
+regions[header_top] = header top
+regions[header] = header
+regions[preface_top] = preface top
+regions[preface_bottom] = preface bottom
+regions[content_top] = content top
+regions[content] = content
+regions[content_bottom] = content bottom
+regions[postscript_top] = postscript top
+regions[postscript_bottom] = postscript bottom
+regions[footer] = footer
+regions[node_top] = node top
+regions[node_bottom] = node bottom
+
+features[] = logo
+features[] = name
+features[] = slogan
+features[] = node_user_picture
+features[] = comment_user_picture
+features[] = search
+features[] = favicon
+features[] = primary_links
+features[] = secondary_links
+
+; Default theme settings
+settings[theme_grid] = grid16-960
+settings[theme_grid_options][] = grid16-960
+settings[theme_grid_options][] = grid16-fluid
+settings[fluid_grid_width] = fluid-100
+settings[theme_font_size] = font-size-12
+settings[sidebar_layout] = sidebars-split
+settings[sidebar_first_width] = 3
+settings[sidebar_last_width] = 3
+
+; Inherit Skinr styles from parent themes
+skinr[options][inherit_skins] = true
+
+; Disable 12 column grid block widths inherited from fusion_core
+skinr[grid12-width] =
+
+; Marina general styles
+skinr[marina-general-styles][title] = Acquia Marina - General theme styles
+skinr[marina-general-styles][type] = checkboxes
+skinr[marina-general-styles][features][] = block
+skinr[marina-general-styles][features][] = panels_display
+skinr[marina-general-styles][features][] = panels_pane
+skinr[marina-general-styles][features][] = panels_panel
+skinr[marina-general-styles][features][] = views_view
+skinr[marina-general-styles][options][1][label] = Rounded corners
+skinr[marina-general-styles][options][1][class] = marina-rounded-corners
+
+; Marina list styles
+skinr[marina-list-styles][title] = Acquia Marina - List styles
+skinr[marina-list-styles][type] = radios
+skinr[marina-list-styles][features][] = block
+skinr[marina-list-styles][features][] = panels_display
+skinr[marina-list-styles][features][] = panels_pane
+skinr[marina-list-styles][features][] = panels_panel
+skinr[marina-list-styles][features][] = views_view
+skinr[marina-list-styles][options][1][label] = Small text list with >>
+skinr[marina-list-styles][options][1][class] = marina-list-raquo
+skinr[marina-list-styles][options][2][label] = Large text list with green checkmarks (for Preface Top region)
+skinr[marina-list-styles][options][2][class] = marina-list-arrow-green
+
+; Marina block title styles
+skinr[marina-block-title-styles][title] = Acquia Marina - Block title styles
+skinr[marina-block-title-styles][type] = radios
+skinr[marina-block-title-styles][features][] = block
+skinr[marina-block-title-styles][features][] = panels_display
+skinr[marina-block-title-styles][features][] = panels_pane
+skinr[marina-block-title-styles][features][] = panels_panel
+skinr[marina-block-title-styles][features][] = views_view
+skinr[marina-block-title-styles][options][1][label] = Blue rounded title background with white text
+skinr[marina-block-title-styles][options][1][class] = marina-title-rounded-blue
+skinr[marina-block-title-styles][options][2][label] = Green rounded title background with white text
+skinr[marina-block-title-styles][options][2][class] = marina-title-rounded-green
+skinr[marina-block-title-styles][options][3][label] = Green title
+skinr[marina-block-title-styles][options][3][class] = marina-title-green
+
+; Marina block title icon styles
+skinr[marina-block-title-icon-styles][title] = Acquia Marina - Block title icon styles
+skinr[marina-block-title-icon-styles][type] = select
+skinr[marina-block-title-icon-styles][features][] = block
+skinr[marina-block-title-icon-styles][features][] = panels_display
+skinr[marina-block-title-icon-styles][features][] = panels_pane
+skinr[marina-block-title-icon-styles][features][] = panels_panel
+skinr[marina-block-title-icon-styles][features][] = views_view
+skinr[marina-block-title-icon-styles][options][1][label] = Bubble
+skinr[marina-block-title-icon-styles][options][1][class] = icon-bubble title-icon
+skinr[marina-block-title-icon-styles][options][2][label] = Calendar
+skinr[marina-block-title-icon-styles][options][2][class] = icon-calendar title-icon
+skinr[marina-block-title-icon-styles][options][3][label] = Chalkboard
+skinr[marina-block-title-icon-styles][options][3][class] = icon-chalkboard title-icon
+skinr[marina-block-title-icon-styles][options][4][label] = Chat bubbles
+skinr[marina-block-title-icon-styles][options][4][class] = icon-chatbubbles title-icon
+skinr[marina-block-title-icon-styles][options][5][label] = Color chart
+skinr[marina-block-title-icon-styles][options][5][class] = icon-colorchart title-icon
+skinr[marina-block-title-icon-styles][options][6][label] = Flag
+skinr[marina-block-title-icon-styles][options][6][class] = icon-flag title-icon
+skinr[marina-block-title-icon-styles][options][7][label] = Gears
+skinr[marina-block-title-icon-styles][options][7][class] = icon-gears title-icon
+skinr[marina-block-title-icon-styles][options][8][label] = Home
+skinr[marina-block-title-icon-styles][options][8][class] = icon-home title-icon
+skinr[marina-block-title-icon-styles][options][9][label] = Keys
+skinr[marina-block-title-icon-styles][options][9][class] = icon-keys title-icon
+skinr[marina-block-title-icon-styles][options][10][label] = Newspaper
+skinr[marina-block-title-icon-styles][options][10][class] = icon-newspaper title-icon
+skinr[marina-block-title-icon-styles][options][11][label] = Notepad
+skinr[marina-block-title-icon-styles][options][11][class] = icon-notepad title-icon
+skinr[marina-block-title-icon-styles][options][12][label] = Photo
+skinr[marina-block-title-icon-styles][options][12][class] = icon-photo title-icon
+skinr[marina-block-title-icon-styles][options][13][label] = RSS
+skinr[marina-block-title-icon-styles][options][13][class] = icon-rss title-icon
+skinr[marina-block-title-icon-styles][options][14][label] = Search
+skinr[marina-block-title-icon-styles][options][14][class] = icon-search title-icon
+skinr[marina-block-title-icon-styles][options][15][label] = Star
+skinr[marina-block-title-icon-styles][options][15][class] = icon-star title-icon
+; Information added by drupal.org packaging script on 2010-10-25
+version = "6.x-3.1"
+core = "6.x"
+project = "acquia_marina"
+datestamp = "1288032028"
+

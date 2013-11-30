@@ -1,0 +1,116 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: mimemail\n"
+"POT-Creation-Date: 2008-09-15 14:03+0200\n"
+"PO-Revision-Date: \n"
+"Last-Translator: Mirko Haaser <mcgo@drupalist.de>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\\n\n"
+"X-Poedit-Country: De\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+#: mimemail.module:14
+#: mimemail.info:0
+msgid "Mail"
+msgstr "Nachricht"
+
+#: mimemail.module:15
+msgid "HTML E-mail settings"
+msgstr "Einstellungen für HTML Nachrichten"
+
+#: mimemail.module:50
+msgid "E-mail address"
+msgstr "E-Mail Adresse"
+
+#: mimemail.module:54
+msgid "A valid e-mail address for this website, used by the auto-mailer during registration, new password requests, notifications, etc."
+msgstr "Eine gültige E-Mail Adresse dieser Webseite die von dem Mailsystem für automatische Nachrichten wie Registrierungsbestätigungen, Passwortanforderungen und Benachrichtigungen genutzt wird."
+
+#: mimemail.module:58
+msgid "Use mime mail for all messages"
+msgstr "Mime Nachrichten für alle Nachrichten nutzen"
+
+#: mimemail.module:60
+msgid "Use the mime mail module to deliver all site messages.  With this option, system emails will have styles and formatting"
+msgstr "Das Mime Nachrichten Modul für alle nachrichten der Drupal Seite nutzen. Wenn diese Option aktiviert ist, werden E-Mail Nachricht mit Formatierung ausgeliefert"
+
+#: mimemail.module:64;143
+msgid "Plaintext email only"
+msgstr "Nur Klartextnachrichten"
+
+#: mimemail.module:66
+msgid "This option disables the use of email messages with graphics and styles.  All messages will be converted to plain text."
+msgstr "Diese Option deaktiviert Mime E-Mail Nachrichten. Alle Nachrichten werden in ein Klartextformat konvertiert und verschickt."
+
+#: mimemail.module:71
+msgid "Advanced Settings"
+msgstr "Erweiterte Einstellungen"
+
+#: mimemail.module:77
+msgid "Process incoming messages posted to this site"
+msgstr "Eingehende Nachrichten verarbeiten"
+
+#: mimemail.module:79
+msgid "This is an advanced setting that should not be enabled unless you know what you are doing"
+msgstr "Dies ist eine erweiterte Einstellung, die nur aktiviert werden sollte, wenn Sie wissen, was Sie tun."
+
+#: mimemail.module:83
+msgid "Message validation string"
+msgstr "Zeichenkette zur Validierung von Nachrichten"
+
+#: mimemail.module:86
+msgid "This string will be used to validate incoming messages.  It can be anything, but must be used on both sides of the transfer"
+msgstr "Diese Zeichenkette wird genutzt um eingehende Nachrichten zu validieren. Es kann "
+
+#: mimemail.module:94;103
+msgid "E-mail engine"
+msgstr "E-Mail Sendemethode"
+
+#: mimemail.module:97;106
+msgid "Choose an e-mail engine for sending mails from your site."
+msgstr "Wählen Sie die Methode aus, die zum Senden von E-Mail Nachrichten genutzt wird."
+
+#: mimemail.module:115
+msgid "Engine specific settings"
+msgstr "Einstellungen für die Sendemethode"
+
+#: mimemail.module:123
+msgid "Please choose a mail engine."
+msgstr "Bitte wählen Sie eine Sendemethode aus. "
+
+#: mimemail.module:137
+msgid "Email settings"
+msgstr "E-Mail Einstellungen"
+
+#: mimemail.module:145
+msgid "Check this option if you do not wish to receive email messages with graphics and styles"
+msgstr "Wählen Sie diese Option, wenn Sie keine formatierten Nachrichten erhalten wollen."
+
+#: mimemail.module:258
+#: mimemail.info:0
+msgid "Mime Mail"
+msgstr "Mime Nachricht"
+
+#: mimemail.module:261
+msgid "Default mailing engine using drupal_mail()."
+msgstr "Voreingestellte Sendemethode mit Nutzung von drupal_mail()."
+
+#: mimemail.module:312
+msgid "Authentication error for POST e-mail"
+msgstr "Anmeldefehler bei POST E-Mail Nachrichten"
+
+#: mimemail.module:312
+msgid "access denied"
+msgstr "Zugriff verweigert"
+
+#: mimemail.module:0
+msgid "mimemail"
+msgstr "mimemail"
+
+#: mimemail.info:0
+msgid "E-mail with HTML and attachments"
+msgstr "E-Mail Nachricht mit HTML und Anhängen"
+

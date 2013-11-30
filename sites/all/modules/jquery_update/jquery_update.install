@@ -1,0 +1,62 @@
+<?php
+// $Id: jquery_update.install,v 1.3.4.1 2009/04/23 18:15:57 mfer Exp $
+
+/**
+ * @file
+ * Install file for jQuery Update.
+ */
+
+/**
+ * Implementation of hook_requirements().
+ */
+function jquery_update_requirements($phase) {
+  $requirements = array();
+  $t = get_t();
+
+  if ($phase == 'runtime') {
+    $requirements['jquery_update'] = array(
+      'title' => $t('jQuery Update'),
+      'severity' => REQUIREMENT_OK,
+      'value' => jquery_update_get_version(),
+    );
+  }
+
+  return $requirements;
+}
+
+/**
+ * Implementation of hook_install().
+ */
+function jquery_update_install() {
+  // Set the module's weight high so that it runs after other modules.
+  db_query("UPDATE {system} SET weight = 99 WHERE name = 'jquery_update' and type = 'module'");
+}
+
+/**
+ * Set module's weight high so that it runs after other modules.
+ */
+function jquery_update_update_6100() {
+  $ret = array();
+
+  $ret[] = update_sql("UPDATE {system} SET weight = 99 WHERE name = 'jquery_update' and type = 'module'");
+
+  return $ret;
+}
+
+/**
+ * The packed version of jQuery is no longer distributed. If that is the chosen
+ * version update to minified.
+ */
+function jquery_update_update_6200() {
+  if (variable_get('jquery_update_compression_type', 'min') == 'pack') {
+    variable_set('jquery_update_compression_type', 'min');
+  }
+}
+
+/**
+ * Implementation of hook_uninstall().
+ */
+function jquery_update_uninstall() {
+  variable_del('jquery_update_replace');
+  variable_del('jquery_update_compression_type');
+}

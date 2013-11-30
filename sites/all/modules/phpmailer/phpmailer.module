@@ -1,0 +1,227 @@
+<?php
+
+/**
+ * @file
+ * Integrates the PHPMailer library for SMTP e-mail delivery.
+ */
+
+/**
+ * Implementation of hook_perm().
+ */
+function phpmailer_perm() {
+  return array('administer phpmailer settings');
+}
+
+/**
+ * Implementation of hook_menu().
+ */
+function phpmailer_menu() {
+  $items['admin/settings/phpmailer'] = array(
+    'title' => 'PHPMailer',
+    'description' => 'Configure PHPMailer settings.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('phpmailer_settings_form'),
+    'access arguments' => array('administer phpmailer settings'),
+    'file' => 'phpmailer.admin.inc',
+  );
+  // @todo Move to Mime Mail project.
+  $items['phpmailer/preview'] = array(
+    'title' => 'Mail preview',
+    'page callback' => 'phpmailer_preview',
+    'access callback' => 'phpmailer_preview_access',
+    'file' => 'phpmailer.admin.inc',
+    'type' => MENU_CALLBACK,
+  );
+  return $items;
+}
+
+/**
+ * Implementation of hook_form_FORM_ID_alter().
+ */
+function phpmailer_form_mimemail_admin_settings_alter(&$form, &$form_state) {
+  // Hide the Mime Mail global enabler setting if phpmailer is used to deliver
+  // e-mails (they can't be both active).
+  if (phpmailer_enabled()) {
+    $mimemail_alter = &$form['mimemail']['mimemail_alter'];
+    $mimemail_alter['#disabled'] = TRUE;
+    $mimemail_alter['#default_value'] = 0;
+    $mimemail_alter['#description'] = t('PHPMailer has been set to deliver all site messages. To let Mime Mail apply styles and formatting to system e-mails but still use PHPMailer for mail transport, uncheck <em>Use PHPMailer to send e-mails</em> first on the <a href="@url">PHPMailer settings page</a>. Then activate this setting and choose PHPMailer from the list of e-mail engines below.', array('@url' => url('admin/settings/phpmailer')));
+  }
+  // @todo Move to MimeMail project.
+  $form['preview'] = array(
+    '#type' => 'item',
+    '#title' => t('Preview'),
+    '#value' => t('See a <a href="@url" target="_blank">preview of a styled e-mail</a> using the current message template (<code>mimemail-message.tpl.php</code>).', array('@url' => url('phpmailer/preview'))),
+  );
+  $form['buttons']['#weight'] = 10;
+}
+
+/**
+ * Determine if PHPMailer is used to deliver e-mails.
+ */
+function phpmailer_enabled() {
+  return strpos(variable_get('smtp_library', ''), 'phpmailer');
+}
+
+if (phpmailer_enabled() && !function_exists('drupal_mail_wrapper')) {
+  /**
+   * Implementation of drupal_mail_wrapper().
+   */
+  function drupal_mail_wrapper($message) {
+    module_load_include('inc', 'phpmailer', 'includes/phpmailer.drupal');
+    return phpmailer_send($message);
+  }
+}
+
+/**
+ * Implementation of hook_mailengine().
+ */
+function phpmailer_mailengine($op, $message = array()) {
+  switch ($op) {
+    case 'name':
+      return t('PHPMailer');
+
+    case 'description':
+      return t('Mailing engine using the PHPMailer library.');
+
+    case 'settings':
+      $form['info']['#value'] = t('To configure your mail server settings, visit the <a href="@url">PHPMailer settings page</a>.', array('@url' => url('admin/settings/phpmailer')));
+      return $form;
+
+    case 'multiple':
+    case 'single':
+    case 'send':
+      module_load_include('inc', 'phpmailer', 'includes/phpmailer.mimemail');
+      return mimemail_phpmailer_send($message);
+  }
+}
+
+/**
+ * Extract address and optional display name of an e-mail address.
+ *
+ * @param $string
+ *   A string containing one or more valid e-mail address(es) separated with
+ *   commas.
+ *
+ * @return
+ *   An array containing all found e-mail addresses split into mail and name.
+ *
+ * @see http://tools.ietf.org/html/rfc5322#section-3.4
+ */
+function phpmailer_parse_address($string) {
+  $parsed = array();
+
+  // The display name may contain commas (3.4). Extract all quoted strings
+  // (3.2.4) to a stack and replace them with a placeholder to prevent
+  // splitting at wrong places.
+  $string = preg_replace('/(".*?(?<!\\\\)")/e', '_phpmailer_stack("$1")', $string);
+
+  // Build a regex that matches a name-addr (3.4).
+  // @see valid_email_address()
+  $user = '[a-zA-Z0-9_\-\.\+\^!#\$%&*+\/\=\?\`\|\{\}~\']+';
+  $domain = '(?:(?:[a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.?)+';
+  $ipv4 = '[0-9]{1,3}(?:\.[0-9]{1,3}){3}';
+  $ipv6 = '[0-9a-fA-F]{1,4}(?:\:[0-9a-fA-F]{1,4}){7}';
+  $address = "$user@(?:$domain|(?:\[(?:$ipv4|$ipv6)\]))";
+  $adr_rx = "/^(?P<name>.*)\s<(?P<address>$address)>$/";
+
+  // Split string into multiple parts and process each.
+  foreach (explode(',', $string) as $email) {
+    // Re-inject stripped placeholders.
+    $email = preg_replace('/\x01/e', '_phpmailer_stack()', trim($email));
+    // Check if it's a name-addr or a plain address (3.4).
+    if (preg_match($adr_rx, $email, $matches)) {
+      // PHPMailer expects an unencoded display name.
+      $parsed[] = array('mail' => $matches['address'], 'name' => mime_header_decode(stripslashes($matches['name'])));
+    }
+    else {
+      $parsed[] = array('mail' => trim($email, '<>'), 'name' => '');
+    }
+  }
+  return $parsed;
+}
+
+/**
+ * Implements a FIFO stack to store extracted quoted strings.
+ */
+function _phpmailer_stack($string = NULL) {
+  static $stack = array();
+
+  if (!isset($string)) {
+    // Unescape quoted characters (3.2.4) to prevent double escaping.
+    return str_replace(array('\"', '\\\\'), array('"', '\\'), array_shift($stack));
+  }
+  // Remove surrounding quotes and push on stack.
+  array_push($stack, substr($string, 1, -1));
+  // Return placeholder substitution. 0x01 may never appear outside a quoted
+  // string (3.2.3).
+  return "\x01";
+}
+
+/**
+ * Menu access callback; Determine access for HTML mail preview page.
+ */
+function phpmailer_preview_access() {
+  if (module_exists('mimemail')) {
+    return user_access('administer phpmailer settings');
+  }
+  return FALSE;
+}
+
+/**
+ * Implementation of hook_enable().
+ */
+function phpmailer_enable() {
+  if (!phpmailer_enabled() && !(module_exists('mimemail') && variable_get('mimemail_engine', 'mimemail') == 'phpmailer')) {
+    $t = get_t();
+    drupal_set_message($t('PHPMailer has been installed, but is currently disabled. <a href="@settings-url">Configure it now</a>.', array('@settings-url' => url('admin/settings/phpmailer'))));
+  }
+}
+
+/**
+ * Implementation of hook_disable().
+ */
+function phpmailer_disable() {
+  if (phpmailer_enabled()) {
+    variable_del('smtp_library');
+    variable_del('smtp_on');
+    drupal_set_message(t('PHPMailer has been disabled.'));
+  }
+  if (module_exists('mimemail') && variable_get('mimemail_engine', 'mimemail') == 'phpmailer') {
+    variable_del('mimemail_engine');
+    drupal_set_message(t('MimeMail e-mail engine has been reset to default.'), 'warning');
+  }
+}
+
+/**
+ * Load PHPMailer class from libraries path.
+ */
+function phpmailer_load_library() {
+  if (!class_exists('PHPMailer')) {
+    if (!($library_path = phpmailer_get_path())) {
+      watchdog('phpmailer', 'Could not load PHPMailer library.', array(), WATCHDOG_ERROR);
+      return FALSE;
+    }
+    require_once './'. $library_path .'/class.phpmailer.php';
+  }
+  if (!class_exists('DrupalPHPMailer')) {
+    module_load_include('inc', 'phpmailer', 'includes/phpmailer.class');
+  }
+  return TRUE;
+}
+
+/**
+ * Get path to PHPMailer library.
+ */
+function phpmailer_get_path() {
+  $library_path = libraries_get_path('phpmailer');
+  if (!file_exists('./'. $library_path .'/class.phpmailer.php')) {
+    // Provide backwards compatibility for existing installations of
+    // PHPMailer module.
+    $library_path = drupal_get_path('module', 'phpmailer') .'/phpmailer';
+    if (!file_exists('./'. $library_path .'/class.phpmailer.php')) {
+      return FALSE;
+    }
+  }
+  return $library_path;
+}

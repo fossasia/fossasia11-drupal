@@ -1,0 +1,132 @@
+/* $Id: noderelationships.admin_settings.css,v 1.1.2.1 2009/09/20 18:08:53 markuspetrux Exp $ */
+
+/**
+ * Relationship settings table.
+ */
+#noderelationships-settings-table .draggable {
+  padding-right: 0;
+  white-space: nowrap;
+}
+#noderelationships-settings-table .draggable a.tabledrag-handle {
+  margin: 0;
+  padding: 0;
+}
+#noderelationships-settings-table td.region {
+  font-weight: bold;
+}
+#noderelationships-settings-table tr.region-message {
+  font-weight: normal;
+  color: #999;
+}
+#noderelationships-settings-table tr.region-populated {
+  display: none;
+}
+html.js .noderelationships-cell-weight,
+html.js .noderelationships-cell-region {
+  display: none;
+}
+.noderelationships-region-field .tabledrag-handle {
+  visibility: hidden;
+}
+.noderelationships-region-none .noderelationships-cell-options *,
+.noderelationships-region-none .noderelationships-disable-button,
+.noderelationships-cell-transfer {
+  visibility: hidden;
+}
+.noderelationships-cell-field {
+  white-space: normal;
+}
+.noderelationships-cell-field a,
+.noderelationships-cell-field span {
+  display: none;
+}
+.noderelationships-region-field .noderelationships-cell-field a,
+.noderelationships-region-field .noderelationships-cell-field span {
+  display: inline;
+}
+.noderelationships-cell-center {
+  text-align: center;
+}
+.noderelationships-cell-right {
+  text-align: right;
+}
+.noderelationships-cell-referrer {
+  padding-left: 18px;
+  background: url(../images/entity-referrer.png) no-repeat 0 50%;
+}
+.noderelationships-cell-referred {
+  padding-left: 18px;
+  background: url(../images/entity-referred.png) no-repeat 0 50%;
+}
+.noderelationships-cell-current-self {
+  padding-left: 18px;
+  background: url(../images/entity-current-self.png) no-repeat 0 50%;
+}
+.noderelationships-cell-noderef {
+  padding-left: 18px;
+  background: url(../images/field-nodereference.png) no-repeat 0 50%;
+}
+.noderelationships-cell-noderef-self {
+  padding-left: 18px;
+  background: url(../images/field-nodereference-self.png) no-repeat 0 50%;
+}
+.noderelationships-cell-noderef-any {
+  padding-left: 18px;
+  background: url(../images/field-nodereference-any.png) no-repeat 0 50%;
+}
+
+/**
+ * View settings button.
+ */
+.noderelationships-cell-options {
+  white-space: nowrap;
+}
+.noderelationships-cell-options .form-select {
+  display: inline;
+  margin-right: 2px;
+}
+.noderelationships-view-settings-button {
+  display: inline-block;
+  vertical-align: bottom;
+  margin-right: 8px;
+  padding: 0;
+  width: 20px;
+  height: 18px;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #cecece #606060 #606060 #cecece;
+  background: #f4f4f4 url(../images/view-settings.png) no-repeat 0 0;
+}
+.noderelationships-view-settings-button:hover {
+  background-color: #ffffff;
+  background-position: 0 -18px;
+}
+
+/**
+ * Disable button.
+ */
+.noderelationships-disable-button {
+  display: block;
+  float: right;
+  margin-right: 16px;
+  width: 16px;
+  height: 16px;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #cecece #606060 #606060 #cecece;
+  background: #f4f4f4 url(../images/multiselect-sprites.png) no-repeat -200px -160px;
+}
+.noderelationships-disable-button:hover {
+  background-color: #ffffff;
+  background-position: 0 -160px;
+}
+
+/**
+ * jQuery UI effects.
+ */
+.noderelationships-effects-transfer {
+  border: 1px dashed #888888;
+  background-color: #f0f0f0;
+  opacity: .5; /* css standard */
+  filter: alpha(opacity=50); /* IE */
+}
